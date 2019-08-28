@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DSIGE.Modelo
+{
+    public class Ordenes_E
+    {
+        public string Unidad_Lecturas { get; set; }
+        public string Codigo_operario { get; set; }
+        public string opcion { get; set; }
+    }
+    //public class OrdenesDetalle_E
+    //{
+    //    public int id_Lectura { get; set; }
+    //    public string Codigo_operario { get; set; }
+    //    public string opcion { get; set; }
+    //}
+
+    public class OrdenesDetalle_E
+    {
+        public string id_Lectura { get; set; }
+        public string Unidad_Lecturas { get; set; }
+        public string Codigo_operario { get; set; }
+        public string Manzana { get; set; }
+        public string opcion { get; set; }
+        public string flag_detallado { get; set; }
+        
+    }
+
+    public class Archivo_E
+    {
+        public string email { get; set; }
+        public string ruta { get; set; }
+        public string nombreFile { get; set; }
+ 
+    }
+
+}

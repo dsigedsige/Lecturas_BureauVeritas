@@ -1,0 +1,1007 @@
+@using DSIGE
+@using DSIGE.Modelo
+@using DSIGE.Negocio
+
+@{
+    ViewBag.Title = ".:: Importacion de archivos ::.";
+    Layout = "~/Views/Shared/_LayoutPrincipal.cshtml";
+}
+
+@section instances{
+
+
+    @Styles.Render("~/Content/dataTables-bootstrap/css/dataTables.bootstrap.min.css")
+    @Scripts.Render("~/Content/dataTables-bootstrap/js/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/dataTables-bootstrap/js/dataTables.bootstrap.min.js")
+
+    @Styles.Render("~/Content/bootstrap-datepicker/css/bootstrap-datepicker.min.css")
+    @Scripts.Render("~/Content/bootstrap-datepicker/js/bootstrap-datepicker.min.js")
+    @Scripts.Render("~/Content/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js")
+
+    @Scripts.Render("~/Content/bootstrap/js/bootstrap-filestyle.min.js")
+    @Scripts.Render("~/Scripts/jquery.fileDownload.js")
+    @Scripts.Render("~/Content/angular/angular.js")
+    <script src="~/Content/pdf/jspdf.js"></script>
+
+}
+
+@section styles{
+    <style type="text/css">
+        .nav-tabs {
+            border-bottom: 0;
+        }
+
+        #_archivo.btn-info {
+            background-image: none;
+            color: inherit;
+            background-color: inherit !important;
+        }
+
+        .modal-dialog {
+            width: 300px;
+        }
+
+        .datepicker {
+            width: 200px;
+        }
+
+        .form-control {
+            font-size: 11px;
+            width: 100%;
+            height: 28px;
+        }
+
+        input[type="text"] {
+            font-size: 11px;
+        }
+
+        body {
+            font-size: 10.5px;
+            font-family: tahoma;
+        }
+
+        .label-primary {
+            background-color: #337ab7;
+            font-size: 11px;
+        }
+    </style>
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        $(function () {
+            $('#id_fecha_asignacion').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'es',
+                autoclose: true
+            });
+        });
+        $(function () {
+            $('#_fecha').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'es',
+                autoclose: true
+            });
+        });
+
+        $(function () {
+            $('#_fechaEnvioMovil').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'es',
+                autoclose: true
+            });
+        });
+
+
+
+
+        var app = angular.module('MyApp', []).directive('onFinishRender', function ($timeout) {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attr) {
+                    if (scope.$last === true) {
+                        $timeout(function () {
+                            scope.$emit('ngRepeatFinished');
+                        });
+                    }
+                }
+            }
+        }).directive('fileModel', ['$parse', function ($parse) {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attrs) {
+                    var model = $parse(attrs.fileModel);
+                    var modelSetter = model.assign;
+
+                    element.bind('change', function () {
+                        scope.$apply(function () {
+                            modelSetter(scope, element[0].files[0]);
+                        });
+                    });
+                }
+            };
+        }]);
+
+        app.service('fileUpload', ['$http', function ($http) {
+            this.uploadFileToUrl = function (idlocal, file, uploadUrl) {
+
+                var fd = new FormData();
+                fd.append('file', file);
+                fd.append('idlocal', idlocal);
+                $http.post(uploadUrl, fd, {
+
+                    transformRequest: angular.identity,
+                    headers: { 'Content-Type': undefined }
+                })
+                .success(function (data) {
+
+                })
+                .error(function () {
+
+                });
+
+            }
+        }]);
+
+        app.controller('MyController', function ($scope, $timeout, $http, fileUpload) {
+            oTable = null;
+            $scope.servicios = "0"
+            $scope.ngChangeCount = function () {
+
+                $scope.count = $scope.count + 1;
+                var idServicio = $scope.servicios
+                if (idServicio == 1 || idServicio == 2) {
+                    $scope.openLectura = true;
+                    $scope.openCorte = false;
+                }
+                else if (idServicio == 3 || idServicio == 4) {
+                    $scope.openLectura = false;
+                    $scope.openCorte = true;
+                } else {
+                    console.log("error")
+                }
+            }
+
+            $scope.Lecturas_Detallado = function (obj_item) {
+                var idServicio = $scope.servicios;
+                $('.sige-load').show();
+                var variables = {
+                    method: 'POST',
+                    url: '../Importar_Excel/Lecturas_Detallado',
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        idServ: idServicio,
+                        idtecnico: obj_item.tecnico,
+                        distrito: obj_item.cor_distrito
+                    }
+                }
+                $http(variables)
+                .success(function (data) {
+
+                    if (oTable == null) {
+                        $scope.Lista_Lecturas_Temporal_detallado = data;
+                    } else {
+                        oTable.destroy();
+                        $scope.Lista_Lecturas_Temporal_detallado = data;
+                    }
+
+                    $('.sige-load').hide();
+
+                })
+                .error(function () {
+                    alert('Lo sentimos, Ocurrio un problema, vuelva a intentar.')
+                });
+            };
+
+            $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+                oTable = $('#tblListaDetalle').DataTable();
+            });
+
+
+
+
+            $scope.uploadFile = function () {
+
+                var idlocal = document.getElementById('local').value;
+                var idServicio = document.getElementById('id_servicio').value;
+
+                var btn_Guardar = document.getElementById('btn_guardar');
+                var btn_ver = document.getElementById('btn_ver');
+                var idfechaAsignacion = document.getElementById('id_fecha_asignacion').value;
+
+                var Cant = 0;
+                var Flag_Cant = 0;
+
+                $scope.Cant_Null_Operador = 0;
+                $scope.Cant_Reg_Lecturas = 0;
+
+                //if (idlocal == "0") {
+                //    new PNotify({
+                //        title: ' ',
+                //        text: 'Por favor seleccione un Local. Muchas gracias.',
+                //        type: 'error'
+                //    });
+                //    return;
+                //}
+                if (idServicio == "0") {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor seleccione un Servicio. Muchas gracias.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                if (idfechaAsignacion == '') {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor seleccione o ingrese una Fecha de Asignación. Muchas gracias.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                if ($scope.myFile == null) {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Ningun Archivo Seleccionado',
+                        type: 'error'
+                    });
+                } else {
+                    if (idServicio == 6) {
+                        $scope.showReparto = true;
+                    }
+                    $('.sige-load').show();
+                    var file = $scope.myFile;
+                    var uploadUrl = '@Url.Action("InsertaExcel")';
+
+                    var fd = new FormData();
+                    fd.append('file', file);
+                    fd.append('idlocal', 1);
+                    fd.append('idfechaAsignacion', idfechaAsignacion);
+                    fd.append('idServicio', idServicio);
+
+                    $http.post(uploadUrl, fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: { 'Content-Type': undefined }
+                    }).success(function (data) {
+                        $('.sige-load').hide();
+
+                        if (data == 'ERROR' || data == '"ERROR"') {
+                            alert('Lo sentimos se produjo un error..')
+                            return;
+                        }
+
+                        $scope.Lista_Lecturas_Temporal = data;
+                        btn_ver.disabled = true;
+
+                        for (var i = 0, len = data.length; i < len; i++) {
+                            if (data[i].cant_erroneo > 0) {
+                                Flag_Cant = (Flag_Cant + 1);
+                            }
+                        }
+
+                        $scope.Cant_Null_Operador = Cant;
+                        $scope.Cant_Reg_Lecturas = Flag_Cant;
+
+                        if (Flag_Cant == 0) {
+                            btn_Guardar.disabled = false;
+                        }
+                        else {
+                            btn_Guardar.disabled = true;
+                        }
+
+
+                        $('.sige-load').hide();
+                    })
+                    .error(function () {
+                        alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                        $('.sige-load').hide();
+                    });
+                }
+            };
+
+
+            ///Creando la Funcion
+            $scope.Obj_List_Servicios = [];
+            $scope.Listado_Servicios = function () {
+                var variables = {
+                    method: 'POST',
+                    url: 'ListadoServicios',
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                }
+                $http(variables)
+                    .success(function (data) {
+                        $scope.Obj_List_Servicios = [];
+    
+                        for (obj of data) {
+                            if (obj._a == '2' || obj._a == '3' || obj._a == '4' || obj._a == '6') {
+                                $scope.Obj_List_Servicios.push(obj);
+                            }           
+                        }
+                })
+
+                .error(function () {
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+
+                });
+            }
+
+            //inicializando
+            $scope.Listado_Servicios()
+
+            $scope.ListarTableTemporal = function () {
+
+                $http({
+
+                    method: 'POST',
+                    url: 'JsonListarTablaTemp',
+
+                    headers: {
+                        'Content-Type': undefined
+                    }
+
+                }).success(function (data) {
+
+                    $('.sige-load').hide();
+
+                    if (oTable == null) {
+                        $scope.listaTemp = data;
+
+                    } else {
+                        oTable.destroy();
+                        oTable = null;
+                        $scope.listaTemp = data;
+
+                    }
+
+
+                }).error(function () {
+
+                    alert('Ocurrio un problema, vuelva a intentar.')
+                });
+
+            }
+
+
+            $scope.Eliminando_Tabla_Temporal = function () {
+                var btn_ver = document.getElementById('btn_ver');
+                $window.location.reload();
+            }
+
+            ///guarda de la tabla temporal a la tabla real
+
+            $scope.GuardarTablaTempLecturas = function () {
+
+                var cancel = document.getElementById('btn_cancel');
+                var btn_Guardar = document.getElementById('btn_guardar');
+                var Fecha_asignacion = document.getElementById('_fecha').value;
+                var idServicio = document.getElementById('id_servicio').value;
+
+                if (idServicio == '0') {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor seleccione un Servicio. Muchas gracias.',
+                        type: 'error'
+                    });
+                    return;
+                }
+                if (Fecha_asignacion == '') {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccione o ingrese la Fecha.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                var params = {
+                    fechaAsignacion: Fecha_asignacion,
+                    id_servicio: document.getElementById('id_servicio').value,
+                    nombre_archivo: $scope.myFile.name
+                }
+
+                $('.sige-load').show();
+                $http({
+
+                    method: 'POST',
+                    url: 'JsonRegistrarTemp_LecturasExcel',
+                    params: params,
+                    headers: {
+                        'Content-Type': undefined
+                    }
+
+                }).success(function (data) {
+                    $('.sige-load').hide();
+
+                    var res = data.split("|");
+                    if (res[0] == '"0' || res[0] == '0' || res[0] == 0) {
+                        new PNotify({
+                            title: 'Sistemas',
+                            text: 'Lo sentimos se produjo un error, realice una captura de Pantalla con el Error y comuniquese con el area de Sistemas..',
+                            type: 'error'
+                        });
+
+                        alert(res[1])
+                        return;
+                    }
+                    else {
+                        new PNotify({
+                            title: ' ',
+                            text: 'Proceso generado Exitosamente.',
+                            type: 'success'
+                        });
+                    }
+
+                    btn_Guardar.disabled = true;
+                    cancel.click();
+
+                }).error(function () {
+
+                    $('.sige-load').hide();
+                    alert('Ocurrio un problema, vuelva a intentar.')
+                });
+
+            }
+
+            // EXPORTAR A EXCEL
+            $scope.tableToExcel = function (tableId) {
+                var uri = 'data:application/vnd.ms-excel;base64,',
+                      template = '<html lang="es" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Importar</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
+                      base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))); },
+                      format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) };
+
+                var table = $(tableId),
+                             ctx = { worksheet: 'descar123', table: table.html() };
+
+                var link = document.createElement("a");
+                link.download = "ImportacionLecturas.xls";
+                link.href = uri + base64(format(template, ctx));
+                link.click()
+
+            }
+
+
+
+
+            //// EXPORTAR A EXCEL
+            $scope.tableToExcel_detallado = function (tableId) {
+                var uri = 'data:application/vnd.ms-excel;base64,',
+                        template = '<html lang="es" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Importar</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
+                        base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))); },
+                        format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) };
+
+                var table = $(tableId),
+                             ctx = { worksheet: 'descar123', table: table.html() };
+
+                var link = document.createElement("a");
+                link.download = "ImportacionLecturasdetallado.xls";
+                link.href = uri + base64(format(template, ctx));
+                link.click()
+
+            }
+
+
+            $scope.getPdf = function () {
+
+                var doc = new jsPDF()
+                var x = 5;
+                var y = 5;
+
+                var countBucle = 0;
+                for (var i = 0; i < 50; i++) {
+                    // CAMBIO DE LETRA
+                    countBucle++;
+                    if (countBucle == 4) {
+                        x = 5;
+                        y = 110;
+                    } else if (countBucle == 7) {
+                        x = 5;
+                        y = 5;
+                        countBucle = 1;
+                        doc.addPage()
+                    }
+
+                    doc.setFont('courier');
+                    doc.setFontType('bold')
+                    doc.setFontSize(10);
+                    //
+
+                    doc.text(y, x, 'Nro.Recibo 0001-22720655')
+                    doc.text(y + 80, x, String(i+1))
+                    // CAMBIAMOS DE LETRA A NORMAL
+                    doc.setFont("helvetica");
+                    doc.setFontType('normal')
+                    doc.setFontSize(9);
+                    //
+                    doc.text(y, x + 5, 'Empresa : Gas Natural de Lima y Callao S.A');
+                    doc.text(y, x + 10, 'Cliente : MANUELA ROSA AMERI TREMOLADA');
+                    doc.text(y + 80, x + 10, '361');
+
+                    doc.text(y, x + 15, 'Cta. Cto.: 461017');
+                    doc.text(y + 61, x + 15, 'F_Max : 09/05/18');
+                    doc.text(y, x + 20, 'Dirección : CA INCA GARCILASO DE LA VEGA 406 Piso 1');
+                    doc.text(y + 64, x + 25, 'Ciclo 1 MAYO');
+
+                    doc.text(y, x + 28, 'ATE');
+                    doc.setFontSize(8);
+                    doc.text(y, x + 32, 'RECLAMOS');
+                    doc.setFontSize(9);
+                    doc.text(y + 65, x + 32, 'UL: 103-0040');
+                    doc.line(y - 3, x + 35, y + 95, x + 35) // horizontal line
+
+                    // CAMBIAMOS LETRA
+                    doc.setFont('courier');
+                    doc.setFontSize(11);
+                    doc.text(y, x + 40, 'FECHA DE SUPERVISION');
+                    doc.line(y + 50, x + 40, y + 90, x + 40) // horizontal line
+
+                    doc.text(y, x + 48, 'LLEGO RECIBO');
+                    doc.rect(y + 50, x + 43, 20, 7);
+                    doc.text(y + 57, x + 48, 'SI');
+                    doc.rect(y + 70, x + 43, 20, 7);
+                    doc.text(y + 77, x + 48, 'NO');
+
+                    doc.text(y, x + 56, 'ESTADO DEL MEDIDOR');
+                    doc.line(y + 50, x + 56, y + 90, x + 56) // horizontal line
+
+
+                    doc.text(y, x + 62, 'LECTURA ACTUAL');
+                    doc.line(y + 50, x + 62, y + 90, x + 62) // horizontal line
+
+
+                    doc.text(y, x + 68, 'NOMBRE DEL CLIENTE');
+
+                    doc.text(y + 50, x + 68, 'FIRMA');
+
+                    doc.line(y + 63, x + 68, y + 96, x + 68) // horizontal line
+
+                    doc.line(y, x + 76, y + 90, x + 76) // horizontal line
+                    doc.line(y, x + 84, y + 90, x + 84) // horizontal line
+
+                    x += 95;
+                }
+
+
+                doc.output('dataurlnewwindow');
+                doc.save('ok.pdf');
+            }
+
+            $timeout(function () {
+               // $scope.getPdf();
+            }, 200)
+
+
+            $scope.enviarCorreo = function () {
+
+                var idServicio = document.getElementById('id_servicio').value;
+                var Fecha_asignacion = document.getElementById('_fecha').value;
+
+                if (idServicio == '0') {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor seleccione un Servicio. Muchas gracias.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                if (idServicio == 3 || idServicio == '3' || idServicio == 4 || idServicio == '4') {
+                    if (Fecha_asignacion == '') {
+                        new PNotify({
+                            title: 'Sistemas',
+                            text: 'Por favor seleccione o ingrese la Fecha.',
+                            type: 'error'
+                        });
+                        return;
+                    }
+
+                    $('.sige-load').show();
+                    (new PNotify({
+                        title: 'Sistemas Confirmacion',
+                        text: 'Esta seguro de Cambiar de Re-enviar Correo?, una vez enviado no hay marcha atras..',
+                        icon: 'glyphicon glyphicon-question-sign',
+                        hide: false,
+                        confirm: {
+                            confirm: true
+                        },
+                        buttons: {
+                            closer: false,
+                            sticker: false
+                        },
+                        history: {
+                            history: false
+                        }
+                    })).get().on('pnotify.confirm', function () {
+
+
+                        var variables = {
+                            method: 'POST',
+                            url: '../Importar_Excel/set_EnviarCorreo',
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: {
+                                servicio: idServicio,
+                                fecha_Asigna: Fecha_asignacion
+                            }
+                        }
+                        $http(variables)
+                            .success(function (data) {
+                                $('.sige-load').hide();
+                                if (data == 'OK' || data == '"OK"') {
+                                    new PNotify({
+                                        title: 'Sistemas',
+                                        text: 'Proceso de Envio de correo masivo, Realizado Correctamente.',
+                                        type: 'success'
+                                    });
+                                } else {
+                                    $('.sige-load').hide();
+                                    alert(data)
+                                }
+                            })
+                            .error(function () {
+                                $('.sige-load').hide();
+                                alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                            });
+                    }).on('pnotify.cancel', function () {
+                        $('.sige-load').hide();
+                    });
+                }
+            }
+
+
+            $scope.Descargar_formato = function () {
+
+                if ($scope.servicios == 0 || $scope.servicios == '0' || $scope.servicios =='') {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccione un Servicio',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                if ($scope.servicios == 3) {
+                    window.open("../formatos/FORMATO_CORTES.xls");
+                }
+                else if ($scope.servicios == 4) {
+                    window.open("../formatos/FORMATO_RECONEXION.xls");   
+                } else if ($scope.servicios == 6) {
+                    window.open("../formatos/FORMATO_REPARTO.xlsx");   
+                } 
+            }
+
+
+        });
+    </script>
+}
+
+
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+
+    <div ng-app="MyApp" ng-controller="MyController">
+
+
+        <div class="panel panel-oscuro">
+            <div class="panel-heading">
+                <h6><i class="fa fa-table fa-lg"></i> FORMATO DE RECIBO</h6>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4 col-lg-4 " style="display:none">
+                        <label style="width: 150px;" for="_usuario" class="col-sm-1 control-label">Local :</label>
+                        <div>
+                            <select class="form-control" id="local">
+                                <option value="0" selected="selected">-- Seleccione --</option>
+                                @foreach (Local oBj in new NLocal().NLista(new Request_Local_Select() { emp_id = ((Sesion)Session["Session_Usuario_Acceso"]).empresa.emp_id }))
+                                {
+                                    <option value="@oBj.loc_id">@oBj.loc_nombre</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4">
+                        <label style="width: 100px;" for="_usuario" class="col-sm-2 control-label">Servicio :</label>
+                        <select class="form-control" id="id_servicio" ng-change="ngChangeCount()" ng-model="servicios">
+                            <option value="0" selected="selected">-- Seleccione --</option>
+                            <option ng-repeat="item in Obj_List_Servicios" value="{{item._a}}"> {{item._b}} </option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4">
+                        <label style="width: 150px;" for="_usuario" class="col-sm-2 control-label">Fecha de Asignacion:</label>
+                        <div style="width: 150px;">
+                            <input class="form-control" id="id_fecha_asignacion" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                        </div>
+                    </div>
+
+                </div>
+                <br />
+                <div class="row">
+
+                    <div class="col-sm-4 col-md-6">
+                        <input type="file" class="filestyle" style="height: 35px !important;" file-model="myFile" data-placeholder="Ningun Archivo Seleccionado" data-buttonname="btn-primary" data-size="sm" data-buttonbefore="true" data-buttontext="  Seleccionar Archivo..">
+                    </div>
+
+                    <div class="col-sm-8 col-md-6">
+                        <button button id="btn_ver" class="btn btn-primary btn-sm" ng-click="uploadFile()"><span class="glyphicon glyphicon-search"></span> ver</button>
+                        <button id="btn_nueva" type="button" class="btn btn-success btn-sm" onclick="window.location.reload(true)"><span class="glyphicon glyphicon-plus"></span> Nuevo</button>
+                        <button class="btn btn-default btn-sm" ng-click="Descargar_formato();" ><span class="glyphicon glyphicon-save"></span> Formato</button>
+                    </div>
+                </div>
+
+                <br />
+                <div class="row">
+                    <div class="col-lg-12">
+                        <fieldset class="fieldset-border">
+                            <legend>Leyenda de errores</legend>
+                            <span class="label label-primary">La hoja de Excel tiene que tener por nombre "Importar".</span>
+                            <span class="label label-primary">El archivo a subir debe tener todos los bordes definidos.</span>
+
+                        </fieldset>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <div class="table-responsive" style="height:500px">
+                        <table id="tblLista" class="table  table-bordered table-responsive" cellspacing="0" width="100%">
+                            <thead style="background:#F0F3F5;">
+                                <tr ng-if="showReparto">
+                                    <th>Nro fila</th>
+                                    <th>Unidad de Lectura</th>
+                                    <th>Nombre de Unidad Lectura</th>
+                                    <th>Total</th>
+                                    <th>Ver Reporte</th>
+                                </tr>
+                                <tr ng-show="!showReparto">
+                                    <th>Nro fila</th>
+                                    <th>OPERADOR</th>
+                                    <th>DISTRITO</th>
+                                    <th>CANT. CORRECTO</th>
+                                    <th>CANT. ERRONEO</th>
+                                    <th>VER DETALLE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="showReparto" ng-repeat="item in Lista_Lecturas_Temporal">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{item.unidad_lectura}}</td>
+                                    <td>{{item.nombre_UnidadLectura}}</td>
+                                    <td>{{item.total}}</td>
+                                    <td align="center">
+                                        <button type="button" class="btn btn-default btn-xs" ng-click="getPdf(item)">
+                                            <span class="glyphicon glyphicon-list"></span> Ver Reporte
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr ng-show="!showReparto" ng-repeat="item in Lista_Lecturas_Temporal">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{item.nombre_ope}}</td>
+                                    <td>{{item.cor_distrito}}</td>
+                                    <td>{{item.cant_correcto}}</td>
+                                    <td>{{item.cant_erroneo}} </td>
+                                    <td align="center">
+                                        <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#modal-detallado" ng-click="Lecturas_Detallado(item)">
+                                            <span class="glyphicon glyphicon-list"></span> Ver detalle
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-sm-12 col-md-offset-5" style=" padding-top: 20px; ">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento">
+                            <button id="btn_guardar" disabled="disabled" role="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-asignacion"><i class="fa fa-save fa-lg"></i> Guardar</button> 
+                            <button class="btn btn-success" ng-click="enviarCorreo();" title="Valido para Cortes-Reconexiones"><span class="glyphicon glyphicon-envelope"></span> Enviar Correo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @*modal del detallado*@
+        <div id="modal-detallado" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" style=" width: 90% !important;">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> IMPORTAR ARCHIVO DETALLADO</h6>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <table id="tblListaDetalleLectura" ng-show="openLectura" class="table table-condensed table-bordered table-responsive" cellspacing="0">
+                                <thead style="background: #F0F3F5;">
+                                    <tr>
+                                        <th>Nº fila</th>
+                                        <th>Cliente</th>
+                                        <th>Direccion</th>
+                                        <th>Operario</th>
+                                        <th>Medidor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="lista in Lista_Lecturas_Temporal_detallado" ng-style="lista.FLAG_LECTURA === 'S' && {'background-color':'rgba(255, 0, 0, 0.31)'}  || lista.FLAG_LECTURA === '' && {'background-color':'white'}" on-finish-render="ngRepeatFinished">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{lista.interlocutor}}</td>
+                                        <td>{{lista.direccion_lectura}}</td>
+                                        <td>{{lista.nombre_ope}}</td>
+                                        <td>{{lista.unidadLectura}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            <table id="tblListaDetallecortes" ng-show="openCorte" class="table table-condensed table-bordered table-responsive" cellspacing="0">
+                                <thead style="background: #F0F3F5;">
+                                    <tr>
+                                        <th>Nº fila</th>
+                                        <th>Cliente</th>
+                                        <th>Direccion</th>
+                                        <th>Operario</th>
+                                        <th>Medidor</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in Lista_Lecturas_Temporal_detallado" ng-style="lista.FLAG_LECTURA === 'S' && {'background-color':'rgba(255, 0, 0, 0.31)'}  || lista.FLAG_LECTURA === '' && {'background-color':'white'}" on-finish-render="ngRepeatFinished">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{item.cor_interlocutor}}</td>
+                                        <td>{{item.cor_direccion}}</td>
+                                        <td>{{item.nombre_ope}}</td>
+                                        <td>{{item.unidad_corte}}</td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                    <button role="button" class="btn btn-default" ng-click="tableToExcel_detallado('#tblListaDetalle')"><i class="fa fa-download fa-lg"></i> Exportar</button>
+                                    <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="modal-asignacion" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="fa fa-calendar fa-lg"></i> INGRESE LA FECHA DE ENVIO A MÓVIL</h6>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group form-group-sm">
+                                        <label for="_usuario" class="col-sm-4 control-label">Fecha</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" id="_fecha" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+
+                                    <button role="button" class="btn btn-primary" ng-click="GuardarTablaTempLecturas()"><i class="fa fa-save fa-lg"></i> Guardar</button>
+                                    <button id="btn_cancel" role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-envioAppMovil" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="panel panel-oscuro">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i>Enviar al Movil</h6>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <fieldset class="fieldset-border">
+                                    <legend>Enviar Datos al Aplicativo Movil</legend>
+                                    <div class="col-md-12">
+                                        <div class="col-md-5">
+                                            <div class="form-group form-group-sm">
+                                                <label for="_fechaEnvioMovil" class="col-sm-5 control-label">Fecha Asignacion </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group form-group-sm">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    <input style="width:90px;" class="form-control" id="_fechaEnvioMovil" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                <button role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-descarga-formato" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style=" width: 400px; ">
+            <div class="panel panel-oscuro">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h6 class="modal-title"><i class="fa fa-download fa-lg"></i> DESCARGA DE FORMATO</h6>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="~/Formato/DSIGE-Lectura.xlsx">
+                                <div class="panel panel-primary">
+                                    <div class="panel-body" style="text-align: center;">
+                                        <i class="fa fa-download fa-4x" style="color: #5bc0de;"></i>
+                                    </div>
+                                    <div class="panel-footer" style="padding: 10px 5px; font-weight: bold; text-align: center;">LECTURA</div>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+ 
+
+
+

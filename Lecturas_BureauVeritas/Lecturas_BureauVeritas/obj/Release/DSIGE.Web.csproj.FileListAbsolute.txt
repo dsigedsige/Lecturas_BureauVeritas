@@ -1,0 +1,1046 @@
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\DSIGE.Web.dll.config
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\DSIGE.Web.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\DSIGE.Web.pdb
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\Antlr3.Runtime.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\DSIGE.Modelo.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\DSIGE.Negocio.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\EntityFramework.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\EPPlus.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\Newtonsoft.Json.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\NPOI.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\NPOI.OOXML.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Net.Http.Formatting.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.Http.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.Http.WebHost.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.Mvc.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.Optimization.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.Providers.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.Razor.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.WebPages.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\WebGrease.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\DSIGE.Dato.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\DSIGE.Modelo.pdb
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\DSIGE.Negocio.pdb
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\EPPlus.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\NPOI.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\NPOI.OOXML.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\EntityFramework.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\Newtonsoft.Json.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Net.Http.Formatting.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.Http.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.Http.WebHost.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.Mvc.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.Razor.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.WebPages.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\DSIGE.Dato.pdb
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\es\EntityFramework.resources.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\es\System.Net.Http.Formatting.resources.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\es\System.Web.Http.resources.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\es\System.Web.Http.WebHost.resources.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\obj\Release\DSIGE.Web.csprojResolveAssemblyReference.cache
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\obj\Release\DSIGE.Web.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Web.dll.config
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Web.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Web.pdb
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\Antlr3.Runtime.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Modelo.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Negocio.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\EntityFramework.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\EPPlus.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\Newtonsoft.Json.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\NPOI.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\NPOI.OOXML.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Net.Http.Formatting.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Http.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Http.WebHost.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Mvc.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Optimization.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Providers.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Razor.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.WebPages.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\WebGrease.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Dato.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Modelo.pdb
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Negocio.pdb
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\EPPlus.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\NPOI.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\NPOI.OOXML.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\EntityFramework.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\Newtonsoft.Json.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Net.Http.Formatting.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Http.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Http.WebHost.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Mvc.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Razor.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.WebPages.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Dato.pdb
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\es\EntityFramework.resources.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\es\System.Net.Http.Formatting.resources.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.Http.resources.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.Http.WebHost.resources.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\obj\Release\DSIGE.Web.csprojResolveAssemblyReference.cache
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\obj\Release\DSIGE.Web.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Web.dll.config
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Web.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Web.pdb
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\Antlr3.Runtime.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Negocio.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\EntityFramework.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\EPPlus.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\Newtonsoft.Json.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\NPOI.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\NPOI.OOXML.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Net.Http.Formatting.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Http.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Http.WebHost.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Mvc.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Optimization.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Providers.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Razor.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.WebPages.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\WebGrease.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Dato.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Negocio.pdb
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\EPPlus.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\NPOI.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\NPOI.OOXML.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\EntityFramework.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\Newtonsoft.Json.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Net.Http.Formatting.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Http.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Http.WebHost.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Mvc.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.Razor.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.WebPages.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\DSIGE.Dato.pdb
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\es\EntityFramework.resources.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\es\System.Net.Http.Formatting.resources.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.Http.resources.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.Http.WebHost.resources.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\obj\Release\DSIGE.Web.csprojResolveAssemblyReference.cache
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\obj\Release\DSIGE.Web.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll.config
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.pdb
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\Antlr3.Runtime.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\EntityFramework.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\EPPlus.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\NPOI.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Http.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Optimization.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Providers.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\WebGrease.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.pdb
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.pdb
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\EPPlus.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\NPOI.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\EntityFramework.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Http.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.pdb
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\es\EntityFramework.resources.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Net.Http.Formatting.resources.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.resources.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.WebHost.resources.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csprojResolveAssemblyReference.cache
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.dll
+C:\Users\DELL\Desktop\CALIDA\lecturasOriginal\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll.config
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.pdb
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\Antlr3.Runtime.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\EntityFramework.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\EPPlus.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\NPOI.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Http.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Optimization.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Providers.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\WebGrease.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.pdb
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\EPPlus.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\NPOI.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\EntityFramework.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Http.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.pdb
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\es\EntityFramework.resources.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Net.Http.Formatting.resources.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.resources.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.WebHost.resources.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csprojResolveAssemblyReference.cache
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll.config
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.pdb
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\Antlr3.Runtime.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\EntityFramework.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\EPPlus.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Optimization.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Providers.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\WebGrease.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.pdb
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.pdb
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\EPPlus.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\EntityFramework.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.pdb
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\es\EntityFramework.resources.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Net.Http.Formatting.resources.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.resources.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.WebHost.resources.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csprojResolveAssemblyReference.cache
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll.config
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.pdb
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\Antlr3.Runtime.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\EntityFramework.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\EPPlus.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\NPOI.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\System.Web.Optimization.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\System.Web.Providers.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\WebGrease.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.pdb
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.pdb
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\EPPlus.xml
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\NPOI.xml
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.xml
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\EntityFramework.xml
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.xml
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.xml
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.xml
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.xml
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.pdb
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\es\EntityFramework.resources.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csprojResolveAssemblyReference.cache
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll.config
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.pdb
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\Antlr3.Runtime.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\EntityFramework.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\EPPlus.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\NPOI.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.Http.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.Optimization.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.Providers.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\WebGrease.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.pdb
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\EPPlus.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\NPOI.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\EntityFramework.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.Http.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.pdb
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\es\EntityFramework.resources.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\es\System.Net.Http.Formatting.resources.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.resources.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.WebHost.resources.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csprojResolveAssemblyReference.cache
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll.config
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.pdb
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\Antlr3.Runtime.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\EntityFramework.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\EPPlus.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\NPOI.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.Optimization.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.Providers.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\WebGrease.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.pdb
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\EPPlus.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\NPOI.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\EntityFramework.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.pdb
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\es\EntityFramework.resources.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\es\System.Net.Http.Formatting.resources.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.resources.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.WebHost.resources.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csprojResolveAssemblyReference.cache
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll.config
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.pdb
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Antlr3.Runtime.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EntityFramework.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EPPlus.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Optimization.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Providers.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\WebGrease.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.pdb
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EPPlus.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EntityFramework.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.pdb
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\EntityFramework.resources.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Net.Http.Formatting.resources.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.resources.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.WebHost.resources.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csprojResolveAssemblyReference.cache
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll.config
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.pdb
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\Antlr3.Runtime.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\EntityFramework.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\EPPlus.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\NPOI.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\System.Web.Optimization.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\System.Web.Providers.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\WebGrease.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.pdb
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.pdb
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\EPPlus.xml
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\NPOI.xml
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.xml
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\EntityFramework.xml
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.xml
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.xml
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.xml
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.xml
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.pdb
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\es\EntityFramework.resources.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csprojResolveAssemblyReference.cache
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.dll
+D:\compartir\GitProjects\FuenteComprimida\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll.config
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.pdb
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Antlr3.Runtime.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EntityFramework.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EPPlus.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Optimization.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Providers.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\WebGrease.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.pdb
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EPPlus.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EntityFramework.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.pdb
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\EntityFramework.resources.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Net.Http.Formatting.resources.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.resources.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.WebHost.resources.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csprojResolveAssemblyReference.cache
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Ionic.Zip.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll.config
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.pdb
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Antlr3.Runtime.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EntityFramework.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EPPlus.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Optimization.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Providers.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\WebGrease.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Ionic.Zip.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.pdb
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.pdb
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EPPlus.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EntityFramework.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.pdb
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\EntityFramework.resources.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Net.Http.Formatting.resources.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.resources.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.WebHost.resources.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csprojResolveAssemblyReference.cache
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll.config
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.pdb
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Antlr3.Runtime.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EntityFramework.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EPPlus.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Optimization.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Providers.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\WebGrease.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Ionic.Zip.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.pdb
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.pdb
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EPPlus.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EntityFramework.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.pdb
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\EntityFramework.resources.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Net.Http.Formatting.resources.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.resources.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.WebHost.resources.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csprojResolveAssemblyReference.cache
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll.config
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.pdb
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Antlr3.Runtime.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EntityFramework.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EPPlus.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Optimization.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Providers.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\WebGrease.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Ionic.Zip.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.pdb
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.pdb
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EPPlus.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\EntityFramework.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.pdb
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\EntityFramework.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Net.Http.Formatting.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.WebHost.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll.config
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.pdb
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Antlr3.Runtime.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\EntityFramework.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\EPPlus.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\NPOI.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Http.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Optimization.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Providers.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\WebGrease.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Ionic.Zip.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.pdb
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.pdb
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\EPPlus.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\NPOI.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\EntityFramework.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Http.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.pdb
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\EntityFramework.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Net.Http.Formatting.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.WebHost.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csprojResolveAssemblyReference.cache
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll.config
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Web.pdb
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Antlr3.Runtime.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\EntityFramework.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\EPPlus.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\ICSharpCode.SharpZipLib.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Microsoft.Web.Infrastructure.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\NPOI.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXmlFormats.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Http.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Optimization.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Providers.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\WebGrease.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Ionic.Zip.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Modelo.pdb
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Negocio.pdb
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\EPPlus.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\NPOI.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\NPOI.OOXML.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\NPOI.OpenXml4Net.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\EntityFramework.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Newtonsoft.Json.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Net.Http.Formatting.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Http.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Http.WebHost.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Mvc.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.Razor.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Deployment.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\System.Web.WebPages.Razor.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\DSIGE.Dato.pdb
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\Microsoft.Practices.EnterpriseLibrary.Common.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\EntityFramework.resources.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Net.Http.Formatting.resources.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.resources.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.Http.WebHost.resources.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.Mvc.resources.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.Optimization.resources.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.Providers.resources.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.Razor.resources.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.resources.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Deployment.resources.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\bin\es\System.Web.WebPages.Razor.resources.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.pdb
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csprojAssemblyReference.cache
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csproj.CoreCompileInputs.cache
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csproj.CopyComplete
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csprojAssemblyReference.cache
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csproj.CoreCompileInputs.cache
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Web\obj\Release\DSIGE.Web.csproj.CopyComplete

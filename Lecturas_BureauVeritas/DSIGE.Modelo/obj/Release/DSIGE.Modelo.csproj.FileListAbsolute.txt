@@ -1,0 +1,117 @@
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+C:\Users\RobertoC\Desktop\COBRA\DSIGE.Solucion (3)\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojResolveAssemblyReference.cache
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+D:\DSIGE\sol2\DSIGE.Solucion\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojResolveAssemblyReference.cache
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\lecturasOriginal\DSIGE.Solucion\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojResolveAssemblyReference.cache
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\Nelson\CalidaOriginal\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojResolveAssemblyReference.cache
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+C:\Users\Usuario\Desktop\CALIDDA\deploy\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojResolveAssemblyReference.cache
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\CambiosNelson\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojResolveAssemblyReference.cache
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\LecturasCalidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojResolveAssemblyReference.cache
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+C:\Users\Desarrollo 2\Desktop\Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojResolveAssemblyReference.cache
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojResolveAssemblyReference.cache
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+C:\Users\PC\Desktop\PROY_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojResolveAssemblyReference.cache
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+D:\FUENTES_LECTURAS\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojResolveAssemblyReference.cache
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+D:\CalidaReal\Proyecto_Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojResolveAssemblyReference.cache
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+D:\FUENTES_LECTURAS\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojAssemblyReference.cache
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csproj.CoreCompileInputs.cache
+D:\FUENTES_LECTURAS\Proyectos_anterior_git\Lecturas_Calidda_New\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csproj.CopyComplete
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojAssemblyReference.cache
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csproj.CoreCompileInputs.cache
+D:\FUENTES_LECTURAS\Lecturas_Calidda\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csproj.CopyComplete
+D:\FUENTES_LECTURAS\new\Lecturas_Calidda_BureauVeritas\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+D:\FUENTES_LECTURAS\new\Lecturas_Calidda_BureauVeritas\LecturasCalida\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+D:\FUENTES_LECTURAS\new\Lecturas_Calidda_BureauVeritas\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+D:\FUENTES_LECTURAS\new\Lecturas_Calidda_BureauVeritas\LecturasCalida\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+D:\FUENTES_LECTURAS\new\Lecturas_Calidda_BureauVeritas\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojAssemblyReference.cache
+D:\FUENTES_LECTURAS\new\Lecturas_Calidda_BureauVeritas\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csproj.CoreCompileInputs.cache
+D:\FUENTES_LECTURAS\new\Lecturas_Calidda_BureauVeritas\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csproj.CopyComplete
+D:\FUENTES_LECTURAS\new\Lecturas_Calidda_BureauVeritas\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+D:\FUENTES_LECTURAS\new\Lecturas_Calidda_BureauVeritas\LecturasCalida\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb

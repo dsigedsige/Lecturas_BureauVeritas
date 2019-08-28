@@ -1,0 +1,489 @@
+﻿@using DSIGE
+@using DSIGE.Modelo
+@using DSIGE.Negocio
+
+@{
+    ViewBag.Title = ".:: Generacion de Impresion de Repartos ::.";
+    Layout = "~/Views/Shared/_LayoutPrincipal.cshtml";
+}
+
+@section instances{
+    @Styles.Render("~/Content/dataTables-bootstrap/css/dataTables.bootstrap.min.css")
+    @Scripts.Render("~/Content/dataTables-bootstrap/js/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/dataTables-bootstrap/js/dataTables.bootstrap.min.js")
+
+    @Styles.Render("~/Content/bootstrap-datepicker/css/bootstrap-datepicker.min.css")
+    @Scripts.Render("~/Content/bootstrap-datepicker/js/bootstrap-datepicker.min.js")
+    @Scripts.Render("~/Content/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js")
+
+    @Scripts.Render("~/Content/bootstrap/js/bootstrap-filestyle.min.js")
+
+    @Scripts.Render("~/Scripts/jquery.fileDownload.js")
+    @Scripts.Render("~/Content/angular/angular.js")
+    <script src="~/Content/pdf/jspdf.js"></script>
+
+}
+
+@section styles{
+    <style type="text/css">
+        .nav-tabs {
+            border-bottom: 0;
+        }
+
+        #_archivo.btn-info {
+            background-image: none;
+            color: inherit;
+            background-color: inherit !important;
+        }
+
+        .modal-dialog {
+            width: 300px;
+        }
+
+        .datepicker {
+            width: 200px;
+        }
+
+        .form-control {
+            font-size: 11px;
+            width: 100%;
+            height: 35px;
+        }
+
+        input[type="text"] {
+            font-size: 11px;
+        }
+
+        body {
+            font-size: 10.5px;
+            font-family: tahoma;
+        }
+
+        .label-primary {
+            background-color: #337ab7;
+            font-size: 11px;
+        }
+    </style>
+}
+
+@section scripts{
+    <script type="text/javascript">
+        var app = angular.module('MyApp', []).directive('onFinishRender', function ($timeout) {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attr) {
+                    if (scope.$last === true) {
+                        $timeout(function () {
+                            scope.$emit('ngRepeatFinished');
+                        });
+                    }
+                }
+            }
+        }).directive('fileModel', ['$parse', function ($parse) {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attrs) {
+                    var model = $parse(attrs.fileModel);
+                    var modelSetter = model.assign;
+
+                    element.bind('change', function () {
+                        scope.$apply(function () {
+                            modelSetter(scope, element[0].files[0]);
+                        });
+                    });
+                }
+            };
+        }]);
+
+        app.service('fileUpload', ['$http', function ($http) {
+            this.uploadFileToUrl = function (idlocal, file, uploadUrl) {
+
+                var fd = new FormData();
+                fd.append('file', file);
+                fd.append('idlocal', idlocal);
+                $http.post(uploadUrl, fd, {
+
+                    transformRequest: angular.identity,
+                    headers: { 'Content-Type': undefined }
+                })
+                .success(function (data) {
+
+                })
+                .error(function () {
+
+                });
+
+            }
+        }]);
+
+        app.controller('MyController', function ($scope, $timeout, $http, fileUpload) {
+            oTable = null;
+  
+            $scope.generar_impresion = function () {
+                if ($scope.myFile == null) {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor seleccione el Archivo excel, gracias.',
+                        type: 'error'
+                    });
+                } else {
+                    $('.sige-load').show();
+                    var file = $scope.myFile;
+                    var uploadUrl = '@Url.Action("insert_file_excel")';
+
+                    var fd = new FormData();
+                    fd.append('file', file);
+
+                    $http.post(uploadUrl, fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: { 'Content-Type': undefined }
+                        }).success(function (data) {
+                            console.log(data);
+                            if (data.length > 0) {
+                                $scope.getPdf(data);
+                                $('.sige-load').hide();
+                            } else {
+                                $('.sige-load').hide();
+                            }
+                 
+                    })
+                    .error(function () {
+                        alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                        $('.sige-load').hide();
+                    });
+                }
+            };
+
+
+            $scope.getPdf = function (data) {
+                var doc = new jsPDF('landscape');
+                var hoy = new Date();
+                var yyyy = hoy.getFullYear();
+
+    
+            
+                var x = 17;
+                var y = 5;
+
+                var altura = 2;
+                var alturaO = 0;
+                var alturaV = 0;
+                var ac_V = 0;
+                var pos = 4;
+                var inc = 0;
+                var direc = '';
+
+                for (obj of data) {
+                    //---- 180 ancho, 100 altura
+                    //doc.rect(4, altura, 145, 68) //---dibujando un rectangulo                   
+                    inc++;
+                    if (inc == 4) {
+                        pos = 150;
+                        altura = 2;
+                        alturaO = 0;
+                        alturaV = 0;
+                        ac_V = 0;
+                    } else if (inc == 7) {
+                        pos = 4;
+                        altura = 2;
+                        alturaO = 0;
+                        alturaV = 0;
+                        ac_V = 0;
+                        doc.addPage()
+                        inc = 1;
+                    }
+                    doc.rect(pos, altura, 145, 68) //---dibujando un rectangulo
+                    altura = altura + 2.5;
+                    doc.setFontSize(7);
+                    doc.setFontType("bold");
+                    doc.text(pos + 50, altura, 'CARGO DE ENTREGA DE RECIBO ' + String(obj.ITEM)); // 60
+
+                    doc.setFontSize(7);
+                    doc.setFontType("normal");
+                    altura = altura + 3;
+                    doc.text(pos + 7, altura, 'Nro. Recibo : ' + obj.NRO_RECIBO); //11
+                    doc.text(pos + 56, altura, 'CTA. CTO : ' + obj.CONTRATO); //60
+                    doc.text(pos + 106, altura, 'UL : ' + obj.UNIDAD_LECTURA);//110
+                    altura = altura + 4;
+                    doc.setFontSize(6);
+                     direc = obj.DISTRITO + ' ' + obj.URBANIZACION_FACTURACION + ' ' + obj.DIRECCION;
+
+                    doc.text(pos + 4, altura, 'DIRECCIÓN : ' + direc.substr(0, 107));//10
+                    doc.setFontSize(7);
+                    altura = altura + 4;
+                    doc.text(pos + 14, altura, 'TIPO :     ' + obj.TIPO); //18
+                    doc.text(pos + 56, altura, 'CICLO :' + obj.CICLO + ' ' + obj.MES); // 90
+                    doc.text(pos + 86, altura, 'AÑO : ' + yyyy); // 90
+                    doc.setFontSize(6);
+                    doc.text(pos + 121, altura, String(obj.CORRELA)); // 125
+                    doc.setFontSize(7);
+                    altura = altura + 1.5;
+                    doc.rect(pos + 25, altura, 118, 23) //---dibujando un rectangulo  30
+
+                    if (ac_V == 0) {
+                        alturaV = 20;
+                        alturaO = 44;
+                    } else if (ac_V == 1) {
+                        alturaV = 90;
+                        alturaO = 114;
+                    } else if (ac_V == 2) {
+                        alturaV = 159;
+                        alturaO = 184;
+                    }
+
+                    doc.text(pos + 27, alturaV, 'Piso'); // 31
+                    doc.text(pos + 50, alturaV, 'Vivienda');// 54
+                    doc.text(pos + 74, alturaV, 'Color/Fachada');// 78
+                    doc.text(pos + 98, alturaV, 'Puerta');// 102
+                    doc.text(pos + 121, alturaV, 'Color puerta');// 125
+
+                    alturaV = alturaV + 1.2;
+                    doc.rect(pos + 27, alturaV, 5, 3) //---dibujando un rectangulo 31 
+                    doc.rect(pos + 50, alturaV, 5, 3) //---dibujando un rectangulo 54 
+                    doc.rect(pos + 74, alturaV, 5, 3) //---dibujando un rectangulo 78
+                    doc.rect(pos + 98, alturaV, 5, 3) //---dibujando un rectangulo 102
+                    doc.rect(pos + 121, alturaV, 5, 3) //---dibujando un rectangulo 125 
+
+                    alturaV = alturaV + 2;
+                    doc.text(pos + 33, alturaV, 'Uno'); //37
+                    doc.text(pos + 56, alturaV, 'Casa');//60
+                    doc.text(pos + 80, alturaV, 'Crema');//84
+                    doc.text(pos + 104, alturaV, 'Madera');//108
+                    doc.text(pos + 127, alturaV, 'Plomo');//131
+
+
+                    alturaV = alturaV + 1.2;
+                    doc.rect(pos + 27, alturaV, 5, 3) //---dibujando un rectangulo 31
+                    doc.rect(pos + 50, alturaV, 5, 3) //---dibujando un rectangulo 54
+                    doc.rect(pos + 74, alturaV, 5, 3) //---dibujando un rectangulo 78
+                    doc.rect(pos + 98, alturaV, 5, 3) //---dibujando un rectangulo 102
+                    doc.rect(pos + 121, alturaV, 5, 3) //---dibujando un rectangulo 125
+
+                    alturaV = alturaV + 2;
+                    doc.text(pos + 33, alturaV, 'Dos'); // 37
+                    doc.text(pos + 56, alturaV, 'Dpto.');// 60
+                    doc.text(pos + 80, alturaV, 'Blanco');// 84
+                    doc.text(pos + 104, alturaV, 'Vidrio');// 108
+                    doc.text(pos + 127, alturaV, 'Negro');// 131
+
+
+                    alturaV = alturaV + 1.2;
+                    doc.rect(pos + 27, alturaV, 5, 3) //---dibujando un rectangulo 31
+                    doc.rect(pos + 50, alturaV, 5, 3) //---dibujando un rectangulo 54
+                    doc.rect(pos + 74, alturaV, 5, 3) //---dibujando un rectangulo 78
+                    doc.rect(pos + 98, alturaV, 5, 3) //---dibujando un rectangulo 102
+                    doc.rect(pos + 121, alturaV, 5, 3) //---dibujando un rectangulo 125
+
+                    alturaV = alturaV + 2;
+                    doc.text(pos + 33, alturaV, 'tres'); // 37
+                    doc.text(pos + 56, alturaV, 'Quinta.');// 60
+                    doc.text(pos + 80, alturaV, 'Ladrillo');// 84
+                    doc.text(pos + 104, alturaV, 'Metal');// 108
+                    doc.text(pos + 127, alturaV, 'Marron');// 131
+
+                    alturaV = alturaV + 1.2;
+                    doc.rect(pos + 27, alturaV, 5, 3) //---dibujando un rectangulo 31
+                    doc.rect(pos + 50, alturaV, 5, 3) //---dibujando un rectangulo 54
+                    doc.rect(pos + 74, alturaV, 5, 3) //---dibujando un rectangulo 78
+                    doc.rect(pos + 98, alturaV, 5, 3) //---dibujando un rectangulo 102
+                    doc.rect(pos + 121, alturaV, 5, 3) //---dibujando un rectangulo 125
+
+                    alturaV = alturaV + 2;
+                    doc.text(pos + 33, alturaV, 'Cuatro'); // 37
+                    doc.text(pos + 56, alturaV, 'Tienda.');// 60
+                    doc.text(pos + 80, alturaV, 'Tarrajeo');// 84
+                    doc.text(pos + 104, alturaV, 'Otros');// 108
+                    doc.text(pos + 127, alturaV, 'Madera');// 131
+
+
+                    alturaV = alturaV + 1.2;
+                    doc.rect(pos + 27, alturaV, 5, 3) //---dibujando un rectangulo 31
+                    doc.rect(pos + 50, alturaV, 5, 3) //---dibujando un rectangulo 54
+                    doc.rect(pos + 74, alturaV, 5, 3) //---dibujando un rectangulo 78
+                    doc.rect(pos + 98, alturaV, 5, 3) //---dibujando un rectangulo 102
+                    doc.rect(pos + 121, alturaV, 5, 3) //---dibujando un rectangulo 125
+
+                    alturaV = alturaV + 2;
+                    doc.text(pos + 33, alturaV, 'Otros: _____'); // 37
+                    doc.text(pos + 56, alturaV, 'Otros: _____');// 60
+                    doc.text(pos + 80, alturaV, 'Otros: _____');// 84 
+                    doc.text(pos + 127, alturaV, 'Otros: _____');// 131
+
+                    ac_V += 1;
+
+                    altura = altura + 4;
+                    doc.setFontType("bold");
+                    doc.text(pos + 3, altura, 'Recibido por : ');//7
+                    altura = altura + 1.2;
+                    doc.setFontType("normal");
+                    doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Titular'); //12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Familiar'); //12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Empleado/a');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Vigilante');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Buzón');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Bajo Puerta');//12
+
+
+                    doc.setFontType("bold");
+                    doc.text(pos + 27, alturaO, 'Obs.');   // 31
+                    doc.setFontType("normal");
+
+                    doc.text(pos + 33, alturaO, ' ______________________________________________________________________________'); //117
+                    doc.text(pos + 33, alturaO + 5, ' ______________________________________________________________________________'); //117 + 5
+
+                    alturaO = alturaO + 9;
+                    doc.text(pos + 113, alturaO, 'Fecha Max. ' + $scope.formatDate(obj.F_MAX)); // 117
+                    alturaO = alturaO + 4;
+                    doc.text(pos + 113, alturaO, 'Fecha Entrega _________'); //117
+
+                    doc.text(pos + 51, alturaO - 3, '___________________________'); // 56
+                    alturaO = alturaO + 1;
+                    doc.text(pos + 56, alturaO, 'Cliente Titular SI   NO'); //60
+                    alturaO = alturaO + 4;
+                    doc.setFontSize(6);
+                    doc.text(pos + 34, alturaO, 'NOMBRE : ' + obj.NOMBRE.substr(0, 50)); // 38
+                    doc.setFontSize(7);
+                    doc.text(pos + 113, alturaO, 'Cod. Repartidor : ' + obj.COD_TRAB); // 117
+                    alturaO = alturaO + 4;
+                    doc.text(pos + 41, alturaO, 'DNI : ______________'); // 45
+                    doc.text(pos + 69, alturaO, 'Parentesco :______________________'); //73
+                    doc.text(pos + 113, alturaO, '________________'); // 117
+
+                    altura = altura + 5;
+
+                    doc.setFontType("bold");
+                    doc.text(pos + 3, altura, 'Devuelto : ');//7
+                    altura = altura + 1.2;
+                    doc.setFontType("normal");
+                    doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Se mudó'); //12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Ya no trabaja');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Dir. Incompleta');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Rechazado');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Desconocido');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Dir. No existe');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Cliente ausente');//12
+                    altura = altura + 4;
+                }
+
+                //var string = doc.output('datauristring');
+                //var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>";
+                //var x = window.open();
+                //x.document.open();
+                //x.document.write(iframe);
+                //x.document.close();
+                doc.save('reparto.pdf');
+            }
+
+            $scope.formatDate = function (dateVal) {
+                if (dateVal == null) {
+                    return "";
+                }
+                function padValue(value) {
+                    return (value < 10) ? "0" + value : value;
+                }
+                var newDate = new Date(dateVal);
+
+                var sMonth = padValue(newDate.getMonth() + 1);
+                var sDay = padValue(newDate.getDate());
+                var sYear = newDate.getFullYear();
+                return sDay + "/" + sMonth + "/" + sYear 
+            }
+ 
+
+            $scope.dowload_file = function () {
+                window.open("../formatos/FORMATO_IMPRESION_REPARTO.xls");
+            }
+
+
+        });
+    </script>
+}
+
+<div ng-app="MyApp" ng-controller="MyController">
+
+
+    <div class="panel panel-oscuro">
+        <div class="panel-heading">
+            <h6><i class="fa fa-table fa-lg"></i> Generacion de Impresion de Reparto</h6>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-8" style="background-color: beige;">
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <input type="file" class="filestyle" file-model="myFile" data-placeholder="Ningun Archivo Seleccionado" data-buttonname="btn-primary" data-size="sm" data-buttonbefore="true" data-buttontext="  Seleccionar Archivo..">
+                        </div>
+                    </div>
+                    <hr  style="margin-top: 2px; margin-bottom: 3px;"/>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12" style="text-align:center">
+                            <button class="btn btn-success"  ng-click="generar_impresion();"><span class="glyphicon glyphicon-floppy-saved"></span> Generar Impresión</button>
+                            <button id="btn_nueva" type="button" class="btn btn-primary btn-sm" onclick="window.location.reload(true)" ng-click="Eliminando_Tabla_Temporal()"><i class="fa fa-file-excel-o"></i> Nueva Importacion</button>
+                            <button class="btn btn-info" ng-click="dowload_file()"><span class="glyphicon glyphicon-download-alt"></span> Formato</button>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12" style="text-align:center">
+                            <fieldset class="fieldset-border">
+                                <legend>Leyenda</legend>
+                                <span class="label label-primary">Por favor respetar el nombre y orden de las columnas del formato.</span>
+                                <span class="label label-primary">La hoja del Excel tiene que tener por nombre "Importar".</span>
+                                <span class="label label-primary">El archivo a subir debe tener todos los bordes definidos.</span>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+                <div class="col-md-2">
+
+                </div>
+            </div> 
+        </div>
+    </div>
+ 
+</div>
+ 
+

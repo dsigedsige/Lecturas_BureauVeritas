@@ -1,0 +1,1377 @@
+﻿@using DSIGE
+@using DSIGE.Modelo
+@using DSIGE.Negocio
+
+@{
+    ViewBag.Title = ".:: Actualizar reparto ::.";
+    Layout = "~/Views/Shared/_LayoutPrincipal.cshtml";
+}
+
+@section instances{
+
+    @Styles.Render("~/Content/dataTables-bootstrap/css/dataTables.bootstrap.min.css")
+    @Scripts.Render("~/Content/dataTables-bootstrap/js/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/dataTables-bootstrap/js/dataTables.bootstrap.min.js")
+
+    @Styles.Render("~/Content/bootstrap-datepicker/css/bootstrap-datepicker.min.css")
+    @Scripts.Render("~/Content/bootstrap-datepicker/js/bootstrap-datepicker.min.js")
+    @Scripts.Render("~/Content/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js")
+
+    @Scripts.Render("~/Content/bootstrap/js/bootstrap-filestyle.min.js")
+    @Scripts.Render("~/Scripts/jquery.fileDownload.js")
+    @Scripts.Render("~/Content/angular/angular.js")
+    <script src="~/Content/pdf/jspdf.js"></script>
+
+}
+
+@section styles{
+
+    @*<style type="text/css">
+        .nav-tabs {
+            border-bottom: 0;
+        }
+
+        #_archivo.btn-info {
+            background-image: none;
+            color: inherit;
+            background-color: inherit !important;
+        }
+
+        .modal-dialog {
+            width: 300px;
+        }
+
+        .datepicker {
+            width: 200px;
+        }
+
+        .form-control {
+            font-size: 11px;
+            width: 100%;
+            height: 28px;
+        }
+
+        input[type="text"] {
+            font-size: 11px;
+        }
+
+        body {
+            font-size: 10.5px;
+            font-family: tahoma;
+        }
+
+        .label-primary {
+            background-color: #337ab7;
+            font-size: 11px;
+        }
+    </style>*@
+
+    <style type="text/css">
+        .fixed-table-toolbar .search {
+            line-height: 0;
+        }
+
+        .form-control {
+            font-size: 11px;
+            width: 100%;
+            height: 28px;
+        }
+
+        label {
+            font-family: "Tahoma", "Geneva", sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .nav-tabs {
+            border-bottom: 0;
+        }
+
+        #_archivo.btn-info {
+            background-image: none;
+            color: inherit;
+            background-color: inherit !important;
+        }
+
+        .modal-dialog {
+            width: 300px;
+        }
+
+        #modalLecturass {
+            width: 530px;
+        }
+
+
+        .datepicker {
+            width: 200px;
+        }
+
+
+        #Principal {
+            /*width: 98%;*/
+            height: 400px;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            padding-top: 4px;
+            padding-bottom: 3px;
+        }
+
+        .table tbody tr:hover td, .table tbody tr:hover th, .table tbody tr:hover th a {
+            background-color: rgba(28, 96, 177, 0.72) !important;
+            background-color: #00ACAC !important;
+            color: white !important;
+        }
+
+        .Julio table, th {
+            background-color: #333 !important;
+            color: white !important;
+        }
+
+        .Julio table, td {
+            cursor: pointer;
+            text-align: right
+        }
+
+        .JulioCesar table, td {
+            cursor: pointer;
+            text-align: right
+        }
+    </style>
+
+
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        $(function () {
+            $('#id_fecha_asignacion').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'es',
+                autoclose: true
+            });
+        });
+        $(function () {
+            $('#_fecha').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'es',
+                autoclose: true
+            });
+        });
+
+        $(function () {
+            $('#_fechaEnvioMovil').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'es',
+                autoclose: true
+            });
+        });
+
+
+        function soloNumeros(e) {
+            var key = window.Event ? e.which : e.keyCode
+            return (key >= 48 && key <= 57)
+        }
+
+        var app = angular.module('MyApp', [])
+
+        app.controller('MyController', function ($scope, $timeout, $http) {
+
+
+            setTimeout(function () {
+                // inicializando el ComboBuscador
+                $("select").select2();
+            }, 500);
+
+
+            $scope.getPdf = function () {
+                $('.sige-load').show();
+                var variables = {
+                    method: 'POST',
+                    url: 'GetReporteReparto',
+                    params: {
+                        fecha: $('#id_fecha_asignacion').val()
+                    },
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                }
+                $http(variables)
+                    .success(function (data) {
+                        //var doc = new jsPDF()
+                        //var x = 17;
+                        //var y = 5;
+
+                        //var countBucle = 0;
+
+                        //for (var i = 0; i < data.length; i++) {
+
+
+                        //countBucle++;
+                        //if (countBucle == 4) {
+                        //    x = 17;
+                        //    y = 110;
+                        //} else if (countBucle == 7) {
+                        //    x = 17;
+                        //    y = 5;
+                        //    countBucle = 1;
+                        //    doc.addPage()
+                        //}
+
+                        //doc.setFont('courier');
+                        //doc.setFontType('bold')
+                        //doc.setFontSize(10);
+
+                        //doc.text(y, x, 'Nro.Recibo ' + data[i].NRORECIBO_REPARTO)
+                        //doc.text(y + 80, x, String(i + 1))
+                        //// CAMBIAMOS DE LETRA A NORMAL
+                        //doc.setFont("helvetica");
+                        //doc.setFontType('normal')
+                        //doc.setFontSize(9);
+                        ////
+                        //doc.text(y, x + 5, 'Empresa : ' + data[i].EMPRESA);
+                        //doc.text(y, x + 10, 'Cliente : ' + data[i].CLIENTE);
+                        //doc.text(y + 80, x + 10, String(data[i].ORDEN));
+
+                        //doc.text(y, x + 15, 'Cta. Cto.: ' + String(data[i].CTA));
+                        //doc.text(y + 61, x + 15, 'F_Max : ' + data[i].FECHA_MAX);
+                        //doc.text(y, x + 20, 'Dirección : ' + data[i].DIRECCION);
+                        //x -= 3;
+
+                        //doc.text(y + 64, x + 25, 'Ciclo ' + data[i].CICLO);
+
+                        //doc.text(y, x + 28, data[i].DISTRITO);
+                        //doc.setFontSize(8);
+                        //doc.text(y, x + 32, data[i].TIPO_REPARTO);
+                        //doc.setFontSize(9);
+                        //doc.text(y + 65, x + 32, 'UL: ' + data[i].UL);
+                        //doc.line(y - 3, x + 35, y + 95, x + 35) // horizontal line
+
+                        //// CAMBIAMOS LETRA
+                        //doc.setFont('courier');
+                        //doc.setFontSize(11);
+                        //doc.text(y, x + 40, 'FECHA DE SUPERVISION');
+                        //doc.line(y + 50, x + 40, y + 90, x + 40) // horizontal line
+
+                        //doc.text(y, x + 48, 'LLEGO RECIBO');
+                        //doc.rect(y + 50, x + 43, 20, 7);
+                        //doc.text(y + 57, x + 48, 'SI');
+                        //doc.rect(y + 70, x + 43, 20, 7);
+                        //doc.text(y + 77, x + 48, 'NO');
+
+                        //doc.text(y, x + 56, 'ESTADO DEL MEDIDOR');
+                        //doc.line(y + 50, x + 56, y + 90, x + 56) // horizontal line
+
+
+                        //doc.text(y, x + 62, 'LECTURA ACTUAL');
+                        //doc.line(y + 50, x + 62, y + 90, x + 62) // horizontal line
+
+
+                        //doc.text(y, x + 68, 'NOMBRE DEL CLIENTE');
+
+                        //doc.text(y + 50, x + 68, 'FIRMA');
+
+                        //doc.line(y + 63, x + 68, y + 96, x + 68) // horizontal line
+
+                        //doc.line(y, x + 76, y + 90, x + 76) // horizontal line
+                        //doc.line(y, x + 84, y + 90, x + 84) // horizontal line
+
+                        //x += 95;
+                        //}
+
+                        //doc.save('reparto.pdf');
+
+
+                        ///----version new format julio
+
+
+                        if (data.length > 0) {
+
+                            //var doc = new jsPDF()
+                            var doc = new jsPDF('landscape');
+                            var x = 17;
+                            var y = 5;
+
+                            var altura = 2;
+                            var alturaO = 0;
+                            var alturaV = 0;
+                            var ac_V = 0;
+                            var pos = 4;
+                            var inc = 0;
+
+                            for (obj of data) {
+                                //---- 180 ancho, 100 altura
+                                //doc.rect(4, altura, 145, 68) //---dibujando un rectangulo
+
+                                inc++;
+                                if (inc == 4) {
+                                    pos = 150;
+                                    altura = 2;
+                                    alturaO = 0;
+                                    alturaV = 0;
+                                    ac_V = 0;
+                                } else if (inc == 7) {
+                                    pos = 4;
+                                    altura = 2;
+                                    alturaO = 0;
+                                    alturaV = 0;
+                                    ac_V = 0;
+                                    doc.addPage()
+                                    inc = 1;
+                                }
+                                doc.rect(pos, altura, 145, 68) //---dibujando un rectangulo
+                                altura = altura + 2.5;
+                                doc.setFontSize(7);
+                                doc.setFontType("bold");
+                                doc.text(pos + 56, altura, 'CARGO DE ENTREGA DE RECIBO '); // 60
+
+                                doc.setFontSize(7);
+                                doc.setFontType("normal");
+                                altura = altura + 3;
+                                doc.text(pos + 7, altura, 'Nro. Recibo : ' + obj.NRORECIBO_REPARTO); //11
+                                doc.text(pos + 56, altura, 'CTA. CTO : ' + obj.CTA); //60
+                                doc.text(pos + 106, altura, 'UL : ' + obj.UL);//110
+                                altura = altura + 4;
+                                doc.setFontSize(6);
+                                doc.text(pos + 4, altura, 'DIRECCIÓN : ' + obj.DIRECCION);//10
+                                doc.setFontSize(7);
+                                altura = altura + 4;
+                                doc.text(pos + 14, altura, 'TIPO :     ' + obj.TIPO_REPARTO); //18
+                                doc.text(pos + 56, altura, 'Mes :'); //56
+                                doc.text(pos + 86, altura, 'CICLO : ' + obj.CICLO); // 90
+                                doc.text(pos + 121, altura, 'AÑO :'); // 125
+                                altura = altura + 1.5;
+                                doc.rect(pos + 25, altura, 118, 23) //---dibujando un rectangulo  30
+
+                                if (ac_V == 0) {
+                                    alturaV = 20;
+                                    alturaO = 44;
+                                } else if (ac_V == 1) {
+                                    alturaV = 90;
+                                    alturaO = 114;
+                                } else if (ac_V == 2) {
+                                    alturaV = 159;
+                                    alturaO = 184;
+                                }
+
+                                doc.text(pos + 27, alturaV, 'Piso'); // 31
+                                doc.text(pos + 50, alturaV, 'Vivienda');// 54
+                                doc.text(pos + 74, alturaV, 'Color/Fachada');// 78
+                                doc.text(pos + 98, alturaV, 'Puerta');// 102
+                                doc.text(pos + 121, alturaV, 'Color puerta');// 125
+
+                                alturaV = alturaV + 1.2;
+                                doc.rect(pos + 27, alturaV, 5, 3) //---dibujando un rectangulo 31
+                                doc.rect(pos + 50, alturaV, 5, 3) //---dibujando un rectangulo 54
+                                doc.rect(pos + 74, alturaV, 5, 3) //---dibujando un rectangulo 78
+                                doc.rect(pos + 98, alturaV, 5, 3) //---dibujando un rectangulo 102
+                                doc.rect(pos + 121, alturaV, 5, 3) //---dibujando un rectangulo 125
+
+                                alturaV = alturaV + 2;
+                                doc.text(pos + 33, alturaV, 'Uno'); //37
+                                doc.text(pos + 56, alturaV, 'Casa');//60
+                                doc.text(pos + 80, alturaV, 'Crema');//84
+                                doc.text(pos + 104, alturaV, 'Madera');//108
+                                doc.text(pos + 127, alturaV, 'Plomo');//131
+
+
+                                alturaV = alturaV + 1.2;
+                                doc.rect(pos + 27, alturaV, 5, 3) //---dibujando un rectangulo 31
+                                doc.rect(pos + 50, alturaV, 5, 3) //---dibujando un rectangulo 54
+                                doc.rect(pos + 74, alturaV, 5, 3) //---dibujando un rectangulo 78
+                                doc.rect(pos + 98, alturaV, 5, 3) //---dibujando un rectangulo 102
+                                doc.rect(pos + 121, alturaV, 5, 3) //---dibujando un rectangulo 125
+
+                                alturaV = alturaV + 2;
+                                doc.text(pos + 33, alturaV, 'Dos'); // 37
+                                doc.text(pos + 56, alturaV, 'Dpto.');// 60
+                                doc.text(pos + 80, alturaV, 'Blanco');// 84
+                                doc.text(pos + 104, alturaV, 'Vidrio');// 108
+                                doc.text(pos + 127, alturaV, 'Negro');// 131
+
+
+                                alturaV = alturaV + 1.2;
+                                doc.rect(pos + 27, alturaV, 5, 3) //---dibujando un rectangulo 31
+                                doc.rect(pos + 50, alturaV, 5, 3) //---dibujando un rectangulo 54
+                                doc.rect(pos + 74, alturaV, 5, 3) //---dibujando un rectangulo 78
+                                doc.rect(pos + 98, alturaV, 5, 3) //---dibujando un rectangulo 102
+                                doc.rect(pos + 121, alturaV, 5, 3) //---dibujando un rectangulo 125
+
+                                alturaV = alturaV + 2;
+                                doc.text(pos + 33, alturaV, 'tres'); // 37
+                                doc.text(pos + 56, alturaV, 'Quinta.');// 60
+                                doc.text(pos + 80, alturaV, 'Ladrillo');// 84
+                                doc.text(pos + 104, alturaV, 'Metal');// 108
+                                doc.text(pos + 127, alturaV, 'Marron');// 131
+
+                                alturaV = alturaV + 1.2;
+                                doc.rect(pos + 27, alturaV, 5, 3) //---dibujando un rectangulo 31
+                                doc.rect(pos + 50, alturaV, 5, 3) //---dibujando un rectangulo 54
+                                doc.rect(pos + 74, alturaV, 5, 3) //---dibujando un rectangulo 78
+                                doc.rect(pos + 98, alturaV, 5, 3) //---dibujando un rectangulo 102
+                                doc.rect(pos + 121, alturaV, 5, 3) //---dibujando un rectangulo 125
+
+                                alturaV = alturaV + 2;
+                                doc.text(pos + 33, alturaV, 'Cuatro'); // 37
+                                doc.text(pos + 56, alturaV, 'Tienda.');// 60
+                                doc.text(pos + 80, alturaV, 'Tarrajeo');// 84
+                                doc.text(pos + 104, alturaV, 'Otros');// 108
+                                doc.text(pos + 127, alturaV, 'Madera');// 131
+
+
+                                alturaV = alturaV + 1.2;
+                                doc.rect(pos + 27, alturaV, 5, 3) //---dibujando un rectangulo 31
+                                doc.rect(pos + 50, alturaV, 5, 3) //---dibujando un rectangulo 54
+                                doc.rect(pos + 74, alturaV, 5, 3) //---dibujando un rectangulo 78
+                                doc.rect(pos + 98, alturaV, 5, 3) //---dibujando un rectangulo 102
+                                doc.rect(pos + 121, alturaV, 5, 3) //---dibujando un rectangulo 125
+
+                                alturaV = alturaV + 2;
+                                doc.text(pos + 33, alturaV, 'Otros: _____'); // 37
+                                doc.text(pos + 56, alturaV, 'Otros: _____');// 60
+                                doc.text(pos + 80, alturaV, 'Otros: _____');// 84
+                                doc.text(pos + 127, alturaV, 'Otros: _____');// 131
+
+                                ac_V += 1;
+
+                                altura = altura + 4;
+                                doc.setFontType("bold");
+                                doc.text(pos + 3, altura, 'Recibido por : ');//7
+                                altura = altura + 1.2;
+                                doc.setFontType("normal");
+                                doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                                altura = altura + 2;
+                                doc.text(pos + 8, altura, 'Titular'); //12
+                                altura = altura + 1.2;
+                                doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                                altura = altura + 2;
+                                doc.text(pos + 8, altura, 'Familiar'); //12
+                                altura = altura + 1.2;
+                                doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                                altura = altura + 2;
+                                doc.text(pos + 8, altura, 'Empleado/a');//12
+                                altura = altura + 1.2;
+                                doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                                altura = altura + 2;
+                                doc.text(pos + 8, altura, 'Vigilante');//12
+                                altura = altura + 1.2;
+                                doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                                altura = altura + 2;
+                                doc.text(pos + 8, altura, 'Buzón');//12
+                                altura = altura + 1.2;
+                                doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                                altura = altura + 2;
+                                doc.text(pos + 8, altura, 'Bajo Puerta');//12
+
+
+                                doc.setFontType("bold");
+                                doc.text(pos + 27, alturaO, 'Obs.');   // 31
+                                doc.setFontType("normal");
+
+                                doc.text(pos + 33, alturaO, ' ______________________________________________________________________________'); //117
+                                doc.text(pos + 33, alturaO + 5, ' ______________________________________________________________________________'); //117 + 5
+
+                                alturaO = alturaO + 9;
+                                doc.text(pos + 113, alturaO, 'Fecha Max.'); // 117
+                                alturaO = alturaO + 4;
+                                doc.text(pos + 113, alturaO, 'Fecha Entrega _________'); //117
+
+                                doc.text(pos + 51, alturaO - 3, '___________________________'); // 56
+                                alturaO = alturaO + 1;
+                                doc.text(pos + 56, alturaO, 'Cliente Titular SI   NO'); //60
+                                alturaO = alturaO + 4;
+                                doc.text(pos + 34, alturaO, 'NOMBRE : _____________________'); // 38
+                                doc.text(pos + 113, alturaO, 'Cod. Repartidor :'); // 117
+                                alturaO = alturaO + 4;
+                                doc.text(pos + 41, alturaO, 'DNI : ______________'); // 45
+                                doc.text(pos + 69, alturaO, 'Parentesco :______________________'); //73
+                                doc.text(pos + 113, alturaO, '________________'); // 117
+
+                                altura = altura + 5;
+
+                                doc.setFontType("bold");
+                                doc.text(pos + 3, altura, 'Devuelto : ');//7
+                                altura = altura + 1.2;
+                                doc.setFontType("normal");
+                                doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                                altura = altura + 2;
+                                doc.text(pos + 8, altura, 'Se mudó'); //12
+                                altura = altura + 1.2;
+                                doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                                altura = altura + 2;
+                                doc.text(pos + 8, altura, 'Ya no trabaja');//12
+                                altura = altura + 1.2;
+                                doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                                altura = altura + 2;
+                                doc.text(pos + 8, altura, 'Dir. Incompleta');//12
+                                altura = altura + 1.2;
+                                doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                                altura = altura + 2;
+                                doc.text(pos + 8, altura, 'Rechazado');//12
+                                altura = altura + 1.2;
+                                doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                                altura = altura + 2;
+                                doc.text(pos + 8, altura, 'Desconocido');//12
+                                altura = altura + 1.2;
+                                doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                                altura = altura + 2;
+                                doc.text(pos + 8, altura, 'Dir. No existe');//12
+                                altura = altura + 1.2;
+                                doc.rect(pos + 2, altura, 5, 3) //---dibujando un rectangulo 6
+                                altura = altura + 2;
+                                doc.text(pos + 8, altura, 'Cliente ausente');//12
+                                altura = altura + 4;
+                            }
+
+                            //var string = doc.output('datauristring');
+                            //var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>";
+                            //var x = window.open();
+                            //x.document.open();
+                            //x.document.write(iframe);
+                            //x.document.close();
+                            doc.save('reparto.pdf');
+
+                        } else {
+                            alert('no hay informacion disponible, verifique la fecha..')
+                        }
+                        $('.sige-load').hide();
+                    })
+
+                    .error(function () {
+                        $('.sige-load').hide();
+                        alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+
+                    });
+
+            }
+
+            $scope.getReparto = function () {
+                var id_fecha_asignacion = document.getElementById('id_fecha_asignacion');
+                if (id_fecha_asignacion.value == null || id_fecha_asignacion.value == '' || id_fecha_asignacion.value == '0' || id_fecha_asignacion.value == undefined) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor ingrese o seleccione una Fecha del Movil.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                $('.sige-load').show();
+                var variables = {
+                    method: 'POST',
+                    url: 'ListadoReparto',
+                    params: {
+                        fecha: $('#id_fecha_asignacion').val(),
+                    },
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                }
+                $http(variables)
+                    .success(function (data) {
+                        $scope.Lista_Lecturas_Temporal = data;
+                        $('.sige-load').hide();
+                    })
+
+                    .error(function () {
+                        $('.sige-load').hide();
+                        alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+
+                    });
+            }
+
+            $scope.actualizarReparto = function (item) {
+                if (item.id_operario_cambiar == '0' || item.id_operario_cambiar == 0 || item.id_operario_cambiar == '' || item.id_operario_cambiar == null) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccione un Operario.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                if (item.id_operario == item.id_operario_cambiar) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Para Actualizar el Operario, debe de elegir otro Operario distinto al inicial.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+
+                $('.sige-load').show();
+                var variables = {
+                    method: 'POST',
+                    url: 'ActualizarReparto',
+                    params: {
+                        id_operario: item.id_operario,
+                        unidad_lectura: item.unidad_lectura,
+                        fechaAsignatura: $('#id_fecha_asignacion').val(),
+                        id_operario_cambiar: item.id_operario_cambiar,
+                    },
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                }
+                $http(variables)
+                    .success(function (data) {
+                        $('.sige-load').hide();
+
+                        if (data != "true") {
+                            new PNotify({
+                                title: 'Error',
+                                text: 'Operario ingresado no existe!',
+                                type: 'failet'
+                            });
+                            return;
+                        }
+                        new PNotify({
+                            title: 'Confirmación',
+                            text: 'Operario actualizado correctamente !',
+                            type: 'success'
+                        });
+                        $scope.getReparto();
+                    })
+                    .error(function () {
+                        $('.sige-load').hide();
+                        alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+
+                    });
+            }
+
+
+            /////---- nuevo modificado julio cesar
+
+
+
+
+            $scope.Obj_List_Operario = [];
+            $scope.Listado_Operarios = function () {
+                var variables = {
+                    method: 'POST',
+                    url: '../Ubicacion_Lecturas/ListandoOperarios',
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                }
+                $http(variables)
+                    .success(function (data) {
+                        $scope.Obj_List_Operario = [];
+                        $scope.Obj_List_Operario = data;
+                    })
+                    .error(function () {
+                        alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+
+                    });
+            }
+            $scope.Listado_Operarios();
+
+            var obj_reparto_Global;
+            $scope.AbrirModal_Compartir_lectura = function (obj_data) {
+                obj_reparto_Global = '';
+                obj_reparto_Global = obj_data;
+
+                $('#modal_compartir_lectura').modal({ show: 'false' });
+
+                if (obj_data.id_operario == undefined || obj_data.id_operario == null || obj_data.id_operario == 0 || obj_data.id_operario == '0') {
+                    setTimeout(function () {
+                        $('#cbo_operario').val('0').trigger('change');
+                    }, 400);
+                } else {
+                    setTimeout(function () {
+                        $('#cbo_operario').val(obj_data.id_operario).trigger('change');
+                    }, 400);
+                }
+            }
+
+            $scope.generarCompartir_lecturas = function () {
+                var id_fecha_asignacion = document.getElementById('id_fecha_asignacion').value;
+                var cbo_operario = document.getElementById('cbo_operario').value;
+
+                if (cbo_operario == '0' || cbo_operario == 0 || cbo_operario == '') {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccione un Operario.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                if (obj_reparto_Global.id_operario == cbo_operario) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Para compartir el Reparto, debe de elegir otro Operario distinto al inicial.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                (new PNotify({
+                    title: 'Sistemas Confirmacion ',
+                    text: 'Esta seguro de Compartir el Reparto?, una vez cambiado no hay marcha atras..',
+                    icon: 'glyphicon glyphicon-question-sign',
+                    hide: false,
+                    confirm: {
+                        confirm: true
+                    },
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    },
+                    history: {
+                        history: false
+                    }
+                })).get().on('pnotify.confirm', function () {
+
+                    $('.sige-load').show();
+                    var variables = {
+                        method: 'POST',
+                        url: '../Actualizar_Reparto/Generando_Compartir_lecturas',
+                        headers: {
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        data: {
+                            fecha: id_fecha_asignacion,
+                            cod_unidad: obj_reparto_Global.unidad_lectura,
+                            id_operario: cbo_operario
+                        }
+                    }
+                    $http(variables)
+                        .success(function (data) {
+                            $('.sige-load').hide();
+                            if (data == 'OK' || data == '"OK"') {
+                                new PNotify({
+                                    title: 'Sistemas',
+                                    text: 'Compartir Lecturas, realizada correctamente.',
+                                    type: 'success'
+                                });
+                                $scope.getReparto();
+                                $('#modal_compartir_lectura').modal('toggle');
+                            } else {
+                                console.log(data)
+                                alert(data)
+                            }
+                        })
+                        .error(function () {
+                            $('.sige-load').hide();
+                            alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                        });
+
+                }).on('pnotify.cancel', function () {
+
+                });
+            }
+
+            /////////////----------------------
+
+
+
+            $scope.selectChecks = function (item, index) {
+                if (item.check) {
+                    var dataPost = item.RT + '|' + item.S1 + '|' + item.CL + '|' + item.SECTOR + '|' + item.ZONA + '|' + item.FECHA + '|' + item.id_Local + '|' + item.id_Lectura;
+                    objectSelectSend.push({
+                        index: index,
+                        id_lectura: item.id_Lectura,
+                        suministro_lectura: item.suministro_lectura,
+                        zona: item.ZONA,
+                        sector: item.SECTOR,
+                        dataPost: dataPost
+                    });
+                    item.colorItem = "colorItem";
+                } else {
+                    var params = {
+                        index: index,
+                        numero_suministro: ''
+                    }
+                    var indexR;
+                    objectSelectSend.forEach(function (item, indexS) {
+                        if (item.index == index) {
+                            indexR = indexS
+                        }
+                    })
+                    objectSelectSend.splice(indexR, 1);
+                    item.colorItem = "";
+                }
+                console.log(objectSelectSend);
+                $scope.countSelect = objectSelectSend.length;
+            }
+
+            $scope.paramsSelect = {
+                cantInit: '',
+                selectInit: '0',
+                codOperario: '',
+            }
+
+            var objectSelect = [];
+            var objectSelectSend = [];
+
+            $scope.listDetalleLectura = [];
+            var countF = 0;
+            $scope.countSelectF = function () {
+                countF = 0;
+                if ($scope.listDetalleLectura.length > 0) {
+                    $scope.listDetalleLectura.forEach(function (item, index) {
+                        if (item.check) {
+                            countF++;
+                        }
+                    })
+                } else {
+                    return 0;
+                }
+                return countF;
+            }
+
+            $scope.enterFocus = function (keyEvent, name) {
+                if (keyEvent.which === 13) {
+                    $('#' + name + '').focus();
+                    $('#' + name + '').select();
+                }
+            }
+
+            $scope.validarLecturista = function (keyEvent) {
+                if (keyEvent.which === 13) {
+                    validarLecturistaCodigo()
+                        .then(function (data) {
+                            $scope.changeFocusInput('btn_agregarRangos')
+                        })
+                }
+            }
+
+            var validarLecturistaCodigo = function () {
+                var id_codOperarioRango = document.getElementById('id_codOperarioRango').value;
+
+                var q = $q.defer();
+                var variables = {
+                    method: 'POST',
+                    url: '../DistribuirLecturas/validarOperario',
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        CodigoOperario: id_codOperarioRango,
+                    }
+                }
+                $http(variables)
+                    .success(function (data) {
+                        if (data[0].CANT_REGISTROS <= 0) {
+                            new PNotify({
+                                title: 'Sistemas',
+                                text: 'El Código del Lecturista no existe.',
+                                type: 'error'
+                            });
+                            q.reject();
+                            return;
+                        } else {
+                            q.resolve();
+                        }
+
+                    })
+                    .error(function () {
+                        new PNotify({
+                            title: 'Sistemas',
+                            text: 'El Código del Lecturista no existe.',
+                            type: 'error'
+                        });
+                        q.reject();
+                    });
+                return q.promise
+            }
+
+            $scope.reiniciarChecks = function () {
+                objectSelect = [];
+                objectSelectSend = [];
+                $scope.listDetalleLectura.forEach(function (item) {
+                    item.colorItem = "";
+                    item.check = false;
+                    item.flag_operario = false;
+                    item.Codigo_operario = '';
+
+                });
+                $scope.countSelect = objectSelectSend.length;
+            }
+
+            $scope.openDetalle = function (item) {
+
+                console.log('openDetalle')
+                console.log(item)
+
+                var Fecha_asignacion = document.getElementById('_fechaMovilDetalle');
+                $('#id_filainicio').val('');
+                $('#id_filafin').val('');
+                $('#id_codOperarioRango').val('');
+
+                var operador = 0;
+                Fecha_asignacion.value = '';
+
+                if (item.id_operario == 0 || item.id_operario == null || item.id_operario == '' || item.id_operario == undefined) {
+                    operador = 0;
+                } else {
+                    operador = item.id_operario;
+                }
+
+                $scope.paramsSelect.selectInit = '0';
+                $scope.paramsSelect.codOperario = '',
+                    $scope.paramsSelect.cantInit = '';
+
+                objectSelect = [];
+                objectSelectSend = [];
+                $scope.countSelect = objectSelectSend.length;
+
+                $('#modalDetails').modal({ show: 'true' });
+                $('.sige-load').show();
+
+            }
+
+
+            function MarcoCheck_detalle() {
+                var flag_marco = false;
+                for (var i = 0; i < $scope.listDetalleLectura.length; i++) {
+                    if ($scope.listDetalleLectura[i].check == true) {
+                        flag_marco = true;
+                        break;
+                    }
+                }
+                return flag_marco;
+            }
+
+            function MarcoCorrecto_detalle() {
+                var flag_marco = false;
+                for (var i = 0; i < $scope.listDetalleLectura.length; i++) {
+                    if ($scope.listDetalleLectura[i].check == true) {
+                        if ($scope.listDetalleLectura[i].Codigo_operario == '' || $scope.listDetalleLectura[i].Codigo_operario == null || $scope.listDetalleLectura[i].Codigo_operario == undefined) {
+                            flag_marco = true;
+                            new PNotify({
+                                title: 'Sistemas',
+                                text: 'Falta completar el Dato del Operario.',
+                                type: 'error'
+                            });
+                            break;
+                        }
+                    }
+                }
+                return flag_marco;
+            }
+
+            function ListaMarcoCheck_Detalle(flag_detallado) {
+                $scope.ListaData = [];
+
+                if (flag_detallado == 'S') {
+                    for (var i = 0; i < $scope.listDetalleLectura.length; i++) {
+                        if ($scope.listDetalleLectura[i].check == true) {
+                            $scope.ListaData.push({
+                                'id_Lectura': $scope.listDetalleLectura[i].id_Lectura,
+                                'Unidad_Lecturas': $scope.listDetalleLectura[i].Unidad_Lecturas,
+                                'Codigo_operario': $scope.listDetalleLectura[i].Codigo_operario,
+                                'Manzana': $scope.listDetalleLectura[i].Manzana,
+                                'opcion': ProcesoElegido_Global,
+                                'flag_detallado': 'S'
+                            });
+                        }
+                    }
+                } else {
+                    for (var i = 0; i < $scope.listDetalleLectura.length; i++) {
+                        if ($scope.listDetalleLectura[i].check == true) {
+                            $scope.ListaData.push({
+                                'id_Lectura': 0,
+                                'Unidad_Lecturas': $scope.listDetalleLectura[i].Unidad_Lecturas,
+                                'Codigo_operario': $scope.listDetalleLectura[i].Codigo_operario,
+                                'Manzana': $scope.listDetalleLectura[i].Manzana,
+                                'opcion': ProcesoElegido_Global,
+                                'flag_detallado': 'N'
+                            });
+                        }
+                    }
+                }
+                return $scope.ListaData;
+            }
+
+
+            $scope.GenerarEnvioMovil_Detallado = function () {
+                var id_fecha_asignacion = document.getElementById('id_fecha_asignacion');
+                var _fechaMovil = document.getElementById('_fechaMovilDetalle');
+                var _servicio = document.getElementById('id_servicio').value;
+
+                var flag_marco = false;
+                var flag_correcto = false;
+                $scope.List_codigo = [];
+
+                if (ProcesoElegido_Global == '') {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor presione el boton de Distribucion o de Reasignacion para Continuar.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                flag_marco = MarcoCheck_detalle();
+                if (flag_marco == false) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccione al menos un registro.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                flag_correcto = MarcoCorrecto_detalle();
+                if (flag_correcto == true) {
+                    return;
+                }
+
+
+                if (_fechaMovil.value == null || _fechaMovil.value == '' || _fechaMovil.value == '0' || _fechaMovil.value == undefined) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor ingrese o seleccione una Fecha del Movil.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                $('.sige-load').show();
+                $scope.List_codigo = ListaMarcoCheck_Detalle(Flag_detallado_Global);
+
+                var variables = {
+                    method: 'POST',
+                    url: '../DistribuirLecturas/Generando_EnvioMovil_Distribucion_Reasignacion_Detallado',
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        ListaOrdenes: $scope.List_codigo,
+                        id_local: 1,
+                        FechaAsigna: id_fecha_asignacion.value,
+                        servicio: _servicio,
+                        FechaMovil: _fechaMovil.value,
+                        opcion: ProcesoElegido_Global,
+                        Flag_detallado: Flag_detallado_Global
+                    }
+                }
+
+                $http(variables)
+                    .success(function (data) {
+                        $('.sige-load').hide();
+                        if (data == 'OK' || data == '"OK"') {
+                            new PNotify({
+                                title: 'Sistemas',
+                                text: 'Envio al Movil, realizado Correctamente.',
+                                type: 'success'
+                            });
+
+                            if (ProcesoElegido_Global == 'D') {
+                                $scope.ActualizarInformacion();
+                            }
+                            if (ProcesoElegido_Global == 'R') {
+                                $scope.ActualizarInformacion_Reasignacion();
+                            }
+                            $('#modalDetails').modal('toggle');
+
+                        } else {
+                            alert(data)
+                        }
+                    })
+                    .error(function () {
+                        alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                    });
+
+            }
+
+        });
+    </script>
+}
+
+<div ng-app="MyApp" ng-controller="MyController">
+
+
+    <div class="panel panel-oscuro" style="margin-top: -14px;">
+        <div class="panel-heading">
+            <h6><i class="fa fa-table"></i> ACTUALIZAR REPARTO </h6>
+        </div>
+        <div class="panel-body">
+            <div class="well" style="background: #314b75; color: white;    margin-top: -5px;    margin-bottom: 1px;">
+                <div class="row" style="    margin-top: -17px;  margin-bottom: -10px;">
+                    <div class="col-sm-3 col-md-3">
+
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <label for="_usuario" class="  control-label">Fecha de Asignación:</label>
+                        <input class="form-control" id="id_fecha_asignacion" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <br />
+                        <button id="btn_ver" type="button" class="btn btn-primary btn-sm" ng-click="getReparto()"><i class="fa fa-upload"></i> Ver Reparto</button>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <div class="table-responsive" style="height:500px">
+                    <table id="tblLista" class="table  table-bordered table-responsive" cellspacing="0" width="100%">
+                        <thead style="background:#F0F3F5;">
+                            <tr>
+                                <th>Nº fila</th>
+                                <th>Unidad de Lectura</th>
+                                <th>Nombre de Unidad Lectura</th>
+                                <th>Codigo Operario</th>
+                                <th>Total</th>
+                                <th style="text-align:center;color:red"> Compartir</th>
+                                <th>Cambiar codigo Operario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in Lista_Lecturas_Temporal">
+                                <td>{{$index + 1}}</td>
+                                <td>{{item.unidad_lectura}}</td>
+                                <td>{{item.nombre_UnidadLectura}}</td>
+                                <td>{{item.id_operario_aux}}</td>
+                                <td>{{item.total}}</td>
+                                <td ng-if="'S'== item.flag_compartido" style="text-align:center;cursor: pointer;"></td>
+                                <td ng-if="'' == item.flag_compartido" style="text-align:center;cursor: pointer;">
+                                    <button class="btn btn-xs btn-primary" ng-click="AbrirModal_Compartir_lectura(item);"><span class="glyphicon glyphicon-resize-horizontal"></span> </button>
+                                </td>
+                                <td style="text-align:center">
+                                    <input ng-model="item.id_operario_cambiar" style="color:green;font-weight:500;text-align:center" />
+                                    <button id="btn_ver" type="button" class="btn btn-primary btn-xs" ng-click="actualizarReparto(item)"><i class="fa fa-upload"></i> Actualizar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-sm-2 col-md-offset-5" style=" padding-top: 20px; ">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento">
+                        <!--<button id="btn_guardar" disabled="disabled" role="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-asignacion"><i class="fa fa-save fa-lg"></i> Guardar</button>-->
+                        @*<button role="button" class="btn btn-default" ng-click="getPdf()"><i class="fa fa-download fa-lg"></i> Exportar</button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @*modal del detallado*@
+    <div id="modal-detallado" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style=" width: 90% !important;">
+            <div class="panel panel-oscuro">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> IMPORTAR ARCHIVO DETALLADO</h6>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <table id="tblListaDetalleLectura" ng-show="openLectura" class="table table-condensed table-bordered table-responsive" cellspacing="0">
+                            <thead style="background: #F0F3F5;">
+                                <tr>
+                                    <th>Nº fila</th>
+                                    <th>Cliente</th>
+                                    <th>Direccion</th>
+                                    <th>Operario</th>
+                                    <th>Medidor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="lista in Lista_Lecturas_Temporal_detallado" ng-style="lista.FLAG_LECTURA === 'S' && {'background-color':'rgba(255, 0, 0, 0.31)'}  || lista.FLAG_LECTURA === '' && {'background-color':'white'}" on-finish-render="ngRepeatFinished">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{lista.interlocutor}}</td>
+                                    <td>{{lista.direccion_lectura}}</td>
+                                    <td>{{lista.nombre_ope}}</td>
+                                    <td>{{lista.unidadLectura}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                        <table id="tblListaDetallecortes" ng-show="openCorte" class="table table-condensed table-bordered table-responsive" cellspacing="0">
+                            <thead style="background: #F0F3F5;">
+                                <tr>
+                                    <th>Nº fila</th>
+                                    <th>Cliente</th>
+                                    <th>Direccion</th>
+                                    <th>Operario</th>
+                                    <th>Medidor</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in Lista_Lecturas_Temporal_detallado" ng-style="lista.FLAG_LECTURA === 'S' && {'background-color':'rgba(255, 0, 0, 0.31)'}  || lista.FLAG_LECTURA === '' && {'background-color':'white'}" on-finish-render="ngRepeatFinished">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{item.cor_interlocutor}}</td>
+                                    <td>{{item.cor_direccion}}</td>
+                                    <td>{{item.nombre_ope}}</td>
+                                    <td>{{item.unidad_corte}}</td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                <button role="button" class="btn btn-default" ng-click="tableToExcel_detallado('#tblListaDetalle')"><i class="fa fa-download fa-lg"></i> Exportar</button>
+                                <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modal-asignacion" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="panel panel-oscuro">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h6 class="modal-title"><i class="fa fa-calendar fa-lg"></i> INGRESE LA FECHA DE ENVIO A MÓVIL</h6>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-group-sm">
+                                    <label for="_usuario" class="col-sm-4 control-label">Fecha</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" id="_fecha" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+
+                                <button role="button" class="btn btn-primary" ng-click="GuardarTablaTempLecturas()"><i class="fa fa-save fa-lg"></i> Guardar</button>
+                                <button id="btn_cancel" role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_compartir_lectura" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog  modal_dsige2">
+            <div class="panel panel-oscuro">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h6 class="modal-title"><i class="fa fa-calendar fa-lg"></i> COMPARTIR LECTURAS.</h6>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group" style="padding-left: 15px;  margin-top: 5px;">
+                        <label for="cbo_operario" style="font-size:11px">Operario:</label>
+                        <select id="cbo_operario" style="width:250px;" ng-model="id_operario">
+                            <option value=0>--[ NINGUNO ]-- </option>
+                            <option ng-repeat="item in Obj_List_Operario" value="{{item.id_Operario}}">
+                                {{item.id_Operario}} : {{item.desc_operario}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                <button role="button" class="btn btn-primary" ng-click="generarCompartir_lecturas()"><i class="fa fa-save fa-lg"></i> Compartir Lecturas</button>
+                                <button id="btn_cancel" role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div id="modal-envioAppMovil" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="panel panel-oscuro">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i>Enviar al Movil</h6>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <fieldset class="fieldset-border">
+                                <legend>Enviar Datos al Aplicativo Movil</legend>
+                                <div class="col-md-12">
+                                    <div class="col-md-5">
+                                        <div class="form-group form-group-sm">
+                                            <label for="_fechaEnvioMovil" class="col-sm-5 control-label">Fecha Asignación </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group form-group-sm">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                <input style="width:90px;" class="form-control" id="_fechaEnvioMovil" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                            <button role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-descarga-formato" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style=" width: 400px; ">
+        <div class="panel panel-oscuro">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h6 class="modal-title"><i class="fa fa-download fa-lg"></i> DESCARGA DE FORMATO</h6>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <a href="~/Formato/DSIGE-Lectura.xlsx">
+                            <div class="panel panel-primary">
+                                <div class="panel-body" style="text-align: center;">
+                                    <i class="fa fa-download fa-4x" style="color: #5bc0de;"></i>
+                                </div>
+                                <div class="panel-footer" style="padding: 10px 5px; font-weight: bold; text-align: center;">LECTURA</div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

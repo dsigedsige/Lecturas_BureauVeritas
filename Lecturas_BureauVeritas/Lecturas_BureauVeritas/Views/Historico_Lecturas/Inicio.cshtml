@@ -1,0 +1,660 @@
+﻿@using System.Configuration
+@using DSIGE
+@using DSIGE.Modelo
+@using DSIGE.Negocio
+
+@{
+    ViewBag.Title = ".:: Histórico Lecturas ::.";
+    Layout = "~/Views/Shared/_LayoutPrincipal.cshtml";
+}
+
+@section instances{
+    @Styles.Render("~/Content/bootstrap-table/bootstrap-table.css")
+    @Scripts.Render("~/Content/bootstrap-table/bootstrap-table.js")
+    @Scripts.Render("~/Content/bootstrap-table/locale/bootstrap-table-es-MX.js")
+
+    @Scripts.Render("~/Content/bootstrap/js/bootstrap-toggle.min.js")
+    @Styles.Render("~/Content/bootstrap/css/bootstrap-toggle.min.css")
+
+    @Styles.Render("~/Content/bootstrap-datepicker/css/bootstrap-datepicker.min.css")
+    @Scripts.Render("~/Content/bootstrap-datepicker/js/bootstrap-datepicker.min.js")
+    @Scripts.Render("~/Content/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js")
+
+    @Scripts.Render("~/Scripts/jquery.fileDownload.js")
+    @Scripts.Render("~/Content/angular/angular.js")
+    <script src="~/Content/jQueryRotate/jQueryRotate.js"></script>
+
+}
+
+@section styles{
+ 
+
+    <style type="text/css">
+        .fixed-table-toolbar .search {
+            line-height: 0;
+        }
+
+        .form-control {
+            font-size: 11px;
+            width: 100%;
+            height: 28px;
+        }
+
+        label {
+            font-family: "Tahoma", "Geneva", sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .nav-tabs {
+            border-bottom: 0;
+        }
+
+        #_archivo.btn-info {
+            background-image: none;
+            color: inherit;
+            background-color: inherit !important;
+        }
+
+        .modal-dialog {
+            width: 300px;
+        }
+
+        #modalLecturass {
+            width: 530px;
+        }
+
+
+        .datepicker {
+            width: 200px;
+        }
+
+
+        #Principal {
+            /*width: 98%;*/
+            height: 400px;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            padding-top: 4px;
+            padding-bottom: 3px;
+        }
+
+        .Julio table, th {
+            background-color: #333 !important;
+            color: white !important;
+        }
+
+        .Julio table, td {
+            cursor: pointer;
+            text-align: right
+        }
+
+        .JulioCesar table, td {
+            cursor: pointer;
+            text-align: right
+        }
+    </style>
+
+
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        var $ruta = '@ConfigurationManager.AppSettings["servidor-foto-lectura"]';
+
+        //oculto los divs de consultas
+        $(function () {
+            //$('#lectura').hide();
+            $('#relectura').hide();
+        })
+
+        //inicializando fechas
+        $(function () {
+            $('#f_inicial').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'es',
+                autoclose: true
+            });
+        })
+        $(function () {
+            $('#f_final').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'es',
+                autoclose: true
+            });
+        })
+        //fin inicializando fechas
+
+        $(window).resize(function () {
+            $('#table-consulta_lec').bootstrapTable('resetView');
+            $('#table-consulta_reclec').bootstrapTable('resetView');
+        });
+
+        $(document).on('click', '#actualizar', function (e) {
+            var $local = $('#_local').val();
+            //if ($local === '0') {
+            //    alert('Seleccione un LOCAL.');
+            //    $('#table-consulta_lec td').remove();
+            //    $('#table-consulta_relec td').remove();
+            //    var msg = 'No se encontraron registros...';
+            //    $('#table-consulta_lec > tbody').append('<tr class="no-records-found"><td colspan=\'19\'>' + msg + '</td></tr>');
+            //    $('#table-consulta_relec > tbody').append('<tr class="no-records-found"><td colspan=\'19\'>' + msg + '</td></tr>');
+            //    return;
+            //}
+            listaLecturaHistorico();
+        });
+
+        function tabla_lectura(msg) {
+            $('#table-consulta_lec').bootstrapTable({
+                data: [
+                    {
+                        field: '_x',
+                        title: 'Item Name',
+                        sortable: true,
+                        editable: true,
+                        align: 'center'
+                    }
+                ]
+            });
+
+            $('#table-consulta_lec > tbody > tr').not(function () {
+                if ($(this).has('th').length) { return true }
+            }).remove();
+
+            $('#table-consulta_lec > tbody').append('<tr class="no-records-found"><td colspan=\'19\'>' + msg + '</td></tr>');
+        }
+        function tabla_relectura(msg) {
+            $('#table-consulta_relec').bootstrapTable({
+                data: []
+            });
+
+            $('#table-consulta_relec > tbody > tr').not(function () {
+                if ($(this).has('th').length) { return true }
+            }).remove();
+
+            $('#table-consulta_relec > tbody').append('<tr class="no-records-found"><td colspan=\'19\'>' + msg + '</td></tr>');
+        }
+        function listaLecturaHistorico() {
+            var $servicio = '';
+
+            var list = [];
+
+            if ($("#idservicios").val() == -1) {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor seleccione un Servicio. Muchas gracias.',
+                    type: 'error'
+                });
+                return;
+            }
+
+
+            if ($("#idservicios").val() == 0) {
+                $("#idservicios option").each(function () {
+                    var x = parseInt($(this).attr('value'))
+                    if (x == 0 || x == -1) {
+
+                    }
+                    else {
+                        list.push($(this).attr('value'));
+                    }
+
+                });
+
+            }
+            else {
+                list.push($("#idservicios").val());
+            }
+
+
+            $.ajax({
+                async: true,
+                beforeSend: function (xhr) {
+                    $('.sige-load').show();
+                },
+                url: 'JsonListaLecturaHistoricoXSuministro',
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    __a: 1,
+                    __c: $('#f_inicial').val(),
+                    __d: $('#f_final').val(),
+                    __e: $('#suministro').val(),
+                    __f: $('#medidor').val(),
+                    __g: list.toString()
+                }),
+                success: function (response) {
+
+                    if (response == null) {
+                        tabla('No se encontraron registros...');
+                    } else {
+                        $('#lectura').show();
+                        $('#table-consulta_lec').bootstrapTable('load', response);
+                        $('#table-consulta_lec').bootstrapTable('resetView');
+                        $('#relectura').hide();
+                    }
+                },
+                complete: function () {
+                    $('.sige-load').hide();
+                },
+                error: function (xhr) {
+                    $('.sige-load').hide();
+                    alert("Algo salió mal, por favor intente de nuevo.");
+                }
+            });
+        }
+
+        function fnDescargaHistorico() {
+            $ajaxJson(
+                '/Luzdelsur/Asigna_Lectura/DescargaHistorico',
+                function () {
+                    return {
+                        __a: JSON.stringify($('#table-historico').bootstrapTable('getData'))
+                    };
+                },
+                function (__s) {
+                    window.open('/Lecturas/Temp/' + __s.__a, '_blank');
+                }
+            );
+        }
+
+        //toggle button - cambio lectura - relectura
+        $(function () {
+            $('#servicio').change(function () {
+                listaLecturaHistorico();
+            })
+        })
+
+        $(function () {
+            $('#option1').change(function () {
+                listaLecturaHistorico();
+            })
+        })
+
+        $(function () {
+            $('#option2').change(function () {
+                listaLecturaHistorico();
+            })
+        })
+
+        $(function () {
+            $('#option3').change(function () {
+                listaLecturaHistorico();
+            })
+        })
+
+        function checkFormat(__v, __r, __i) {
+            if (__r._v == 1 && __r._v == true) {
+                return {
+                    checked: true
+                };
+            }
+            return __v;
+        }
+
+        function opcionFormatter(__val, __row, __index) {
+            var $html = [];
+            $html.push('<button role="button" class="btn btn-warning" onclick="fnModalHistorico(\'' + __row._c + '\')"><i class="fa fa-list-alt fa-lg"></i> Histórico</button>');
+
+            return '<div class="btn-group btn-group-xs" role="group" aria-label="Mantenimiento">' + $html.join('') + '</div>';
+        }
+
+        function fotoFormatter(__val, __row, __index) {
+            if (__val == 'SI') {
+                return '<a onclick="galeriaFotos(' + __row._a + ',' + __row._Z + ');" href="#">' + __val + '</a>';
+            } else {
+                return __val;
+            }
+        }
+        var listPhotos = [];
+        function previusPhoto() {
+            var photo1 = document.getElementById('foto1');
+            photo1.src = listPhotos[0].url;
+        }
+        function nextPhoto() {
+            var photo1 = document.getElementById('foto1');
+            if (listPhotos.length > 1) {
+                photo1.src = listPhotos[1].url;
+            }
+        }
+
+        function galeriaFotos(idLectura, TipoServicio) {
+
+            $('#fotos').modal();
+
+            $.ajax({
+                async: true,
+                beforeSend: function (xhr) { },
+                url: 'FotosLectura',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    __a: idLectura,
+                    tiposervicio: TipoServicio
+                },
+                success: function (response) {
+                    $("div").remove("#x");
+                    var $DivCorre = $('#corre');
+                    var $DivOl = $('#ol');
+                    listPhotos = [];
+                    $.each(response, function (i, v) {
+                        listPhotos.push({
+                            id: i,
+                            url: $ruta + '/' + response[i]._r
+                        })
+                    });
+                    $DivCorre.append('<div id="x" class="item active"><img id="imgRotate" src="' + listPhotos[0].url + '" alt="..." style="width: 600px; height: 600PX; text-align: center;" /></div>');
+                },
+                error: function (xhr) {
+                    alert('Algo salió mal, por favor intente de nuevo.');
+                }
+            });
+        }
+
+        function fnDescargaPendientes() {
+            $ajaxJson(
+                'DescargaPendientes',
+                function () {
+                    return {
+                        __a: JSON.stringify($('#table-pendientes').bootstrapTable('getData'))
+                    };
+                },
+                function (__s) {
+                    window.open('/Lecturas/Temp/' + __s.__a, '_blank');
+                }
+            );
+        }
+
+        $("form").submit(function () {
+            console.log($(this).serializeArray());
+            return false;
+        });
+
+
+        var degrees = 0;
+        function rotateImg() {
+            degrees += 90;
+            console.log($('#imgRotate'));
+            $("#imgRotate").rotate(degrees);
+        }
+
+
+        //RELACION CON ANGULAR
+
+        var app = angular.module('appHistorico_lectura', []);
+        app.controller('Historico_LecturaCtrl', function ($scope, $http) {
+
+
+            // EXPORTAR A EXCEL
+            $scope.tableToExcel = function (tableId) {
+
+                var uri = 'data:application/vnd.ms-excel;base64,',
+                      template = '<html lang="es"  xmlns:o="urn:schemas-microsoft-com:office:office"' +
+                                 'xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">' +
+                                 '<head>' +
+                                 '<meta charset="utf-8">' +
+                                 '<!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>HistoricoLectura</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->' +
+                                 '<style>' +
+                                ' table, td, th {' +
+                                      ' border: 1px solid black;' +
+                                      ' }' +
+                     ' th {' +
+                          'background-color: #4CAF50;' +
+                          'color: white;' +
+                     ' }' +
+                               ' </style> </head>' +
+                                 '<body>' +
+                                 '<h1  style="text-align:center;">Histórico de Lecturas</h1>' +
+                                 '<table>{table}</table>' +
+                                 '</body>' +
+                                 '</html>',
+
+                base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))); },
+                format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) };
+
+                var table = $(tableId),
+                             ctx = { worksheet: 'descar123', table: table.html() };
+
+                var link = document.createElement("a");
+                link.download = "HistoricoLectura.xls";
+                link.href = uri + base64(format(template, ctx));
+                link.click()
+            }
+
+
+
+        });
+
+        $(document).ready(function () {
+            CargarServicioxUsuario();
+        });
+
+
+        function CargarServicioxUsuario() {
+            var servicio = $("#idservicios");
+            //$.support.cors = true;
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("ListandoServicios", "Ubicacion_Operarios")',
+                data: "",
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                cache: false,
+                dataType: "json",
+                CrossDomain: true,
+                success: function (response) {
+                    console.log(response);
+                    // var resultado = response.ListarUsuariosxCargoCreditoResult;
+                    // console.log(response.length);
+                    servicio.html("");
+                    if (parseInt(response.length) == parseInt(response[0].cantidad)) {
+                        // alert("correcto");
+                        // console.log("cccccc");
+                        servicio.append('<option value="-1" > [--SELECCIONE --]</option>');
+                        servicio.append('<option value="0" >Todos</option>');
+                        for (var i = 0; i < response.length; i++) {
+                            if (response[i].id_TipoServicio == 1 || response[i].id_TipoServicio == 2 || response[i].id_TipoServicio == 3 || response[i].id_TipoServicio == 4) {
+                                servicio.append('<option value="' + response[i].id_TipoServicio +
+                                    '">' + response[i].nombre_tiposervicio + '</option>');
+                            }
+                        };
+                    } else {
+                        servicio.append('<option value="-1" > [--SELECCIONE --]</option>');
+                        for (var i = 0; i < response.length; i++) {
+                            if (response[i].id_TipoServicio == 1 || response[i].id_TipoServicio == 2 || response[i].id_TipoServicio == 3 || response[i].id_TipoServicio == 4) {
+                                servicio.append('<option value="' + response[i].id_TipoServicio +
+                                    '">' + response[i].nombre_tiposervicio + '</option>');
+                            }
+                        };
+                    }
+
+
+                },
+
+                error: function (result) {
+                    alert('ERROR.... en ' + result.status + '... ' + result.statusText);
+                }
+            });
+
+
+        }
+
+    </script>
+}
+
+<div ng-app="appHistorico_lectura" ng-controller="Historico_LecturaCtrl">
+
+    <div class="panel panel-oscuro" style="margin-top: -13px;">
+        <div class="panel-heading">
+            <h6><i class="fa fa-table fa-lg"></i> HISTÓRICO DE LECTURAS </h6>
+        </div>
+        <div class="panel-body">
+            <div class="well" style="background: #314b75; color: white;      margin-top: -5px;  margin-bottom: 1px;">
+
+                <div class="row" style="    margin-top: -17px;  margin-bottom: -20px;">
+                    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
+                        <div class="col-md-3" style="display:none">
+                            <label for="_local" class="control-label">Local</label>
+                            <div class="form-group form-group-sm">
+                                <select class="form-control" id="_local">
+                                    <option value="0" selected="selected">-- Seleccione --</option>
+                                    @foreach (Local oBj in new NLocal().NLista(new Request_Local_Select() { emp_id = ((Sesion)Session["Session_Usuario_Acceso"]).empresa.emp_id }))
+                                    {
+                                        <option value="@oBj.loc_id">@oBj.loc_nombre</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="_supervisor" class="control-label">Servicios</label>
+                            <div class="form-group form-group-sm">
+                                <select class="form-control" id="idservicios">
+                                    <option value="-1">Seleccione</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <br />
+                            <div class="input-group" style="margin-top: 7px;">
+                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                <input name="suministro" id="suministro" class="form-control" placeholder="Suministro">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <br />
+                            <div class="input-group"  style="margin-top: 7px;">
+                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                <input name="medidor" id="medidor" class="form-control" placeholder="Medidor">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-6">
+                        <div class="col-md-4">
+                            <label for="_fechaAsigna" class="control-label">Fecha Inicial</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input class="form-control" id="f_inicial" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="_fechaAsigna" class="control-label">Fecha Final</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input class="form-control" id="f_final" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="text-align:center">
+                            <br />
+                            <button role="button" class="btn btn-primary btn-sm" id="actualizar"><i class="fa fa-refresh fa-lg"></i> Actualizar</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <br />
+
+            <div id="lectura">
+                <table id="table-consulta_lec"
+                       data-toggle="table"
+                       data-height="350"
+                       data-row-style="rowStyle"
+                       data-maintain-selected="true">
+                    <thead>
+                        <tr>
+                            <th data-field="_b">Orden</th>
+                            <th data-field="_c">Suministro</th>
+                            <th data-field="_d">Medidor</th>
+                            <th data-field="_f">Dirección</th>
+                            <th data-field="_l">Operador</th>
+                            <th data-field="_xx">Fecha Asignacion</th>
+                            <th data-field="_m">Fecha Lectura</th>
+                            <th data-field="_k">Lec. Actual</th>
+                            <th data-field="_q" data-formatter="fotoFormatter">Foto</th>
+                            <th data-field="_n">Observación</th>
+                            <th data-field="_p">Notas</th>
+                            <th data-field="_Z" style="display:none">Servicio</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div id="relectura">
+                <table id="table-consulta_relec"
+                       data-toggle="table"
+                       data-height="350"
+                       data-row-style="rowStyle" 
+                       data-maintain-selected="true">
+                    <thead>
+                        <tr>
+                            <th data-field="_b">Orden</th>
+                            <th data-field="_c">Suministro</th>
+                            <th data-field="_d">Medidor</th>
+                            <th data-field="_f">Dirección</th>
+                            <th data-field="_l">Operador</th>
+                            <th data-field="_xx">Fecha Lectura</th>
+                            <th data-field="_m">Fecha Lectura</th>
+                            <th data-field="_k">Lec. Actual</th>
+                            <th data-field="_q" data-formatter="fotoFormatter">Foto</th>
+                            <th data-field="_n">Observación</th>
+                            <th data-field="_p">Notas</th>
+                            <th data-field="_Z" style="display:none">Servicio</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+     
+</div>
+
+<div id="fotos" class="modal fade bd-example-modal-lg " tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style=" width: 600px;">
+        <div class="panel panel-oscuro">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <a onclick="rotateImg();" class="pull-right rotate" style="    margin-top: -10px; font-size: 12px; padding: 3px 4px;  color: white;  margin-right: 20px;cursor:pointer"><i class="fa fa-repeat" style="Color:#337ab7; font-size: 30px" aria-hidden="true"></i>Girar</a>
+                <h6 class="modal-title" style=" font-size: 11px;"><i class="fa fa-cogs fa-lg"></i> DETALLE DE FOTOS</h6>
+            </div>
+            <div class="panel-body">
+                <fieldset>
+                    <legend></legend>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                                <!-- Indicators -->
+                                <!-- Wrapper for slides -->
+                                <div class="carousel-inner" id="corre">
+                                </div>
+
+                                <!-- Controls -->
+                                <a class="left carousel-control" href="#carousel-example-generic" onclick="previusPhoto()" role="button" data-slide="prev" style="background-color:black;width: 5px;">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                </a>
+                                <a class="right carousel-control" href="#carousel-example-generic" onclick="nextPhoto()" role="button" data-slide="next" style="background-color:black; width: 5px;">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Atras</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

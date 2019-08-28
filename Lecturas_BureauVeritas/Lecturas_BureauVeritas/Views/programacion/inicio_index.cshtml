@@ -1,0 +1,1458 @@
+﻿
+@{
+    ViewBag.Title = "Programacion Cortes y Reconexiones";
+    Layout = "~/Views/Shared/_LayoutPrincipal.cshtml";
+}
+
+@Styles.Render("~/Content/dataTables-bootstrap/css/dataTables.bootstrap.min.css")
+@Scripts.Render("~/Content/dataTables-bootstrap/js/jquery.dataTables.min.js")
+@Scripts.Render("~/Content/dataTables-bootstrap/js/dataTables.bootstrap.min.js")
+
+@Styles.Render("~/Content/bootstrap-datepicker/css/bootstrap-datepicker.min.css")
+@Scripts.Render("~/Content/bootstrap-datepicker/js/bootstrap-datepicker.min.js")
+@Scripts.Render("~/Content/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js")
+ 
+@Scripts.Render("~/Content/angular/angular.js")
+ 
+
+<script src="~/Content/jQueryRotate/jQueryRotate.js"></script>
+
+<style>
+    .disabledContent {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+
+    .modal-img {
+        width: 80%;
+    }
+
+    .contentAsignados {
+        border: solid 2px #83d9ee;
+        height: 20px;
+        width: 40px;
+        background-color: #89e4fa;
+    }
+
+    #map, #mapNot {
+        height: 600px;
+        width: 100%;
+    }
+    /* Optional: Makes the sample page fill the window. */ savechanges html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .tblTD td {
+        width: 100% !important;
+    }
+
+    body {
+        color: #7991a5;
+    }
+
+    p {
+        margin: 0 0 0px;
+    }
+
+    #fotos {
+        top: 0%;
+        left: 60%;
+        outline: none;
+    }
+
+    .iconArrow {
+        position: absolute;
+        z-index: 1;
+        color: #34495e;
+        top: 200px;
+        left: -20px;
+        font-size: 31px;
+    }
+
+    #modal_detalle {
+        top: 0%;
+        right: 359px;
+        outline: none;
+    }
+
+
+    .modal_dialog_movil {
+        width: 300px;
+    }
+
+    .form-control {
+        font-size: 11px;
+        width: 100%;
+        height: 28px;
+    }
+
+    input[type="text"] {
+        font-size: 10px;
+    }
+
+    .btn {
+        font-size: 12px;
+    }
+
+    #Principal {
+        width: 98%;
+        height: auto;
+    }
+
+    input[type="text"] {
+        font-size: 11px;
+    }
+
+    label {
+        font-family: "Tahoma", "Geneva", sans-serif;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    #Principal {
+        width: 98%;
+        height: 600px;
+    }
+
+    #Contenedor {
+        width: 98%;
+    }
+
+    #Marco {
+        padding-left: 5px;
+        padding-top: 15px;
+        margin: -10px;
+    }
+
+    .datepicker {
+        width: 200px;
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        padding: 2px;
+    }
+
+    table td:nth-child(1) {
+        width: 5px;
+    }
+
+    table td {
+        width: 100px;
+    }
+
+    .checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] {
+        position: absolute;
+        margin-top: 4px \9;
+        margin-left: 2px;
+        MARGIN-TOP: -4px;
+    }
+    #s2id__estado {
+        width : 95%;
+    }
+    #s2id_idservicios {
+        width: 95%;
+    }
+    
+
+</style>
+
+<script type="text/javascript">
+    function soloNumeros(e) {
+        var key = window.Event ? e.which : e.keyCode
+        return (key >= 48 && key <= 57)
+    }
+
+    var app = angular.module('myApp', []);
+    app.controller('MainCtrl', function ($scope, $http, $timeout, $q) {
+
+        $(function () {
+            $('#_fechaAsigna').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'es',
+                autoclose: true
+            });
+            $('#_fechaAsigna_movil').datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'es',
+                autoclose: true
+            });
+            
+        });
+
+        $scope.InicializandoVariables = function () {
+            $scope.id_tipoServicio = '0';
+            $scope.id_estado = '0';
+            $scope.id_operario = '0';
+            $scope.Listado_Servicios()
+            $scope.Listado_Estado();
+            $scope.Listado_Operarios();
+
+
+            setTimeout(function () {
+                $("select").select2();
+            }, 500);
+        }
+
+
+        $scope.Obj_List_Servicios = [];
+        $scope.Listado_Servicios = function () {
+            var variables = {
+                method: 'POST',
+                url: '../Ubicacion_Lecturas/ListandoServicios',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }
+            $http(variables)
+                .success(function (data) {
+                    $scope.Obj_List_Servicios = [];
+                    for (obj of data) {
+                        if (obj.id_TipoServicio == 3 || obj.id_TipoServicio == 4) {
+                            $scope.Obj_List_Servicios.push(obj);
+                        }
+                    }
+
+
+                    setTimeout(function () {
+                        $('#idservicios').val('3').trigger('change');
+                    }, 200);
+
+                })
+                .error(function () {
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+
+                });
+        }
+
+        $scope.list_Estados = [];
+        $scope.Listado_Estado = function () {
+            $scope.list_Estados.push({ 'id': 5, 'descripcion': 'ENVIADO AL MOVIL' }, { 'id': 7, 'descripcion': 'RECEPCION DE LECTURA' })
+        }
+
+        //---icono general para marcados
+        var iconPorAsignar = '../Content/Imagen/sum_asignado.png';
+        var iconPendiente = '../Content/Imagen/sum_pendiente.png';
+
+        var markers = [];
+        function InicializarMapa() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: { lat: -11.991943, lng: -77.005195 },
+                mapTypeControl: true,
+                zoomControl: true,
+                zoomControlOptions: {
+                    position: google.maps.ControlPosition.RIGHT_CENTER 
+                },
+                scaleControl: true,
+                streetViewControl: true,
+                streetViewControlOptions: {
+                    position: google.maps.ControlPosition.RIGHT_CENTER 
+                }
+            });
+            map.addListener('click', function (e) {
+                if (!$scope.showRectangle) {
+                    return;
+                }
+                area1 = e.latLng.lat();
+                area2 = e.latLng.lng();
+                generarPoligono();
+            });
+            markers = [];
+            $scope.limpiarDibujo();
+
+ 
+            //### Add a button on Google Maps ...
+            var controlMarkerUI = document.createElement('DIV');
+            controlMarkerUI.style.cursor = 'pointer';
+            controlMarkerUI.style.backgroundImage = "url(../Content/Imagen/iconMenu/seleccionar2.png)";
+            controlMarkerUI.style.height = '33px';
+            controlMarkerUI.style.width = '30px';
+            controlMarkerUI.style.top = '10px !important';
+            controlMarkerUI.style.left = '120px';
+            controlMarkerUI.title = 'Marcar en el mapa';
+            map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlMarkerUI);
+
+            var controlSaveUI = document.createElement('DIV');
+            controlSaveUI.style.cursor = 'pointer';
+            controlSaveUI.style.backgroundImage = "url(../Content/Imagen/iconMenu/guardar2.png)";
+            controlSaveUI.style.height = '33px';
+            controlSaveUI.style.width = '30px';
+            controlSaveUI.style.top = '10px !important';
+            controlSaveUI.style.left = '120px';
+            controlSaveUI.title = 'Asignar / Reasignar';
+            map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlSaveUI);
+
+            //### Add a button on Google Maps ...
+            var controlTrashUI = document.createElement('DIV');
+            controlTrashUI.style.cursor = 'pointer';
+            controlTrashUI.style.backgroundImage = "url(../Content/Imagen/iconMenu/quitar2.png";
+            controlTrashUI.style.height = '33px';
+            controlTrashUI.style.width = '30px';
+            controlTrashUI.style.top = '20px';
+            controlTrashUI.style.left = '120px';
+            controlTrashUI.title = 'Quitar marcado';
+
+            map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlTrashUI);
+            
+            if (!document.getElementById("legend")) {
+                document.getElementById("content_leyenda").innerHTML = "<div id='legend'></div>";
+                var icons = {
+                    Marcado: {
+                        name: 'Suministro Seleccionado',
+                        icon: '../Content/Imagen/sum_asignado.png'
+                    },
+                    Pendiente: {
+                        name: 'Suministro Pendiente',
+                        icon: iconPendiente
+                    },
+                    Trabajado: {
+                        name: 'Suministro Trabajado',
+                        icon: '../Content/Imagen/sum_realizados.png'
+                    }
+                };
+                var legend = document.getElementById('legend');
+                for (var key in icons) {
+                    var type = icons[key];
+                    var name = type.name;
+                    var icon = type.icon;
+                    var div = document.createElement('div');
+
+                    if (name == 'Suministro Seleccionado') {
+                        div.innerHTML = '<img src="' + icon + '" style="margin-top: -16px;padding: 10px;"> ' + name;
+                    }
+                    else if (name == 'Suministro Pendiente') {
+                        div.innerHTML = '<img src="' + icon + '" style="margin-top: -16px;padding: 10px;"> ' + name;
+                    }
+                    else if (name == 'Suministro Trabajado') {
+                        div.innerHTML = '<img src="' + icon + '" style="margin-top: -12px;padding: 10px;"> ' + name;
+                    }
+                    else {
+                        div.innerHTML = '<img src="' + icon + '"> ' + name;
+                    }
+                    legend.appendChild(div);
+                }
+                map.controls[google.maps.ControlPosition.LEFT_CENTER].push(legend);
+            }   
+                                                                         
+            controlMarkerUI.addEventListener('click', function () {
+                $scope.activarDibujo(1);
+            });
+
+            controlSaveUI.addEventListener('click', function () {
+                $scope.OpenModalOperarios();
+            });
+
+            controlTrashUI.addEventListener('click', function () {
+                $scope.limpiarDibujo();                
+            });
+        };
+
+        $scope.List_Cortes = [];
+        $scope.ActualizarInformacion = function () {
+
+            var _fecha = document.getElementById('_fechaAsigna').value;
+            var _servicio = document.getElementById('idservicios').value;
+            var _estado = document.getElementById('_estado').value;
+
+            if (_fecha == '') {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor ingrese o seleccione una Fecha de Asignación.',
+                    type: 'error'
+                });
+                return;
+            }
+            if (_servicio == "0" || _servicio == 0 || _servicio == '') {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor seleccione un Servicio.',
+                    type: 'error'
+                });
+                return;
+            }
+
+            var variables = {
+                method: 'POST',
+                url: '../programacion/get_Suministros',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                data: {
+                    FechaAsiga: _fecha,
+                    servicio: _servicio,
+                    estado: _estado,
+                }
+             }
+
+             InicializarMapa();
+
+            $('.sige-load').show();
+            $http(variables)
+                .success(function (data) {
+                    $('.sige-load').hide();
+                    if (data.length > 0) {
+                        $scope.List_Cortes = [];
+                        $scope.List_Cortes = data;
+
+                        setTimeout(function () {
+                            document.getElementById('total_registros').innerHTML = 'Total registros :' + data.length;
+                        }, 100);
+
+
+                        generarMarkets(data);
+                    } else {
+                        new PNotify({
+                            title: 'Sistemas',
+                            text: 'No hay información disponible del Operario para mostrar.',
+                            type: 'success'
+                        });
+                        InicializarMapa();
+                    }
+                })
+                .error(function () {
+                    $('.sige-load').hide();
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                });
+        }
+                
+        var generarMarkets = function (data, tip) {
+            var infoWindow = new google.maps.InfoWindow();
+            var iconos= '';
+            var titulo = '';
+
+            data.forEach(function (item, index) {
+
+                var ContenidoMarker = '';
+                    ContenidoMarker += '<div  id="_market" style="width:550px;height:130px;position:relative;">';
+                    ContenidoMarker += '<table><tr><td><strong >Suministro</strong></td><td style="width:100%">: ' + item.suministro + '</td></tr>';
+                    ContenidoMarker += '<tr><td><strong>Cliente</strong></td><td style="width:100%">: ' + item.cliente + '</td></tr>';
+                    ContenidoMarker += '<tr><td><strong>Dirección</strong></td><td style="width:100%">: ' + item.direccion + '</td></tr>';
+                    ContenidoMarker += '<tr><td><strong>Operador</strong></td><td style="width:100%">: ' + item.operario + '</td></tr>';
+                    //ContenidoMarker += '<tr><td><strong>Cliente</strong></td><td style="width:100%">: ' + item.Cliente + ' </td></tr>';
+                    //ContenidoMarker += '<tr><td><strong>Lectura</strong></td><td style="width:100%">: ' + item.Lectura + ' </td></tr>';
+                    //ContenidoMarker += '<tr><td><strong>Fecha</strong></td><td style="width:100%">: ' + FechaHora + ' </td></tr></table>';
+ 
+
+                var latLng = {
+                    lat: parseFloat(item.latitud),
+                    lng: parseFloat(item.longitud)
+                }
+
+                if (item.estado <=5) {
+                    iconos = '../Content/Imagen/sum_pendiente.png';
+                    titulo = String(item.id_Corte) + '|' + String(item.id_servicio) + '|' + String(item.fecha_asignacion) + '|' + String(item.estado) + '|' + String(item.id_operario);
+                }
+                else if (item.estado == 7 || item.estado == 8 ) {
+                    iconos = '../Content/Imagen/sum_realizados.png';
+                    titulo = String(item.id_Corte) + '|' + String(item.id_servicio) + '|' + String(item.fecha_asignacion) + '|' + String(item.estado) + '|' + String(item.id_operario);
+                }
+
+                var marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map,
+                    title: titulo,
+                    icon: iconos,
+                    content: ContenidoMarker,
+                    optimized: false,
+                });
+
+                markers.push(marker);
+                google.maps.event.addListener(marker, 'click', (function (marker, index) {
+                    return function () { 
+                        console.log(marker.title.split('|')[2])
+                        infoWindow.setContent('<center><h4><b>' + 'Detalle' + '</b></h4></center>' + marker.content);
+                        infoWindow.open($scope.map, marker);
+                    }
+                })(marker, index));      
+            })
+
+        }
+        
+        $scope.Lista_Operarios = [];
+        $scope.Listado_Operarios = function () {
+            var variables = {
+                method: 'POST',
+                url: '../Ubicacion_Lecturas/ListandoOperarios',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                }
+            }
+            $http(variables)
+                .success(function (data) {
+                    $scope.Lista_Operarios = [];
+                    $scope.Lista_Operarios = data;
+                })
+                .error(function () {
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+
+                });
+        }
+
+        $scope.list_Estados = [];
+        $scope.Listado_Estado = function () {
+            $scope.list_Estados.push({ 'id': 5, 'descripcion': 'ENVIADO AL MOVIL' }, { 'id': 7, 'descripcion': 'RECEPCION DE LECTURA' })
+        }
+
+        $scope.OpenModalOperarios = function () {
+            var _fecha = document.getElementById('_fechaAsigna').value;
+            var _servicio = document.getElementById('idservicios').value;
+
+
+            if (_fecha == '') {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor ingrese o seleccione una Fecha de Asignación.',
+                    type: 'error'
+                });
+                return;
+            }
+            if (_servicio == "0" || _servicio == 0 || _servicio == '') {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor seleccione un Servicio.',
+                    type: 'error'
+                });
+                return;
+            }
+
+            if ($scope.List_Cortes.length == 0) {
+                return;
+            }
+
+            if (sumistrosMarcados_validacion() == false) {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor seleccione los suministros que desea Asignar o Reasignar.',
+                    type: 'error'
+                });
+                return;
+            }
+
+
+            $("#modalOperarios").modal();             
+            setTimeout(function () {
+                $('#id_operador').val(0).trigger('change');
+            }, 300);
+        }
+
+        var suministrosMarcados = function () {
+            var result = [];
+            for (var i = 0; i < markers.length; i++) {
+                if (markers[i].icon == iconPorAsignar) {
+                    var datosSum = markers[i].title.split('|');
+                    result.push(datosSum[0]);
+                }
+            }
+            return result;
+        }
+
+        var sumistrosMarcados_validacion = function () {
+            var flag_marco = false;
+            for (obj of markers) {
+                if (obj.icon == iconPorAsignar) {
+                    flag_marco = true;
+                    break;
+                }
+            }
+            return flag_marco;
+        }
+
+
+        $scope.set_actualizarOperario = function () {
+
+            var list_suministos =[];
+            var list_suministos = suministrosMarcados();
+
+            var _fecha = document.getElementById('_fechaAsigna').value;
+            var _servicio = document.getElementById('idservicios').value;
+            var _operario = document.getElementById('id_operador').value;
+            var _fechaMovil = document.getElementById('_fechaAsigna_movil').value;
+            
+            if ($('#id_operador').val() == 0) {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor seleccione un Operario.!',
+                    type: 'error'
+                });
+                return;
+            }
+            if (list_suministos.length == 0) {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'No ha seleccionado suministros, vuelva a intentar !',
+                    type: 'error'
+                });
+                return;
+            }
+            $('.sige-load').show();
+           var params = {
+                obj_cortes: list_suministos.join(),
+                fecha_asignacion: _fecha,
+                servicio: _servicio,
+                operario: _operario,
+                fecha_movil: _fechaMovil
+            }
+            var variables = {
+                method: 'POST',
+                url: '../programacion/set_actualizarOperario',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                data: params
+            }
+
+            $http(variables)
+            .success(function (data) {
+                    if (data == '"OK"') {
+                        new PNotify({
+                            title: 'Sistemas',
+                            text: 'Proceso realizado exitosamente.',
+                            type: 'success'
+                        });
+                        $('#modalOperarios').modal('toggle');  
+                        $timeout(function () {
+                            $scope.ActualizarInformacion();
+                        }, 200)
+                    }
+                })
+                .error(function () {
+                    $('.sige-load').hide();
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                });
+        }
+                
+
+
+
+        $scope.activarDibujo = function (value) {
+            if (rectangle != null) {
+                rectangle.setMap(null)
+            }
+            if (poly != null) {
+                poly.setMap(null);
+            };
+            if (value == 2) {
+                $scope.showRectangle = true;
+                $scope.showPolyLine = false;
+                $scope.colorRectangle = "#E91E63";
+                $scope.colorPolyLine = "'rgb(255, 0, 0)'";
+
+            } else if (value == 1) {
+                disable();
+                if (poly != null) {
+                    poly.setMap(null);
+                };
+
+                google.maps.event.addDomListener(map.getDiv(), 'mousedown', function (e) {
+                    drawFreeHand()
+                });
+
+                $scope.showRectangle = false;
+                $scope.showPolyLine = true;
+                $scope.colorRectangle = "#34495e";
+                $scope.colorPolyLine = "'rgb(255, 0, 0)'";
+            }
+        }
+        
+
+        // POLYLINE FUNCIONES
+        var poly = null;
+        function drawFreeHand() {
+            //the polygon
+            poly = new google.maps.Polyline({ map: map, clickable: false });
+            //move-listener
+            var move = google.maps.event.addListener(map, 'mousemove', function (e) {
+                 poly.getPath().push(e.latLng);
+            });
+            //mouseup-listener
+            google.maps.event.addListenerOnce(map, 'mouseup', function (e) {
+                google.maps.event.removeListener(move);
+                var path = poly.getPath();
+                poly.setMap(null);
+                poly = new google.maps.Polygon({
+                    map: map,
+                    path: path,
+                    strokeColor: 'rgb(255, 0, 0)',
+                    fillColor: 'rgb(0, 255, 255)',
+                    strokeWeight: 4,
+                });
+
+                google.maps.event.clearListeners(map.getDiv(), 'mousedown');
+                enable();
+
+                changeColorPolyLine();
+            });
+        }
+               
+        function enable() {
+            map.setOptions({
+                draggable: true,
+                zoomControl: true,
+                scrollwheel: true,
+                disableDoubleClickZoom: true
+            });
+        }
+
+        function disable() {
+            map.setOptions({
+                draggable: false,
+                zoomControl: false,
+                scrollwheel: false,
+                disableDoubleClickZoom: false
+            });
+        }
+
+        var changeColorPolyLine = function () {
+
+            var estado = 0;
+            var bounds = new google.maps.LatLngBounds();
+            poly.getPath().forEach(function (element, index) {
+                bounds.extend(element);
+            }); 
+
+            for (var i = 0; i < markers.length; i++) {
+                var latlng = {
+                    lat: markers[i].position.lat(),
+                    lng: markers[i].position.lng()
+                };
+
+                var cordLatLong = new google.maps.LatLng(latlng.lat, latlng.lng);
+
+                //----verificando si el punto se encuentra dentro de la seleccion del mapa..
+                if (google.maps.geometry.poly.containsLocation(cordLatLong, poly)) {
+                    estado = markers[i].title.split('|')[3];
+                    if (estado == 3 || estado == 5) {
+                        markers[i].setIcon(iconPorAsignar);
+                    }
+                }  
+            };
+
+            var total_a = verMarcadosCount(); 
+            setTimeout(function () {
+                document.getElementById('total_marcado').innerHTML ='Total marcado :' +  total_a;
+            }, 100);
+        }
+
+        //----ver cantidad suministros marcados para asignar
+        var verMarcadosCount = function () {
+            var countOK = 0;
+            for (var i = 0; i < markers.length; i++) {
+                if (markers[i].icon == iconPorAsignar) {
+                    countOK++;
+                }
+            }
+            return countOK;
+        }
+
+        $scope.limpiarDibujo = function () {
+            if (rectangle != null) {
+                rectangle.setMap(null);
+            }
+            if (poly != null) {
+                poly.setMap(null);
+            };
+            limpiarMarkers();
+        }
+
+
+        var limpiarMarkers = function () {
+            limpiarTodo();
+            $scope.showRectangle = false;
+            $scope.colorRectangle = 'rgb(255, 0, 0)';
+            $scope.showPolyLine = false;
+            $scope.colorPolyLine = 'rgb(255, 0, 0)';
+            setTimeout(function () {
+                document.getElementById('total_marcado').innerHTML = 'Total marcado : 0';
+            }, 100);
+        }                              
+      
+        var limpiarTodo = function () {
+            markers.forEach(function (marker, index) {
+                var estado = marker.title.split('|')[3];
+                if (estado == 3 || estado == 5) {
+                    marker.setIcon(iconPendiente);
+                }
+            });
+
+            //var total_a = verMarcadosCount();
+            setTimeout(function () {            
+                document.getElementById('total_registros').innerHTML = 'Total registro : 0';
+                document.getElementById('total_marcado').innerHTML = 'Total marcado : 0';
+            }, 100);
+        }
+                     
+
+
+        $scope.changeTipoFiltro = function (value, tip) {
+            if (value) {
+                if (tip == 1) {
+                    $scope.objFiltros.asignarTodos = true;
+                    $scope.objFiltros.verHistorial = false;
+                } else if (tip == 2) {
+                    $scope.objFiltros.asignarTodos = false;
+                    $scope.objFiltros.verHistorial = true;
+
+                }
+            } else {
+                if (tip == 1) {
+                    $scope.objFiltros.asignarTodos = true;
+                } else if (tip == 2) {
+                    $scope.objFiltros.verHistorial = true;
+                }
+            }
+        }
+        var getTipoProcesoAndIcon = function () {
+            var tipoProceso = 0;
+            var icon = "";
+
+            if ($scope.objFiltros.pendientes) {
+                tipoProceso = 1;
+                icon = iconRojo;
+            } else if ($scope.objFiltros.asignados) {
+                tipoProceso = 2;
+                icon = iconAzul;
+            } else if ($scope.objFiltros.verificaciones) {
+                tipoProceso = 3;
+                icon = iconOperario;
+            }
+
+            return {
+                tipoProceso: tipoProceso,
+                icon: icon
+            }
+        }
+
+        $scope.verMapaOperario = function (item) {
+            $scope.selectPosition(item);
+ 
+        };
+
+        var rectangle;
+        var map;
+        var area1 = 0;
+        var area2 = 0;
+
+        var map = null;
+        var txtTotalAsig;
+        $(document).ready(function () {
+            $timeout(function () {
+                InicializarMapa();
+            }, 1000);
+            txtTotalAsig = document.getElementById('txtTotalAsig');
+        });
+
+                              
+    var myVar = null;
+    var changeColorRectangle = function () {
+        for (var i = 0; i < markers.length; i++) {
+            var latlng = {
+                lat: markers[i].position.lat(),
+                lng: markers[i].position.lng()
+            }
+            var markerDentro = rectangle.getBounds().contains(new google.maps.LatLng(latlng.lat, latlng.lng));
+            if (markerDentro) {
+                var estado = markers[i].title.split('|')[2];
+                if (estado == 3 || estado == 5) {
+                    markers[i].setIcon(urlIcon + "asignadoAux.png");
+                }
+            }
+            else {
+                var estado = markers[i].title.split('|')[2];
+                if (estado == 3 || estado == 5) {
+                    //markers[i].setIcon(urlIcon + "pendiente.png");
+                }
+
+            }
+        };
+
+        txtTotalAsig.innerHTML = "Total Asig. : " + verMarcadosCount();
+    }
+
+
+
+        var stopFunction = false;
+        var showNewRect = function () {
+            if (stopFunction) {
+                return;
+            }
+            changeColorRectangle();
+        }
+        var endDrags = function () {
+            stopFunction = false;
+            changeColorRectangle();
+        }
+        var startDrangs = function () {
+            stopFunction = true;
+        }
+
+        var rectangle = null;
+        var generarPoligono = function () {
+
+            if (rectangle != null) {
+                rectangle.setMap(null);
+            }
+            var bounds = {
+                north: area1,
+                south: area1,
+                east: area2,
+                west: area2
+            };
+
+
+            // Define the rectangle and set its editable property to true.
+            rectangle = new google.maps.Rectangle({
+                bounds: bounds,
+                editable: true,
+                draggable: true
+            });
+
+            rectangle.setMap(map);
+            /*setTimeout(function () {
+                alert("Hello");
+                var ok = rectangle.getBounds().contains(new google.maps.LatLng(-11.992152893894795, -77.00262007934572))
+
+            }, 3000);*/
+            changeColorRectangle();
+            // Add an event listener on the rectangle.
+            rectangle.addListener('bounds_changed', showNewRect);
+            rectangle.addListener('dragend', endDrags);
+            rectangle.addListener('dragstart', startDrangs)
+
+
+        }
+
+        var getPersonalResumen = function (idOperario) {
+            $('.sige-load').show();
+            var params = {
+                fecha: $('#id_fecha_asignacion').val(),
+                id_Operario: idOperario
+            }
+
+            var variables = {
+                method: 'POST',
+                url: '../RecepcionLecturas/ListadoResumenOperario',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                data: params
+            }
+
+            $http(variables)
+                .success(function (data) {
+                    $("#ModalDatosOperario").modal();
+                    $scope.objOperario = data[0];
+                    $('.sige-load').hide();
+                })
+                .error(function () {
+                    $('.sige-load').hide();
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+
+                });
+        }
+                                 
+
+        $scope.countAsignados = 0;
+
+        $scope.showFiltros = true;
+        $scope.numberCol = 9;
+        $scope.position = "left";
+        $scope.mostrarTodo = function () {
+            if ($scope.position == "right") {
+                $scope.showFiltros = true;
+                $scope.numberCol = 9;
+                $scope.position = "left";
+            } else {
+                $scope.showFiltros = false;
+                $scope.numberCol = 10;
+                $scope.position = "right";
+            }
+        }
+
+        $scope.numberCol2 = 4;
+        $scope.position2 = "right";
+        $scope.mostrarTodo2 = function () {
+            if ($scope.position2 == "left") {
+                $scope.numberCol2 = 4;
+                $scope.position2 = "right";
+            } else {
+                $scope.numberCol2 = 10;
+                $scope.position2 = "left";
+            }
+        }
+        $scope.showRectangle = false;
+        $scope.colorRectangle = "#34495e";
+        $scope.showPolyLine = false;
+        $scope.colorPolyLine = 'rgb(255, 0, 0)';
+                                   
+
+        var degrees = 0;
+        $scope.rotateImg = function () {
+            degrees += 90;
+
+            $("#imgRotate").rotate(degrees);
+        }
+        var degreesNot = 0;
+        $scope.rotateImgNot = function () {
+            degreesNot += 90;
+
+            $("#imgRotateNot").rotate(degreesNot);
+        }
+
+
+        $scope.ActualizarLectura = function (item) {
+
+            $scope.showLoaderVerificar = true;
+            var variables = {
+                method: 'POST',
+                url: '../VerificacionLecturas/Update_LecturaActual',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                data: {
+                    id_Corte: item.id_Corte,
+                    lectura_actual: item.lectura_movil
+                }
+            }
+            $http(variables)
+                .success(function (data) {
+                    $('.sige-load').hide();
+                    if (data == 'OK' || data == '"OK"') {
+                        new PNotify({
+                            title: 'Sistemas',
+                            text: 'Proceso Cambio de Lectura, Realizado Correctamente.',
+                            type: 'success'
+                        });
+                        $scope.showLoaderVerificar = false;
+                    } else {
+                        alert(data)
+                    }
+                })
+                .error(function () {
+                    $('.sige-load').hide();
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                });
+        }
+
+
+
+        $scope.showLoaderHistorico = false;
+        var getHistorico = function (suministro) {
+            $scope.listHistorico = [];
+            $scope.showLoaderHistorico = true;
+            var variables = {
+                method: 'POST',
+                url: '../VerificacionFotos/ListaHistoricoLectura',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                params: {
+                    suministro: suministro
+                }
+            }
+            $http(variables)
+                .success(function (data) {
+                    $scope.showLoaderHistorico = false;
+                    $scope.listHistorico = data;
+
+                })
+                .error(function () {
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+
+                });
+        }
+
+
+        $scope.changeTipoProceso_new = function (value, tip) {
+            RemoveMarker(null);
+            markers = [];
+            $scope.ActualizarInformacion_mapas();
+        }
+        $scope.selectPosition = function (item) {
+
+            for (var i = 0; i < markers.length; i++) {
+                var estado = markers[i].title.split('|')[2];
+                var nrodni = markers[i].title.split('|')[1];
+
+                if (estado == 1 && nrodni == item.nroDoc_Operario) {
+                    markers[i].setAnimation(google.maps.Animation.BOUNCE);
+                    var lat = markers[i].position.lat();
+                    var long = markers[i].position.lng();
+                    focusOperarioMarket(lat, long);
+                } else {
+                    markers[i].setAnimation(null);
+                }
+            }
+        }
+
+        $scope.NextImage = function (value) {
+            var itemImg = $scope.paramsDetail;
+            if (value == 0) {
+
+                enviarVerificarFoto(itemImg).then(function (res) {
+                    var index = $scope.pictures.indexOf(itemImg);
+                    $scope.pictures.splice(index, 1);
+
+                    // UNA VEZ QUE ELIMINAMOS EL INDEX OBSERVADO, EL SIGUIENTE TOMA SU LUGAR COMO INDEX.
+                    $timeout(function () {
+                        //$scope.paramsDetail = $scope.pictures[index];
+                        //itemImg = $scope.pictures[index];
+                        //getHistorico(itemImg);
+                    }, 500)
+
+                }, function (err) {
+                    console.log(err);
+                })
+
+            } else if (value == 1) {
+
+                enviarSinObservacion(itemImg).then(function (res) {
+                    var index = $scope.pictures.indexOf(itemImg);
+                    $scope.pictures.splice(index, 1);
+
+                    // UNA VEZ QUE ELIMINAMOS EL INDEX OBSERVADO, EL SIGUIENTE TOMA SU LUGAR COMO INDEX.
+                    $timeout(function () {
+                        //$scope.paramsDetail = $scope.pictures[index];
+                        //itemImg = $scope.pictures[index];
+                        //getHistorico(itemImg);
+                    }, 500)
+
+                }, function (err) {
+                    console.log(err);
+                })
+            };
+
+        }
+
+
+        $scope.showLoaderVerificar = false;
+        var enviarVerificarFoto = function (item) {
+            var q = $q.defer();
+            $scope.showLoaderVerificar = true;
+            var List_codigos = [item.id_Corte];
+            var variables = {
+                method: 'POST',
+                url: '../VerificacionFotos/VerificacionFotos',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                data: {
+                    lecturas: List_codigos.toString()
+                }
+            }
+            $http(variables)
+                .success(function (data) {
+
+                    if (data == 'OK' || data == '"OK"') {
+                        new PNotify({
+                            title: 'Sistemas',
+                            text: 'Proceso enviar a relectura, Realizado Correctamente.',
+                            type: 'success'
+                        });
+                        //------ Enviando a firebase ---
+                        $scope.Enviar_NotificacionOperario_Unit(item.id_operario);
+                        $scope.showLoaderVerificar = false;
+                        q.resolve('success');
+                    } else {
+                        alert(data)
+                    }
+                })
+                .error(function () {
+                    $('.sige-load').hide();
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                    q.reject('failet');
+                });
+            return q.promise;
+        }
+
+        var enviarSinObservacion = function (item) {
+            var q = $q.defer();
+            $scope.showLoaderVerificar = true;
+            var List_codigos = [item.id_Corte];
+            var variables = {
+                method: 'POST',
+                url: '../VerificacionFotos/EnviarFotosSinObservacion',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                data: {
+                    lecturas: List_codigos.toString()
+                }
+            }
+            $http(variables)
+                .success(function (data) {
+                    $('.sige-load').hide();
+                    if (data == 'OK' || data == '"OK"') {
+                        new PNotify({
+                            title: 'Sistemas',
+                            text: 'Proceso Foto sin Observación, Realizado Correctamente.',
+                            type: 'success'
+                        });
+                        $scope.showLoaderVerificar = false;
+                        q.resolve('success');
+                    } else {
+                        q.resolve('success');
+                        alert(data)
+                    }
+                })
+                .error(function () {
+                    $('.sige-load').hide();
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                    q.reject('failet')
+                });
+
+            return q.promise;
+        }
+        $scope.selectPositionSum = function (item) {
+
+            var icon = urlIcon + item.nroDoc_Operario + ".png";
+            var marker = buscarIcon(icon);
+
+            if (marker == null) {
+                return;
+            } else {
+                var lat = marker.position.lat();
+                var long = marker.position.lng();
+
+                focusOperarioMarket(lat, long);
+            }
+
+        }
+
+        $scope.addMarkets = function (values) {
+
+
+            if (values.check) {
+                var listAux = [];
+
+                listUbicacionesAux.forEach(function (item, index) {
+
+                    if (item.Color == values.nroDoc_Operario && item.estado != 1) {
+                        console.log('item')
+                        console.log(item)
+                        listAux.push(item);
+                    }
+                });
+                generarMarkets_new(listAux, 2);
+            } else {
+                var icon = urlIcon + values.nroDoc_Operario + ".png";
+                var count = 0;
+                markers.forEach(function (item, index) {
+                    if (item.icon == icon) {
+                        item.setMap(null);
+
+                    }
+                })
+                console.log(count);
+            }
+
+            console.log('Cantidad Markets : ' + markers.length);
+        }
+        var buscarIcon = function (icon) {
+            var markersAux = "";
+            for (var i = 0; i < markers.length; i++) {
+                if (markers[i].icon == icon) {
+                    markersAux = markers[i];
+                    markers[i].setAnimation(google.maps.Animation.BOUNCE);
+                } else {
+                    markers[i].setAnimation(null);
+                }
+            }
+            return markersAux;
+        }
+
+        var focusOperarioMarket = function (Latitud, Longitud) {
+            var latLng = {
+                lat: parseFloat(Latitud),
+                lng: parseFloat(Longitud)
+            }
+            map.setCenter(latLng)
+            map.setZoom(16);
+            //map.setAnimation(google.maps.Animation.BOUNCE);
+        }
+        function RemoveMarker(map) {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
+        }
+
+        // FUNCIONES Y VARIABLES DE NOTIFICACIÓN
+
+        var getDateNow = function () {
+            var hoy = new Date();
+            var dd = hoy.getDate();
+            var mm = hoy.getMonth() + 1;
+            var yyyy = hoy.getFullYear();
+
+
+            var fechaHoy = dd + '/' + mm + '/' + yyyy;
+            //var fechaHoy = '17/12/2018'
+            return fechaHoy;
+        }
+        var minuto = (1000 * 60) * 3;
+        
+        $scope.verDetalle = function (item) {
+            $('.sige-load').show();
+            var tipoNot = 1;
+            var params = {
+                id_servicio: 1,
+                id_sector: 10,
+                fecha_asignacion: getDateNow(),
+                id_operario: item.id_operario_lectura
+            };
+
+            $('.sige-load').show();
+            var variables = {
+                method: 'POST',
+                url: '../ReporteRelacionLecturas/getReporteAlejadoCorLdsDetNot',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                data: params
+            }
+            $http(variables)
+                .success(function (data) {
+                    console.log(data);
+                    $('.sige-load').hide();
+                    $("#myModalNot").modal('show');
+                    $scope.Obj_Lista_Reporte_Det = data;
+                })
+
+                .error(function () {
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+
+                });
+        }
+        $scope.iconArrow = "right";
+        $scope.contentAll = "6";
+        $scope.mostrarTodo = function () {
+            if ($scope.iconArrow == "right") {
+                $scope.iconArrow = "left";
+                $scope.contentAll = "12";
+            } else {
+                $scope.iconArrow = "right";
+                $scope.contentAll = "6";
+            }
+
+        }
+
+        $scope.imgFoto = "";
+        $scope.showMapRango = true;
+
+        // FIN DE NOTIFICACIONES
+
+    });
+
+
+
+</script>
+
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+
+
+<body ng-controller="MainCtrl" ng-init="InicializandoVariables()">
+
+    <div class="panel panel-oscuro" style="margin-top: -11px;">
+        <div class="panel-heading" style="height: 30px;">
+            <h6><i class="fa fa-table fa-lg"></i> Programación de Cortes y Reconexiones</h6>
+        </div>
+        <div class="panel-body">
+            <div class="row" style="margin-top: -5px; margin-bottom: -20px;">
+                <div class="col-xs-6 col-md-3">
+                    <label for="_fechaAsigna" style="font-size:11px">Fecha Asignación:</label>
+                    <br />
+                    <input class="form-control" id="_fechaAsigna" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                </div>
+                <div class="col-xs-6 col-md-3">
+                    <label for="idservicios" style="font-size:11px">Servicio:</label>
+                    <br />
+                    <select id="idservicios"   ng-model="id_tipoServicio">
+                        <option value=0>--[ Seleccione ]-- </option>
+                        <option ng-repeat="item in Obj_List_Servicios" value="{{item.id_TipoServicio}}">
+                            {{item.nombre_tiposervicio}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-xs-12 col-md-3">
+                    <label for="_estado" style="font-size:11px"> Estado:</label>
+                    <br />
+                    <select id="_estado" ng-model="id_estado">
+                        <option value=0>--[ TODOS ]-- </option>
+                        <option ng-repeat="item in list_Estados " value="{{item.id}}">
+                            {{item.id}} : {{item.descripcion}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-xs-12 col-md-3">
+                    <br />
+                    <button class="btn btn-default" ng-click="ActualizarInformacion()"><span class="glyphicon glyphicon-refresh"></span> Mostrar</button>
+                </div>
+            </div>
+
+            <br />
+                <div class="container">
+                    <div class="row" style="background:#eee;"> 
+                        <div class="col-md-3" style="padding: 5px;"> 
+                            <label id="total_registros"> </label>
+                        </div>
+                        <div class="col-md-3" style="padding: 5px;">
+                            <label id="total_marcado"> </label>  
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div id="map"></div>
+                        @*<div id="legend"><h3></h3></div>*@
+                        <div id="content_leyenda"><h3></h3></div>
+                    </div>
+
+
+                </div>
+ 
+        </div>
+    </div>
+
+    <div id="modalOperarios" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" style=" width: 350px;">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    Seleccionar Operario
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="_Lecturista" class="control-label">Lecturista :</label>
+                        <div class="form-group form-group-sm">
+                            <select id="id_operador" style="width:300px;    height: 22px;" ng-model="id_operario">
+                                <option value=0>--[ SELECCIONE ]-- </option>
+                                <option ng-repeat="item in Lista_Operarios" value="{{item.id_Operario}}">
+                                    {{item.id_Operario}}  :  {{item.desc_operario}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="_usuario" style="font-size:11px">Fecha Móvil:</label>
+                        <input class="form-control" style="width: 150px;" id="_fechaAsigna_movil" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                    </div>
+                    <hr />
+                    <div style="text-align:right">
+                        <button class="btn btn-success " ng-click="set_actualizarOperario();"><span class="glyphicon glyphicon-refresh"></span> Guardar</button>
+                        <button role="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
+                    </div>
+                </div>
+ 
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
