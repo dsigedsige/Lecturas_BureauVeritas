@@ -44,9 +44,44 @@ namespace Lecturas_BureauVeritas.Controllers
                 return _Serialize(ex.Message, true);
             }
         }
- 
 
-    [HttpPost]
+        [HttpPost]
+        public string get_ListandoAsignados(string FechaAsiga, int servicio)
+        {
+            object loDatos;
+            try
+            {
+                loDatos = new Programacion_BL().capa_negocio_get_ListandoAsignados(FechaAsiga, servicio);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
+
+        
+
+
+
+
+        [HttpPost]
+        public string get_Suministros_operarioGps(string FechaAsiga, int servicio, int estado)
+        {
+            object loDatos;
+            try
+            {
+                loDatos = new Programacion_BL().capa_negocio_get_Suministros_OperarioGps(FechaAsiga, servicio, estado);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
+
+
+        [HttpPost]
         public string set_actualizarOperario(string obj_cortes, string fecha_asignacion, int servicio, int operario, string fecha_movil)
         {
             object loDatos;

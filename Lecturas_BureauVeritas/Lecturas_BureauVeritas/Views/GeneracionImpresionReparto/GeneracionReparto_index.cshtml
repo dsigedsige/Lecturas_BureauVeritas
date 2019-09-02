@@ -118,6 +118,14 @@
 
         app.controller('MyController', function ($scope, $timeout, $http, fileUpload) {
             oTable = null;
+
+            $(function () {
+                $('#id_fecha_asignacion').datepicker({
+                    format: 'dd/mm/yyyy',
+                    language: 'es',
+                    autoclose: true
+                });
+            });
   
             $scope.generar_impresion = function () {
                 if ($scope.myFile == null) {
@@ -155,6 +163,312 @@
                 }
             };
 
+
+
+
+            $scope.generar_impresion_2 = function () {
+                var id_fecha_asignacion = document.getElementById('id_fecha_asignacion').value;
+
+                if (id_fecha_asignacion == '') {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor seleccione o ingrese una Fecha de Asignación. Muchas gracias.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+ 
+                $('.sige-load').show();
+                var variables = {
+                    method: 'POST',
+                    url: '../GeneracionImpresionReparto/get_generacionReparto',
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        fechaAsignacion: id_fecha_asignacion,
+                    }
+                }
+                $http(variables)
+                    .success(function (data) {
+                        $('.sige-load').hide();
+                        if (data.length > 0) {
+                            $scope.getPdf_2(data);
+                        } else {
+                            new PNotify({
+                                title: ' ',
+                                text: 'No hay informacion para mostrar.',
+                                type: 'error'
+                            });
+                        }
+                    })
+                    .error(function (err) {
+                        $('.sige-load').hide();
+                        console.log(err);
+                        alert('Lo sentimos, Ocurrio un problema, vuelva a intentar.')
+                    });
+            };
+
+
+            $scope.getPdf_2 = function (data) {
+                var doc = new jsPDF('landscape');
+                var hoy = new Date();
+                var yyyy = hoy.getFullYear();
+
+
+
+                var x = 17;
+                var y = 5;
+
+                var altura = 2;
+                var alturaO = 0;
+                var alturaV = 0;
+                var ac_V = 0;
+                var pos = 4;
+                var inc = 0;
+                var direc = '';
+
+                for (obj of data) {
+                    //---- 180 ancho, 100 altura
+                    //doc.rect(4, altura, 145, 68) //---dibujando un rectangulo                   
+                    inc++;
+                    if (inc == 4) {
+                        pos = 150;
+                        altura = 2;
+                        alturaO = 0;
+                        alturaV = 0;
+                        ac_V = 0;
+                    } else if (inc == 7) {
+                        pos = 4;
+                        altura = 2;
+                        alturaO = 0;
+                        alturaV = 0;
+                        ac_V = 0;
+                        doc.addPage()
+                        inc = 1;
+                    }
+                    doc.rect(pos, altura, 145, 68) //---dibujando un rectangulo
+                    altura = altura + 2.5;
+                    doc.setFontSize(7);
+                    doc.setFontType("bold");
+                    doc.text(pos + 50, altura, 'CARGO DE ENTREGA DE RECIBO ' + String(obj.item)); // 60
+
+                    doc.setFontSize(7);
+                    doc.setFontType("normal");
+                    altura = altura + 3;
+                    doc.text(pos + 7, altura, 'Nro. Recibo : ' + obj.nro_recibo); //11
+                    doc.text(pos + 56, altura, 'CTA. CTO : ' + obj.cuenta_contrato); //60
+                    doc.text(pos + 106, altura, 'UL : ' + obj.unidad_lectura);//110
+                    altura = altura + 4;
+                    doc.setFontSize(6);
+                    direc = obj.direccion;
+
+                    doc.text(pos + 4, altura, 'DIRECCIÓN : ' + direc.substr(0, 107));//10
+                    doc.setFontSize(7);
+                    altura = altura + 4;
+                    doc.text(pos + 14, altura, 'TIPO :     ' + obj.tipo); //18
+                    doc.text(pos + 56, altura, 'CICLO :' + obj.ciclo); // 90
+                    doc.text(pos + 86, altura, 'AÑO : ' + obj.anio); // 90
+                    doc.setFontSize(6);
+                    doc.text(pos + 121, altura, String(obj.correlativo)); // 125
+                    doc.setFontSize(7);
+                    altura = altura + 1.5;
+                    doc.rect(pos + 25, altura, 118, 23) //---dibujando un rectangulo  30
+
+                    if (ac_V == 0) {
+                        alturaV = 20;
+                        alturaO = 44;
+                    } else if (ac_V == 1) {
+                        alturaV = 90;
+                        alturaO = 114;
+                    } else if (ac_V == 2) {
+                        alturaV = 159;
+                        alturaO = 184;
+                    }
+
+                    doc.text(pos + 27, alturaV, 'Piso'); // 31
+                    doc.text(pos + 50, alturaV, 'Vivienda');// 54
+                    doc.text(pos + 74, alturaV, 'Color/Fachada');// 78
+                    doc.text(pos + 98, alturaV, 'Puerta');// 102
+                    doc.text(pos + 121, alturaV, 'Color puerta');// 125
+
+                    alturaV = alturaV + 1.2;
+                    doc.rect(pos + 27, alturaV, 5, 3) //---dibujando un rectangulo 31 
+                    doc.rect(pos + 50, alturaV, 5, 3) //---dibujando un rectangulo 54 
+                    doc.rect(pos + 74, alturaV, 5, 3) //---dibujando un rectangulo 78
+                    doc.rect(pos + 98, alturaV, 5, 3) //---dibujando un rectangulo 102
+                    doc.rect(pos + 121, alturaV, 5, 3) //---dibujando un rectangulo 125 
+
+                    alturaV = alturaV + 2;
+                    doc.text(pos + 33, alturaV, 'Uno');  //37
+                    doc.text(pos + 56, alturaV, 'Casa');//60
+                    doc.text(pos + 80, alturaV, 'Crema');//84
+                    doc.text(pos + 104, alturaV, 'Madera');//108
+                    doc.text(pos + 127, alturaV, 'Plomo');//131
+
+
+                    alturaV = alturaV + 1.2;
+                    doc.rect(pos + 27, alturaV, 5, 3); doc.text(pos + 28.5, alturaV - 0.5, obj.piso_1);  //---dibujando un rectangulo 31
+                    doc.rect(pos + 50, alturaV, 5, 3); doc.text(pos + 51.5, alturaV - 0.5, obj.vivienda_casa);//---dibujando un rectangulo 54
+                    doc.rect(pos + 74, alturaV, 5, 3); doc.text(pos + 75.5, alturaV - 0.5, obj.fachada_crema);//---dibujando un rectangulo 78
+                    doc.rect(pos + 98, alturaV, 5, 3); doc.text(pos + 99.5, alturaV - 0.5, obj.puerta_madera); //---dibujando un rectangulo 102
+                    doc.rect(pos + 121, alturaV, 5, 3); doc.text(pos + 122.5, alturaV - 0.5, obj.puertaColor_plomo);  //---dibujando un rectangulo 125
+
+                    alturaV = alturaV + 2;
+                    doc.text(pos + 33, alturaV, 'Dos'); doc.text(pos + 28.5, alturaV + 0.5, obj.piso_2); // 37
+                    doc.text(pos + 56, alturaV, 'Dpto.'); doc.text(pos + 51.5, alturaV + 0.5, obj.vivienda_dpto);// 60
+                    doc.text(pos + 80, alturaV, 'Blanco'); doc.text(pos + 75.5, alturaV + 0.5, obj.fachada_blanco);// 84
+                    doc.text(pos + 104, alturaV, 'Vidrio'); doc.text(pos + 99.5, alturaV + 0.5, obj.puerta_vidrio);// 108
+                    doc.text(pos + 127, alturaV, 'Negro'); doc.text(pos + 122.5, alturaV + 0.5, obj.puertaColor_negro);// 131
+
+
+                    alturaV = alturaV + 1.2;
+                    doc.rect(pos + 27, alturaV, 5, 3)  //---dibujando un rectangulo 31
+                    doc.rect(pos + 50, alturaV, 5, 3) //---dibujando un rectangulo 54
+                    doc.rect(pos + 74, alturaV, 5, 3) //---dibujando un rectangulo 78
+                    doc.rect(pos + 98, alturaV, 5, 3) //---dibujando un rectangulo 102
+                    doc.rect(pos + 121, alturaV, 5, 3) //---dibujando un rectangulo 125
+
+                    alturaV = alturaV + 2;
+                    doc.text(pos + 33, alturaV, 'Tres'); doc.text(pos + 28.5, alturaV + 0.5, obj.piso_3); // 37
+                    doc.text(pos + 56, alturaV, 'Quinta.'); doc.text(pos + 51.5, alturaV + 0.5, obj.vivienda_quinta);// 60
+                    doc.text(pos + 80, alturaV, 'Ladrillo'); doc.text(pos + 75.5, alturaV + 0.5, obj.fachada_ladrillo); // 84
+                    doc.text(pos + 104, alturaV, 'Metal'); doc.text(pos + 99.5, alturaV + 0.5, obj.puerta_metal); // 108
+                    doc.text(pos + 127, alturaV, 'Marron'); doc.text(pos + 122.5, alturaV + 0.5, obj.puertaColor_marron);// 131
+
+                    alturaV = alturaV + 1.2;
+                    doc.rect(pos + 27, alturaV, 5, 3) //---dibujando un rectangulo 31
+                    doc.rect(pos + 50, alturaV, 5, 3) //---dibujando un rectangulo 54
+                    doc.rect(pos + 74, alturaV, 5, 3) //---dibujando un rectangulo 78
+                    doc.rect(pos + 98, alturaV, 5, 3) //---dibujando un rectangulo 102
+                    doc.rect(pos + 121, alturaV, 5, 3) //---dibujando un rectangulo 125
+
+                    alturaV = alturaV + 2;
+                    doc.text(pos + 33, alturaV, 'Cuatro'); doc.text(pos + 28.5, alturaV + 0.5, obj.piso_4); // 37
+                    doc.text(pos + 56, alturaV, 'Tienda.'); doc.text(pos + 51.5, alturaV + 0.5, obj.vivienda_tienda); // 60
+                    doc.text(pos + 80, alturaV, 'Tarrajeo'); doc.text(pos + 75.5, alturaV + 0.5, obj.fachada_tarrajeo);// 84
+                    doc.text(pos + 104, alturaV, 'Otros'); doc.text(pos + 99.5, alturaV + 0.5, obj.puerta_otros); // 108
+                    doc.text(pos + 127, alturaV, 'Madera'); doc.text(pos + 122.5, alturaV + 0.5, obj.puertaColor_madera);// 131
+
+
+                    alturaV = alturaV + 1.2;
+                    doc.rect(pos + 27, alturaV, 5, 3) //---dibujando un rectangulo 31
+                    doc.rect(pos + 50, alturaV, 5, 3) //---dibujando un rectangulo 54
+                    doc.rect(pos + 74, alturaV, 5, 3) //---dibujando un rectangulo 78
+                    doc.rect(pos + 98, alturaV, 5, 3) //---dibujando un rectangulo 102
+                    doc.rect(pos + 121, alturaV, 5, 3) //---dibujando un rectangulo 125
+
+                    alturaV = alturaV + 2;
+                    doc.text(pos + 33, alturaV, 'Otros:'); doc.text(pos + 28.5, alturaV + 0.5, obj.piso_otros); doc.text(pos + 40, alturaV + 0.5, obj.piso_otros_dscrip);// 37
+                    doc.text(pos + 56, alturaV, 'Otros:'); doc.text(pos + 51.5, alturaV + 0.5, obj.vivienda_otros); doc.text(pos + 64, alturaV + 0.5, obj.vivienda_otros_dscrip); // 60
+                    doc.text(pos + 80, alturaV, 'Otros:'); doc.text(pos + 75.5, alturaV + 0.5, obj.fachada_otros); doc.text(pos + 87, alturaV + 0.5, obj.fachada_otros_dscrip); // 84 
+                    doc.text(pos + 127, alturaV, 'Otros:'); doc.text(pos + 122.5, alturaV + 0.5, obj.puertaColor_otro); doc.text(pos + 134, alturaV + 0.5, obj.puertaColor_otros_dscrip);// 131
+
+                    ac_V += 1;
+
+                    altura = altura + 4;
+                    doc.setFontType("bold");
+                    doc.text(pos + 3, altura, 'Recibido por : ');//7
+                    altura = altura + 1.2;
+                    doc.setFontType("normal");
+                    doc.rect(pos + 2, altura, 5, 3); doc.text(pos + 3.5, altura + 2.5, obj.recibido_titular); //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Titular'); //12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3);   doc.text(pos + 3.5, altura + 2.5, obj.recibido_familiar); //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Familiar'); //12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3); doc.text(pos + 3.5, altura + 2.5, obj.recibido_empleado);  //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Empleado/a');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3); doc.text(pos + 3.5, altura + 2.5, obj.recibido_vigilante); //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Vigilante');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3); doc.text(pos + 3.5, altura + 2.5, obj.recibido_buzon); //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Buzón');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3); doc.text(pos + 3.5, altura + 2.5, obj.recibido_bajoPuerta); //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Bajo Puerta');//12
+
+
+                    doc.setFontType("bold");
+                    //doc.text(pos + 27, alturaO, 'Obs.' + obj.observaciones);   // 31
+                    var splitTitle = doc.splitTextToSize(obj.observaciones, 120);
+                    doc.text(pos + 27, alturaO, 'Obs.');  doc.text(pos + 33, alturaO, splitTitle);
+                    doc.setFontType("normal");
+                    doc.text(pos + 33, alturaO, ' ______________________________________________________________________________'); //117
+                    //doc.text(pos + 33, alturaO + 5, ' ______________________________________________________________________________'); //117 + 5
+
+                    alturaO = alturaO + 9;
+                    doc.text(pos + 113, alturaO, 'Fecha Max. ' + $scope.formatDate(obj.fechaMaxima)); // 117
+                    alturaO = alturaO + 4;
+                    doc.text(pos + 113, alturaO, 'Fecha Entrega ' + $scope.formatDate(obj.fechaEntrega)); //117
+
+
+                    doc.text(pos + 51, alturaO - 4, obj.clienteTitular); // 56
+                    doc.text(pos + 51, alturaO - 3, '___________________________'); // 56
+                    alturaO = alturaO + 1;
+                    doc.text(pos + 56, alturaO, 'Cliente Titular SI   NO'); //60
+                    alturaO = alturaO + 4;
+                    doc.setFontSize(6);
+                    doc.text(pos + 34, alturaO, 'NOMBRE : ' + obj.nombreCliente.substr(0, 50)); // 38
+                    doc.setFontSize(7);
+                    doc.text(pos + 113, alturaO, 'Cod. Repartidor : ' + obj.codRepartidor); // 117
+                    alturaO = alturaO + 4;
+                    doc.text(pos + 41, alturaO, 'DNI : ' + obj.dni); // 45
+                    doc.text(pos + 69, alturaO, 'Parentesco : ' + obj.parentesco); //73
+                    //doc.text(pos + 113, alturaO, '________________'); // 117
+
+                    altura = altura + 5;
+
+                    doc.setFontType("bold");
+                    doc.text(pos + 3, altura, 'Devuelto : ');//7
+                    altura = altura + 1.2;
+                    doc.setFontType("normal");
+                    doc.rect(pos + 2, altura, 5, 3); doc.text(pos + 3.5, altura + 2.5, obj.devuelto_mudo); //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Se mudó'); //12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3); doc.text(pos + 3.5, altura + 2.5, obj.devuelto_noTrabaja);  //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Ya no trabaja');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3); doc.text(pos + 3.5, altura + 2.5, obj.devuelto_dirIncompleta); //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Dir. Incompleta');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3); doc.text(pos + 3.5, altura + 2.5, obj.devuelto_rechazado);  //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Rechazado');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3); doc.text(pos + 3.5, altura + 2.5, obj.devuelto_desconocido);  //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Desconocido');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3); doc.text(pos + 3.5, altura + 2.5, obj.devuelto_dirNoexiste);  //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Dir. No existe');//12
+                    altura = altura + 1.2;
+                    doc.rect(pos + 2, altura, 5, 3); doc.text(pos + 3.5, altura + 2.5, obj.devuelto_clienteAusente); //---dibujando un rectangulo 6
+                    altura = altura + 2;
+                    doc.text(pos + 8, altura, 'Cliente ausente');//12
+                    altura = altura + 4;
+                }
+
+                var string = doc.output('datauristring');
+                var iframe = "<iframe width='100%' height='100%' src='" + string + "'></iframe>";
+                var x = window.open();
+                x.document.open();
+                x.document.write(iframe);
+                x.document.close();
+                //doc.save('reparto.pdf');
+            }
 
             $scope.getPdf = function (data) {
                 var doc = new jsPDF('landscape');
@@ -445,42 +759,84 @@
             <h6><i class="fa fa-table fa-lg"></i> Generacion de Impresion de Reparto</h6>
         </div>
         <div class="panel-body">
+            @*<div class="row">
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-4" style="background-color: beige;">
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+
+
+                    <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <input type="file" class="filestyle" file-model="myFile" data-placeholder="Ningun Archivo Seleccionado" data-buttonname="btn-primary" data-size="sm" data-buttonbefore="true" data-buttontext="  Seleccionar Archivo..">
+            </div>
+        </div>
+        <hr  style="margin-top: 2px; margin-bottom: 3px;"/>
+        <div class="row">
+            <div class="col-sm-12 col-md-12" style="text-align:center">
+                <button class="btn btn-success"  ng-click="generar_impresion();"><span class="glyphicon glyphicon-floppy-saved"></span> Generar Impresión</button>
+                <button id="btn_nueva" type="button" class="btn btn-primary btn-sm" onclick="window.location.reload(true)" ng-click="Eliminando_Tabla_Temporal()"><i class="fa fa-file-excel-o"></i> Nueva Importacion</button>
+                <button class="btn btn-info" ng-click="dowload_file()"><span class="glyphicon glyphicon-download-alt"></span> Formato</button>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-12 col-md-12" style="text-align:center">
+                <fieldset class="fieldset-border">
+                    <legend>Leyenda</legend>
+                    <span class="label label-primary">Por favor respetar el nombre y orden de las columnas del formato.</span>
+                    <span class="label label-primary">La hoja del Excel tiene que tener por nombre "Importar".</span>
+                    <span class="label label-primary">El archivo a subir debe tener todos los bordes definidos.</span>
+                </fieldset>
+            </div>
+        </div>
+        <br />
+
+                </div>
+                <div class="col-md-4">
+
+                </div>
+            </div>*@
+
             <div class="row">
-                <div class="col-md-2">
+                <div class=" col-sm-4 col-md-4">
 
                 </div>
-                <div class="col-md-8" style="background-color: beige;">
+                <div class=" col-sm-3 col-md-3" style="background-color: beige;">
                     <br />
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12">
-                            <input type="file" class="filestyle" file-model="myFile" data-placeholder="Ningun Archivo Seleccionado" data-buttonname="btn-primary" data-size="sm" data-buttonbefore="true" data-buttontext="  Seleccionar Archivo..">
-                        </div>
-                    </div>
-                    <hr  style="margin-top: 2px; margin-bottom: 3px;"/>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12" style="text-align:center">
-                            <button class="btn btn-success"  ng-click="generar_impresion();"><span class="glyphicon glyphicon-floppy-saved"></span> Generar Impresión</button>
-                            <button id="btn_nueva" type="button" class="btn btn-primary btn-sm" onclick="window.location.reload(true)" ng-click="Eliminando_Tabla_Temporal()"><i class="fa fa-file-excel-o"></i> Nueva Importacion</button>
-                            <button class="btn btn-info" ng-click="dowload_file()"><span class="glyphicon glyphicon-download-alt"></span> Formato</button>
-                        </div>
-                    </div>
                     <br />
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12" style="text-align:center">
-                            <fieldset class="fieldset-border">
-                                <legend>Leyenda</legend>
-                                <span class="label label-primary">Por favor respetar el nombre y orden de las columnas del formato.</span>
-                                <span class="label label-primary">La hoja del Excel tiene que tener por nombre "Importar".</span>
-                                <span class="label label-primary">El archivo a subir debe tener todos los bordes definidos.</span>
-                            </fieldset>
+                    <br />
+                    <br />
+                    <div class="container">
+                        <div class="row">
+                            <label for="_usuario" class="control-label">Fecha de Asignacion:</label>
+                            <input class="form-control" style="    text-align: center;" id="id_fecha_asignacion" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                        </div>
+                        <br />
+                        <div class="row" style="text-align:center">
+                            <button class="btn btn-success" ng-click="generar_impresion_2();"><span class="glyphicon glyphicon-floppy-saved"></span> Generar Impresión</button>
                         </div>
                     </div>
+
+
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
                     <br />
                 </div>
-                <div class="col-md-2">
+                <div class=" col-sm-3 col-md-4">
 
                 </div>
-            </div> 
+            </div>
+
         </div>
     </div>
  

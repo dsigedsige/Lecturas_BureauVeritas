@@ -1,4 +1,5 @@
 ﻿using DSIGE.Modelo;
+using DSIGE.Negocio;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -60,6 +61,27 @@ namespace DSIGE.Web.Controllers
 
         }
 
+
+        [HttpPost]
+        public string get_generacionReparto(string fechaAsignacion)
+        {
+            object loDatos = null;
+            try
+            {
+                var usuario = ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id;
+                Cls_Negocio_Importacion_Lecturas obj_negocio = new Cls_Negocio_Importacion_Lecturas();
+                loDatos = obj_negocio.Capa_Negocio_generarRepartoPDf(fechaAsignacion);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
+
         OleDbConnection cn;
 
         private OleDbConnection ConectarExcel(string nomExcel)
@@ -67,7 +89,7 @@ namespace DSIGE.Web.Controllers
             cn = new OleDbConnection();
             try
             {
-                cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + nomExcel + ";Extended Properties='Excel 12.0;HDR=YES;IMEX=1';";
+                cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + nomExcel + ";Extended Properties='Excel 12.0;HDR=YES;IMEX=1';";                 
                 cn.Open();
                 return cn;
             }

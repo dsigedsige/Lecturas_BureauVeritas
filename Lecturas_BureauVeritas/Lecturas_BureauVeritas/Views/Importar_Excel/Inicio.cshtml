@@ -261,18 +261,24 @@
                         text: 'Ningun Archivo Seleccionado',
                         type: 'error'
                     });
-                } else {
-
-                    
+                } else {                    
                     $scope.show_otros = true;
                     if (idServicio == 1) {
                         $scope.show_Lectura = true;
                         $scope.show_otros = false;
+                        $scope.showReclamos = false;
                     }
-                    if (idServicio == 6) {
+                    if (idServicio == 6 ) {
                         $scope.showReparto = true;
                         $scope.show_otros = false;
+                        $scope.showReclamos = false;
                     }
+                    if (idServicio == 7) {                        
+                        $scope.showReclamos = true;
+                        $scope.showReparto = false;
+                        $scope.show_otros = false;
+                    }
+
                     $('.sige-load').show();
                     var file = $scope.myFile;
                     var uploadUrl = '@Url.Action("InsertaExcel")';
@@ -291,12 +297,9 @@
                         $('.sige-load').hide();
 
                         if (idServicio == 1 || idServicio == '1') {
-
                             if (res.ok == true) {
                                 console.log(res.data);
                                 btn_ver.disabled = true;
-                                //btn_Guardar.disabled = false;
-
                                 $scope.Lista_Lecturas_Temporal = res.data;
                                 var flag_error = false;
                                 for (obj of $scope.Lista_Lecturas_Temporal) {
@@ -318,7 +321,29 @@
                                 alert(res.data);
                             } 
 
-                        } else {
+                        }
+                        else if (idServicio == 3 || idServicio == '3') {
+                            if (res == 'ERROR' || res == '"ERROR"') {
+                                alert('Lo sentimos se produjo un error..')
+                                return;
+                            }
+                            $scope.Lista_Lecturas_Temporal = res;
+                            btn_ver.disabled = true;
+                            btn_Guardar.disabled = false;
+                        }
+                        else if (idServicio == 7 || idServicio == '7') {
+                            if (res.ok == true) {
+                                console.log(res.data);
+                                btn_ver.disabled = true;
+                                $scope.Lista_Lecturas_Temporal = res.data;
+                                btn_Guardar.disabled = false;                            
+
+                            } else {
+                                btn_Guardar.disabled = true;
+                                alert(res.data);
+                            }
+                        }
+                        else {
 
                             if (res == 'ERROR' || res == '"ERROR"') {
                                 alert('Lo sentimos se produjo un error..')
@@ -372,7 +397,7 @@
                         $scope.Obj_List_Servicios = [];
     
                         for (obj of data) {
-                            if (obj._a == '1'  || obj._a == '2' || obj._a == '3' || obj._a == '4' || obj._a == '6') {
+                            if (obj._a == '1' || obj._a == '2' || obj._a == '3' || obj._a == '4' || obj._a == '6' || obj._a == '7') {
                                 $scope.Obj_List_Servicios.push(obj);
                             }           
                         }
@@ -466,16 +491,24 @@
                         id_servicio: document.getElementById('id_servicio').value,
                         nombre_archivo: $scope.myFile.name
                     }
-
                     ruta = 'set_enviarMovil_lecturas';
-                } else {
+                }
+                else if (idServicio == 7 || idServicio == '7') {
+
+                    params = {
+                        fechaAsignacion: fecha_asignacion,
+                        fechaMovil: fecha_Movil,
+                        id_servicio: document.getElementById('id_servicio').value,
+                        nombre_archivo: $scope.myFile.name
+                    }
+                    ruta = 'set_enviarMovil_reclamos';
+                }
+                else {
                     params = {
                         fechaAsignacion: fecha_Movil,
                         id_servicio: document.getElementById('id_servicio').value,
                         nombre_archivo: $scope.myFile.name
                     }
-
-                    ruta = 'JsonRegistrarTemp_LecturasExcel';
                     ruta = 'JsonRegistrarTemp_LecturasExcel';
                 }  
 
@@ -727,8 +760,84 @@
             }
 
 
-            $scope.Descargar_formato = function () {
+            $scope.generarRepartoPdf = function () {
+                var idServicio = document.getElementById('id_servicio').value;
+                var Fecha_asignacion = document.getElementById('_fecha').value;
 
+                if (idServicio == '0') {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor seleccione un Servicio. Muchas gracias.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                if (idServicio == 6 || idServicio == '6') {
+                    if (Fecha_asignacion == '') {
+                        new PNotify({
+                            title: 'Sistemas',
+                            text: 'Por favor seleccione o ingrese la Fecha.',
+                            type: 'error'
+                        });
+                        return;
+                    }
+
+                    $('.sige-load').show();
+                    //(new PNotify({
+                    //    title: 'Sistemas Confirmacion',
+                    //    text: 'Esta seguro de Cambiar de Re-enviar Correo?, una vez enviado no hay marcha atras..',
+                    //    icon: 'glyphicon glyphicon-question-sign',
+                    //    hide: false,
+                    //    confirm: {
+                    //        confirm: true
+                    //    },
+                    //    buttons: {
+                    //        closer: false,
+                    //        sticker: false
+                    //    },
+                    //    history: {
+                    //        history: false
+                    //    }
+                    //})).get().on('pnotify.confirm', function () {
+
+
+                        var variables = {
+                            method: 'POST',
+                            url: '../Importar_Excel/set_RepartoPdf',
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: {
+                                servicio: idServicio,
+                                fecha_Asigna: Fecha_asignacion
+                            }
+                        }
+                        $http(variables)
+                            .success(function (data) {
+                                $('.sige-load').hide();
+                                if (data.length > 0) {
+                                    console.log('data');
+                                    get_repartoPdf(data);
+                                } else {
+                                    $('.sige-load').hide();
+                                    alert(data)
+                                }
+                            })
+                            .error(function () {
+                                $('.sige-load').hide();
+                                alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                            });
+
+
+                    //}).on('pnotify.cancel', function () {
+                    //    $('.sige-load').hide();
+                    //});
+                }
+            }
+
+
+            $scope.Descargar_formato = function () {
                 if ($scope.servicios == 0 || $scope.servicios == '0' || $scope.servicios =='') {
                     new PNotify({
                         title: 'Sistemas',
@@ -745,7 +854,72 @@
                     window.open("../formatos/FORMATO_RECONEXION.xls");   
                 } else if ($scope.servicios == 6) {
                     window.open("../formatos/FORMATO_REPARTO.xlsx");   
+                } else if ($scope.servicios == 7) {
+                    window.open("../formatos/FORMATO_RECLAMOS.xlsx");
                 } 
+            }
+
+
+            var get_repartoPdf = function (data) {
+
+                var doc = new jsPDF()
+                var x = 8;
+                var y = 5;
+
+                var countBucle = 0;
+                for (var i = 0; i < data.length ; i++) {
+                    // CAMBIO DE LETRA
+                    countBucle++;
+                    if (countBucle == 4) {
+                        x = 8;
+                        y = 110;
+                    } else if (countBucle == 7) {
+                        x = 8;
+                        y = 5;
+                        countBucle = 1;
+                        doc.addPage()
+                    }
+
+                    doc.setFont("courier");
+                    doc.setFontType('bold')
+                    doc.setFontSize(10);
+ 
+                    doc.text(y, x, 'Nro.Recibo : ' + data[i].Nro_Recibo);
+                    doc.text(y + 80, x, String(i + 1))
+ 
+                    doc.setFontType('normal')
+                    doc.setFontSize(8);
+                    //
+                    doc.text(y, x + 5, 'Empresa :' + data[i].Empresa);
+                    doc.text(y, x + 10, 'Cliente :' + data[i].Cliente);
+                    //doc.text(y + 80, x + 10, '361');
+
+                    doc.text(y, x + 15, 'Cta. Cto.:' + data[i].Cta_Cto);
+                    doc.text(y + 61, x + 15, 'F_Max :' + data[i].F_Max);
+ 
+                    var splitTitle = doc.splitTextToSize('Direccion : '  + data[i].Direccion , 90);
+                    doc.text(y, x + 20, splitTitle);
+                                        
+                    doc.text(y + 10, x + 28, 'Sello de Recepcion de Empresa');
+                    doc.text(y + 40, x + 36, 'Fecha Entrega: _______________');
+                    doc.line(y , x + 40, y + 96, x + 40) // horizontal line
+
+                    //--45
+                    doc.rect(y + 5, x + 42, 5, 4);  doc.text(y + 12, x + 45, 'Se Mudo');  doc.text(y + 38, x + 45, 'visitas 1era ____2da____3ra____');
+                    doc.rect(y + 5, x + 46, 5, 4);  doc.text(y + 12, x + 49, 'No vive  no trabaja'); 
+                    doc.rect(y + 5, x + 50, 5, 4); doc.text(y + 12, x + 53, 'Rechazado'); 
+                    doc.rect(y + 5, x + 54, 5, 4); doc.text(y + 12, x + 57, 'Direccion errada'); 
+                    doc.rect(y + 5, x + 58, 5, 4); doc.text(y + 12, x + 61, 'No hay nadie'); 
+                    doc.rect(y + 5, x + 62, 5, 4); doc.text(y + 12, x + 65, 'Otros  ___________________________________________'); 
+                    
+                    doc.text(y, x + 75, 'Nombre : ________________________________________________');
+                    doc.text(y, x + 80, 'Doc. Identidad : _______________');
+
+                    x += 95;
+                }
+
+                doc.output('dataurlnewwindow');
+                doc.save('reclamos.pdf');
             }
 
 
@@ -763,8 +937,6 @@
 <body>
 
     <div ng-app="MyApp" ng-controller="MyController">
-
-
         <div class="panel panel-oscuro">
             <div class="panel-heading">
                 <h6><i class="fa fa-table fa-lg"></i> IMPORTAR ARCHIVOS</h6>
@@ -842,7 +1014,14 @@
                                     <th>Unidad de Lectura</th>
                                     <th>Nombre de Unidad Lectura</th>
                                     <th>Total</th>
-                                    <th>Ver Reporte</th>
+                                    @*<th>Ver Reporte</th>*@
+                                </tr>
+                                <tr ng-if="showReclamos">
+                                    <th>Nro fila</th>
+                                    <th>Fecha Plan Lectura</th>
+                                    <th>Mes</th>
+                                    <th>Total</th>
+                                    @*<th>Ver Reporte</th>*@
                                 </tr>
                                 <tr ng-show="show_otros">
                                     <th>Nro fila</th>
@@ -865,11 +1044,17 @@
                                     <td>{{item.unidad_lectura}}</td>
                                     <td>{{item.nombre_UnidadLectura}}</td>
                                     <td>{{item.total}}</td>
-                                    <td align="center">
+                                    @*<td align="center">
                                         <button type="button" class="btn btn-default btn-xs" ng-click="getPdf(item)">
                                             <span class="glyphicon glyphicon-list"></span> Ver Reporte
                                         </button>
-                                    </td>
+                                    </td>*@
+                                </tr>
+                                <tr ng-if="showReclamos" ng-repeat="item in Lista_Lecturas_Temporal">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{item.fecha_plan_lectura}}</td>
+                                    <td>{{item.mes}}</td>
+                                    <td>{{item.cantidad}}</td> 
                                 </tr>
                                 <tr ng-show="show_otros" ng-repeat="item in Lista_Lecturas_Temporal">
                                     <td>{{$index + 1}}</td>
@@ -891,8 +1076,11 @@
                 <div class="form-group">
                     <div class="col-sm-12 col-md-offset-5" style=" padding-top: 20px; ">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento">
-                            <button id="btn_guardar" disabled="disabled" role="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-asignacion"><i class="fa fa-save fa-lg"></i> Guardar</button> 
+                            <button id="btn_guardar" disabled="disabled" role="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-asignacion"><i class="fa fa-save fa-lg"></i> Guardar</button>
                             <button class="btn btn-success" ng-click="enviarCorreo();" title="Valido para Cortes-Reconexiones"><span class="glyphicon glyphicon-envelope"></span> Enviar Correo</button>
+                            <button class="btn btn-info" ng-click="generarRepartoPdf();" title="Valido para Cortes-Reconexiones"><span class="glyphicon glyphicon-list-alt"></span> Generar Impresion Reparto</button>
+
+ 
                         </div>
                     </div>
                 </div>

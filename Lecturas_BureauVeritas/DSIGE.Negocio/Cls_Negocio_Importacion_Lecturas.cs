@@ -125,7 +125,37 @@ namespace DSIGE.Negocio
         }
 
 
-        
+        public object Capa_Negocio_generarRepartoPDf(string fechaAsignacion)
+        {
+            try
+            {
+               Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
+               return Objeto_Dato.Capa_Dato_get_generarReparto_Pdf(fechaAsignacion);
+             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public string Capa_Negocio_save_Reclamos(string fechaAsignacion, string fechaMovil, int id_servicio, string nombre_archivo, int usuario)
+        {
+            try
+            {
+                List<Cls_Entidad_Lecturas_Relecturas> listaobjeto = new List<Cls_Entidad_Lecturas_Relecturas>();
+                string resultado = "";
+                Cls_Dato_Importacion_Lecturas Objeto_Dato01 = new Cls_Dato_Importacion_Lecturas();
+                resultado = Objeto_Dato01.Capa_Dato_save_Reclamos(fechaAsignacion, fechaMovil, usuario);
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         public string Capa_Negocio_MigracionTemporalRelectura(string fechaAsignacion, int id_servicio, string nombre_archivo, int usuario)
         {
@@ -321,6 +351,19 @@ namespace DSIGE.Negocio
             }
         }
 
+        public object Capa_Negocio_save_temporalReclamos(string fileLocation, int usuario, int idlocal, int idservicio, string idfechaAsignacion, string nombreArchivo)
+        {
+            try
+            {
+                Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
+                return Objeto_Dato.Capa_Dato_save_temporalReclamos(fileLocation, usuario, idlocal, idservicio, idfechaAsignacion, nombreArchivo);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public List<Cls_Entidad_Lecturas_Relecturas> Capa_Negocio_Listar_Detalle_Lectura_Relectura(int cod_usuario, int idtecnico, string distrito)
         {
             try
@@ -356,6 +399,22 @@ namespace DSIGE.Negocio
             }
         }
 
+        public object Capa_Negocio_Agrupado_temporal_reclamos(string idfechaAsignacion, int cod_usuario)
+        {
+            try
+            {
+                Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
+                return Objeto_Dato.Capa_Dato_Agrupado_reclamos(idfechaAsignacion, cod_usuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+ 
+
+
+
         public List<Cls_Entidad_Lecturas_Relecturas> Capa_Negocio_Agrupado_temporal_Relectura(string idfechaAsignacion, int cod_usuario)
         {
             try
@@ -387,6 +446,19 @@ namespace DSIGE.Negocio
             }
         }
 
+
+        public object Capa_Negocio_get_repartoPDF(int servicio, string fecha_Asigna)
+        {
+            try
+            {
+                Cls_Dato_Importacion_Lecturas Objeto_Dato01 = new Cls_Dato_Importacion_Lecturas();
+                return Objeto_Dato01.Capa_Dato_get_repartoPDF(servicio, fecha_Asigna); 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
     }

@@ -21,6 +21,29 @@ namespace DSIGE.Negocio
                 throw e;
             }
         }
+        public object capa_negocio_get_ListandoAsignados(string FechaAsiga, int servicio)
+        {
+            try
+            {
+                return new Programacion_DAO().capa_dato_get_ListandoAsignados(FechaAsiga, servicio);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public object capa_negocio_get_Suministros_OperarioGps(string FechaAsiga, int servicio, int estado)
+        {
+            try
+            {
+                return new Programacion_DAO().capa_dato_get_Suministros_Operario_Gps(FechaAsiga, servicio, estado);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
         public object capa_negocio_set_actualizarOperario(string obj_cortes, string fecha_asignacion, int servicio, int operario, string fecha_movil, int usuario)
         {

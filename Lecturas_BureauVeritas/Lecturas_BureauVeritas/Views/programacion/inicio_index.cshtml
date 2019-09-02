@@ -142,19 +142,89 @@
         width: 100px;
     }
 
-    .checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] {
+    /*.checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] {
         position: absolute;
         margin-top: 4px \9;
         margin-left: 2px;
         MARGIN-TOP: -4px;
-    }
+    }*/
     #s2id__estado {
         width : 95%;
     }
     #s2id_idservicios {
         width: 95%;
     }
-    
+
+
+
+    .checkbox {
+        padding-left: 20px;
+    }
+
+    .checkbox label {
+        display: inline-block;
+        position: relative;
+        padding-left: 5px;
+    }
+
+    .checkbox label::before {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        width: 17px;
+        height: 17px;
+        left: 0;
+        margin-left: -20px;
+        border: 1px solid #cccccc;
+        border-radius: 3px;
+        background-color: #fff;
+        -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+        -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+        transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+    }
+
+    .checkbox label::after {
+        display: inline-block;
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        left: 0;
+        top: 0;
+        margin-left: -20px;
+        padding-left: 3px;
+        padding-top: 1px;
+        font-size: 11px;
+        color: #555555;
+    }
+
+    .checkbox input[type="checkbox"] {
+        opacity: 0;
+    }
+
+    .checkbox input[type="checkbox"]:focus + label::before {
+        outline: thin dotted;
+        outline: 5px auto -webkit-focus-ring-color;
+        outline-offset: -2px;
+    }
+
+    .checkbox input[type="checkbox"]:checked + label::after {
+        font-family: 'FontAwesome';
+        content: "\f00c";
+    }
+
+    .checkbox-success input[type="checkbox"]:checked + label::before {
+        background-color: #5cb85c;
+        border-color: #5cb85c;
+    }
+
+    .checkbox-success input[type="checkbox"]:checked + label::after {
+        color: #fff;
+    }
+
+    .checkbox, .radio {
+         margin-top: 0px;
+        margin-bottom: 0px;
+    }
 
 </style>
 
@@ -165,6 +235,21 @@
     }
 
     var app = angular.module('myApp', []);
+
+
+    app.directive('onFinishRender', function ($timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attr) {
+                if (scope.$last === true) {
+                    $timeout(function () {
+                        scope.$emit(attr.onFinishRender);
+                    });
+                }
+            }
+        }
+    })
+
     app.controller('MainCtrl', function ($scope, $http, $timeout, $q) {
 
         $(function () {
@@ -194,8 +279,7 @@
                 $("select").select2();
             }, 500);
         }
-
-
+        
         $scope.Obj_List_Servicios = [];
         $scope.Listado_Servicios = function () {
             var variables = {
@@ -228,7 +312,11 @@
 
         $scope.list_Estados = [];
         $scope.Listado_Estado = function () {
-            $scope.list_Estados.push({ 'id': 5, 'descripcion': 'ENVIADO AL MOVIL' }, { 'id': 7, 'descripcion': 'RECEPCION DE LECTURA' })
+            $scope.list_Estados.push({ 'id': 3, 'descripcion': 'PENDIENTE ASIGNACION ' }, { 'id': 5, 'descripcion': 'ENVIADO AL MOVIL' })
+
+            setTimeout(function () {
+                $('#_estado').val('3').trigger('change');
+            }, 200);
         }
 
         //---icono general para marcados
@@ -300,17 +388,22 @@
                 document.getElementById("content_leyenda").innerHTML = "<div id='legend'></div>";
                 var icons = {
                     Marcado: {
-                        name: 'Suministro Seleccionado',
+                        name: 'Seleccionado',
                         icon: '../Content/Imagen/sum_asignado.png'
                     },
                     Pendiente: {
-                        name: 'Suministro Pendiente',
+                        name: 'Pendiente',
                         icon: iconPendiente
                     },
                     Trabajado: {
-                        name: 'Suministro Trabajado',
+                        name: 'Asignado',
                         icon: '../Content/Imagen/sum_realizados.png'
+                    },
+                    Operarario: {
+                        name: 'Operario',
+                        icon: '../Content/Imagen/operario.png'
                     }
+
                 };
                 var legend = document.getElementById('legend');
                 for (var key in icons) {
@@ -318,15 +411,19 @@
                     var name = type.name;
                     var icon = type.icon;
                     var div = document.createElement('div');
+                    div.setAttribute("style", "color:red;text-decoration: line-through;");
 
-                    if (name == 'Suministro Seleccionado') {
+                    if (name == 'Seleccionado') {
                         div.innerHTML = '<img src="' + icon + '" style="margin-top: -16px;padding: 10px;"> ' + name;
                     }
-                    else if (name == 'Suministro Pendiente') {
+                    else if (name == 'Pendiente') {
                         div.innerHTML = '<img src="' + icon + '" style="margin-top: -16px;padding: 10px;"> ' + name;
                     }
-                    else if (name == 'Suministro Trabajado') {
+                    else if (name == 'Asignado') {
                         div.innerHTML = '<img src="' + icon + '" style="margin-top: -12px;padding: 10px;"> ' + name;
+                    }
+                    else if (name == 'Operario') {
+                        div.innerHTML = '<img src="' + icon + '" style="margin-top: -28px;padding: 10px;"> ' + name;
                     }
                     else {
                         div.innerHTML = '<img src="' + icon + '"> ' + name;
@@ -355,6 +452,8 @@
             var _fecha = document.getElementById('_fechaAsigna').value;
             var _servicio = document.getElementById('idservicios').value;
             var _estado = document.getElementById('_estado').value;
+            var chk_operarios = document.getElementById('chk_operarios');
+
 
             if (_fecha == '') {
                 new PNotify({
@@ -372,8 +471,7 @@
                 });
                 return;
             }
-
-            var variables = {
+             var variables = {
                 method: 'POST',
                 url: '../programacion/get_Suministros',
                 headers: {
@@ -386,7 +484,7 @@
                 }
              }
 
-             InicializarMapa();
+            InicializarMapa();
 
             $('.sige-load').show();
             $http(variables)
@@ -400,23 +498,65 @@
                             document.getElementById('total_registros').innerHTML = 'Total registros :' + data.length;
                         }, 100);
 
-
                         generarMarkets(data);
+
+                        if (chk_operarios.checked == true) {
+
+                            setTimeout(function () {
+                                var variables = {
+                                    method: 'POST',
+                                    url: '../programacion/get_Suministros_operarioGps',
+                                    headers: {
+                                        'Content-Type': 'application/json; charset=utf-8'
+                                    },
+                                    data: {
+                                        FechaAsiga: _fecha,
+                                        servicio: _servicio,
+                                        estado: _estado,
+                                    }
+                                }
+
+                                $('.sige-load').show();
+                                $http(variables)
+                                    .success(function (data) {
+                                        $('.sige-load').hide();
+                                        if (data.length > 0) {
+                                            generarMarkets_gps(data);
+                                        } else {
+                                            new PNotify({
+                                                title: 'Sistemas',
+                                                text: 'No hay información disponible del Operario para mostrar.',
+                                                type: 'success'
+                                            });
+                                        }
+                                    })
+                                    .error(function () {
+                                        $('.sige-load').hide();
+                                        alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                                    });
+                            }, 2000);
+
+                        }
+
                     } else {
                         new PNotify({
                             title: 'Sistemas',
-                            text: 'No hay información disponible del Operario para mostrar.',
+                            text: 'No hay información disponible de los suministros para mostrar.',
                             type: 'success'
                         });
-                        InicializarMapa();
+                        //InicializarMapa();
                     }
                 })
                 .error(function () {
                     $('.sige-load').hide();
                     alert('Ocurrio un problema con la conexion, vuelva a intentar.')
                 });
+
+
         }
-                
+
+        var Ultimo
+
         var generarMarkets = function (data, tip) {
             var infoWindow = new google.maps.InfoWindow();
             var iconos= '';
@@ -425,7 +565,7 @@
             data.forEach(function (item, index) {
 
                 var ContenidoMarker = '';
-                    ContenidoMarker += '<div  id="_market" style="width:550px;height:130px;position:relative;">';
+                    ContenidoMarker += '<div  id="_market" style="width:550px;height:80px;position:relative;">';
                     ContenidoMarker += '<table><tr><td><strong >Suministro</strong></td><td style="width:100%">: ' + item.suministro + '</td></tr>';
                     ContenidoMarker += '<tr><td><strong>Cliente</strong></td><td style="width:100%">: ' + item.cliente + '</td></tr>';
                     ContenidoMarker += '<tr><td><strong>Dirección</strong></td><td style="width:100%">: ' + item.direccion + '</td></tr>';
@@ -440,11 +580,11 @@
                     lng: parseFloat(item.longitud)
                 }
 
-                if (item.estado <=5) {
+                if (item.estado <=3) {
                     iconos = '../Content/Imagen/sum_pendiente.png';
                     titulo = String(item.id_Corte) + '|' + String(item.id_servicio) + '|' + String(item.fecha_asignacion) + '|' + String(item.estado) + '|' + String(item.id_operario);
                 }
-                else if (item.estado == 7 || item.estado == 8 ) {
+                else if (item.estado == 5) {
                     iconos = '../Content/Imagen/sum_realizados.png';
                     titulo = String(item.id_Corte) + '|' + String(item.id_servicio) + '|' + String(item.fecha_asignacion) + '|' + String(item.estado) + '|' + String(item.id_operario);
                 }
@@ -462,13 +602,139 @@
                 google.maps.event.addListener(marker, 'click', (function (marker, index) {
                     return function () { 
                         console.log(marker.title.split('|')[2])
-                        infoWindow.setContent('<center><h4><b>' + 'Detalle' + '</b></h4></center>' + marker.content);
+                        infoWindow.setContent('<center><h4><b>' + 'SUMINISTRO' + '</b></h4></center>' + marker.content);
                         infoWindow.open($scope.map, marker);
                     }
                 })(marker, index));      
             })
 
         }
+        
+        var generarMarkets_gps = function (data, tip) {
+            var infoWindow = new google.maps.InfoWindow();
+            var iconos = '';
+            var titulo = '';
+
+            data.forEach(function (item, index) { 
+                var ContenidoMarker = '';
+                ContenidoMarker += '<div  id="_market" style="width:350px;height:80px;position:relative;">';
+                ContenidoMarker += '<table><tr><td><strong >Operario</strong></td><td style="width:100%">: ' + item.operario + '</td></tr>';
+                ContenidoMarker += '<tr><td><strong>Latitud</strong></td><td style="width:100%">: ' + item.latitud + '</td></tr>';
+                ContenidoMarker += '<tr><td><strong>Longitud</strong></td><td style="width:100%">: ' + item.longitud + '</td></tr>';
+                ContenidoMarker += '<tr><td><strong>Fecha</strong></td><td style="width:100%">: ' + item.fecha_AgregaRegistro + '</td></tr></table>';
+ 
+                var latLng = {
+                    lat: parseFloat(item.latitud),
+                    lng: parseFloat(item.longitud)
+                }
+ 
+                iconos = '../Content/Imagen/operario.png';
+                titulo = '0|0|' + String(item.fecha_AgregaRegistro) + '|0|' + String(item.id_operario);
+                
+                var marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map,
+                    title: titulo,
+                    icon: iconos,
+                    content: ContenidoMarker,
+                    optimized: false,
+                    animation: google.maps.Animation.DROP
+                });
+
+                //----efecto de movimiento---
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+                markers.push(marker);
+ 
+                google.maps.event.addListener(marker, 'click', (function (marker, index) {
+                    return function () {
+                        infoWindow.setContent('<center><h4><b>' + 'OPERARIO' + '</b></h4></center>' + marker.content);
+                        infoWindow.open($scope.map, marker);
+
+                    }
+                })(marker, index));
+
+ 
+            })
+
+        }
+
+
+        var oTable_alerta = null;
+        $scope.$on('ngRepeatFinished_alerta', function (ngRepeatFinishedEvent) {
+            $('.sige-load').hide();
+            document.getElementById("form_cabecera").style.display = "";
+            oTable_alerta = $('#tbl_alertas').DataTable(
+                {
+                    scrollY: "250px",
+                    paging: false,
+                });
+        });
+
+
+        $scope.listAsignados = [];
+        $scope.mostrarAsignados = function () {
+            var chk_asignados = document.getElementById('chk_asignados'); 
+            var _fecha = document.getElementById('_fechaAsigna').value;
+            var _servicio = document.getElementById('idservicios').value;
+ 
+
+
+            if (chk_asignados.checked == true) {
+
+
+                $('#modal_asignados').modal({ show: 'false' });
+
+                document.getElementById("form_cabecera").style.display = "none";
+                var variables = {
+                    method: 'POST',
+                    url: '../programacion/get_ListandoAsignados',
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        FechaAsiga: _fecha ,
+                        servicio: _servicio
+                    }
+                }
+                $http(variables)
+                    .success(function (data) { 
+
+                        console.log(data);
+
+                        $scope.listAsignados = [];
+                        if (data.length == 0) {
+                            $('.sige-load').hide();
+                            document.getElementById("form_cabecera").style.display = "";
+                        }
+                        if (oTable_alerta == null) {
+                            $scope.listAsignados = data;
+                        } else {
+                            oTable_alerta.clear();
+                            oTable_alerta.destroy();
+                            oTable_alerta = null;
+                            $scope.listAsignados = data;
+                        }
+
+                    })
+                    .error(function () {
+                        alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+
+                    });
+
+
+            } else {
+
+                if (oTable_alerta == null) {
+                    $scope.ListaAlertas = [];
+                } else {
+                    oTable_alerta.clear();
+                    oTable_alerta.destroy();
+                    oTable_alerta = null;
+                    $scope.ListaAlertas = [];
+                }
+            }
+        }
+ 
         
         $scope.Lista_Operarios = [];
         $scope.Listado_Operarios = function () {
@@ -489,12 +755,7 @@
 
                 });
         }
-
-        $scope.list_Estados = [];
-        $scope.Listado_Estado = function () {
-            $scope.list_Estados.push({ 'id': 5, 'descripcion': 'ENVIADO AL MOVIL' }, { 'id': 7, 'descripcion': 'RECEPCION DE LECTURA' })
-        }
-
+        
         $scope.OpenModalOperarios = function () {
             var _fecha = document.getElementById('_fechaAsigna').value;
             var _servicio = document.getElementById('idservicios').value;
@@ -558,8 +819,7 @@
             }
             return flag_marco;
         }
-
-
+        
         $scope.set_actualizarOperario = function () {
 
             var list_suministos =[];
@@ -622,10 +882,7 @@
                     alert('Ocurrio un problema con la conexion, vuelva a intentar.')
                 });
         }
-                
-
-
-
+                              
         $scope.activarDibujo = function (value) {
             if (rectangle != null) {
                 rectangle.setMap(null)
@@ -655,7 +912,7 @@
                 $scope.colorPolyLine = "'rgb(255, 0, 0)'";
             }
         }
-        
+     
 
         // POLYLINE FUNCIONES
         var poly = null;
@@ -707,10 +964,10 @@
         var changeColorPolyLine = function () {
 
             var estado = 0;
-            var bounds = new google.maps.LatLngBounds();
-            poly.getPath().forEach(function (element, index) {
-                bounds.extend(element);
-            }); 
+            //var bounds = new google.maps.LatLngBounds();
+            //poly.getPath().forEach(function (element, index) {
+            //    bounds.extend(element);
+            //}); 
 
             for (var i = 0; i < markers.length; i++) {
                 var latlng = {
@@ -755,8 +1012,7 @@
             };
             limpiarMarkers();
         }
-
-
+        
         var limpiarMarkers = function () {
             limpiarTodo();
             $scope.showRectangle = false;
@@ -771,8 +1027,11 @@
         var limpiarTodo = function () {
             markers.forEach(function (marker, index) {
                 var estado = marker.title.split('|')[3];
-                if (estado == 3 || estado == 5) {
+                if (estado == 3 ) {
                     marker.setIcon(iconPendiente);
+                }
+                else if (estado == 5) {
+                    marker.setIcon('../Content/Imagen/sum_realizados.png');
                 }
             });
 
@@ -782,8 +1041,6 @@
                 document.getElementById('total_marcado').innerHTML = 'Total marcado : 0';
             }, 100);
         }
-                     
-
 
         $scope.changeTipoFiltro = function (value, tip) {
             if (value) {
@@ -869,9 +1126,7 @@
 
         txtTotalAsig.innerHTML = "Total Asig. : " + verMarcadosCount();
     }
-
-
-
+               
         var stopFunction = false;
         var showNewRect = function () {
             if (stopFunction) {
@@ -1361,57 +1616,75 @@
         </div>
         <div class="panel-body">
             <div class="row" style="margin-top: -5px; margin-bottom: -20px;">
-                <div class="col-xs-6 col-md-3">
-                    <label for="_fechaAsigna" style="font-size:11px">Fecha Asignación:</label>
-                    <br />
-                    <input class="form-control" id="_fechaAsigna" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+
+                <div class="col-md-8">
+                    <div class="col-sm-4 col-md-4">
+                        <label for="_fechaAsigna" style="font-size:11px">Fecha Asignación:</label>
+                        <br />
+                        <input class="form-control" id="_fechaAsigna" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <label for="idservicios" style="font-size:11px">Servicio:</label>
+                        <br />
+                        <select id="idservicios" ng-model="id_tipoServicio">
+                            <option value=0>--[ Seleccione ]-- </option>
+                            <option ng-repeat="item in Obj_List_Servicios" value="{{item.id_TipoServicio}}">
+                                {{item.nombre_tiposervicio}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <label for="_estado" style="font-size:11px"> Estado:</label>
+                        <br />
+                        <select id="_estado" ng-model="id_estado">
+                            <option value=0>--[ TODOS ]-- </option>
+                            <option ng-repeat="item in list_Estados " value="{{item.id}}">
+                                {{item.id}} : {{item.descripcion}}
+                            </option>
+                        </select>
+                    </div>
+
                 </div>
-                <div class="col-xs-6 col-md-3">
-                    <label for="idservicios" style="font-size:11px">Servicio:</label>
-                    <br />
-                    <select id="idservicios"   ng-model="id_tipoServicio">
-                        <option value=0>--[ Seleccione ]-- </option>
-                        <option ng-repeat="item in Obj_List_Servicios" value="{{item.id_TipoServicio}}">
-                            {{item.nombre_tiposervicio}}
-                        </option>
-                    </select>
+
+                <div class="col-md-4">
+                    <div class="col-xs-12 col-md-12" style="text-align:center">
+                        <br />
+                        <div class="checkbox checkbox-success">
+                            <input id="chk_operarios" type="checkbox"> <label for="chk_operarios" style="color:red"> Ver Operarios </label>
+                            <button class="btn btn-default" ng-click="ActualizarInformacion()"><span class="glyphicon glyphicon-refresh"></span>  Mostrar</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-xs-12 col-md-3">
-                    <label for="_estado" style="font-size:11px"> Estado:</label>
-                    <br />
-                    <select id="_estado" ng-model="id_estado">
-                        <option value=0>--[ TODOS ]-- </option>
-                        <option ng-repeat="item in list_Estados " value="{{item.id}}">
-                            {{item.id}} : {{item.descripcion}}
-                        </option>
-                    </select>
-                </div>
-                <div class="col-xs-12 col-md-3">
-                    <br />
-                    <button class="btn btn-default" ng-click="ActualizarInformacion()"><span class="glyphicon glyphicon-refresh"></span> Mostrar</button>
-                </div>
+
+
+
             </div>
 
             <br />
-                <div class="container">
-                    <div class="row" style="background:#eee;"> 
-                        <div class="col-md-3" style="padding: 5px;"> 
-                            <label id="total_registros"> </label>
-                        </div>
-                        <div class="col-md-3" style="padding: 5px;">
-                            <label id="total_marcado"> </label>  
+            <div class="container">
+                <div class="row" style="background:#fcf8e3;">
+                    <div class="col-md-3" style="padding: 5px;">
+                        <div class="checkbox checkbox-success">
+                            <input id="chk_asignados" type="checkbox" ng-click="mostrarAsignados();"> <label for="chk_asignados" style="color:red;text-decoration:underline"> Ver Asignación </label>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div id="map"></div>
-                        @*<div id="legend"><h3></h3></div>*@
-                        <div id="content_leyenda"><h3></h3></div>
+                    <div class="col-md-3" style="padding: 5px;">
+                        <label id="total_registros"> </label>
                     </div>
-
-
+                    <div class="col-md-3" style="padding: 5px;">
+                        <label id="total_marcado"> </label>
+                    </div>
                 </div>
- 
+
+                <div class="row">
+                    <div id="map"></div>
+                    <div id="content_leyenda" style="display:none"><h3></h3></div>
+                </div>
+
+
+            </div>
+
         </div>
     </div>
 
@@ -1448,10 +1721,121 @@
                         <button role="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
                     </div>
                 </div>
- 
+
             </div>
         </div>
     </div>
+
+
+
+    @*<div id="modal_asignados" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog  modal_dsige ">
+            <div class="panel panel-oscuro" style="width:700px;">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title"><i class="fa fa-calendar fa-lg"></i> Relacion de Operarios</h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row" id="form_cabecera" style="display:none">
+
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="form-group">
+
+                                <table id="tbl_alertas" class="table table-condensed table-bordered table-responsive" cellspacing="0" style="font-family: tahoma; font-size: 10px;">
+                                    <thead style="background:#F0F3F5;">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>OPERARIO</th>
+                                            <th>UNIDAD_LECTURA</th>
+                                            <th>DISTRITO</th>
+                                            <th>CANT_ASIGNADO</th>
+                                            <th>CANT_TOTAL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-family: tahoma; font-size: 12px;">
+                                        <tr ng-repeat="lista in listAsignados" on-finish-render="ngRepeatFinished_alerta">
+                                            <td>{{$index + 1}}</td>
+                                            <td>{{lista.Operario}}</td>
+                                            <td>{{lista.Unidad_Lectura}}</td>
+                                            <td>{{lista.Distrito}}</td>
+                                            <td style="text-align:right">{{lista.Cantidad_Asignada}}</td>
+                                            <td style="text-align:right">{{lista.Total_Asignado}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                <button id="btn_cancel" role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+    <div class="modal in"  id="modal_asignados" tabindex="-1" role="dialog" aria-hidden="true"  >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Operarios Asignados</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="form_cabecera" style="display:none">
+
+                    <div class="col-md-12 col-sm-12 col-lg-12">
+                        <div class="form-group">
+
+                            <table id="tbl_alertas" class="table table-condensed table-bordered table-responsive" cellspacing="0" style="font-family: tahoma; font-size: 10px;">
+                                <thead style="background:#F0F3F5;">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>OPERARIO</th>
+                                        <th>UNIDAD_LECTURA</th>
+                                        <th>DISTRITO</th>
+                                        <th>CANT_ASIGNADO</th>
+                                        <th>CANT_TOTAL</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="font-family: tahoma; font-size: 12px;">
+                                    <tr ng-repeat="lista in listAsignados" on-finish-render="ngRepeatFinished_alerta">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{lista.Operario}}</td>
+                                        <td>{{lista.Unidad_Lectura}}</td>
+                                        <td>{{lista.Distrito}}</td>
+                                        <td style="text-align:right">{{lista.Cantidad_Asignada}}</td>
+                                        <td style="text-align:right">{{lista.Total_Asignado}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="modal-footer" style="margin-top:0;"> 
+                <div style="float:right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
 
 
 </body>
