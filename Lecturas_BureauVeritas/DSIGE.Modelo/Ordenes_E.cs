@@ -38,4 +38,12 @@ namespace DSIGE.Modelo
  
     }
 
+    public class RepartoDetalle
+    {
+        public int id_Reparto { get; set; }
+        public int id_operario { get; set; }
+
+    }
+
 }
+ 

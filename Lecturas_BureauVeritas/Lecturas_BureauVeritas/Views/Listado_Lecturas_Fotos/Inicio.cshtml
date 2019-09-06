@@ -148,6 +148,10 @@
     .resaltado {
         color: green;
     }
+    .Julio table, th {
+        background-color: #333 !important;
+        color: white !important;
+    }
 </style>
 
 }
@@ -430,7 +434,7 @@
                     $.each(response, function (i, v) {
                         listPhotos.push({
                             id: i,
-                            url: $ruta + '/' + response[i]._r
+                            url: response[i]._r
                         })
                     });
                     $DivCorre.append('<div id="x" class="item active"><img id="foto1" src="' + listPhotos[0].url + '" alt="..." style="width: 320px; height: auto; text-align: center;" /></div>');
@@ -704,7 +708,7 @@
                         servicio.append('<option value="0" >Todos</option>');
 
                         for (var i = 0; i < response.length; i++) {
-                            if (response[i].id_TipoServicio == 1 || response[i].id_TipoServicio == 2 || response[i].id_TipoServicio == 3 || response[i].id_TipoServicio == 4) {
+                            if (response[i].id_TipoServicio == 1 || response[i].id_TipoServicio == 2 || response[i].id_TipoServicio == 3 || response[i].id_TipoServicio == 4 || response[i].id_TipoServicio == 9) {
                                 servicio.append('<option value="' + response[i].id_TipoServicio +
                                     '">' + response[i].nombre_tiposervicio + '</option>');
                             }
@@ -714,7 +718,7 @@
                         servicio.append('<option value="-1" >Seleccione</option>');
 
                         for (var i = 0; i < response.length; i++) {
-                            if (response[i].id_TipoServicio == 1 || response[i].id_TipoServicio == 2 || response[i].id_TipoServicio == 3 || response[i].id_TipoServicio == 4) {
+                            if (response[i].id_TipoServicio == 1 || response[i].id_TipoServicio == 2 || response[i].id_TipoServicio == 3 || response[i].id_TipoServicio == 4 || response[i].id_TipoServicio == 9) {
                                 servicio.append('<option value="' + response[i].id_TipoServicio +
                                     '">' + response[i].nombre_tiposervicio + '</option>');
                             }
@@ -789,7 +793,7 @@
                                 <label for="_fechaAsigna" class="control-label">Fecha Inicial</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input class="form-control" id="f_inicial" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                    <input class="form-control julio" id="f_inicial" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
                                 </div>
                             </div>
                             <div class="col-md-3">

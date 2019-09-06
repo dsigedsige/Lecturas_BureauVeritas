@@ -104,15 +104,6 @@ namespace DSIGE.Web.Controllers
 
             try
             {
-                //object loDatos = null;
-
-                //string NombreArchivo = file.FileName;
-                //string extension = System.IO.Path.GetExtension(file.FileName);
-                //string nomExcel = ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
-                //string fileLocation = Server.MapPath("~/Upload") + "\\" + nomExcel;
-                //file.SaveAs(fileLocation);
-
-
                 object loDatos = null;
                 string nomExcel = "";
                 string extension = System.IO.Path.GetExtension(file.FileName);
@@ -137,7 +128,7 @@ namespace DSIGE.Web.Controllers
                 {
                     nomExcel = idServicio + "_REPARTO_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
                 }
-                else if (idServicio == 7)
+                else if (idServicio == 9)
                 {
                     nomExcel = idServicio + "_RECLAMOS_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
                 }
@@ -200,7 +191,7 @@ namespace DSIGE.Web.Controllers
 
                     loDatos = Objeto_Negocio.Capa_Negocio_Listar_Temporal_Reparto_Agrupado(idfechaAsignacion, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id, idServicio);
                 }
-                else if (idServicio == 7) //----reclamos
+                else if (idServicio == 9) //----reclamos
                 {
                     Cls_Negocio_Importacion_Lecturas Objeto_Negocio = new Cls_Negocio_Importacion_Lecturas();
                     loDatos = Objeto_Negocio.Capa_Negocio_save_temporalReclamos(fileLocation, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id, idlocal, idServicio, idfechaAsignacion, NombreArchivo);
@@ -237,6 +228,92 @@ namespace DSIGE.Web.Controllers
 
 
         }
+
+
+        [HttpPost]
+        public string InsertaExcel_reclamos(HttpPostedFileBase file, int idlocal, string idfechaAsignacion, int idServicio, int opcion)
+        {
+            List<CorteTemporalCorte> oCortes = new List<CorteTemporalCorte>();
+            DateTime _fecha_actual = DateTime.Now;
+
+            try
+            {
+                object loDatos = null;
+                string nomExcel = "";
+                string extension = System.IO.Path.GetExtension(file.FileName);
+
+                if (opcion == 1)
+                {
+                    nomExcel = idServicio + "_RECLAMOSCARGAR_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
+                }
+                else if (opcion == 2)
+                {
+                    nomExcel = idServicio + "_RECLAMOSACTUALIZAR_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
+                }
+
+                string NombreArchivo = file.FileName;
+                string fileLocation = Server.MapPath("~/Upload") + "\\" + nomExcel;
+
+
+                if (System.IO.File.Exists(fileLocation))
+                {
+                    System.IO.File.Delete(fileLocation);
+                }
+
+                file.SaveAs(fileLocation);
+
+                if (opcion == 2) //----reclamos ACTUALIZAR
+                {
+                    Cls_Negocio_Importacion_Lecturas Objeto_Negocio = new Cls_Negocio_Importacion_Lecturas();
+                    loDatos = Objeto_Negocio.Capa_Negocio_save_temporalLectura_reclamos(fileLocation, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id, idlocal, idServicio, idfechaAsignacion, NombreArchivo);
+
+                    var res = _Serialize(loDatos, true);
+                    JObject data = JObject.Parse(res.ToString());
+
+                    if (data["ok"].ToString() == "True")
+                    {
+                        loDatos = null;
+                        loDatos = Objeto_Negocio.Capa_Negocio_Agrupado_temporal_lecturaReclamo(idfechaAsignacion, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+                        return _Serialize(loDatos, true);
+                    }
+                    else
+                    {
+                        return res;
+                    }
+                }
+                else if (opcion == 1) //----reclamos CARGAR
+                {
+                    Cls_Negocio_Importacion_Lecturas Objeto_Negocio = new Cls_Negocio_Importacion_Lecturas();
+                    loDatos = Objeto_Negocio.Capa_Negocio_save_temporalReclamos(fileLocation, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id, idlocal, idServicio, idfechaAsignacion, NombreArchivo);
+
+                    var res = _Serialize(loDatos, true);
+                    JObject data = JObject.Parse(res.ToString());
+
+                    if (data["ok"].ToString() == "True")
+                    {
+                        loDatos = null;
+                        loDatos = Objeto_Negocio.Capa_Negocio_Agrupado_temporal_reclamos(idfechaAsignacion, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+                        return _Serialize(loDatos, true);
+                    }
+                    else
+                    {
+                        return res;
+                    }
+                }
+                return _Serialize(loDatos, true);
+
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+
+
+
+        }
+
+
+
 
         /// <summary>
         /// SERIALIZACION DE JSONPROPERTY
@@ -294,14 +371,6 @@ namespace DSIGE.Web.Controllers
                     loDatos = obj_negocio.Capa_Negocio_MigracionTablaTemporalReconexiones(fechaAsignacion, id_servicio, nombre_archivo, usuario);
 
                 }
-                else if (id_servicio == 6)
-                {
-                    var usuario = ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id;
-
-                    NCorte obj_negocio = new NCorte();
-                    loDatos = obj_negocio.Capa_Negocio_MigracionTablaTemporalReparto(fechaAsignacion, id_servicio, nombre_archivo, usuario);
-                }
-                else { }
                 return _Serialize(loDatos, true);
             }
             catch (Exception ex)
@@ -309,6 +378,26 @@ namespace DSIGE.Web.Controllers
                 throw ex;
             }
         }
+
+        [HttpPost]
+        public string set_enviarMovil_reparto(string fechaAsignacion, int id_servicio, string nombre_archivo, string fechaRecojo, string  horaRecojo, int cantidadRecibos,string  fechaMaxima, int ciclo)
+        {
+            object loDatos = null;
+            try
+            {
+                var usuario = ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id;
+                NCorte obj_negocio = new NCorte();
+
+                loDatos = obj_negocio.Capa_Negocio_MigracionTablaTemporalReparto(fechaAsignacion, id_servicio, nombre_archivo, usuario, fechaRecojo, horaRecojo, cantidadRecibos, fechaMaxima, ciclo);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
 
 
 
@@ -330,14 +419,22 @@ namespace DSIGE.Web.Controllers
         }
 
         [HttpPost]
-        public string set_enviarMovil_reclamos(string fechaAsignacion, string fechaMovil, int id_servicio, string nombre_archivo)
+        public string set_enviarMovil_reclamos(string fechaAsignacion, string fechaMovil, int id_servicio, string nombre_archivo, int opcion)
         {
             object loDatos = null;
             try
             {
                 var usuario = ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id;
                 Cls_Negocio_Importacion_Lecturas obj_negocio = new Cls_Negocio_Importacion_Lecturas();
-                loDatos = obj_negocio.Capa_Negocio_save_Reclamos(fechaAsignacion, fechaMovil, id_servicio, nombre_archivo, usuario);
+
+
+                if (opcion == 1) //----- cargando los reclamos 
+                {
+                    loDatos = obj_negocio.Capa_Negocio_save_Reclamos(fechaAsignacion, fechaMovil, id_servicio, nombre_archivo, usuario);
+                }
+                else { ///---- actualizando los reclamos 
+                    loDatos = obj_negocio.Capa_Negocio_save_Lecturas_Reclamos(fechaAsignacion, fechaMovil, id_servicio, nombre_archivo, usuario);
+                }
                 return _Serialize(loDatos, true);
             }
             catch (Exception ex)

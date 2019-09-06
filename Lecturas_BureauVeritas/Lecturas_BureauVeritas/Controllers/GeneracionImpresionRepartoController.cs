@@ -61,16 +61,15 @@ namespace DSIGE.Web.Controllers
 
         }
 
-
         [HttpPost]
-        public string get_generacionReparto(string fechaAsignacion)
+        public string get_generacionReparto(string fechaAsignacion, int tipo)
         {
             object loDatos = null;
             try
             {
                 var usuario = ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id;
                 Cls_Negocio_Importacion_Lecturas obj_negocio = new Cls_Negocio_Importacion_Lecturas();
-                loDatos = obj_negocio.Capa_Negocio_generarRepartoPDf(fechaAsignacion);
+                loDatos = obj_negocio.Capa_Negocio_generarRepartoPDf(fechaAsignacion, tipo);
                 return _Serialize(loDatos, true);
             }
             catch (Exception ex)

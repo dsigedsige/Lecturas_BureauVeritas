@@ -112,6 +112,10 @@
          font-size: 12px;
      }
 
+     .Julio table, th {
+         background-color: #333 !important;
+         color: white !important;
+     }
 </style>
 
 <script type="text/javascript">
@@ -172,11 +176,7 @@
             $http(variables)
             .success(function (data) {
                 $scope.Obj_List_Servicios = [];
-                 for (obj of data) {
-                    if (obj.id_TipoServicio == 1 || obj.id_TipoServicio == 2 ) {
-                        $scope.Obj_List_Servicios.push(obj);
-                    }
-                }
+                $scope.Obj_List_Servicios = data;
 
             })
             .error(function () {
@@ -986,7 +986,7 @@
                     <div class="row" style="    margin-top: -15px;">
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <label for="_fechaAsigna">Fecha de Asignación:</label>
-                            <input class="form-control" id="_fechaAsigna" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                            <input class="form-control Julio" id="_fechaAsigna" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
                         </div>
 
                         <div class="col-sm-6 col-md-6 col-lg-6">

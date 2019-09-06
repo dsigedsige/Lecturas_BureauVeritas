@@ -72,12 +72,27 @@ namespace DSIGE.Negocio
             }
         }
 
-        public bool Capa_Negocio_Actualizar_Reparto_Agrupado(int id_operario, string unidad_lectura, string fechaAsignatura, int id_operario_cambiar)
+        public string Capa_Negocio_Generando_EnvioMovil_Distribucion_Detallado(List<RepartoDetalle> ListaRepartos, string FechaAsigna, string FechaMovil, int id_usuario)
         {
             try
             {
                 DCorte oCorte = new DCorte();
-                return oCorte.Capa_Dato_Actualizar_Reparto(id_operario, unidad_lectura, fechaAsignatura, id_operario_cambiar);
+                return oCorte.Capa_Dato_Generando_EnvioMovil_Distribucion_Detallado(ListaRepartos, FechaAsigna, FechaMovil, id_usuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+
+        public bool Capa_Negocio_Actualizar_Reparto_Agrupado(int id_operario, string unidad_lectura, string fechaAsignatura, int id_operario_cambiar, string tipo)
+        {
+            try
+            {
+                DCorte oCorte = new DCorte();
+                return oCorte.Capa_Dato_Actualizar_Reparto(id_operario, unidad_lectura, fechaAsignatura, id_operario_cambiar, tipo);
             }
             catch (Exception e)
             {
@@ -113,12 +128,12 @@ namespace DSIGE.Negocio
             }
         }
 
-        public string Capa_negocio_Generando_Compartir_lecturas(string fecha, string cod_unidad, int id_operario)
+        public string Capa_negocio_Generando_Compartir_lecturas(string fecha, string cod_unidad, int id_operario , string tipo)
         {
             try
             {
                 DCorte oCorte = new DCorte();
-                return oCorte.Capa_dato_Generando_Compartir_lecturas(fecha, cod_unidad, id_operario);
+                return oCorte.Capa_dato_Generando_Compartir_lecturas(fecha, cod_unidad, id_operario, tipo);
             }
             catch (Exception e)
             {
@@ -127,21 +142,34 @@ namespace DSIGE.Negocio
         }
 
 
-        public List<Reparto> Capa_Negocio_Listar_Reparto_Agrupado(string fechaAsignacion, int cod_usuario)
+        public List<Reparto> Capa_Negocio_Listar_Reparto_Agrupado(string fechaAsignacion, int cod_usuario, string tipo)
         {
             try
             {
                 DCorte oCorte = new DCorte();
-                return oCorte.Capa_Dato_Listar_Reparto(fechaAsignacion, cod_usuario);
+                return oCorte.Capa_Dato_Listar_Reparto(fechaAsignacion, cod_usuario, tipo);
             }
             catch (Exception e)
             {
 
                 throw e;
             }
-
-
         }
+
+        public object Capa_Negocio_Listar_Reparto_Agrupado_detallado(string fechaAsignacion, string tipo, string cod_unidad, int id_operario)
+        {
+            try
+            {
+                DCorte oCorte = new DCorte();
+                return oCorte.Capa_Dato_Listar_Reparto_Detallado(fechaAsignacion, tipo, cod_unidad, id_operario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
 
         public bool Capa_Negocio_ListaExcel(string fileLocation, int usuario, int idlocal, string idfechaAsignacion)
         {
@@ -268,25 +296,14 @@ namespace DSIGE.Negocio
         }
 
 
-        public bool Capa_Negocio_MigracionTablaTemporalReparto(string fechaAsignacion, int id_servicio, string nombre_archivo, int usuario)
+        public bool Capa_Negocio_MigracionTablaTemporalReparto(string fechaAsignacion, int id_servicio, string nombre_archivo, int usuario, string fechaRecojo, string horaRecojo, int cantidadRecibos, string fechaMaxima, int ciclo)
         {
             try
             {
                 //int Cantidad = 0;
                 bool valor = true;
-
-                ////tabla temporal
-                //DCorte oCorte = new DCorte();
-                //var lisObject = oCorte.Capa_Dato_Listar_Temporal_reconexiones_Agrupado(fechaAsignacion, usuario, id_servicio);
-
-                //if (Cantidad == 0)
-                //{
-                //    DCorte OoCorte = new DCorte();
-                //    valor = OoCorte.Capa_Dato_Guardar_InformacionReconexiones(fechaAsignacion, id_servicio, nombre_archivo, usuario);
-                //}
-
                 DCorte OoCorte = new DCorte();
-                valor = OoCorte.Capa_Dato_Guardar_InformacionReparto(fechaAsignacion, id_servicio, nombre_archivo, usuario);
+                valor = OoCorte.Capa_Dato_Guardar_InformacionReparto(fechaAsignacion, id_servicio, nombre_archivo, usuario, fechaRecojo, horaRecojo, cantidadRecibos, fechaMaxima, ciclo);
                 return valor;
 
             }

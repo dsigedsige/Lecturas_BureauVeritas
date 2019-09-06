@@ -31,18 +31,33 @@ namespace DSIGE.Web.Controllers
 
 
         [HttpPost]
-        public string ListadoReparto(string fecha)
+        public string ListadoReparto(string fecha, string tipo)
         {
 
             object loDatos;
             try
             {
                 NCorte Objeto_Negocio = new NCorte();
+                loDatos = Objeto_Negocio.Capa_Negocio_Listar_Reparto_Agrupado(fecha,((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id, tipo);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-                loDatos = Objeto_Negocio.Capa_Negocio_Listar_Reparto_Agrupado(fecha,((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+            return _Serialize(loDatos, true);
+        }
 
-                //loDatos = objeto_negocio.Capa_Negocio_Listado_Servicios(); ;
 
+        [HttpPost]
+        public string ListadoReparto_detallado(string fechaAsignacion, string tipo, string cod_unidad, int id_operario)
+        {
+
+            object loDatos;
+            try
+            {
+                NCorte Objeto_Negocio = new NCorte();
+                loDatos = Objeto_Negocio.Capa_Negocio_Listar_Reparto_Agrupado_detallado(fechaAsignacion, tipo, cod_unidad, id_operario);
             }
             catch (Exception ex)
             {
@@ -54,8 +69,27 @@ namespace DSIGE.Web.Controllers
 
 
 
+
         [HttpPost]
-        public string ActualizarReparto(int id_operario, string unidad_lectura, string fechaAsignatura, int id_operario_cambiar)
+        public string Generando_EnvioMovil_Distribucion_Detallado(List<RepartoDetalle> ListaRepartos,string FechaAsigna, string FechaMovil)
+        {
+            object loDatos = null;
+            try
+            {
+                NCorte Objeto_Negocio = new NCorte();
+                loDatos = Objeto_Negocio.Capa_Negocio_Generando_EnvioMovil_Distribucion_Detallado(ListaRepartos,  FechaAsigna,  FechaMovil,((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
+
+
+
+        [HttpPost]
+        public string ActualizarReparto(int id_operario, string unidad_lectura, string fechaAsignatura, int id_operario_cambiar, string tipo)
         {
 
             object loDatos;
@@ -67,7 +101,7 @@ namespace DSIGE.Web.Controllers
                 {
                     return _Serialize(loDatos,true);
                 }
-                loDatos = Objeto_Negocio.Capa_Negocio_Actualizar_Reparto_Agrupado(id_operario, unidad_lectura, fechaAsignatura, id_operario_cambiar);
+                loDatos = Objeto_Negocio.Capa_Negocio_Actualizar_Reparto_Agrupado(id_operario, unidad_lectura, fechaAsignatura, id_operario_cambiar, tipo);
 
                 //loDatos = objeto_negocio.Capa_Negocio_Listado_Servicios(); ;
 
@@ -103,13 +137,13 @@ namespace DSIGE.Web.Controllers
         }
 
         [HttpPost]
-        public string Generando_Compartir_lecturas(string fecha, string cod_unidad, int  id_operario)
+        public string Generando_Compartir_lecturas(string fecha, string cod_unidad, int  id_operario , string tipo  )
         {
             object loDatos;
             try
             {
                 NCorte Objeto_Negocio = new NCorte();
-                loDatos = Objeto_Negocio.Capa_negocio_Generando_Compartir_lecturas(fecha, cod_unidad, id_operario);
+                loDatos = Objeto_Negocio.Capa_negocio_Generando_Compartir_lecturas(fecha, cod_unidad, id_operario, tipo);
             }
             catch (Exception ex)
             {

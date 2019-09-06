@@ -68,13 +68,13 @@ namespace DSIGE.Web.Controllers
         }
 
         [HttpPost]
-        public string ListandoInformacionLecturas(int local, string fechaAsigna, int servicio, string opcion, int id_supervisor, int id_operario_supervisor)
+        public string ListandoInformacionLecturas(int local, string fechaAsigna, int servicio, string opcion, int id_supervisor, int id_operario_supervisor, string tipoCliente)
         {
             object loDatos;
             try
             {
                 DistribuirLecturas_BL obj_negocio = new DistribuirLecturas_BL();
-                loDatos = obj_negocio.Capa_Negocio_Get_ListaInformacionLecturas(local, fechaAsigna, servicio, opcion, id_supervisor, id_operario_supervisor);
+                loDatos = obj_negocio.Capa_Negocio_Get_ListaInformacionLecturas(local, fechaAsigna, servicio, opcion, id_supervisor, id_operario_supervisor, tipoCliente);
                 return _Serialize(loDatos, true);
             }
             catch (Exception ex)

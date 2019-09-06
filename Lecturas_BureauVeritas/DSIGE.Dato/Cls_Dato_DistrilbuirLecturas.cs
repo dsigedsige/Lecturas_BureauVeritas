@@ -130,7 +130,7 @@ namespace DSIGE.Dato
            }
        }
 
-       public List<DistribuirLecturas_E> Capa_Dato_Get_ListarInformacionLecturas(int local, string fechaAsigna, int servicio, string opcion, int id_supervisor, int id_operario_supervisor)
+       public List<DistribuirLecturas_E> Capa_Dato_Get_ListarInformacionLecturas(int local, string fechaAsigna, int servicio, string opcion, int id_supervisor, int id_operario_supervisor, string tipoCliente)
         {
            try
            {
@@ -143,14 +143,15 @@ namespace DSIGE.Dato
                     //using (SqlCommand cmd = new SqlCommand("NEW_SP_S_DISTRIBUIR_LECTURAS", cn))
                     using (SqlCommand cmd = new SqlCommand("SP_S_DISTRIBUIR_LECTURAS", cn))
                     {
-                       cmd.CommandTimeout = 0;
-                       cmd.CommandType = CommandType.StoredProcedure;
-                       cmd.Parameters.Add("@id_local", SqlDbType.Int).Value = local;
-                       cmd.Parameters.Add("@fechaAsigna", SqlDbType.VarChar).Value = fechaAsigna;
-                       cmd.Parameters.Add("@id_servicio", SqlDbType.Int).Value = servicio;
-                       cmd.Parameters.Add("@opcion", SqlDbType.VarChar).Value = opcion;
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_local", SqlDbType.Int).Value = local;
+                        cmd.Parameters.Add("@fechaAsigna", SqlDbType.VarChar).Value = fechaAsigna;
+                        cmd.Parameters.Add("@id_servicio", SqlDbType.Int).Value = servicio;
+                        cmd.Parameters.Add("@opcion", SqlDbType.VarChar).Value = opcion;
                         cmd.Parameters.Add("@id_supervisor", SqlDbType.Int).Value = id_supervisor;
                         cmd.Parameters.Add("@id_operario_supervisor", SqlDbType.Int).Value = id_operario_supervisor;
+                        cmd.Parameters.Add("@tipoCliente", SqlDbType.VarChar).Value = tipoCliente;
 
                         DataTable dt_detalle = new DataTable();
                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))

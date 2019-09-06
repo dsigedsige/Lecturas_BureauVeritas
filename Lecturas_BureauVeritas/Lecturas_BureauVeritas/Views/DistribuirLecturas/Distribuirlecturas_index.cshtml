@@ -147,6 +147,10 @@
         /*display: inline-table;*/
         width: 200px !important;
     }
+    .Julio table, th {
+        background-color: #333 !important;
+        color: white !important;
+    }
 
 </style>
 
@@ -560,6 +564,7 @@
             var _local = document.getElementById('id_local').value;
             var _fecha = document.getElementById('id_fecha_asignacion').value;
             var _servicio = document.getElementById('id_servicio').value;
+            var _cbo_tipoCliente = document.getElementById('cbo_tipoCliente').value;
 
             var cbo_supervisor = document.getElementById('cbo_supervisor').value;
                        
@@ -587,6 +592,15 @@
                 new PNotify({
                     title: 'Sistemas',
                     text: 'Por favor seleccione un Servicio',
+                    type: 'error'
+                });
+                return;
+            }
+
+            if (_cbo_tipoCliente == '' || _cbo_tipoCliente == 0 || _cbo_tipoCliente == null) {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor seleccione un Tipo de Cliente',
                     type: 'error'
                 });
                 return;
@@ -622,7 +636,8 @@
                     servicio: _servicio,
                     opcion: ProcesoElegido_Global,
                     id_supervisor: cbo_supervisor,
-                    id_operario_supervisor: 0
+                    id_operario_supervisor: 0,
+                    tipoCliente: _cbo_tipoCliente
                 }
             }
             $http(variables)
@@ -1181,7 +1196,7 @@
 
             $scope.paramsSelect.selectInit = '0';
             $scope.paramsSelect.codOperario = '',
-                $scope.paramsSelect.cantInit = '';
+            $scope.paramsSelect.cantInit = '';
 
             objectSelect = [];
             objectSelectSend = [];
@@ -2136,18 +2151,27 @@
                                 </select>
                             </div>
 
-                            <div class="col-xs-6 col-sm-6 col-md-6  col-lg-6">
+                            <div class="col-xs-6 col-sm-4 col-md-4  col-lg-4">
                                 <label for="id_fecha_asignacion" style="font-size:11px">Fecha de Asignación:</label>
-                                <input class="form-control" id="id_fecha_asignacion" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                <input class="form-control julio" id="id_fecha_asignacion" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
                             </div>
 
-                            <div class="col-xs-6 col-sm-6 col-md-6  col-lg-6 ">
+
+                            <div class="col-xs-6 col-sm-4 col-md-4  col-lg-4">
                                 <label for="id_servicio" style="font-size:11px">Servicio:</label>
                                 <select id="id_servicio" class="form-control" ng-model="id_tipoServicio">
-
                                     <option ng-repeat="item in Obj_List_Servicios" value="{{item.id_TipoServicio}}">
                                         {{item.nombre_tiposervicio}}
                                     </option>
+                                </select>
+                            </div>
+
+
+                            <div class="col-xs-6 col-sm-4 col-md-4  col-lg-4">
+                                <label for="cbo_tipoCliente" style="font-size:11px">Tipo Cliente:</label>
+                                <select id="cbo_tipoCliente" class="form-control"  >
+                                    <option value='Residencial'> RESIDENCIAL </option>
+                                    <option value='Comercial'> COMERCIAL </option>
                                 </select>
                             </div>
 
@@ -2181,16 +2205,6 @@
                         </div>
                     </div>
                     <br />
-                    @*<div class="row" style="text-align:center;    margin-bottom: -15px;">
-                        <div class="col-xs-12 col-sm-12 col-md-12  col-lg-12 ">
-                            <button class="btn btn-danger" style="margin-left: 10px;margin-top: 3px;" id="btn_procesarConsumos" ng-click="ProcesarConsumos();"><span class="glyphicon glyphicon-refresh"></span> Procesar Consumos</button>
-                            <button class="btn" style="margin-left: 10px;margin-top: 3px;    background-color: yellow; color: red;" id="btn_procesarConsumos" ng-click="ProcesarConsumos_New();"><span class="glyphicon glyphicon-refresh"></span> Procesar Consumos</button>
-                            <button class="btn btn-primary" style="margin-left: 10px;margin-top: 3px;" ng-click="ActualizarInformacion();"><span class="glyphicon glyphicon-plus"></span> Mostrar para Distribuir </button>
-                            <button class="btn btn-success" style="margin-left: 10px;margin-top: 3px;" ng_click="ActualizarInformacion_Reasignacion()"><span class="glyphicon glyphicon-random"></span> Mostrar Reasignar - Email </button>
-                            <button class="btn btn-info" ng-click="AbrirModal_relectura()"><span class="glyphicon glyphicon-align-justify"></span> Generar Relectura</button>
-                        </div>
-                    </div>*@
-
                 </div>
 
                 <div class="row">

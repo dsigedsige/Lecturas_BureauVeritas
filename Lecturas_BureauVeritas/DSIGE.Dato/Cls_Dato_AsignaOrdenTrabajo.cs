@@ -832,7 +832,7 @@ namespace DSIGE.Dato
                             foreach (DataRow Fila in dt_detalle.Rows)
                             {
                                 Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio obj_entidad = new Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio();
-                                if (id_tipo_servicio == 1 || id_tipo_servicio == 2)
+                                if (id_tipo_servicio == 1 || id_tipo_servicio == 2 || id_tipo_servicio == 9)
                                 {
                                     obj_entidad.checkeado = false;
 
@@ -1013,8 +1013,8 @@ namespace DSIGE.Dato
                             {
                                 Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio obj_entidad = new Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio();
 
-
-                                if (id_tipo_servicio == 1 || id_tipo_servicio == 2)
+                                //------LECTURA  RELECTURA Y RECLAMOS ----
+                                if (id_tipo_servicio == 1 || id_tipo_servicio == 2 || id_tipo_servicio == 9)
                                 {
                                     obj_entidad.nroInstalacion_lectura = Convert.ToString(Fila["nroInstalacion_lectura"]);
                                     obj_entidad.nroEquipo_lectura = Convert.ToString(Fila["nroEquipo_lectura"]);
@@ -1268,7 +1268,6 @@ namespace DSIGE.Dato
                                                          
         public string Capa_Dato_DescargaFoto(string List_codigos, int servicio, int flag_multiple, int id_usuario)
         {
-
             string Res = "";
             string nombreFile = id_usuario + "LecturasEnviar"+ servicio + "Cliente.zip";
             string ruta_descarga = ConfigurationManager.AppSettings["Archivos"];
@@ -1283,7 +1282,7 @@ namespace DSIGE.Dato
                 int ac = 0;
                 int opcion = 0;
 
-                if (servicio == 1 || servicio == 2)
+                if (servicio == 1 || servicio == 2 || servicio == 9)
                 {
                     opcion = 1;
                 }
@@ -1416,7 +1415,7 @@ namespace DSIGE.Dato
                 int ac = 0;
                 int opcion = 0;
 
-                if (servicio == 1 || servicio == 2)
+                if (servicio == 1 || servicio == 2 || servicio == 9)
                 {
                     opcion = 1;
                 }
@@ -2476,6 +2475,10 @@ namespace DSIGE.Dato
                                 if (servicio == 2)
                                 {
                                     _nombreServicio = "RELECTURAS_";
+                                }
+                                if (servicio == 9)
+                                {
+                                    _nombreServicio = "RECLAMOS_";
                                 }
                                 _correlativo = String.Format("{0:ddMMyyyy_hhmmss}.txt", DateTime.Now);
 

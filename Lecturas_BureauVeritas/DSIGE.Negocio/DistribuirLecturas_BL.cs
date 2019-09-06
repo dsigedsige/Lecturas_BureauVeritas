@@ -40,12 +40,12 @@ namespace DSIGE.Modelo
        }
 
 
-       public List<DistribuirLecturas_E> Capa_Negocio_Get_ListaInformacionLecturas(int local, string fechaAsigna, int servicio, string opcion,  int id_supervisor, int id_operario_supervisor)
+       public List<DistribuirLecturas_E> Capa_Negocio_Get_ListaInformacionLecturas(int local, string fechaAsigna, int servicio, string opcion,  int id_supervisor, int id_operario_supervisor, string tipoCliente)
         {
            try
            {
                Cls_Dato_DistrilbuirLecturas Objeto_Dato = new Cls_Dato_DistrilbuirLecturas();
-               return Objeto_Dato.Capa_Dato_Get_ListarInformacionLecturas(local, fechaAsigna, servicio, opcion, id_supervisor, id_operario_supervisor);
+               return Objeto_Dato.Capa_Dato_Get_ListarInformacionLecturas(local, fechaAsigna, servicio, opcion, id_supervisor, id_operario_supervisor, tipoCliente);
            }
            catch (Exception e)
            {

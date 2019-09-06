@@ -134,7 +134,7 @@ namespace DSIGE.Dato
                                     else if (mod.mod_descripcion == "NO CORTAR")
                                     {
                                         oMo.urlImagen = "Menu_Nocortar.png";
-                                        oMo.dop_url = "/Calidda/NoCortar/Index";
+                                        oMo.dop_url = "/Industria/Reparto/NoCortar/Index";
                                     }
                                     else if (mod.mod_descripcion == "SEGURIDAD")
                                     {

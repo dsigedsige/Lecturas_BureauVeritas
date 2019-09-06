@@ -83,8 +83,12 @@ namespace DSIGE.Web.Controllers
               {
                   nombreArchivo = "RELECTURAS_" + usuario + ".xls";
               }
+                else if (TipoServicio == 9)
+                {
+                    nombreArchivo = "RECLAMOS_EXPORTADO_" + usuario + ".xls";
+                }
 
-              _ruta = Path.Combine(Server.MapPath("~/Temp") + "\\" + nombreArchivo );
+                _ruta = Path.Combine(Server.MapPath("~/Temp") + "\\" + nombreArchivo );
 
               FileInfo _file = new FileInfo(_ruta);
               if (_file.Exists)

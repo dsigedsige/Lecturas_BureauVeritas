@@ -10,6 +10,7 @@ using System.Data;
 using System.Data.OleDb;
 using DSIGE;
 using DSIGE.Modelo;
+using System.ComponentModel;
 
 namespace DSIGE.Dato
 {
@@ -274,7 +275,7 @@ namespace DSIGE.Dato
                 throw e;
             }
         }
-        public bool Capa_Dato_Actualizar_Reparto(int id_operario, string unidad_lectura, string fechaAsignatura, int id_operario_cambiar)
+        public bool Capa_Dato_Actualizar_Reparto(int id_operario, string unidad_lectura, string fechaAsignatura, int id_operario_cambiar , string tipo)
         {
             try
             {
@@ -289,7 +290,8 @@ namespace DSIGE.Dato
                         cmd.Parameters.Add("@id_operario", SqlDbType.Int).Value = id_operario;
                         cmd.Parameters.Add("@unidad_lectura", SqlDbType.VarChar).Value = unidad_lectura;
                         cmd.Parameters.Add("@fechaAsignacion", SqlDbType.VarChar).Value = fechaAsignatura;
-                        cmd.Parameters.Add("@id_operario_cambiar", SqlDbType.Int).Value = id_operario_cambiar;                        
+                        cmd.Parameters.Add("@id_operario_cambiar", SqlDbType.Int).Value = id_operario_cambiar;
+                        cmd.Parameters.Add("@tipo", SqlDbType.VarChar).Value = tipo;
                         cmd.ExecuteNonQuery();
                         return true;
                     }
@@ -301,6 +303,84 @@ namespace DSIGE.Dato
                 return false;
             }
         }
+
+
+
+
+        public string Capa_Dato_Generando_EnvioMovil_Distribucion_Detallado(List<RepartoDetalle> ListaRepartos, string FechaAsigna, string FechaMovil, int id_usuario)
+        {
+            string Resultado = "";
+            try
+            {
+                PropertyDescriptorCollection properties = System.ComponentModel.TypeDescriptor.GetProperties(typeof(RepartoDetalle));
+                DataTable table = new DataTable();
+
+                foreach (PropertyDescriptor prop in properties)
+                {
+                    table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+                }
+
+                foreach (RepartoDetalle item in ListaRepartos)
+                {
+                    DataRow row = table.NewRow();
+                    foreach (PropertyDescriptor prop in properties)
+                        row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+                    table.Rows.Add(row);
+                }
+
+
+                using (SqlConnection con = new SqlConnection(cadenaCnx))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_D_T_DistribuirReparto", con))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+                        cmd.ExecuteNonQuery();
+                    }
+                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(con))
+                    {
+                        bulkCopy.BatchSize = 500;
+                        bulkCopy.NotifyAfter = 1000;
+                        bulkCopy.DestinationTableName = "T_DistribuirReparto";
+                        bulkCopy.WriteToServer(table);
+
+                        //Actualizando campos 
+                        string Sql = "";
+                               Sql = "UPDATE T_DistribuirReparto SET   FechaAsigna='" + FechaAsigna + "' ,  FechaMovil='" + FechaMovil + "'  , id_usuario='" + id_usuario + "' WHERE  id_usuario IS NULL";
+                        using (SqlCommand cmd = new SqlCommand(Sql, con))
+                        {
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.Text;
+                            cmd.ExecuteNonQuery();
+                        }
+                        // update en la tabla Lecturas
+                        using (SqlCommand cmd = new SqlCommand("SP_I_REPARTO_ENVIO_MOVIL", con))
+                        {
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Add("@FechaAsigna", SqlDbType.VarChar).Value = FechaAsigna;
+                            cmd.Parameters.Add("@FechaMovil", SqlDbType.VarChar).Value = FechaMovil;
+                            cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                }
+
+                Resultado = "OK";
+            }
+            catch (Exception ex)
+            {
+                Resultado = ex.Message;
+            }
+            return Resultado;
+        }
+
+
+
 
 
         public string Capa_Dato_Validar_Operario(int id_operario)
@@ -343,7 +423,7 @@ namespace DSIGE.Dato
 
         
 
-        public string Capa_dato_Generando_Compartir_lecturas(string fecha, string cod_unidad, int id_operario)
+        public string Capa_dato_Generando_Compartir_lecturas(string fecha, string cod_unidad, int id_operario, string tipo)
         {
             cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
             string Resultado = "";
@@ -360,6 +440,7 @@ namespace DSIGE.Dato
                         cmd.Parameters.Add("@fecha_asignacion", SqlDbType.VarChar).Value = fecha;
                         cmd.Parameters.Add("@cod_unidad", SqlDbType.VarChar).Value = cod_unidad;
                         cmd.Parameters.Add("@id_operario", SqlDbType.Int).Value = id_operario;
+                        cmd.Parameters.Add("@tipo", SqlDbType.VarChar).Value = tipo;
                         cmd.ExecuteNonQuery();
                         Resultado = "OK";
                     }
@@ -373,7 +454,7 @@ namespace DSIGE.Dato
         }
                               
 
-        public List<Reparto> Capa_Dato_Listar_Reparto(string fechaAsignacion, int cod_usuario)
+        public List<Reparto> Capa_Dato_Listar_Reparto(string fechaAsignacion, int cod_usuario, string tipo)
         {
             try
             {
@@ -382,13 +463,13 @@ namespace DSIGE.Dato
                 using (SqlConnection cn = new SqlConnection(cadenaCnx))
                 {
                     cn.Open();
-                    //using (SqlCommand cmd = new SqlCommand("SP_S_LISTAR_REPARTO_AGRUPADO_II", cn))
                     using (SqlCommand cmd = new SqlCommand("SP_S_LISTAR_REPARTO_NEW", cn))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@USUARIO", SqlDbType.Int).Value = cod_usuario;
                         cmd.Parameters.Add("@FECHA", SqlDbType.VarChar).Value = fechaAsignacion;
+                        cmd.Parameters.Add("@TIPO", SqlDbType.VarChar).Value = tipo;
 
                         DataTable dt_detalle = new DataTable();
 
@@ -399,14 +480,28 @@ namespace DSIGE.Dato
                             foreach (DataRow row in dt_detalle.Rows)
                             {
                                 Reparto Entidad = new Reparto();
-                                Entidad.total = Convert.ToInt32(row[0].ToString());
-                                Entidad.unidad_lectura = row[1].ToString();
-                                Entidad.nombre_UnidadLectura = row[2].ToString();
-                                Entidad.id_operario_aux = row[3].ToString();
-                                Entidad.id_operario = Convert.ToInt32(row[4].ToString());
-                                Entidad.flag_compartido = row[5].ToString();
-                                Entidad.id_operario_cambiar = row[6].ToString();
 
+
+                                if (tipo == "I")
+                                {
+                                    Entidad.total = Convert.ToInt32(row[0].ToString());
+                                    Entidad.unidad_lectura = row[1].ToString();
+                                    Entidad.nombre_UnidadLectura = row[2].ToString();
+                                    Entidad.id_operario_aux = row[3].ToString();
+                                    Entidad.id_operario = Convert.ToInt32(row[4].ToString());
+                                    Entidad.flag_compartido = row[5].ToString();
+                                    Entidad.id_operario_cambiar = row[6].ToString();
+                                }
+                                else if (tipo == "R")
+                                {
+                                    Entidad.total = Convert.ToInt32(row[0].ToString());
+                                    Entidad.unidad_lectura = row[1].ToString();
+                                    Entidad.nombre_UnidadLectura = row[2].ToString();
+                                    Entidad.id_operario_aux = row[3].ToString();
+                                    Entidad.id_operario = Convert.ToInt32(row[4].ToString());
+                                    Entidad.flag_compartido = row[5].ToString();
+                                    Entidad.id_operario_cambiar = row[6].ToString();
+                                }
                                 oCortes.Add(Entidad);
                             }
                         }
@@ -421,6 +516,39 @@ namespace DSIGE.Dato
                 throw e;
             }
         }
+
+
+        public object Capa_Dato_Listar_Reparto_Detallado(string fechaAsignacion,  string tipo, string cod_unidad, int id_operario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+               using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_LISTAR_REPARTO_DETALLADO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure; 
+                        cmd.Parameters.Add("@fecha_asignacion", SqlDbType.VarChar).Value = fechaAsignacion;
+                        cmd.Parameters.Add("@tipo", SqlDbType.VarChar).Value = tipo;
+                        cmd.Parameters.Add("@cod_unidad", SqlDbType.VarChar).Value = cod_unidad;
+                        cmd.Parameters.Add("@id_operario", SqlDbType.Int).Value = id_operario;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return dt_detalle;
+        }
+
 
         /// <summary>
         /// lista la tabla temporal agrupado para mostrar en la vista
@@ -751,7 +879,7 @@ namespace DSIGE.Dato
             }
         }
 
-        public bool Capa_Dato_Guardar_InformacionReparto(string fechaAsignacion, int id_servicio, string nombre_archivo, int usuario)
+        public bool Capa_Dato_Guardar_InformacionReparto(string fechaAsignacion, int id_servicio, string nombre_archivo, int usuario, string fechaRecojo, string horaRecojo, int cantidadRecibos, string fechaMaxima, int ciclo)
         {
             try
             {
@@ -768,6 +896,15 @@ namespace DSIGE.Dato
                         cmd.Parameters.Add("@id_TipoServicio", SqlDbType.Int).Value = id_servicio;
                         cmd.Parameters.Add("@archivoImportacion_Corte", SqlDbType.VarChar).Value = nombre_archivo;
                         cmd.Parameters.Add("@usuario", SqlDbType.Int).Value = usuario;
+
+                        cmd.Parameters.Add("@fechaRecojo", SqlDbType.VarChar).Value = fechaRecojo;
+                        cmd.Parameters.Add("@horaRecojo", SqlDbType.VarChar).Value = horaRecojo;
+                        cmd.Parameters.Add("@cantidadRecibos", SqlDbType.Int).Value = cantidadRecibos;
+
+                        cmd.Parameters.Add("@fechaMaxima", SqlDbType.VarChar).Value = fechaMaxima;
+                        cmd.Parameters.Add("@ciclo", SqlDbType.Int).Value = ciclo;
+
+
                         cmd.ExecuteNonQuery();
                         return true;
                     }
@@ -809,10 +946,7 @@ namespace DSIGE.Dato
             }
             return res;
         }
-
-  
-
-
+        
         public List<CorteTemporalCorte> Capa_Dato_Listar_TemporalCorteReconexiones(int cod_usuario, int idtecnico, string distrito)
         {
             try
