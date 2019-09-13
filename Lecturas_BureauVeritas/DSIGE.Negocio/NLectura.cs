@@ -311,23 +311,35 @@ namespace DSIGE.Negocio
                 throw e;
             }
         }
-        ///// <summary>
-        ///// Autor: jlucero
-        ///// Fecha: 2015-07-09
-        ///// </summary>
-        ///// <param name="oRq"></param>
-        ///// <returns></returns>
-        //public int NEliminaMasivo(Request_Elimina_Masivo oRq)
-        //{
-        //    try
-        //    {
-        //        return new DLectura().DEliminaMasivo(oRq);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw e;
-        //    }
-        //}
+
+
+
+        public DataTable N_ListandoReparto_Tomadas(int servicio, string tipoRecibo, int cicloFacturacion, int Estado, string fecha_ini, string fecha_fin, string suministro, string medidor, int operario)
+        {
+            try
+            {
+                return new DLectura().D_ListandoReparto_Tomadas(servicio, tipoRecibo, cicloFacturacion, Estado, fecha_ini, fecha_fin, suministro, medidor, operario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public List<Lecturas_Tomadas> N_Descarga_ResultadosReclamosExcel(string fechaini, string fechafin, int servicio)
+        {
+            try
+            {
+                return new DLectura().D_Descarga_ResultadosReclamosExcel(fechaini, fechafin, servicio);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        
+
 
         public bool NImportarArchivoExcel01(List<LeerLecturas> ListLectura)
         {

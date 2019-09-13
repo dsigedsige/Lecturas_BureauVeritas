@@ -43,6 +43,44 @@ namespace DSIGE.Dato
             return dt_detalle;
         }
 
+        public object capa_dato_get_Suministros_sinGps(string FechaAsiga, int servicio, int estado)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                var cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_PROGRAMACION_SUMINISTROS_SIN_GPS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@fecha", SqlDbType.VarChar).Value = FechaAsiga;
+                        cmd.Parameters.Add("@servicio", SqlDbType.Int).Value = servicio;
+                        cmd.Parameters.Add("@estado", SqlDbType.Int).Value = estado;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
+
+
+        
+
+
+
         public object capa_dato_get_ListandoAsignados(string FechaAsiga, int servicio)
         {
             DataTable dt_detalle = new DataTable();

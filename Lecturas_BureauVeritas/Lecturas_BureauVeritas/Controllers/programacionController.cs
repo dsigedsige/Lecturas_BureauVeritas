@@ -45,6 +45,22 @@ namespace Lecturas_BureauVeritas.Controllers
             }
         }
 
+
+        [HttpPost]
+        public string get_Suministros_sinGps(string FechaAsiga, int servicio, int estado)
+        {
+            object loDatos;
+            try
+            {
+                loDatos = new Programacion_BL().capa_negocio_get_Suministros_sinGps(FechaAsiga, servicio, estado);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
+
         [HttpPost]
         public string get_ListandoAsignados(string FechaAsiga, int servicio)
         {
@@ -96,8 +112,22 @@ namespace Lecturas_BureauVeritas.Controllers
             }
         }
 
+        [HttpPost]
+        public string Generando_EnvioMovil_Detallado(List<CorteReconexionDetalle> ListaCorRec, string FechaAsigna, string FechaMovil)
+        {
+            object loDatos = null;
+            try
+            {
+                NCorte Objeto_Negocio = new NCorte();
+                loDatos = Objeto_Negocio.Capa_Negocio_Generando_EnvioMovil_programacion_Detallado(ListaCorRec, FechaAsigna, FechaMovil, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
 
-        
 
 
 

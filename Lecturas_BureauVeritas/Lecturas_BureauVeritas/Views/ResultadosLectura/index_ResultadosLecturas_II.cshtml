@@ -245,6 +245,10 @@
                 });
                 return;
             }
+            ///-----solo para lecturas--
+            if (cbo_servicio != 1 || cbo_servicio != '1' ) {
+                return;
+            }
 
             $('.sige-load').show();
             var variables = {
@@ -280,12 +284,13 @@
 
         }
 
+        $scope.nombreServicio = "";
         $scope.MostrarInformacion = function () {
             var fechaAsigna = document.getElementById('_fechaAsigna').value;
             var TipoServicio = document.getElementById('idservicios').value;
-
             var cbo_supervisor = document.getElementById('cbo_supervisor').value;
             var cbo_Operario_supervisor = document.getElementById('cbo_Operario_supervisor').value;
+            var cbo_ciclo = document.getElementById('cbo_ciclo').value;
 
             if (fechaAsigna == '0' || fechaAsigna == null || fechaAsigna == undefined) {
                 new PNotify({
@@ -303,14 +308,33 @@
                 });
                 return;
             }
-            if (cbo_supervisor == '' || cbo_supervisor == '-1' || cbo_supervisor == -1) {
-                new PNotify({
-                    title: 'Sistemas',
-                    text: 'Por favor seleccione un supervisor',
-                    type: 'error'
-                });
-                return;
+
+            if (TipoServicio == 6 || TipoServicio == '6') {
+
+                if (cbo_ciclo == '0' || cbo_ciclo == null || cbo_ciclo == undefined) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccione un Ciclo',
+                        type: 'error'
+                    });
+                    return;
+                }
+                cbo_supervisor = 0;
+                cbo_Operario_supervisor = 0;
+            } else {
+                if (cbo_supervisor == '' || cbo_supervisor == '-1' || cbo_supervisor == -1) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccione un supervisor',
+                        type: 'error'
+                    });
+                    return;
+                }
+                cbo_ciclo = 0;
             }
+
+            $scope.nombreServicio = $('#idservicios option:selected').html().trim();
+            
 
             $('.sige-load').show();
             $scope.ListaResumen = [];
@@ -326,7 +350,8 @@
                         FechaAsignacion: fechaAsigna,
                         id_tiposervicio: TipoServicio,
                         id_supervisor: cbo_supervisor,
-                        id_operario_supervisor: cbo_Operario_supervisor
+                        id_operario_supervisor: cbo_Operario_supervisor,
+                        ciclo: cbo_ciclo
                     }
                 }
 
@@ -334,6 +359,8 @@
                 $http(variables)
                 .success(function (data) {
                     $scope.ListaResumen_Observacion = [];
+
+                    console.log(data)
 
                     $('.sige-load').hide();
                     if (oTable == null) {
@@ -364,12 +391,14 @@
                     FechaAsignacion: fechaAsigna,
                     id_tiposervicio: TipoServicio,
                     id_supervisor: cbo_supervisor,
-                    id_operario_supervisor: cbo_Operario_supervisor
+                    id_operario_supervisor: cbo_Operario_supervisor,
+                    ciclo: cbo_ciclo
                 }
             }
             $http(variables)
             .success(function (data) {
                 $('.sige-load').hide();
+                $scope.ListaResumen = [];
                 $scope.ListaResumen = data;
                 /////---mostrando la info ---
                 ResumenLecturaDetallado();
@@ -967,7 +996,18 @@
                 });
         }
 
-        
+        $scope.change_servicioOperarios = function (id_servicio) {
+            var formOperario = document.getElementById('formOperario');
+            var formCiclo = document.getElementById('formCiclo');
+            
+            if (id_servicio == 6 || id_servicio == '6') {
+                formOperario.style.display = 'none';
+                formCiclo.style.display = '';
+            } else {
+                formOperario.style.display = '';
+                formCiclo.style.display = 'none';
+            }
+        }        
     });
 
 </script>
@@ -991,7 +1031,7 @@
 
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <label for="idservicios" style="font-size:11px">Servicio:</label>
-                            <select id="idservicios" class="form-control" ng-model="id_tipoServicio">
+                            <select id="idservicios" class="form-control" ng-model="id_tipoServicio" ng-change="change_servicioOperarios(id_tipoServicio);">
                                 <option value=0> [ --- SELECCIONE --- ] </option>
                                 <option ng-repeat="item in Obj_List_Servicios" value="{{item.id_TipoServicio}}">
                                     {{item.nombre_tiposervicio}}
@@ -1000,7 +1040,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" id="formOperario"  >
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <label for="_supervisor" class="control-label">Supervisor</label>
                             <select id="cbo_supervisor" class="form-control" ng-model="id_supervisor" ng-change="Change_listando_Usuario_Operarios(id_supervisor); ">
@@ -1022,11 +1062,30 @@
                         </div>
                     </div>
 
+                    <div class="row" id="formCiclo" style="display:none">
+                        <div class="col-md-6">
+                            <label for="cbo_ciclo" class="control-label">Ciclo Facturacion :</label>
+                            <select class="form-control" id="cbo_ciclo">
+                                <option value="0" selected="selected"> [ SELECCIONE ] </option>
+                                <option value="1"> 1 </option>
+                                <option value="2"> 2 </option>
+                                <option value="3"> 3 </option>
+                                <option value="4"> 4 </option>
+                                <option value="5"> 5 </option>
+                                <option value="6"> 6 </option>
+                                <option value="7"> 7 </option>
+                                <option value="8"> 8 </option>
+                                <option value="9"> 9 </option>
+                                <option value="10"> 10 </option>
+                            </select>
+                        </div>
+                    </div>
+                                      
                     <div class="row" style="    margin-bottom: -20px;">
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <label for="_supervisor" class="control-label"></label>
                             <div class="form-group" style="text-align:center">
-                                <button class="btn btn-sm  btn-danger" ng-click="RecepcionLecturas();"><span class="glyphicon glyphicon-ok"></span> Recepcion Lectura</button>
+                                <button class="btn btn-sm  btn-danger" ng-click="RecepcionLecturas();" title="Solo para servicio Lecturas"><span class="glyphicon glyphicon-ok"></span> Recepcion Lectura</button>
                                 <button class="btn btn-sm  btn-success" style=" font-size: 14px;" ng-click="MostrarInformacion();"><span class="glyphicon glyphicon-refresh"></span> Mostrar</button>
                             </div>
                         </div>
@@ -1050,7 +1109,7 @@
                             </li>
 
                             <li class="list-group-item list-group-item-warning">
-                                <h5 style="margin-bottom: 10px;"> <strong> Total Lecturas :</strong>  <span class="label label-default" sstyle="font-size:14px;">        {{obj.total_lectura}}</span></h5>
+                                <h5 style="margin-bottom: 10px;"> <strong> Total {{nombreServicio}} :</strong>  <span class="label label-default" sstyle="font-size:14px;">        {{obj.total_lectura}}</span></h5>
                                 <h5 style="margin-bottom: 10px;"><strong> Total Ejecutados :</strong>  <span class="label label-default" style="background-color: yellow; color: black; font-size:14px;">{{obj.total_ejecutado}}</span> <strong>         {{obj.porc_ejecutado}} %</strong></h5>
                                 <h5 style="margin-bottom: 10px;"><strong> Total Pendientes :</strong>   <span class="label label-default" style="background-color: red; color: white; font-size:14px;">          {{obj.total_pendiente}}</span></h5>
                                 <h5><strong> Total Fotos :</strong>  <span class="label label-default" style="background-color: aquamarine; color: white; font-size:14px;">{{obj.total_fotos}}</span> <strong>          {{obj.porc_fotos}} %</strong></h5>

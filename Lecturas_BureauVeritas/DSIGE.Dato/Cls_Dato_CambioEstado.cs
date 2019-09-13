@@ -46,6 +46,39 @@ namespace DSIGE.Dato
            }
            return Resultado;
        }
+        
+        public string Capa_Dato_GenerarAnular_Masivo(int servicio, string fecha_Asigna, int estado, int operario, int usuario)
+        {
+            string Resultado = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_U_CAMBIO_ESTADO_DAR_BAJA", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+ 
+                        cmd.Parameters.Add("@servicio", SqlDbType.Int).Value = servicio;
+                        cmd.Parameters.Add("@fecha_Asigna", SqlDbType.VarChar).Value = fecha_Asigna;
+                        cmd.Parameters.Add("@estado", SqlDbType.Int).Value = estado;
+                        cmd.Parameters.Add("@operario", SqlDbType.Int).Value = operario;
+                        cmd.Parameters.Add("@Usuario", SqlDbType.Int).Value = usuario;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                Resultado = "OK";
+            }
+            catch (Exception ex)
+            {
+                Resultado = ex.Message;
+            }
+            return Resultado;
+        }
+
+        
+
 
        public List<Cambio_Estado_Masivo_E> Capa_Dato_Get_ListaLocales()
        {

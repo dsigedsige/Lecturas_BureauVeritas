@@ -99,13 +99,13 @@ namespace DSIGE.Web.Controllers
 
  
         [HttpPost]
-        public string ListandoResumenLecturas(string FechaAsignacion, int id_tiposervicio,int id_supervisor, int id_operario_supervisor)
+        public string ListandoResumenLecturas(string FechaAsignacion, int id_tiposervicio,int id_supervisor, int id_operario_supervisor, int ciclo)
         {
             object loDatos;
             try
             {
                 ResultadoLecturas_BL obj_negocio = new ResultadoLecturas_BL();
-                loDatos = obj_negocio.Capa_Negocio_Get_ListaResumenLectura( FechaAsignacion, id_tiposervicio, id_supervisor, id_operario_supervisor);
+                loDatos = obj_negocio.Capa_Negocio_Get_ListaResumenLectura( FechaAsignacion, id_tiposervicio, id_supervisor, id_operario_supervisor, ciclo);
                 return _Serialize(loDatos, true);
             }
             catch (Exception ex)
@@ -133,13 +133,13 @@ namespace DSIGE.Web.Controllers
         
 
         [HttpPost]
-        public string ListandoResumenLecturas_Detallado(string FechaAsignacion, int id_tiposervicio,int id_supervisor, int id_operario_supervisor)
+        public string ListandoResumenLecturas_Detallado(string FechaAsignacion, int id_tiposervicio,int id_supervisor, int id_operario_supervisor, int ciclo)
         {
             object loDatos;
             try
             {
                 ResultadoLecturas_BL obj_negocio = new ResultadoLecturas_BL();
-                loDatos = obj_negocio.Capa_Negocio_Get_ListaLectura_Detallado(FechaAsignacion, id_tiposervicio, id_supervisor, id_operario_supervisor);
+                loDatos = obj_negocio.Capa_Negocio_Get_ListaLectura_Detallado(FechaAsignacion, id_tiposervicio, id_supervisor, id_operario_supervisor, ciclo);
                 return _Serialize(loDatos, true);
             }
             catch (Exception ex)

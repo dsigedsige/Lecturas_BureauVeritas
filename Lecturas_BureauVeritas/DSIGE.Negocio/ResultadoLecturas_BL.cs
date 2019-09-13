@@ -50,12 +50,12 @@ namespace DSIGE.Negocio
             }
         }
 
-        public List<ResultadoLecturas_E> Capa_Negocio_Get_ListaResumenLectura(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor)
+        public List<ResultadoLecturas_E> Capa_Negocio_Get_ListaResumenLectura(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor, int ciclo)
         {
             try
             {
                 Cls_Dato_ResultadoLecturas Objeto_Dato = new Cls_Dato_ResultadoLecturas();
-                return Objeto_Dato.Capa_Dato_Get_ResumenLecturas(FechaAsignacion, id_tiposervicio, id_supervisor, id_operario_supervisor);
+                return Objeto_Dato.Capa_Dato_Get_ResumenLecturas(FechaAsignacion, id_tiposervicio, id_supervisor, id_operario_supervisor, ciclo);
             }
             catch (Exception e)
             {
@@ -78,12 +78,12 @@ namespace DSIGE.Negocio
         }
 
 
-        public List<ResultadoLecturas_E> Capa_Negocio_Get_ListaLectura_Detallado(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor)           
+        public List<ResultadoLecturas_E> Capa_Negocio_Get_ListaLectura_Detallado(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor,  int ciclo)           
         {
             try
             {
                 Cls_Dato_ResultadoLecturas Objeto_Dato = new Cls_Dato_ResultadoLecturas();
-                return Objeto_Dato.Capa_Dato_Get_ResumenLecturas_Detallado(FechaAsignacion, id_tiposervicio, id_supervisor, id_operario_supervisor);
+                return Objeto_Dato.Capa_Dato_Get_ResumenLecturas_Detallado(FechaAsignacion, id_tiposervicio, id_supervisor, id_operario_supervisor, ciclo);
             }
             catch (Exception e)
             {

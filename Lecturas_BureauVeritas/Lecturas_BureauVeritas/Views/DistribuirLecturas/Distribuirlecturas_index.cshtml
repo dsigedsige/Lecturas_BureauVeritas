@@ -657,8 +657,8 @@
             var _local = document.getElementById('id_local').value;
             var _fecha = document.getElementById('id_fecha_asignacion').value;
             var _servicio = document.getElementById('id_servicio').value;
-
             var cbo_supervisor = document.getElementById('cbo_supervisor').value;
+            var _cbo_tipoCliente = document.getElementById('cbo_tipoCliente').value;
 
             $("#checkboxAll").removeAttr("disabled");
 
@@ -718,7 +718,8 @@
                     servicio: _servicio,
                     opcion: ProcesoElegido_Global,
                     id_supervisor: cbo_supervisor,
-                    id_operario_supervisor: 0
+                    id_operario_supervisor: 0,
+                    tipoCliente: _cbo_tipoCliente
                 }
             }
             $http(variables)
@@ -2311,26 +2312,66 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <form class="form-inline" role="form">
+                    @*<form class="form-inline" role="form">
+                <div class="form-group">
+
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" id="id_filainicio" ng-keypress="enterFocus($event,'id_filafin');" style="width: 100px;" onkeypress="return soloNumeros(event)" placeholder="Inicio Fila" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="id_filafin" ng-keypress="enterFocus($event,'id_codOperarioRango')" style="width: 100px;" onkeypress="return soloNumeros(event)" placeholder="Fin Fila" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="id_codOperarioRango" ng-keypress="validarLecturista($event);" style="width: 200px;" onkeypress="return soloNumeros(event)" placeholder="Codigo de Operario" />
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success" id="btn_agregarRangos" ng-click="AgregarRangos();"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
+                </div>
+            </form>
+
+            <h5 class="modal-title">Detalle {{countSelectF()}} Marcados</h5>*@
+
+
+                    <form class="form-inline" autocomplete="off" role="form">
                         <div class="form-group">
                             <button class="btn btn-primary" ng-click="reiniviarChecks();"><span class="glyphicon glyphicon-list"></span> Reiniciar</button>
                         </div>
 
                         <div class="form-group">
-                            <input class="form-control" id="id_filainicio" ng-keypress="enterFocus($event,'id_filafin');" style="width: 100px;" onkeypress="return soloNumeros(event)" placeholder="Inicio Fila" />
+                            <input class="form-control" id="id_filainicio" ng-keypress="enterFocus($event,'id_filafin');" style="width: 100px; border: 1px solid red;" onkeypress="return soloNumeros(event)" placeholder="Inicio Fila" />
                         </div>
                         <div class="form-group">
-                            <input class="form-control" id="id_filafin" ng-keypress="enterFocus($event,'id_codOperarioRango')" style="width: 100px;" onkeypress="return soloNumeros(event)" placeholder="Fin Fila" />
+                            <input class="form-control" id="id_filafin" ng-keypress="enterFocus($event,'id_codOperarioRango')" style="width: 100px; border: 1px solid red;" onkeypress="return soloNumeros(event)" placeholder="Fin Fila" />
                         </div>
                         <div class="form-group">
-                            <input class="form-control" id="id_codOperarioRango" ng-keypress="validarLecturista($event);" style="width: 200px;" onkeypress="return soloNumeros(event)" placeholder="Codigo de Operario" />
+                            <input class="form-control" id="id_codOperarioRango" ng-keypress="validarLecturista($event);" style="width: 200px; border: 1px solid green;" onkeypress="return soloNumeros(event)" placeholder="Codigo de Operario" />
                         </div>
                         <div class="form-group">
                             <button class="btn btn-success" id="btn_agregarRangos" ng-click="AgregarRangos();"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
                         </div>
                     </form>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="modal-title" style="padding: 5px">Detalle {{countSelectF()}} Marcados</p>
+                        </div>
+                        <div class="col-md-8" style="text-align:right">
+                            <form class="form-inline" role="form">
+                                <div class="form-group">
+                                    <label for="_usuario" class="control-label">Fecha Móvil</label>
+                                    <input class="form-control" id="_fechaMovilDetalle" autocomplete="off" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary" ng-click="GenerarEnvioMovil_Detallado();"><span class="glyphicon glyphicon-phone"></span> Enviar al Móvil</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
-                    <h5 class="modal-title">Detalle {{countSelectF()}} Marcados</h5>
+
+
+
                 </div>
                 <div class="modal-body">
 
@@ -2366,21 +2407,29 @@
                     </div>
 
                 </div>
+                @*<div class="modal-footer">
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <label for="_usuario" class="col-sm-4 control-label">Fecha Móvil</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" id="_fechaMovilDetalle" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary" ng-click="GenerarEnvioMovil_Detallado();"><span class="glyphicon glyphicon-phone"></span> Enviar al Móvil</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+
+        </div>*@
+
                 <div class="modal-footer">
                     <form class="form-inline" role="form">
                         <div class="form-group">
-                            <label for="_usuario" class="col-sm-4 control-label">Fecha Móvil</label>
-                            <div class="col-sm-8">
-                                <input class="form-control" id="_fechaMovilDetalle" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <button class="btn btn-primary" ng-click="GenerarEnvioMovil_Detallado();"><span class="glyphicon glyphicon-phone"></span> Enviar al Móvil</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </form>
-
                 </div>
             </div>
 

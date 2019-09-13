@@ -225,6 +225,7 @@ namespace DSIGE.Dato
 
             }
         }
+
         public List<Reparto> Capa_Dato_Listar_Reparto_Reporte(string fechaAsignacion)
         {
             try
@@ -275,6 +276,7 @@ namespace DSIGE.Dato
                 throw e;
             }
         }
+
         public bool Capa_Dato_Actualizar_Reparto(int id_operario, string unidad_lectura, string fechaAsignatura, int id_operario_cambiar , string tipo)
         {
             try
@@ -303,11 +305,9 @@ namespace DSIGE.Dato
                 return false;
             }
         }
+               
 
-
-
-
-        public string Capa_Dato_Generando_EnvioMovil_Distribucion_Detallado(List<RepartoDetalle> ListaRepartos, string FechaAsigna, string FechaMovil, int id_usuario)
+        public string Capa_Dato_Generando_EnvioMovil_Distribucion_Detallado(List<RepartoDetalle> ListaRepartos, string FechaAsigna, string FechaMovil, int id_usuario, string Forma, string Tipo_recibo)
         {
             string Resultado = "";
             try
@@ -356,7 +356,81 @@ namespace DSIGE.Dato
                             cmd.ExecuteNonQuery();
                         }
                         // update en la tabla Lecturas
-                        using (SqlCommand cmd = new SqlCommand("SP_I_REPARTO_ENVIO_MOVIL", con))
+                        using (SqlCommand cmd = new SqlCommand("SP_I_REPARTO_ENVIO_MOVIL_NEW", con))
+                        {
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Add("@FechaAsigna", SqlDbType.VarChar).Value = FechaAsigna;
+                            cmd.Parameters.Add("@FechaMovil", SqlDbType.VarChar).Value = FechaMovil;
+                            cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+                            cmd.Parameters.Add("@Forma", SqlDbType.VarChar).Value = Forma;
+                            cmd.Parameters.Add("@Tipo_recibo", SqlDbType.VarChar).Value = Tipo_recibo;
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                }
+
+                Resultado = "OK";
+            }
+            catch (Exception ex)
+            {
+                Resultado = ex.Message;
+            }
+            return Resultado;
+        }
+                
+
+        public string Capa_Negocio_Generando_EnvioMovil_programacion_Detallado(List<CorteReconexionDetalle> ListaCorRec, string FechaAsigna, string FechaMovil, int id_usuario)
+        {
+            string Resultado = "";
+            try
+            {
+                PropertyDescriptorCollection properties = System.ComponentModel.TypeDescriptor.GetProperties(typeof(CorteReconexionDetalle));
+                DataTable table = new DataTable();
+
+                foreach (PropertyDescriptor prop in properties)
+                {
+                    table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+                }
+
+                foreach (CorteReconexionDetalle item in ListaCorRec)
+                {
+                    DataRow row = table.NewRow();
+                    foreach (PropertyDescriptor prop in properties)
+                        row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+                    table.Rows.Add(row);
+                }
+
+
+                using (SqlConnection con = new SqlConnection(cadenaCnx))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_D_T_DistribuirCorteReconexion", con))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+                        cmd.ExecuteNonQuery();
+                    }
+                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(con))
+                    {
+                        bulkCopy.BatchSize = 500;
+                        bulkCopy.NotifyAfter = 1000;
+                        bulkCopy.DestinationTableName = "T_DistribuirCorteReconexion";
+                        bulkCopy.WriteToServer(table);
+
+                        //Actualizando campos 
+                        string Sql = "";
+                        Sql = "UPDATE T_DistribuirCorteReconexion SET   FechaAsigna='" + FechaAsigna + "' ,  FechaMovil='" + FechaMovil + "'  , id_usuario='" + id_usuario + "' WHERE  id_usuario IS NULL";
+                        using (SqlCommand cmd = new SqlCommand(Sql, con))
+                        {
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.Text;
+                            cmd.ExecuteNonQuery();
+                        }
+                        // update en la tabla Lecturas
+                        using (SqlCommand cmd = new SqlCommand("SP_I_PROGRAMACION_ENVIO_MOVIL_DETALLADO", con))
                         {
                             cmd.CommandTimeout = 0;
                             cmd.CommandType = CommandType.StoredProcedure;
@@ -378,8 +452,6 @@ namespace DSIGE.Dato
             }
             return Resultado;
         }
-
-
 
 
 
@@ -518,7 +590,7 @@ namespace DSIGE.Dato
         }
 
 
-        public object Capa_Dato_Listar_Reparto_Detallado(string fechaAsignacion,  string tipo, string cod_unidad, int id_operario)
+        public object Capa_Dato_Listar_Reparto_Detallado(string fechaAsignacion,  string tipo, string cod_unidad, int id_operario, string forma)
         {
             DataTable dt_detalle = new DataTable();
             try
@@ -526,7 +598,7 @@ namespace DSIGE.Dato
                using (SqlConnection cn = new SqlConnection(cadenaCnx))
                 {
                     cn.Open();
-                    using (SqlCommand cmd = new SqlCommand("SP_S_LISTAR_REPARTO_DETALLADO", cn))
+                    using (SqlCommand cmd = new SqlCommand("SP_S_LISTAR_REPARTO_DETALLADO_NEW", cn))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure; 
@@ -534,6 +606,7 @@ namespace DSIGE.Dato
                         cmd.Parameters.Add("@tipo", SqlDbType.VarChar).Value = tipo;
                         cmd.Parameters.Add("@cod_unidad", SqlDbType.VarChar).Value = cod_unidad;
                         cmd.Parameters.Add("@id_operario", SqlDbType.Int).Value = id_operario;
+                        cmd.Parameters.Add("@forma", SqlDbType.VarChar).Value = forma;
 
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                         {
@@ -650,6 +723,7 @@ namespace DSIGE.Dato
         /// <param name="idlocal"></param>
         /// <param name="idfechaAsignacion"></param>
         /// <returns></returns>
+
         public bool Capa_Dato_ListaExcelreconexiones(string fileLocation, int usuario, int idlocal, string idfechaAsignacion)
         {
             DataTable dt = new DataTable();
@@ -718,6 +792,7 @@ namespace DSIGE.Dato
                 cn.Close();
             }
         }
+
         public bool Capa_Dato_ListaExcelReparto(string fileLocation, int usuario, int idlocal, string idfechaAsignacion)
         {
             DataTable dt = new DataTable();
@@ -785,6 +860,7 @@ namespace DSIGE.Dato
                 cn.Close();
             }
         }
+
         /// <summary>
         /// lista la tabla temporal de reconexionesagrupado para mostrar en la vista
         /// </summary>
@@ -995,8 +1071,7 @@ namespace DSIGE.Dato
                 throw e;
             }
         }
-
-
+        
         public List<CorteTemporalCorte> Capa_Dato_Listar_TemporalReconexiones(int cod_usuario, int idtecnico, string distrito)
         {
             try
@@ -1043,11 +1118,7 @@ namespace DSIGE.Dato
                 throw e;
             }
         }
-
-
-
-
-
+                     
         public List<CorteTemporalCorte> Capa_Dato_Registros_IncorrectosCorte(string fechaAsignacion, int usuario, int id_servicio, string distritocorte)
         {
             try

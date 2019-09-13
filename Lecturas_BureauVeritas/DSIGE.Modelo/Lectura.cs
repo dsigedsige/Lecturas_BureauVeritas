@@ -451,6 +451,11 @@ namespace DSIGE.Modelo
         public string fechaLecturaMovil_Lectura { get; set; }
         public string tieneFoto_lectura { get; set; }
 
+        public string MEDIDOR { get; set; }
+        public string CTA_CTO { get; set; }
+        public string FECHA_PLAN_LECTURA { get; set; }
+        public string MES { get; set; }
+        public string LECTURA { get; set; }
     }
 
 

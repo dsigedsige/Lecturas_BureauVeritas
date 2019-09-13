@@ -18,6 +18,11 @@ namespace DSIGE.Web.Controllers
             return View();
         }
 
+        public ActionResult anularCarga_index()
+        {
+            return View();
+        }
+
 
         public static string _Serialize(object value, bool ignore = false)
         {
@@ -73,6 +78,28 @@ namespace DSIGE.Web.Controllers
             {
                 CambioEstado_Masivo_BL obj_negocio = new CambioEstado_Masivo_BL();
                 loDatos = obj_negocio.Capa_Negocio_get_CambioEstado_Masivo(local, servicio, operario, fecha_Asigna, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
+
+    //servicio: id_servicio,
+    //fecha_Asigna: id_fecha_asignacion,
+    //estado: cbo_estado,
+    //operario: cbo_operario,
+
+        [HttpPost]
+        public string GenerarAnular_Masivo(int servicio,  string fecha_Asigna, int estado, int operario)
+        {
+            object loDatos;
+            loDatos = null;
+            try
+            {
+                CambioEstado_Masivo_BL obj_negocio = new CambioEstado_Masivo_BL();
+                loDatos = obj_negocio.Capa_Negocio_GenerarAnular_Masivo(servicio, fecha_Asigna, estado, operario, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
                 return _Serialize(loDatos, true);
             }
             catch (Exception ex)

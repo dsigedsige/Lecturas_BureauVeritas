@@ -38,9 +38,23 @@ namespace DSIGE.Modelo
  
     }
 
+
+ 
+
+
     public class RepartoDetalle
     {
         public int id_Reparto { get; set; }
+        public int id_operario { get; set; }
+        public int id_operario_inicial { get; set; }
+        public string manzana { get; set; }
+        public string unidad_distrito { get; set; }
+
+    }
+
+    public class CorteReconexionDetalle
+    {
+        public int id_Corte { get; set; }
         public int id_operario { get; set; }
 
     }

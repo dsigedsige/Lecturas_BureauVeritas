@@ -1396,6 +1396,41 @@ namespace DSIGE.Dato
         }
 
 
+
+        public object Capa_Dato_get_generarReparto_Pdf_individual(string fecha_Asigna, string suministro)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                List<DistribuirLecturas_E> ListData = new List<DistribuirLecturas_E>();
+
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    /// generando los archivos excel
+                    using (SqlCommand cmd = new SqlCommand("SP_S_GENERACIONREPARTO_PDF_INDIVIDUAL", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@fecha_asignacion", SqlDbType.VarChar).Value = fecha_Asigna;
+                        cmd.Parameters.Add("@suministro", SqlDbType.VarChar).Value = suministro;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
+
         public string Capa_Dato_save_Reclamos(string fechaAsignacion, string fechaMovil, int id_user)
         {
             var Resultado = "";

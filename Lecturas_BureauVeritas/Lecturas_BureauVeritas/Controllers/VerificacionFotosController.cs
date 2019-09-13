@@ -255,6 +255,24 @@ namespace DSIGE.Web.Controllers
             }
         }
 
+        [HttpPost]
+        public string MostrandoFotos_Reparto(int idReparto)
+        {
+            object loDatos;
+            try
+            {
+                VerificacionFotos_BL obj_negocio = new VerificacionFotos_BL();
+                loDatos = obj_negocio.Capa_Negocio_Get_MostrarFotos_Reparto(idReparto);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
+
+        
+
 
     }
 }

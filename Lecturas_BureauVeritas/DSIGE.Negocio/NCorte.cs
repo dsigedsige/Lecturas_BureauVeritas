@@ -72,12 +72,12 @@ namespace DSIGE.Negocio
             }
         }
 
-        public string Capa_Negocio_Generando_EnvioMovil_Distribucion_Detallado(List<RepartoDetalle> ListaRepartos, string FechaAsigna, string FechaMovil, int id_usuario)
+        public string Capa_Negocio_Generando_EnvioMovil_Distribucion_Detallado(List<RepartoDetalle> ListaRepartos, string FechaAsigna, string FechaMovil, int id_usuario, string Forma, string Tipo_recibo)
         {
             try
             {
                 DCorte oCorte = new DCorte();
-                return oCorte.Capa_Dato_Generando_EnvioMovil_Distribucion_Detallado(ListaRepartos, FechaAsigna, FechaMovil, id_usuario);
+                return oCorte.Capa_Dato_Generando_EnvioMovil_Distribucion_Detallado(ListaRepartos, FechaAsigna, FechaMovil, id_usuario, Forma, Tipo_recibo);
             }
             catch (Exception e)
             {
@@ -85,6 +85,18 @@ namespace DSIGE.Negocio
             }
         }
 
+        public string Capa_Negocio_Generando_EnvioMovil_programacion_Detallado(List<CorteReconexionDetalle> ListaCorRec, string FechaAsigna, string FechaMovil, int id_usuario)
+        {
+            try
+            {
+                DCorte oCorte = new DCorte();
+                return oCorte.Capa_Negocio_Generando_EnvioMovil_programacion_Detallado(ListaCorRec, FechaAsigna, FechaMovil, id_usuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
 
         public bool Capa_Negocio_Actualizar_Reparto_Agrupado(int id_operario, string unidad_lectura, string fechaAsignatura, int id_operario_cambiar, string tipo)
@@ -156,12 +168,12 @@ namespace DSIGE.Negocio
             }
         }
 
-        public object Capa_Negocio_Listar_Reparto_Agrupado_detallado(string fechaAsignacion, string tipo, string cod_unidad, int id_operario)
+        public object Capa_Negocio_Listar_Reparto_Agrupado_detallado(string fechaAsignacion, string tipo, string cod_unidad, int id_operario, string forma)
         {
             try
             {
                 DCorte oCorte = new DCorte();
-                return oCorte.Capa_Dato_Listar_Reparto_Detallado(fechaAsignacion, tipo, cod_unidad, id_operario);
+                return oCorte.Capa_Dato_Listar_Reparto_Detallado(fechaAsignacion, tipo, cod_unidad, id_operario, forma);
             }
             catch (Exception e)
             {

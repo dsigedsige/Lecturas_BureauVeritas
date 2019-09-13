@@ -155,6 +155,19 @@ namespace DSIGE.Negocio
             }
         }
 
+        public object Capa_Negocio_generarRepartoPDf_individual(string fechaAsignacion, string suministro)
+        {
+            try
+            {
+                Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
+                return Objeto_Dato.Capa_Dato_get_generarReparto_Pdf_individual(fechaAsignacion, suministro);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         public string Capa_Negocio_save_Reclamos(string fechaAsignacion, string fechaMovil, int id_servicio, string nombre_archivo, int usuario)
         {

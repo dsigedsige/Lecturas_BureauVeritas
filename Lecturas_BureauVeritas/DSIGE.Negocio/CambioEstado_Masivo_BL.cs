@@ -24,6 +24,21 @@ namespace DSIGE.Modelo
 
        }
 
+
+        public string Capa_Negocio_GenerarAnular_Masivo(int servicio, string fecha_Asigna, int estado, int operario, int usuario)
+        {
+            try
+            {
+                Cls_Dato_CambioEstado Objeto_Dato = new Cls_Dato_CambioEstado();
+                return Objeto_Dato.Capa_Dato_GenerarAnular_Masivo(servicio, fecha_Asigna, estado, operario, usuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
         public List<Cambio_Estado_Masivo_E> Capa_Negocio_Get_ListaServicios()
         {
             try

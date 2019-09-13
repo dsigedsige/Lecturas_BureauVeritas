@@ -1208,6 +1208,95 @@ namespace DSIGE.Dato
         }
 
 
+        public DataTable D_ListandoReparto_Tomadas(int servicio, string tipoRecibo, int cicloFacturacion, int Estado, string fecha_ini, string fecha_fin, string suministro, string medidor, int operario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                var cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+ 
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_REPORTE_REPARTOS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@servicio", SqlDbType.Int).Value = servicio;
+                        cmd.Parameters.Add("@tipoRecibo", SqlDbType.VarChar).Value = tipoRecibo;
+                        cmd.Parameters.Add("@cicloFacturacion", SqlDbType.Int).Value = cicloFacturacion;
+                        cmd.Parameters.Add("@Estado", SqlDbType.Int).Value = Estado;
+                        cmd.Parameters.Add("@fecha_ini", SqlDbType.VarChar).Value = fecha_ini;
+                        cmd.Parameters.Add("@fecha_fin", SqlDbType.VarChar).Value = fecha_fin;
+
+                        cmd.Parameters.Add("@suministro", SqlDbType.VarChar).Value = suministro;
+                        cmd.Parameters.Add("@medidor", SqlDbType.VarChar).Value = medidor;
+                        cmd.Parameters.Add("@operario", SqlDbType.Int).Value = operario;
+
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
+
+        public List<Lecturas_Tomadas> D_Descarga_ResultadosReclamosExcel(string fechaini, string fechafin, int servicio)
+        {
+            try
+            {
+                var cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+
+                List<Lecturas_Tomadas> ListData = new List<Lecturas_Tomadas>();
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("PROC_S_LECTURAS_TOMADAS_RECLAMOS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@FechaIni", SqlDbType.VarChar).Value = fechaini;
+                        cmd.Parameters.Add("@FechaFin", SqlDbType.VarChar).Value = fechafin;
+                        cmd.Parameters.Add("@servicio", SqlDbType.Int).Value = servicio;
+
+                        DataTable dt_detalle = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                            foreach (DataRow Fila in dt_detalle.Rows)
+                            {
+                                Lecturas_Tomadas obj_entidad = new Lecturas_Tomadas();
+
+                                obj_entidad.MEDIDOR = Fila["MEDIDOR"].ToString();
+                                obj_entidad.CTA_CTO = Fila["CTA_CTO"].ToString();
+                                obj_entidad.FECHA_PLAN_LECTURA = Fila["FECHA_PLAN_LECTURA"].ToString();
+                                obj_entidad.MES = Fila["MES"].ToString();
+                                obj_entidad.LECTURA = Fila["LECTURA"].ToString();
+
+                                ListData.Add(obj_entidad);
+                            }
+                        }
+                    }
+                }
+                return ListData;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         //public List<LecturaTomadas> DListaLecturasTomadas(Request_Lectura_Tomadas oRq)
         //{
@@ -1255,7 +1344,7 @@ namespace DSIGE.Dato
         //    }
         //}
 
-       
+
 
 
     }

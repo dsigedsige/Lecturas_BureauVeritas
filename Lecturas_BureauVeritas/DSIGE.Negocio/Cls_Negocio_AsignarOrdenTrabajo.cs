@@ -124,8 +124,23 @@ namespace DSIGE.Negocio
             {
                 throw e;
             }
+        }
+
+        public List<Cls_Entidad_AsignaOrdenTrabajo.Estados> Capa_Negocio_Get_estadosAll()
+        {
+            try
+            {
+                Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
+                return Objeto_Dato.Capa_Dato_Get_estadosAll();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
 
         }
+
+        
 
 
         public List<Cls_Entidad_AsignaOrdenTrabajo.Observaciones> Capa_Negocio_Get_ListaObservaciones(int TipoServicio)

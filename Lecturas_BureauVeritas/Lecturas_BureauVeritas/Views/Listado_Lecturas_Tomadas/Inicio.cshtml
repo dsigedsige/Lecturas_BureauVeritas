@@ -511,6 +511,63 @@
                 });
             }
 
+                        
+            $scope.descagar_resultadosExcel = function () {
+                var fechaini = document.getElementById('f_inicial').value;
+                var fechafin = document.getElementById('f_final').value;
+                var servicio = document.getElementById('idservicios').value;
+
+                if (servicio == 0 || servicio == -1 ) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccione un Servicio. Muchas gracias.',
+                        type: 'error'
+                    });
+                    return;
+                } 
+
+                if (servicio != 9 || servicio != '9') {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Descarga solo para el Servicio Reclamos.',
+                        type: 'error'
+                    });
+                    return;
+                }  
+
+                $('.sige-load').show();
+
+                var req = {
+                    method: 'POST',
+                    url: 'Descarga_ResultadosReclamosExcel',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        fechaini: fechaini,
+                        fechafin: fechafin,
+                        servicio: servicio,
+                    }
+                }
+                $http(req).success(function (data) {
+                    $('.sige-load').hide();
+
+                    var res = data.split("|");
+                    if (res[0].replace(/["]/gi, '') == "0" || res[0].replace(/["]/gi, '') == 0) {
+                        alert(res[1]);
+                    } else {
+                        var url = res[1].replace(/["]/gi, '');
+                        window.open(url);
+                    }
+
+                }).error(function () {
+                    $scope.listLecturasTomadas = "";
+                    $('.sige-load').hide();
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                });
+            }
+ 
+
         });
 
 
@@ -827,8 +884,8 @@
                         </div>
 
                         <div class="col-md-4">
-                            <label for="_supervisor" class="control-label">Servicios</label>
-                            <select class="form-control" id="idservicios">
+                            <label for="idservicios" class="control-label">Servicios</label>
+                            <select class="form-control" id="idservicios" ng-model="idServicio" ng-change="changeServicios(idServicio)">
                                 <option value="-1">- [ SELECCIONE ] -</option>
                             </select>
                         </div>
@@ -880,6 +937,8 @@
                             <div class="form-group form-group-sm">
                                 <button role="button" class="btn btn-primary btn-sm" id="actualizar" ng-click="listaLecturasTomadas()"><i class="fa fa-refresh fa-lg"></i> Actualizar</button>
                                 <button role="button" class="btn btn-default btn-sm" ng-click="Descargar_Excel()" title="Descargar"><i class="fa fa-download fa-lg"></i> </button>
+
+                                <button  class="btn btn-danger" ng-click="descagar_resultadosExcel();" ><span class="glyphicon glyphicon-cloud-download"></span> Resultado Reclamos</button>
                             </div>
                         </div>
                     </div>
@@ -903,9 +962,10 @@
                             <th style="text-align:center">Fecha Lectura</th>
                             <th style="text-align:center">Foto</th>
                         </tr>
+
                     </thead>
                     <tbody style="font-family: tahoma; font-size: 11px;">
-                        <tr ng-repeat="item in listLecturasTomadas" on-finish-render="ngRepeatFinished">
+                        <tr  ng-repeat="item in listLecturasTomadas" on-finish-render="ngRepeatFinished">
                             <td>{{item.Suministro_lectura}}</td>
                             <td>{{item.Medidor_lectura}}</td>
                             <td style="text-align:right">{{item.Confirmacion_lectura}}</td>
@@ -921,42 +981,7 @@
                 </table>
             </div>
 
-            <div id="exportar" ng-show="false">
-                <table id="tbl_exportar">
-                    <thead style="font-family: tahoma; font-size: 12px;">
-                        <tr>
-                            <th>Suministro</th>
-                            <th>Medidor</th>
-                            <th style="text-align:right">Lec. Actual</th>
-
-                            <th style="text-align:right">Lec. Anterior</th>
-                            <th style="text-align:right">Promedio Consumo</th>
-                            <th style="text-align:center">Lecturista</th>
-
-                            <th style="text-align:center">Cod. Observacion</th>
-                            <th>Descripcion Observacion</th>
-                            <th style="text-align:center">Fecha Lectura</th>
-                            <th style="text-align:center">Foto</th>
-
-                        </tr>
-                    </thead>
-                    <tbody style="font-family: tahoma; font-size: 12px;">
-                        <tr ng-repeat="item in listLecturasTomadas">
-                            <td>{{item.Suministro_lectura}}</td>
-                            <td>{{item.Medidor_lectura}}</td>
-                            <td style="text-align:right">{{item.Confirmacion_lectura}}</td>
-                            <td style="text-align:right">{{item.lectura_Anterior}}</td>
-
-                            <td style="text-align:right">{{item.promedioConsumo_Lectura}}</td>
-                            <td>{{item.Operario}}</td>
-                            <td style="text-align:center">{{item.observacion_lectura}}</td>
-                            <td>{{item.descripcion_observacion}}</td>
-                            <td style="text-align:center">{{item.fechaLecturaMovil_Lectura}}</td>
-                            <td style="text-align:center">{{item.tieneFoto_lectura}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+ 
             <br />
             <br />
             <br />

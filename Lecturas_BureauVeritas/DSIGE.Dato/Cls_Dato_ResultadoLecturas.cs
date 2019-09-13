@@ -162,7 +162,7 @@ namespace DSIGE.Dato
        }
 
 
-       public List<ResultadoLecturas_E> Capa_Dato_Get_ResumenLecturas(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor)
+       public List<ResultadoLecturas_E> Capa_Dato_Get_ResumenLecturas(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor, int ciclo)
         {
            try
            {
@@ -175,13 +175,14 @@ namespace DSIGE.Dato
                    cn.Open();
                    using (SqlCommand cmd = new SqlCommand("NEW_SP_S_RESULTADO_LECTURAS", cn))
                    {
-                       cmd.CommandTimeout = 0;
-                       cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                       cmd.Parameters.Add("@FechaAsignacion", SqlDbType.VarChar).Value = FechaAsignacion;
-                       cmd.Parameters.Add("@id_tiposervicio", SqlDbType.Int).Value = id_tiposervicio;
+                        cmd.Parameters.Add("@FechaAsignacion", SqlDbType.VarChar).Value = FechaAsignacion;
+                        cmd.Parameters.Add("@id_tiposervicio", SqlDbType.Int).Value = id_tiposervicio;
                         cmd.Parameters.Add("@id_supervisor", SqlDbType.Int).Value = id_supervisor;
                         cmd.Parameters.Add("@id_operario_supervisor", SqlDbType.Int).Value = id_operario_supervisor;
+                        cmd.Parameters.Add("@ciclo", SqlDbType.Int).Value = ciclo;
 
                         DataTable dt_detalle = new DataTable();
                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -264,7 +265,7 @@ namespace DSIGE.Dato
            }
        }
 
-       public List<ResultadoLecturas_E> Capa_Dato_Get_ResumenLecturas_Detallado(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor)
+       public List<ResultadoLecturas_E> Capa_Dato_Get_ResumenLecturas_Detallado(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor, int ciclo)
         {
            try
            {
@@ -284,6 +285,7 @@ namespace DSIGE.Dato
                         cmd.Parameters.Add("@id_tiposervicio", SqlDbType.Int).Value = id_tiposervicio;
                         cmd.Parameters.Add("@id_supervisor", SqlDbType.Int).Value = id_supervisor;
                         cmd.Parameters.Add("@id_operario_supervisor", SqlDbType.Int).Value = id_operario_supervisor;
+                        cmd.Parameters.Add("@ciclo", SqlDbType.Int).Value = ciclo;
 
                         DataTable dt_detalle = new DataTable();
                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))

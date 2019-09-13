@@ -576,5 +576,46 @@ namespace DSIGE.Dato
             }
         }
 
+
+        public List<VerificacionFoto_E> Capa_Dato_Get_MostrarFotos_Reparto(int idReparto)
+        {
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                string ruta = ConfigurationManager.AppSettings["servidor-foto-lectura"];
+
+                List<VerificacionFoto_E> ListData = new List<VerificacionFoto_E>();
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_REPARTO_FOTO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_reparto", SqlDbType.Int).Value = idReparto;
+
+                        DataTable dt_detalle = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                            foreach (DataRow Fila in dt_detalle.Rows)
+                            {
+                                VerificacionFoto_E obj_entidad = new VerificacionFoto_E();
+                                obj_entidad.id_Lectura = Convert.ToInt32(Fila["id_Reparto"].ToString());
+                                obj_entidad.foto = ruta + Fila["foto"].ToString();
+                                obj_entidad.url = ruta + Fila["foto"].ToString();
+                                ListData.Add(obj_entidad);
+                            }
+                        }
+                    }
+                }
+                return ListData;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

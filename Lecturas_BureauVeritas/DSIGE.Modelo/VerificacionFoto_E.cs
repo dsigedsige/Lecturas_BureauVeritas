@@ -22,8 +22,11 @@ namespace DSIGE.Modelo
         public string Sector { get; set; }
 
         public int id_Observacion { get; set; }
-        public string descripcion_observacion { get; set; }      
-                
+        public string descripcion_observacion { get; set; }
+
+        
+        public int id_Reparto { get; set; }
+
         public int id_Lectura { get; set; }  
         public string suministro_lectura { get; set; }  
         public string medidor_lectura { get; set; }

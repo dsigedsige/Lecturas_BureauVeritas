@@ -50,14 +50,14 @@ namespace DSIGE.Web.Controllers
 
 
         [HttpPost]
-        public string ListadoReparto_detallado(string fechaAsignacion, string tipo, string cod_unidad, int id_operario)
+        public string ListadoReparto_detallado(string fechaAsignacion, string tipo, string cod_unidad, int id_operario, string forma)
         {
 
             object loDatos;
             try
             {
                 NCorte Objeto_Negocio = new NCorte();
-                loDatos = Objeto_Negocio.Capa_Negocio_Listar_Reparto_Agrupado_detallado(fechaAsignacion, tipo, cod_unidad, id_operario);
+                loDatos = Objeto_Negocio.Capa_Negocio_Listar_Reparto_Agrupado_detallado(fechaAsignacion, tipo, cod_unidad, id_operario, forma);
             }
             catch (Exception ex)
             {
@@ -71,13 +71,13 @@ namespace DSIGE.Web.Controllers
 
 
         [HttpPost]
-        public string Generando_EnvioMovil_Distribucion_Detallado(List<RepartoDetalle> ListaRepartos,string FechaAsigna, string FechaMovil)
+        public string Generando_EnvioMovil_Distribucion_Detallado(List<RepartoDetalle> ListaRepartos,string FechaAsigna, string FechaMovil, string Forma, string Tipo_recibo)
         {
             object loDatos = null;
             try
             {
                 NCorte Objeto_Negocio = new NCorte();
-                loDatos = Objeto_Negocio.Capa_Negocio_Generando_EnvioMovil_Distribucion_Detallado(ListaRepartos,  FechaAsigna,  FechaMovil,((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+                loDatos = Objeto_Negocio.Capa_Negocio_Generando_EnvioMovil_Distribucion_Detallado(ListaRepartos,  FechaAsigna,  FechaMovil,((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id, Forma, Tipo_recibo);
                 return _Serialize(loDatos, true);
             }
             catch (Exception ex)

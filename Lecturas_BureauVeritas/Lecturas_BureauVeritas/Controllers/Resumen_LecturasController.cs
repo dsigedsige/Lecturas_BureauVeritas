@@ -350,7 +350,6 @@ namespace DSIGE.Web.Controllers
                         //marco detalle   
                         for (int i = 1; i <= 9; i++)
                         {
-                            oWs.Cells[_fila, i].Style.Font.Size = 8;
                             oWs.Cells[_fila, i].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);    //marco  
                         }
 
@@ -367,6 +366,7 @@ namespace DSIGE.Web.Controllers
                         _fila++;
                     }
 
+                    oWs.Cells.Style.Font.Size = 8; //letra tamaño  
                     oWs.Row(1).Style.Font.Bold = true;
                     oWs.Row(1).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
                     oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;

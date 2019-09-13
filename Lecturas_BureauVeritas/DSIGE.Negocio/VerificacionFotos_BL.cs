@@ -187,5 +187,21 @@ namespace DSIGE.Modelo
             }
         }
 
+        public List<VerificacionFoto_E> Capa_Negocio_Get_MostrarFotos_Reparto(int idReparto)
+        {
+            try
+            {
+                Cls_Dato_VerificacionFotos Objeto_Dato = new Cls_Dato_VerificacionFotos();
+                return Objeto_Dato.Capa_Dato_Get_MostrarFotos_Reparto(idReparto);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+        
+
     }
 }

@@ -586,7 +586,47 @@ namespace DSIGE.Dato
                 throw ex;
             }
         }
-                     
+
+        public List<Cls_Entidad_AsignaOrdenTrabajo.Estados> Capa_Dato_Get_estadosAll()
+        {
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+
+                List<Cls_Entidad_AsignaOrdenTrabajo.Estados> ListEstados = new List<Cls_Entidad_AsignaOrdenTrabajo.Estados>();
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("SP_S_ESTADOS_ALL", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        DataTable dt_detalle = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                            foreach (DataRow Fila in dt_detalle.Rows)
+                            {
+                                Cls_Entidad_AsignaOrdenTrabajo.Estados obj_entidad = new Cls_Entidad_AsignaOrdenTrabajo.Estados();
+
+                                obj_entidad.id_Estado = Convert.ToInt32(Fila["id_Estado"].ToString());
+                                obj_entidad.descripcion_estado = Fila["descripcion_estado"].ToString();
+                                ListEstados.Add(obj_entidad);
+                            }
+                        }
+                    }
+                }
+
+                return ListEstados;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
         public object Capa_Dato_Get_ListaPreEnvioExcelTexto(int id_local, int id_tipo_servicio, int estado, string fechaAsignacion)
         {
             try

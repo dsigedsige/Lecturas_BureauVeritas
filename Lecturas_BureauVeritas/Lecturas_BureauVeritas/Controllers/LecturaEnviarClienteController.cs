@@ -701,7 +701,6 @@ namespace DSIGE.Web.Controllers
                             for (int i = 1; i <= 13; i++)
                             {
                                 oWs.Cells[_fila, i].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                                oWs.Cells[_fila, i].Style.Font.Size = 8; //letra tamaño   
                             }
                             acu = acu + 1;
                             oWs.Cells[_fila, 1].Value = acu;
@@ -728,6 +727,8 @@ namespace DSIGE.Web.Controllers
                             oWs.Cells[_fila, 13].Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center ; // alinear texto 
                             _fila++;
                         }
+
+                        oWs.Cells.Style.Font.Size = 8; //letra tamaño  
 
                         oWs.Row(1).Style.Font.Bold = true;
                         oWs.Row(1).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
@@ -777,7 +778,7 @@ namespace DSIGE.Web.Controllers
                             for (int i = 1; i <= 13; i++)
                             {
                                 oWs.Cells[_fila, i].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                                oWs.Cells[_fila, i].Style.Font.Size = 8; //letra tamaño   
+                                //oWs.Cells[_fila, i].Style.Font.Size = 8; //letra tamaño   
                             }
 
                             oWs.Cells[_fila, 1].Value = oBj.unidadLectura;
@@ -798,10 +799,11 @@ namespace DSIGE.Web.Controllers
                             _fila++;
                         }
 
+                        oWs.Cells.Style.Font.Size = 8; //letra tamaño  
                         oWs.Row(1).Style.Font.Bold = true;
                         oWs.Row(1).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
                         oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
-                        oWs.Column(1).Style.Font.Bold = true;
+ 
                         oWs.Column(1).AutoFit();
                         oWs.Column(2).AutoFit();
                         oWs.Column(3).AutoFit();
@@ -874,7 +876,6 @@ namespace DSIGE.Web.Controllers
                             for (int i = 1; i <= 28; i++)
                             {
                                 oWs.Cells[_fila, i].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                                oWs.Cells[_fila, i].Style.Font.Size = 8; //letra tamaño   
                             }
 
                             oWs.Cells[_fila, 1].Value = oBj.claseAviso;
@@ -914,11 +915,13 @@ namespace DSIGE.Web.Controllers
                             _fila++;
                         }
 
+                        oWs.Cells.Style.Font.Size = 8; //letra tamaño  
+
                         oWs.Row(1).Style.Font.Bold = true;
                         oWs.Row(1).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
                         oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
 
-                        oWs.Column(1).Style.Font.Bold = true;
+ 
                         oWs.Column(1).AutoFit();
                         oWs.Column(2).AutoFit();
                         oWs.Column(3).AutoFit();
@@ -1017,8 +1020,25 @@ namespace DSIGE.Web.Controllers
             {
                 return _Serialize(ex.Message, true);
             }
-
         }
+
+        [HttpPost]
+        public string ListandoEstadosAll()
+        {
+            object loDatos;
+            try
+            {
+                Cls_Negocio_AsignarOrdenTrabajo obj_negocio = new Cls_Negocio_AsignarOrdenTrabajo();
+                loDatos = obj_negocio.Capa_Negocio_Get_estadosAll();
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
+
+
         [HttpPost]
         public ActionResult DescargaListaPreVisualizaEnvio(string fechamovil, int tipoServicio, List<int> List_codigos)
         {
@@ -1215,7 +1235,7 @@ namespace DSIGE.Web.Controllers
                         for (int i = 1; i <= 14; i++)
                         {
                             //oWs.Cells[_fila, i].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                            oWs.Cells[_fila, i].Style.Font.Size = 8; //letra tamaño   
+ 
                         }
 
                         oWs.Cells[_fila, 1].Value = acu;
@@ -1253,6 +1273,7 @@ namespace DSIGE.Web.Controllers
                         _fila++;
                     }
 
+                    oWs.Cells.Style.Font.Size = 8; //letra tamaño  
                     oWs.Row(1).Style.Font.Bold = true;
                     oWs.Row(1).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
                     oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;

@@ -78,6 +78,23 @@ namespace DSIGE.Web.Controllers
             }
         }
 
+        [HttpPost]
+        public string get_generacionReparto_individual(string fechaAsignacion, string suministro)
+        {
+            object loDatos = null;
+            try
+            {
+                var usuario = ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id;
+                Cls_Negocio_Importacion_Lecturas obj_negocio = new Cls_Negocio_Importacion_Lecturas();
+                loDatos = obj_negocio.Capa_Negocio_generarRepartoPDf_individual(fechaAsignacion, suministro);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
 
 

@@ -1278,26 +1278,24 @@ namespace DSIGE.Dato
                     Excel.ExcelWorksheet oWs = oEx.Workbook.Worksheets.Add("DatosSuministros");
                     oWs.Cells.Style.Font.SetFromFont(new Font("Tahoma", 9));
 
-                    for (int i = 1; i <= 9; i++)
+                    for (int i = 1; i <= 6; i++)
                     {
                         oWs.Cells[1, i].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                     }
 
                     oWs.Cells[1, 1].Value = "#";
-                    oWs.Cells[1, 2].Value = "Unidad Lecturas";
-                    oWs.Cells[1, 3].Value = "Suministro Lectura";
-                    oWs.Cells[1, 4].Value = "Medidor Lectura";
-                    oWs.Cells[1, 5].Value = "Direccion Lectura";
-                    oWs.Cells[1, 6].Value = "Manzana";
-                    oWs.Cells[1, 7].Value = "Lectura";
-                    oWs.Cells[1, 8].Value = "Cod. Observacion";
-                    oWs.Cells[1, 9].Value = "Comentario";
+                    oWs.Cells[1, 2].Value = "Medidor Lecturas";
+                    oWs.Cells[1, 3].Value = "Lecturas";
+                    oWs.Cells[1, 4].Value = "Direccion Lectura";
+                    oWs.Cells[1, 5].Value = "Manzana";
+                    oWs.Cells[1, 6].Value = "Unidad Lectura";
+ 
 
                     int ac = 0;
                     foreach (DataRow oBj in dt_detalles.Rows)
                     {
                         ac += 1;
-                        for (int j = 1; j <= 9; j++)
+                        for (int j = 1; j <= 6; j++)
                         {
                             oWs.Cells[_fila, j].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                         }
@@ -1307,27 +1305,25 @@ namespace DSIGE.Dato
                         oWs.Cells[_fila, 1].Value = ac;
 
                         correo = oBj["email_operario"].ToString();
-                        oWs.Cells[_fila, 2].Value = oBj["Unidad_Lecturas"].ToString();
-                        oWs.Cells[_fila, 3].Value = oBj["suministro_lectura"].ToString();
-                        oWs.Cells[_fila, 4].Value = oBj["medidor_lectura"].ToString();
-                        oWs.Cells[_fila, 5].Value = oBj["direccion_lectura"].ToString();
-                        oWs.Cells[_fila, 6].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-                        oWs.Cells[_fila, 6].Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center; // alinear texto
-                        oWs.Cells[_fila, 6].Value = oBj["Manzana"].ToString();
 
-                        oWs.Cells[_fila, 7].Value = "";
-                        oWs.Cells[_fila, 8].Value = "";
-                        oWs.Cells[_fila, 9].Value = "";
+                        oWs.Cells[_fila, 2].Value = oBj["medidor_lectura"].ToString();
 
+                        oWs.Cells[_fila, 3].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                        oWs.Cells[_fila, 3].Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center; // alinear texto
+                        oWs.Cells[_fila, 3].Value = "";
+
+                        oWs.Cells[_fila, 4].Value = oBj["direccion_lectura"].ToString();
+                        oWs.Cells[_fila, 5].Value = oBj["Manzana"].ToString();
+                        oWs.Cells[_fila, 6].Value = oBj["Unidad_Lecturas"].ToString();
                         _fila++;
                     }
-
+                    oWs.Cells.Style.Font.Size = 8; //letra tamaño  
                     oWs.Row(1).Style.Font.Bold = true;
                     oWs.Row(1).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
                     oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
                     oWs.Column(1).Style.Font.Bold = true;
 
-                    for (int k = 1; k <= 9; k++)
+                    for (int k = 1; k <= 6; k++)
                     {
                         oWs.Column(k).AutoFit();
                     }

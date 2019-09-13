@@ -21,6 +21,22 @@ namespace DSIGE.Negocio
                 throw e;
             }
         }
+
+
+        public object capa_negocio_get_Suministros_sinGps(string FechaAsiga, int servicio ,int estado)
+        {
+            try
+            {
+                return new Programacion_DAO().capa_dato_get_Suministros_sinGps(FechaAsiga, servicio, estado);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+
         public object capa_negocio_get_ListandoAsignados(string FechaAsiga, int servicio)
         {
             try

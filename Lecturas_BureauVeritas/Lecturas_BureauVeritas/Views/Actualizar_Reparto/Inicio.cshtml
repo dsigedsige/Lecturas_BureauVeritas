@@ -137,6 +137,9 @@
             cursor: pointer;
             text-align: right
         }
+
+
+
         .colorItem {
             background-color: #009688;
         }
@@ -146,18 +149,18 @@
             margin-bottom: 60px !important;
         }
 
-            #tblListaDetalleX tr {
-                width: 100%;
-                display: inline-table;
-                table-layout: fixed;
-            }
+        #tblListaDetalleX tr {
+            width: 100%;
+            display: inline-table;
+            table-layout: fixed;
+        }
 
-            #tblListaDetalleX tbody {
-                overflow-y: scroll;
-                height: 400px;
-                width: 98%;
-                position: absolute;
-            }
+        #tblListaDetalleX tbody {
+            overflow-y: scroll;
+            height: 400px;
+            width: 98%;
+            position: absolute;
+        }
 
     </style>
 
@@ -1022,7 +1025,22 @@
                 }
             }
 
-            $scope.openDetalle_general = function (item) {
+
+            $scope.Flag_agrupado = true;
+            $scope.Flag_detallado = false;
+            var Flag_FormaGlobal = '';
+
+            $scope.openDetalle_general = function (item, forma) {
+
+                //--- tipo A= agrupado, D= detallado
+                Flag_FormaGlobal = forma;
+                if (forma == 'A') {
+                    $scope.Flag_agrupado = true;
+                    $scope.Flag_detallado = false;
+                } else {
+                    $scope.Flag_agrupado = false;
+                    $scope.Flag_detallado = true;
+                }
 
                 var Fecha_asignacion = document.getElementById('_fechaMovilDetalle');
                 $('#id_filainicio').val('');
@@ -1046,6 +1064,10 @@
                 objectSelectSend = [];
                 $scope.countSelect = objectSelectSend.length; 
 
+
+                $('#modalDetails').modal({ show: 'true' });
+
+         
                 $('.sige-load').show();
 
                 var variables = {
@@ -1056,9 +1078,10 @@
                     },
                     data: {
                         fechaAsignacion: id_fecha_asignacion.value, 
-                        tipo: $('#id_tipo').val() ,
-                        cod_unidad: item.unidad_lectura  ,
-                        id_operario: operador 
+                        tipo: $('#id_tipo').val(),
+                        cod_unidad: item.unidad_lectura,
+                        id_operario: operador,
+                        forma: Flag_FormaGlobal
                     }
                 }
                 $scope.listDetalleReparto = [];
@@ -1081,8 +1104,8 @@
                     .error(function () {
                         $('.sige-load').hide();
                         alert('Ocurrio un problema con la conexion, vuelva a intentar.')
-
                     });
+         
             }
 
             var countF = 0;
@@ -1117,6 +1140,7 @@
             }
 
             $scope.Distribuir_Reasignar_Trabajos_detallado = function (obj_datos, id_enfoque, val) {
+
                 if (obj_datos.id_operario == '' || obj_datos.id_operario == null | obj_datos.id_operario == undefined) {
                     new PNotify({
                         title: 'Sistemas',
@@ -1145,19 +1169,39 @@
                                 type: 'error'
                             });
                             for (var i = 0; i < $scope.listDetalleReparto.length; i++) {
-                                if ($scope.listDetalleReparto[i].id_Reparto == obj_datos.id_Reparto ) {
-                                    $scope.listDetalleReparto[i].flag_operario = false;
-                                    $scope.listDetalleReparto[i].checkeado = true;
-                                    break;
+                                if (Flag_FormaGlobal =='A') {
+                                    if ($scope.listDetalleReparto[i].manzana == obj_datos.manzana) {
+                                        $scope.listDetalleReparto[i].flag_operario = false;
+                                        $scope.listDetalleReparto[i].checkeado = false;
+                                        break;
+                                    }
+                                }
+                               else if (Flag_FormaGlobal == 'D') {
+                                    if ($scope.listDetalleReparto[i].id_Reparto == obj_datos.id_Reparto) {
+                                        $scope.listDetalleReparto[i].flag_operario = false;
+                                        $scope.listDetalleReparto[i].checkeado = false;
+                                        break;
+                                    }
                                 }
                             }
                             return;
                         } else { 
-                            for (item of $scope.listDetalleReparto) {
-                                if (item.id_Reparto == obj_datos.id_Reparto) {
-                                    item.flag_operario = true;
-                                    item.checkeado = true;
-                                    break;
+                            for (let item of $scope.listDetalleReparto) {
+                                if (Flag_FormaGlobal == 'A') {
+                                    if (item.manzana == obj_datos.manzana) {
+                                        console.log(item.manzana + '==' + obj_datos.manzana);
+                                        item.flag_operario = true;
+                                        item.checkeado = true;
+                                        break;
+                                    }
+                                }
+                                else if (Flag_FormaGlobal == 'D') {
+                                    if (item.id_Reparto == obj_datos.id_Reparto) {
+                                        console.log(item.id_Reparto + '==' + obj_datos.id_Reparto);
+                                        item.flag_operario = true;
+                                        item.checkeado = true;
+                                        break;
+                                    }
                                 }
                             }
                             $scope.changeFocusInput('id_CLD_' + (parseInt(id_enfoque) + 1))                        }
@@ -1169,6 +1213,7 @@
 
             $scope.GenerarEnvioMovil_Detallado = function () {
                 var id_fecha_asignacion = document.getElementById('id_fecha_asignacion');
+                var id_tipo = document.getElementById('id_tipo');
                 var _fechaMovil = document.getElementById('_fechaMovilDetalle');
  
                 var flag_marco = false;
@@ -1212,6 +1257,8 @@
                         ListaRepartos: $scope.List_codigo,
                         FechaAsigna: id_fecha_asignacion.value,
                         FechaMovil: _fechaMovil.value,
+                        Forma: Flag_FormaGlobal,
+                        Tipo_recibo: id_tipo.value
                     }
                 }
 
@@ -1266,21 +1313,34 @@
                 }
                 return flag_marco;
             }
-
+            
             function ListaMarcoCheck_Detalle() {
                 $scope.ListaData = [];
                     for (var i = 0; i < $scope.listDetalleReparto.length; i++) {
                         if ($scope.listDetalleReparto[i].checkeado == true) {
-                            $scope.ListaData.push({
-                                'id_Reparto': $scope.listDetalleReparto[i].id_Reparto,
-                                'id_operario': $scope.listDetalleReparto[i].id_operario,
-                            });
+
+                            if (Flag_FormaGlobal == 'A') {
+                                $scope.ListaData.push({
+                                    'id_Reparto': 0,
+                                    'id_operario': $scope.listDetalleReparto[i].id_operario,
+                                    'id_operario_inicial': $scope.listDetalleReparto[i].id_operario_inicial,
+                                    'manzana': $scope.listDetalleReparto[i].manzana,
+                                    'unidad_distrito': $scope.listDetalleReparto[i].unidad_lectura,
+                                });
+                            }
+                            else if (Flag_FormaGlobal == 'D') {
+                                $scope.ListaData.push({
+                                    'id_Reparto': $scope.listDetalleReparto[i].id_Reparto,
+                                    'id_operario': $scope.listDetalleReparto[i].id_operario,
+                                    'id_operario_inicial':0,
+                                    'manzana':'',
+                                    'unidad_distrito': '',
+                                });
+                            }
                         }
                     }
-
                 return $scope.ListaData;
-            }
-                                                  
+            }                                                 
 
 
                                                                               
@@ -1320,7 +1380,7 @@
                             <select id="id_tipo" style="width:95%" ng-model="id_tipo" ng-change="change_tipo(id_tipo);">
                                 <option value='R'> RESIDENCIALES </option>
                                 <option value='I'> INDUSTRIALES </option>
-
+                                <option value='N'> NOTA DE CREDITO </option>
                             </select>
                         </div>
                         <div class="col-sm-3 col-md-3">
@@ -1345,12 +1405,12 @@
                                 <tr>
                                     <th>Nº fila</th>
                                     <th>{{especificacion}}</th>
-                                    @*<th>Nombre de Unidad Lectura</th>*@
                                     <th>Codigo Operario</th>
                                     <th>Total</th>
                                     <th style="text-align:center;color:red"> Compartir</th>
                                     <th>Cambiar codigo Operario</th>
                                     <th>Detalle</th>
+                                    <th>Detalle II</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1369,7 +1429,10 @@
                                         <button id="btn_actualizar" type="button" class="btn btn-primary btn-xs" ng-click="actualizarReparto(item)"><i class="fa fa-upload"></i> Actualizar</button>
                                     </td>
                                     <td style="cursor: pointer;text-align:center">
-                                        <a style=" text-decoration: underline;color:red !important" title="ver suministros detallados" ng-click="openDetalle_general(item);">Ver Detallado</a>
+                                        <a style=" text-decoration: underline;color:red !important" title="ver suministros detallados" ng-click="openDetalle_general(item,'A');">Ver  Detallado</a>
+                                    </td>
+                                    <td style="cursor: pointer;text-align:center">
+                                        <a style=" text-decoration: underline;color:red !important" title="ver suministros detallados" ng-click="openDetalle_general(item,'D');">Ver mas Detallado</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -1421,6 +1484,10 @@
             </div>
         </div>
 
+
+
+
+
         <div id="modalDetails" class="modal fade" role="dialog">
             <div class="modal-dialog" style="width:60%;">
                 <div class="modal-content">
@@ -1432,13 +1499,13 @@
                             </div>
 
                             <div class="form-group">
-                                <input class="form-control" id="id_filainicio" ng-keypress="enterFocus($event,'id_filafin');" style="width: 100px;" onkeypress="return soloNumeros(event)" placeholder="Inicio Fila" />
+                                <input class="form-control" id="id_filainicio" ng-keypress="enterFocus($event,'id_filafin');" style="width: 100px; border: 1px solid red;" onkeypress="return soloNumeros(event)" placeholder="Inicio Fila" />
                             </div>
                             <div class="form-group">
-                                <input class="form-control" id="id_filafin" ng-keypress="enterFocus($event,'id_codOperarioRango')" style="width: 100px;" onkeypress="return soloNumeros(event)" placeholder="Fin Fila" />
+                                <input class="form-control" id="id_filafin" ng-keypress="enterFocus($event,'id_codOperarioRango')" style="width: 100px; border: 1px solid red;" onkeypress="return soloNumeros(event)" placeholder="Fin Fila" />
                             </div>
                             <div class="form-group">
-                                <input class="form-control" id="id_codOperarioRango" ng-keypress="validarLecturista($event);" style="width: 200px;" onkeypress="return soloNumeros(event)" placeholder="Codigo de Operario" />
+                                <input class="form-control" id="id_codOperarioRango" ng-keypress="validarLecturista($event);" style="width: 200px; border: 1px solid green;" onkeypress="return soloNumeros(event)" placeholder="Codigo de Operario" />
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-success" id="btn_agregarRangos" ng-click="AgregarRangos();"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
@@ -1461,17 +1528,23 @@
                             </div>
                         </div>
 
-
-
-
-
                     </div>
                     <div class="modal-body">
+
 
                         <div id="PrincipalDetalle" class="table-responsive">
                             <table id="tblListaDetalleX" class="table  table-bordered table-responsive" border="0" cellspacing="0" cellpadding="0" style="font-size:11px">
                                 <thead>
-                                    <tr>
+
+                                    <tr ng-if="Flag_agrupado">
+                                        <th style="width:2%;text-align: center;">#</th>
+                                        <th style="width:4%;text-align: center;">Check</th>
+                                        <th style="width:7%;text-align: center;">Manzana</th>
+                                        <th style="width:7%;text-align: center;">Cantidad</th>
+                                        <th style="width:10%;text-align: center;">COD. LECTOR</th>
+                                    </tr>
+
+                                    <tr ng-if="Flag_detallado">
                                         <th style="width:2%;text-align: center;">#</th>
                                         <th style="width:4%;text-align: center;">Check</th>
                                         <th style="width:7%;text-align: center;">Cuenta Contrato</th>
@@ -1481,7 +1554,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="item in listDetalleReparto" ng-class="item.colorItem">
+                                    <tr ng-if="Flag_agrupado" ng-repeat="item in listDetalleReparto" ng-class="item.colorItem">
+                                        <td style="width:2%; text-align:center">{{$index+1}}</td>
+                                        <td style="width:4%;  text-align: center;">
+                                            <div class="checkbox" style="margin-top: 0px;margin-bottom: -8px; margin-left: 35%;" ng-click="selectChecks(item,$index);">
+                                                <input type="checkbox" id="checkDet{{$index}}" value="1" ng-model="item.checkeado">
+                                                <label for="checkDet{{$index}}">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td style="width:7%; text-align:center">{{item.manzana}}</td>
+                                        <td style="width:7%; text-align:center">{{item.cantidad}}</td>
+                                        <td style="width:10%; text-align:center">
+                                            <div><input type="text" id="id_CLD_{{$index}}" class="form-control" style="height: 20px;text-align:center; background-color:green; color:white " ng-model="item.id_operario" onkeypress="return soloNumeros(event)" ng-keypress="KeyDown_Distribuir($event,item,$index)"> </div>
+                                        </td>
+                                    </tr>
+                                    <tr ng-if="Flag_detallado" ng-repeat="item in listDetalleReparto" ng-class="item.colorItem">
                                         <td style="width:2%; text-align:center">{{$index+1}}</td>
                                         <td style="width:4%;  text-align: center;">
                                             <div class="checkbox" style="margin-top: 0px;margin-bottom: -8px; margin-left: 35%;" ng-click="selectChecks(item,$index);">
@@ -1508,7 +1596,6 @@
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             </div>
                         </form>
-
                     </div>
                 </div>
 
