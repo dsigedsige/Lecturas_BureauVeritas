@@ -2497,7 +2497,7 @@ namespace DSIGE.Dato
 
                                 linesArchivo[i] = Fila["ITEM"].ToString() + '\t' + Fila["INSTALACION"].ToString() + '\t' + Fila["EQUIPO"].ToString() + '\t' + medidor + '\t' + Fila["CTACTO"].ToString()
                                                   + '\t' + Fila["FecPlanLectura"].ToString() + '\t' + Fila["FecRealPlanLectura"].ToString() + '\t' + Fila["Hora_Plantilla"].ToString() + '\t' + Fila["Lectura"].ToString() + '\t' + Fila["Nota"].ToString()
-                                                  + '\t' + Fila["Cod_Comentario"].ToString() + '\t' + Fila["Comentario"].ToString() + '\t' + Fila["Codigo_Lector"].ToString();
+                                                  + '\t' + Fila["Cod_Comentario"].ToString() + '\t' + Fila["Comentario"].ToString() + '\t' + Fila["Codigo_Lector"].ToString() + '\t' + Fila["CONTRATISTA"].ToString();
                                 i = i + 1;
                             }
 

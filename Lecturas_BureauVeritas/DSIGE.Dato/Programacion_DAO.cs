@@ -11,7 +11,7 @@ namespace DSIGE.Dato
    public class Programacion_DAO
     {
 
-        public object capa_dato_get_Suministros(string FechaAsiga, int servicio, int estado)
+        public object capa_dato_get_Suministros(string FechaAsiga, int servicio, int estado, string distrito)
         {
             DataTable dt_detalle = new DataTable();
             try
@@ -20,13 +20,14 @@ namespace DSIGE.Dato
                 using (SqlConnection cn = new SqlConnection(cadenaCnx))
                 {
                     cn.Open();
-                    using (SqlCommand cmd = new SqlCommand("SP_S_PROGRAMACION_SUMINISTROS", cn))
+                    using (SqlCommand cmd = new SqlCommand("SP_S_PROGRAMACION_SUMINISTROS_NEW", cn))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@fecha", SqlDbType.VarChar).Value = FechaAsiga;
                         cmd.Parameters.Add("@servicio", SqlDbType.Int).Value = servicio;
                         cmd.Parameters.Add("@estado", SqlDbType.Int).Value = estado;
+                        cmd.Parameters.Add("@distrito", SqlDbType.VarChar).Value = distrito;
 
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                         {
@@ -43,7 +44,7 @@ namespace DSIGE.Dato
             return dt_detalle;
         }
 
-        public object capa_dato_get_Suministros_sinGps(string FechaAsiga, int servicio, int estado)
+        public object capa_dato_get_Distrito(string fechaAsignacion, int servicio)
         {
             DataTable dt_detalle = new DataTable();
             try
@@ -52,13 +53,47 @@ namespace DSIGE.Dato
                 using (SqlConnection cn = new SqlConnection(cadenaCnx))
                 {
                     cn.Open();
-                    using (SqlCommand cmd = new SqlCommand("SP_S_PROGRAMACION_SUMINISTROS_SIN_GPS", cn))
+                    using (SqlCommand cmd = new SqlCommand("SP_S_PROGRAMACION_SUMINISTROS_DISTRITO_NEW", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@fechaAsignacion", SqlDbType.VarChar).Value = fechaAsignacion;
+                        cmd.Parameters.Add("@servicio", SqlDbType.Int).Value = servicio;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
+
+
+        public object capa_dato_get_Suministros_sinGps(string FechaAsiga, int servicio, int estado, string distrito)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                var cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_PROGRAMACION_SUMINISTROS_SIN_GPS_NEW", cn))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@fecha", SqlDbType.VarChar).Value = FechaAsiga;
                         cmd.Parameters.Add("@servicio", SqlDbType.Int).Value = servicio;
                         cmd.Parameters.Add("@estado", SqlDbType.Int).Value = estado;
+                        cmd.Parameters.Add("@distrito", SqlDbType.VarChar).Value = distrito;
 
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                         {

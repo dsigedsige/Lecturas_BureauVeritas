@@ -52,6 +52,20 @@ namespace DSIGE.Modelo
             }
         }
 
+
+        public List<Cambio_Estado_Masivo_E> Capa_Negocio_Get_ListaServicios_usuario(int id_usuario)
+        {
+            try
+            {
+                Cls_Dato_CambioEstado Objeto_Dato = new Cls_Dato_CambioEstado();
+                return Objeto_Dato.Capa_Dato_Get_ListaServicio_usuario(id_usuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public List<Cambio_Estado_Masivo_E> Capa_Negocio_Get_ListaLocales()
         {
             try

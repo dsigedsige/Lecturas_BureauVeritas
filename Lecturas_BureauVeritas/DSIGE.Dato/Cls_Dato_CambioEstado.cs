@@ -160,5 +160,51 @@ namespace DSIGE.Dato
            }
        }
 
+
+        public List<Cambio_Estado_Masivo_E> Capa_Dato_Get_ListaServicio_usuario(int id_usuario)
+        {
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+
+                List<Cambio_Estado_Masivo_E> ListServicio = new List<Cambio_Estado_Masivo_E>();
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("SP_S_SERVICIO_ANULAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+
+                        DataTable dt_detalle = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                            foreach (DataRow Fila in dt_detalle.Rows)
+                            {
+                                Cambio_Estado_Masivo_E obj_entidad = new Cambio_Estado_Masivo_E();
+
+                                obj_entidad.id_TipoServicio = Convert.ToInt32(Fila["id_TipoServicio"].ToString());
+                                obj_entidad.nombre_tiposervicio = Fila["nombre_tiposervicio"].ToString();
+                                obj_entidad.estado = Convert.ToInt32(Fila["estado"].ToString());
+                                ListServicio.Add(obj_entidad);
+                            }
+                        }
+                    }
+                }
+
+                return ListServicio;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
+
     }
 }

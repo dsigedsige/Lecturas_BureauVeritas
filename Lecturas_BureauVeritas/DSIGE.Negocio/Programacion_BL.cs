@@ -10,11 +10,23 @@ namespace DSIGE.Negocio
    public class Programacion_BL
     {
 
-        public object capa_negocio_get_Suministros(string FechaAsiga, int servicio, int estado)
+        public object capa_negocio_get_Suministros(string FechaAsiga, int servicio, int estado, string distrito)
         {
             try
             {
-                return new Programacion_DAO().capa_dato_get_Suministros(FechaAsiga, servicio, estado);
+                return new Programacion_DAO().capa_dato_get_Suministros(FechaAsiga, servicio, estado, distrito);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public object capa_negocio_get_Distrito(string fechaAsignacion, int servicio)
+        {
+            try
+            {
+                return new Programacion_DAO().capa_dato_get_Distrito(fechaAsignacion, servicio);
             }
             catch (Exception e)
             {
@@ -23,11 +35,11 @@ namespace DSIGE.Negocio
         }
 
 
-        public object capa_negocio_get_Suministros_sinGps(string FechaAsiga, int servicio ,int estado)
+        public object capa_negocio_get_Suministros_sinGps(string FechaAsiga, int servicio ,int estado, string distrito )
         {
             try
             {
-                return new Programacion_DAO().capa_dato_get_Suministros_sinGps(FechaAsiga, servicio, estado);
+                return new Programacion_DAO().capa_dato_get_Suministros_sinGps(FechaAsiga, servicio, estado, distrito);
             }
             catch (Exception e)
             {

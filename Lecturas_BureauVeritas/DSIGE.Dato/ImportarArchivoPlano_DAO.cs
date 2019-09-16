@@ -76,16 +76,16 @@ namespace DSIGE.Dato
                             cmd.CommandType = CommandType.Text;
                             cmd.ExecuteNonQuery();
                         }
-                        // insertando en la tabla Lecturas
-                        using (SqlCommand cmd = new SqlCommand("SP_I_ARCHIVO_TXT_INSERT_LECTURAS_II", con))
-                        {
-                            cmd.CommandTimeout = 0;
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_user;
-                            cmd.Parameters.Add("@nombre_archivo", SqlDbType.VarChar).Value = nameFile;
+                        //// insertando en la tabla Lecturas
+                        //using (SqlCommand cmd = new SqlCommand("SP_I_ARCHIVO_TXT_INSERT_LECTURAS_II", con))
+                        //{
+                        //    cmd.CommandTimeout = 0;
+                        //    cmd.CommandType = CommandType.StoredProcedure;
+                        //    cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_user;
+                        //    cmd.Parameters.Add("@nombre_archivo", SqlDbType.VarChar).Value = nameFile;
 
-                            cmd.ExecuteNonQuery();
-                        }
+                        //    cmd.ExecuteNonQuery();
+                        //}
                     }
 
                 }

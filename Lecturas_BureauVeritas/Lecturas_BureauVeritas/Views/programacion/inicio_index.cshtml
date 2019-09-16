@@ -17,6 +17,8 @@
 
 <script src="~/Content/jQueryRotate/jQueryRotate.js"></script>
 
+
+
 <style>
     .disabledContent {
         pointer-events: none;
@@ -305,11 +307,11 @@
             $scope.Listado_Servicios()
             $scope.Listado_Estado();
             $scope.Listado_Operarios();
-
+ 
 
             setTimeout(function () {
                 $("select").select2();
-            }, 500);
+            }, 300);
         }
         
         $scope.Obj_List_Servicios = [];
@@ -350,6 +352,64 @@
                 $('#_estado').val('3').trigger('change');
             }, 200);
         }
+
+        $scope.list_Distrito = [];
+        $scope.change_distritos = function (idServicio) {
+            if (idServicio == 0) {
+                $scope.list_Distrito = [];
+                return;
+            }
+            var _fecha = document.getElementById('_fechaAsigna').value;
+            var _servicio = document.getElementById('idservicios').value;
+
+            if (_fecha == '') {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor ingrese o seleccione una Fecha de Asignación.',
+                    type: 'error'
+                });
+                $scope.list_Distrito = [];
+                return;
+            }
+            if (_servicio == "0" || _servicio == 0 || _servicio == '') {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor seleccione un Servicio.',
+                    type: 'error'
+                });
+                $scope.list_Distrito = [];
+                return;
+            }
+
+
+            $('.sige-load').show();
+            var variables = {
+                method: 'POST',
+                url: '../programacion/get_Distritos',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                data: {
+                    fechaAsignacion: _fecha,
+                    servicio: _servicio
+                }
+            }
+            $http(variables)
+                .success(function (data) {
+                    $('.sige-load').hide();
+                    $scope.list_Distrito = [];
+                    $scope.list_Distrito = data;
+                    setTimeout(function () {
+                        $('#cbo_distrito').val('0').trigger('change');
+                    }, 100);
+                })
+                .error(function () {
+                    $('.sige-load').hide();
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                });
+        }
+
+
 
         //---icono general para marcados
         var iconPorAsignar = '../Content/Imagen/sum_asignado.png';
@@ -484,6 +544,7 @@
             var _fecha = document.getElementById('_fechaAsigna').value;
             var _servicio = document.getElementById('idservicios').value;
             var _estado = document.getElementById('_estado').value;
+            var cbo_distrito = document.getElementById('cbo_distrito').value;
             var chk_operarios = document.getElementById('chk_operarios');
 
 
@@ -513,6 +574,7 @@
                     FechaAsiga: _fecha,
                     servicio: _servicio,
                     estado: _estado,
+                    distrito: cbo_distrito
                 }
              }
 
@@ -544,7 +606,7 @@
                                     data: {
                                         FechaAsiga: _fecha,
                                         servicio: _servicio,
-                                        estado: _estado,
+                                        estado: _estado
                                     }
                                 }
 
@@ -1844,6 +1906,7 @@
             var _fecha = document.getElementById('_fechaAsigna').value;
             var _servicio = document.getElementById('idservicios').value;
             var _estado = document.getElementById('_estado').value;
+            var cbo_distrito = document.getElementById('cbo_distrito').value;
             
             if (_fecha == '') {
                 new PNotify({
@@ -1886,7 +1949,8 @@
                 data: {
                     FechaAsiga: _fecha,
                     servicio: _servicio,
-                    estado: _estado
+                    estado: _estado,
+                    distrito:cbo_distrito
                 }
             }
             $scope.listDetalleSinGps = [];
@@ -2134,28 +2198,38 @@
             <div class="row" style="margin-top: -5px; margin-bottom: -20px;">
 
                 <div class="col-md-8">
-                    <div class="col-sm-4 col-md-4">
+                    <div class="col-sm-3 col-md-3">
                         <label for="_fechaAsigna" style="font-size:11px">Fecha Asignación:</label>
                         <br />
                         <input class="form-control" id="_fechaAsigna" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
                     </div>
-                    <div class="col-sm-4 col-md-4">
+                    <div class="col-sm-3 col-md-3">
                         <label for="idservicios" style="font-size:11px">Servicio:</label>
                         <br />
-                        <select id="idservicios" ng-model="id_tipoServicio">
+                        <select id="idservicios" ng-model="id_tipoServicio" ng-change="change_distritos(id_tipoServicio);">
                             <option value=0>--[ Seleccione ]-- </option>
                             <option ng-repeat="item in Obj_List_Servicios" value="{{item.id_TipoServicio}}">
                                 {{item.nombre_tiposervicio}}
                             </option>
                         </select>
                     </div>
-                    <div class="col-sm-4 col-md-4">
+                    <div class="col-sm-3 col-md-3">
                         <label for="_estado" style="font-size:11px"> Estado:</label>
                         <br />
                         <select id="_estado" ng-model="id_estado">
                             <option value=0>--[ TODOS ]-- </option>
                             <option ng-repeat="item in list_Estados " value="{{item.id}}">
                                 {{item.id}} : {{item.descripcion}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <label for="cbo_distrito" style="font-size:11px"> Distrito:</label>
+                        <br />
+                        <select id="cbo_distrito" style="width:200px;" ng-model="cbo_distrito">
+                            <option value=0>--[ TODOS ]-- </option>
+                            <option ng-repeat="item in list_Distrito" value="{{item.distrito}}">
+                                {{item.distrito}}
                             </option>
                         </select>
                     </div>

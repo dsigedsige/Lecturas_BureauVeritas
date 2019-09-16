@@ -49,7 +49,23 @@ namespace DSIGE.Web.Controllers
             {
                 return _Serialize(ex.Message, true);
             }
+        }
 
+
+        [HttpPost]
+        public string ListandoServicios_usuarios()
+        {
+            object loDatos;
+            try
+            {
+                CambioEstado_Masivo_BL obj_negocio = new CambioEstado_Masivo_BL();
+                loDatos = obj_negocio.Capa_Negocio_Get_ListaServicios_usuario(((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
         }
 
         [HttpPost]

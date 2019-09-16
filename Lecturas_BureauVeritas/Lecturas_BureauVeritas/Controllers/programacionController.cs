@@ -31,12 +31,12 @@ namespace Lecturas_BureauVeritas.Controllers
 
 
         [HttpPost]
-        public string get_Suministros(string FechaAsiga, int servicio, int estado)
+        public string get_Suministros(string FechaAsiga, int servicio, int estado, string distrito)
         {
             object loDatos;
             try
             {
-                loDatos = new Programacion_BL().capa_negocio_get_Suministros(FechaAsiga, servicio, estado);
+                loDatos = new Programacion_BL().capa_negocio_get_Suministros(FechaAsiga, servicio, estado, distrito);
                 return _Serialize(loDatos, true);
             }
             catch (Exception ex)
@@ -45,14 +45,33 @@ namespace Lecturas_BureauVeritas.Controllers
             }
         }
 
-
         [HttpPost]
-        public string get_Suministros_sinGps(string FechaAsiga, int servicio, int estado)
+        public string get_Distritos(string fechaAsignacion, int servicio)
         {
             object loDatos;
             try
             {
-                loDatos = new Programacion_BL().capa_negocio_get_Suministros_sinGps(FechaAsiga, servicio, estado);
+                loDatos = new Programacion_BL().capa_negocio_get_Distrito(fechaAsignacion, servicio);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
+
+        
+
+
+
+
+        [HttpPost]
+        public string get_Suministros_sinGps(string FechaAsiga, int servicio, int estado, string distrito)
+        {
+            object loDatos;
+            try
+            {
+                loDatos = new Programacion_BL().capa_negocio_get_Suministros_sinGps(FechaAsiga, servicio, estado, distrito);
                 return _Serialize(loDatos, true);
             }
             catch (Exception ex)
