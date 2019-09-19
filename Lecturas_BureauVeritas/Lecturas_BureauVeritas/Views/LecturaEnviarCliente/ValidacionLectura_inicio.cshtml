@@ -343,9 +343,6 @@
 
 
  
-
-
-
             // METODO PARA CHEKED ALL
             $scope.checkedAll = false;
             $scope.checkedAll_OrdenTrabajo = function (checked, TipoTrabajo) {
@@ -518,6 +515,7 @@
 
             var itemImg;
             $scope.agrandarphoto = function (item, index) {
+
                 itemImg = item;
                 degrees = 0;
                 $scope.paramsDetail = item;
@@ -606,6 +604,13 @@
                             $scope.paramsDetail = $scope.ListaLecturasRelectura[index];
                             itemImg = $scope.ListaLecturasRelectura[index];
                             getHistorico(itemImg);
+
+                            if (item.id_observacion == 0 || item.id_observacion == null || item.id_observacion == undefined) {
+                                $('#cbo_edit_observacion').val('0').trigger('change');
+
+                            } else {
+                                $('#cbo_edit_observacion').val(String($scope.ListaLecturasRelectura[index].id_observacion)).trigger('change');
+                            } 
                         }, 500)
 
                     }, function (err) {
@@ -624,6 +629,13 @@
                             itemImg = $scope.ListaLecturasRelectura[index];
                             getHistorico(itemImg);
                             mostrarFoto(itemImg);
+
+                            if (item.id_observacion == 0 || item.id_observacion == null || item.id_observacion == undefined) {
+                                $('#cbo_edit_observacion').val('0').trigger('change');
+
+                            } else {
+                                $('#cbo_edit_observacion').val(String($scope.ListaLecturasRelectura[index].id_observacion)).trigger('change');
+                            }     
                         }, 500)
 
                     }, function (err) {
@@ -949,6 +961,70 @@
                 }
             }
 
+            $scope.anularFoto = function () {
+
+                (new PNotify({
+                    title: 'Sistemas Confirmación ',
+                    text: 'Esta seguro que desea Anular la Foto..?',
+                    icon: 'glyphicon glyphicon-question-sign',
+                    hide: false,
+                    confirm: {
+                        confirm: true
+                    },
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    },
+                    history: {
+                        history: false
+                    }
+                })).get().on('pnotify.confirm', function () {
+
+
+                    $('.sige-load').show();
+                    var variables = {
+                        method: 'post',
+                        url: '../LecturaEnviarCliente/set_anulandoFoto',
+                        headers: {
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        data: {
+                            idLectura: $scope.paramsDetail.id_Lectura,
+                        }
+                    }
+                    $http(variables)
+                        .success(function (data) {
+                            $('.sige-load').hide();
+
+                            if (data == '"OK"' || data == 'OK') {
+                                new PNotify({
+                                    title: 'Sistemas',
+                                    text: 'Se anulo la foto. Muchas gracias',
+                                    type: 'success'
+                                });
+
+                                for (obj_lectura of $scope.ListaLecturasRelectura) {
+                                    if (obj_lectura.id_Lectura == $scope.paramsDetail.id_Lectura) {
+                                        obj_lectura.foto = '';
+                                        break;
+                                    }
+                                }
+                            } else {
+                                alert(data);
+                            }
+                        })
+                        .error(function () {
+                            $('.sige-load').hide();
+                            alert('Lo sentimos, Ocurrio un problema, vuelva a intentar.')
+                        });
+
+                }).on('pnotify.cancel', function () {
+
+                });
+
+            }
+
+
         })
                
     </script>
@@ -1187,9 +1263,13 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-7">
-                                <p style="font-size:14px;">
-                                    Suministro : {{paramsDetail.suministro_lectura}}  | Medidor : {{paramsDetail.medidor_lectura}}  | Lectura Actual : <input type="text"  numeric-only style="width:80px;background-color:beige" ng-model="paramsDetail.lectura_movil" /> 
+                                <p style="font-size:14px; margin-bottom: 0px;">
+                                    Suministro : {{paramsDetail.suministro_lectura}}  | Medidor : {{paramsDetail.medidor_lectura}}  | Lectura Actual : <input type="text" numeric-only style="width:80px;background-color:beige" ng-model="paramsDetail.lectura_movil" />
                                     <button class="btn btn-primary" ng-click="ActualizarLectura(paramsDetail)"><span class="glyphicon glyphicon-floppy-save"></span> Cambiar</button>
+                                </p>
+ 
+                                <p style="font-size:14px;">
+                                    Lectura Minima : {{paramsDetail.lectura_min}}  | Maxima : {{paramsDetail.lectura_max}}
                                 </p>
                             </div>
                             <div class="col-md-5">
@@ -1201,8 +1281,10 @@
                                             <option ng-repeat="item in ListaObservacionesLecturas" value="{{item.id_Observacion}}">{{item.descripcion_observacion}}</option>
                                         </select>
                                         <button class="btn btn-primary" ng-click="Actualizar_Observacion();"><span class="glyphicon glyphicon-floppy-save"></span> Cambiar</button>
-                                    </div> 
+                                    </div>
                                 </form>
+ 
+
                             </div>
                         </div>
 
@@ -1239,7 +1321,21 @@
                                     </table>
                                 </div>
                                 <div class="col-md-6">
+                                    <p style="font-size:14px;color:red;cursor:pointer" ng-click="anularFoto();">
+                                        Anular foto
+                                    </p>
+
                                     <img id="imgRotate" src="{{rutaFoto}}" class="img-responsive img-rounded" alt="imagen suministro" style="width:450px;height:450px;">
+                                    <hr />
+                                    <div class="text-center">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 text-center">
+                                                <button role="button" id="btnCancelar" class="btn btn-danger" ng-click="NextImage(0)"><i class="fa fa-ban fa-lg"></i> Enviar Relectura</button>
+                                                <button role="button" id="btnCancelar" class="btn btn-success" ng-click="NextImage(1)"><i class="fa fa-check fa-lg"></i> Foto Sin Observación</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -1250,12 +1346,12 @@
                             <div class="col-sm-4">
 
                             </div>
-                            <div class="col-sm-3">
-                                @*<button role="button" id="btnCancelar" class="btn btn-danger" ng-click="NextImage(0)"><i class="fa fa-ban fa-lg"></i> Enviar Relectura</button>*@
+                            @*<div class="col-sm-3">
+                                <button role="button" id="btnCancelar" class="btn btn-danger" ng-click="NextImage(0)"><i class="fa fa-ban fa-lg"></i> Enviar Relectura</button>
                             </div>
                             <div class="col-sm-3">
-                                @*<button role="button" id="btnCancelar" class="btn btn-success" ng-click="NextImage(1)"><i class="fa fa-check fa-lg"></i> Sin Observación</button>*@
-                            </div>
+                                <button role="button" id="btnCancelar" class="btn btn-success" ng-click="NextImage(1)"><i class="fa fa-check fa-lg"></i> Sin Observación</button>
+                            </div>*@
 
                             <div class="col-sm-2">
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">

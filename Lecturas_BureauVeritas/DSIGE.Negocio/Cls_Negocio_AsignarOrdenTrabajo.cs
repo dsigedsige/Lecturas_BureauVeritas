@@ -157,6 +157,22 @@ namespace DSIGE.Negocio
         }
 
 
+        public string Capa_Negocio_set_anulandoFoto(int id_lectura, int id_usuario)
+        {
+            try
+            {
+                Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
+                return Objeto_Dato.Capa_Dato_set_anulandoFoto(id_lectura, id_usuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        
+
+
 
         public List<Cls_Entidad_AsignaOrdenTrabajo.Observaciones> Capa_Negocio_Get_ListaObservacionesLectura()
         {
@@ -533,7 +549,14 @@ namespace DSIGE.Negocio
             Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
             return Objeto_Dato.Capa_dato_DescargarArchivoTexto_EnvioCliente(local, servicio, estado, fechaAsigna, id_supervisor, id_operario_supervisor);
         }
-        
+
+        public string Capa_negocio_DescargarArchivoTexto_CortesReconexiones(int servicio, int estado, string fechaAsigna, int id_operario, int id_usuario, int tipo)
+        {
+            Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
+            return Objeto_Dato.Capa_dato_DescargarArchivoTexto_cortesReconexiones(servicio, estado, fechaAsigna, id_operario, id_usuario, tipo);
+        }
+
+
         public string Capa_Negocio_Set_procesarRecepcionLecturas(int servicio, string fechaAsigna)
         {
             try

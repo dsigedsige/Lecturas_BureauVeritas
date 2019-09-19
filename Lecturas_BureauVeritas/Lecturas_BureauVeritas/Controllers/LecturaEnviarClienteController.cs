@@ -74,6 +74,24 @@ namespace DSIGE.Web.Controllers
         }
 
 
+        [HttpPost]
+        public string set_anulandoFoto(int idLectura)
+        {
+            object loDatos;
+            try
+            {
+                Cls_Negocio_AsignarOrdenTrabajo obj_negocio = new Cls_Negocio_AsignarOrdenTrabajo();
+                loDatos = obj_negocio.Capa_Negocio_set_anulandoFoto(idLectura, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+
+        }
+
+
 
         [HttpPost]
         public string ListandoObservacionesLecturas()
@@ -1318,6 +1336,22 @@ namespace DSIGE.Web.Controllers
             }
         }
 
+ 
+        [HttpPost]
+        public string DescargarArchivoTexto_CorteReconexiones(int id_tipo_servicio, int estado,int tecnico, string fechaAsignacion, int tipo)
+        {
+            object loDatos;
+            try
+            {
+                Cls_Negocio_AsignarOrdenTrabajo obj_negocio = new Cls_Negocio_AsignarOrdenTrabajo();
+                loDatos = obj_negocio.Capa_negocio_DescargarArchivoTexto_CortesReconexiones(id_tipo_servicio, estado, fechaAsignacion, tecnico, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id, tipo);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
 
 
         [HttpPost]

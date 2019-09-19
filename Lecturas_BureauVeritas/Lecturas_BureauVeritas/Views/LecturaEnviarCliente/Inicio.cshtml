@@ -212,6 +212,7 @@
             }
         });
 
+
         app.controller('LecturaEnviarClienteCtrl', function ($scope, $http, $timeout, fileUpload) {
 
 
@@ -262,6 +263,36 @@
                         paging: false,
                     });
             });
+
+
+            var oTablePendiente = null;
+            $scope.$on('ngRepeatFinishedPendiente', function (ngRepeatFinishedEvent) { 
+                oTablePendiente = $('#tbl_VisualizarPendientes').DataTable(
+                    {
+                        scrollY: "350px",
+                        paging: false,
+                    });
+            });
+
+            var oTable_cabeceraLecturas = null;
+            $scope.$on('ngRepeatFinished_Lectura', function (ngRepeatFinishedEvent) {
+                oTable_cabeceraLecturas = $('#tblLecturasRelecturas').DataTable(
+                    {
+                        scrollY: "400px",
+                        paging: false,
+                    });
+            });
+
+
+            var oTablePendiente_Det = null;
+            $scope.$on('ngRepeatFinishedPendiente_Det', function (ngRepeatFinishedEvent) {
+                oTablePendiente_Det = $('#tbl_detallado_Pendientes').DataTable(
+                    {
+                        scrollY: "350px",
+                        paging: false,
+                    });
+            });
+
 
 
 
@@ -1027,14 +1058,7 @@
 
 
 
-            var oTable_cabeceraLecturas = null;
-            $scope.$on('ngRepeatFinished_Lectura', function (ngRepeatFinishedEvent) {
-                oTable_cabeceraLecturas = $('#tblLecturasRelecturas').DataTable(
-                     {
-                         scrollY: "400px",
-                         paging: false,
-                     });
-            });
+
 
             $scope.ListandoInformacionOrdenesTrabajo = function () {
 
@@ -1375,8 +1399,6 @@
                 }
 
                 $('.sige-load').show();
-
-
                 var variables = {
                     method: 'POST',
                     url: '../LecturaEnviarCliente/ListandoPendientes',
@@ -1389,11 +1411,19 @@
                     }
                 }
                 $http(variables)
-                .success(function (data) {
-                    $scope.Lista_PendientesLiquidaciones = [];
-                    $scope.Lista_PendientesLiquidaciones = data;
-                    $('.sige-load').hide();
-                }).error(function () {
+                    .success(function (data) {
+                        $('.sige-load').hide();
+                        $scope.Lista_PendientesLiquidaciones = [];
+                        if (oTablePendiente == null) {
+                            $scope.Lista_PendientesLiquidaciones = data;
+                        } else {
+                            oTablePendiente.destroy();
+                            oTablePendiente = null;
+                            $scope.Lista_PendientesLiquidaciones = data;
+                        }                       
+
+                    }).error(function () {
+                        $('.sige-load').hide();
                     alert('Lo sentimos, Ocurrio un problema, vuelva a intentar.')
                 });
             }
@@ -1414,8 +1444,16 @@
                     });
                     return false;
                 }
+                if (oTablePendiente == null) {
+                    $scope.Lista_PendientesLiquidaciones = [];
+                } else {
+                    oTablePendiente.clear();
+                    oTablePendiente.destroy();
+                    oTablePendiente = null;
+                    $scope.Lista_PendientesLiquidaciones = [];
+                }
+
                 $('#modal_VisualizarPendientes').modal({ show: 'false' });
-                $scope.Lista_PendientesLiquidaciones = [];
 
             }
 
@@ -1434,9 +1472,17 @@
                     return false;
                 }
 
-                $('.sige-load').show();
+                if (oTablePendiente_Det == null) {
+                    $scope.Lista_Detallado_PendientesLiquidaciones = [];
+                } else {
+                    oTablePendiente_Det.clear();
+                    oTablePendiente_Det.destroy();
+                    oTablePendiente_Det = null;
+                    $scope.Lista_Detallado_PendientesLiquidaciones = [];
+                }
 
-                $scope.Lista_Detallado_PendientesLiquidaciones = [];
+                $('.sige-load').show();
+ 
                 var variables = {
                     method: 'POST',
                     url: '../LecturaEnviarCliente/Listando_Detalles_Pendientes',
@@ -1451,12 +1497,21 @@
                     }
                 }
                 $http(variables)
-                .success(function (data) {
-                    console.log(data)
-                    $scope.Lista_Detallado_PendientesLiquidaciones = data;
-                    $('.sige-load').hide();
-                }).error(function () {
-                    alert('Lo sentimos, Ocurrio un problema, vuelva a intentar.')
+                    .success(function (data) { 
+                        $('.sige-load').hide();
+
+                        $scope.Lista_Detallado_PendientesLiquidaciones = [];
+                        if (oTablePendiente_Det == null) {
+                               $scope.Lista_Detallado_PendientesLiquidaciones = data;
+                        } else {
+                                oTablePendiente_Det.destroy();
+                                oTablePendiente_Det = null;
+                            $scope.Lista_Detallado_PendientesLiquidaciones = data;
+                        }  
+                
+                    }).error(function () {
+                        $('.sige-load').hide();
+                        alert('Lo sentimos, Ocurrio un problema, vuelva a intentar.')
                 });
             }
 
@@ -2015,9 +2070,7 @@
 
                 }
             };
-
-
-
+                       
             $scope.Actualizar_Lecturas_Vacias = function () {
 
                 var idfechaAsignacion = document.getElementById('dtp_fechaAsigna').value;
@@ -2108,8 +2161,7 @@
                     });
                 }
             };
-
-
+            
             $scope.DescargaExcel_EnvioCliente = function () {
                 if (ValidacionesGenerales() == false) {
                     return;
@@ -2140,7 +2192,22 @@
                 var urlPage = '';
                 if (cbo_servicio.value == 1 || cbo_servicio.value == 2 || cbo_servicio.value == 9) {
                     urlPage = '../LecturaEnviarCliente/DescargarArchivoTexto_EnvioCliente';
-                } else {
+                }
+                else if (cbo_servicio.value == 3 || cbo_servicio.value == 4) {
+                    urlPage = '../LecturaEnviarCliente/DescargarArchivoTexto_CorteReconexiones';
+
+                    //$('#modalCorteReconexion').modal({ show: 'false' });
+                    $('#modalCorteReconexion').modal('show');
+
+                    $scope.nombreServicio = $("#cbo_servicio option:selected").text();
+
+                    setTimeout(function () {
+                        $('#cbo_tipoReporte').val('0').trigger('change'); 
+                    }, 200);
+
+                    return
+                }
+                else {
                     urlPage = '../LecturaEnviarCliente/DescargaExcel_EnviarCliente';
                 }
 
@@ -2163,10 +2230,11 @@
                         id_operario_supervisor: cbo_Operario_supervisor
                     }
                 }
+
                 $http(variables)
                 .success(function (data) {
                     var res = data.split("|");
-                    if (cbo_servicio.value == 1 || cbo_servicio.value == 2 || cbo_servicio.value == 9) {
+                    if (cbo_servicio.value == 1 || cbo_servicio.value == 2 || cbo_servicio.value == 9 || cbo_servicio.value == 3 || cbo_servicio.value == 4) {
                         if (res[0].replace(/["]/gi, '') == 0 || res[0].replace(/["]/gi, '') == "0") {
                             new PNotify({
                                 title: 'Sistemas',
@@ -2209,6 +2277,71 @@
                     alert('Lo sentimos, Ocurrio un problema, vuelva a intentar.')
                 });
             };
+            
+            $scope.DescargaExcel_EnvioCliente_CorteReconexion = function () {
+
+                var id_link = document.getElementById('id_link');
+                var cbo_servicio = document.getElementById('cbo_servicio');
+                var cbo_estado = document.getElementById('cbo_estado');
+                var cbo_tecnico = document.getElementById('cbo_tecnico');
+                var dtp_fechaAsigna = document.getElementById('dtp_fechaAsigna');
+                var cbo_tipoReporte = document.getElementById('cbo_tipoReporte').value; 
+                
+                if (cbo_tipoReporte == 0 || cbo_tipoReporte == '0') {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor seleccione un Tipo de Reporte',
+                        type: 'error'
+                    });
+                }
+
+                let  urlPage = '../LecturaEnviarCliente/DescargarArchivoTexto_CorteReconexiones';
+
+                $('.sige-load').show();
+                var variables = {
+                    method: 'post',
+                    url: urlPage,
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        id_tipo_servicio: cbo_servicio.value,
+                        estado: cbo_estado.value,
+                        tecnico: cbo_tecnico.value,
+                        fechaAsignacion: dtp_fechaAsigna.value,
+                        tipo: cbo_tipoReporte
+                    }
+                }
+
+                $http(variables)
+                    .success(function (data) {
+                        $('.sige-load').hide();
+
+                        var res = data.split("|");
+                        if (res[0].replace(/["]/gi, '') == 0 || res[0].replace(/["]/gi, '') == "0") {
+                            new PNotify({
+                                title: 'Sistemas',
+                                text: 'No hay información para mostrar.',
+                                type: 'success'
+                            });
+                        } else if (res[0].replace(/["]/gi, '') == -1 || res[0].replace(/["]/gi, '') == "-1") {
+                            alert(res[1]);
+                        }
+                        else {
+
+                            $("#modalCorteReconexion").modal('hide');
+                            let url = res[1].replace(/["]/gi, '');
+                            id_link.href = res[1].replace(/["]/gi, '');
+                            id_link.click();
+                        }
+ 
+                    })
+                    .error(function () {
+                        $('.sige-load').hide();
+                        alert('Lo sentimos, Ocurrio un problema, vuelva a intentar.')
+                    });
+            };
+
                                  
             $scope.Descargar_texto_EnvioCliente = function () {
                 var id_link = document.getElementById('id_link');
@@ -2744,245 +2877,310 @@
     </script>
 }
 
-<div ng-app="appLecturaEnviarCliente" ng-controller="LecturaEnviarClienteCtrl" ng-init="listando_Locales()">
+    <div ng-app="appLecturaEnviarCliente" ng-controller="LecturaEnviarClienteCtrl" ng-init="listando_Locales()">
 
-    <div class="panel panel-oscuro"  style="margin-top: -14px;">
-        <div class="panel-heading">
-            <h6><i class="fa fa-table fa-lg"></i> ENVIAR TRABAJOS AL CLIENTE</h6>
-        </div>
-        <div class="panel-body">
-            <div class="well" style="background: #314b75; color: white;    margin-bottom: 1px;">
-                <div class="row" style="    margin-top: -15px">
-                    <div class="col-xs-12 col-sm-12 col-md-7  col-lg-7 ">
-                        <div class="col-xs-6 col-sm-4 col-md-3  col-lg-3 " style="display:none">
-                            <div class="form-group">
-                                <label class="control-label">
-                                    Local
-                                </label>
-                                <br />
-                                <select id="cbo_local" class="form-control" ng-model="id_local" ng-change="Tecnico_Change(id_tipoServicio);">
-                                    <option value=0>--[ Seleccione ]-- </option>
-                                    <option ng-repeat="item in ListaLocales" value="{{item.loc_id}}">
-                                        {{item.loc_nombre}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 ">
-                            <div class="form-group">
-                                <label class="control-label">
-                                    Servicios
-                                </label>
-                                <br />
-                                <select id="cbo_servicio" class="form-control" ng-model="id_tipoServicio" ng-change="Tecnico_Change(id_tipoServicio); Servicios_Change(id_tipoServicio); ChangeObservaciones(id_tipoServicio); ">
-                                    <option value=0>--[ Seleccione ]-- </option>
-                                    <option ng-repeat="item in ListaServicios" value="{{item.id_TipoServicio}}">
-                                        {{item.nombre_tiposervicio}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-xs-12 col-sm-4 col-md-4  col-lg-4 ">
-                            <div class="form-group">
-                                <label class="control-label">
-                                    Estados
-                                </label>
-                                <br />
-                                <select id="cbo_estado" class="form-control">
-                                    <option value=0>--[ Seleccione ]-- </option>
-                                    <option ng-repeat="item in ListaEstados" value="{{item.id_Estado}}">
-                                        {{item.descripcion_estado}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-xs-12 col-sm-4 col-md-4  col-lg-4 ">
-                            <div class="form-group form-group-sm">
-                                <label class="control-label">
-                                    Fecha Asignación
-                                </label>
-                                <br />
-                                <div class="input-group">
-                                    <input  class="form-control Julio" id="dtp_fechaAsigna" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-     
-
-                    <div class="col-xs-12 col-sm-12 col-md-5  col-lg-5 " style="background-color:beige;   padding: 2px;"  title="Filtro sólo para el servicio de lecturas" tooltip-persistent>
-                        <div class="col-sm-6 col-md-6 col-lg-6">
-                            <label for="_supervisor" class="control-label">Supervisor</label>
-                            <select id="cbo_supervisor" class="form-control" ng-model="id_supervisor" ng-change="Change_listando_Usuario_Operarios(id_supervisor); ">
-
-                                <option ng-repeat="item in ListaSupervisor" value="{{item.id_Usuario}}">
-                                    {{item.supervisor}}
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="col-sm-6 col-md-6 col-lg-6">
-                            <label for="_supervisor" class="control-label">Operarios</label>
-                            <select id="cbo_Operario_supervisor" class="form-control">
-                                <option value=0>--[ TODOS ]-- </option>
-                                <option ng-repeat="item in ListaUsuario_Operarios" value="{{item.id_Operario}}">
-                                    {{item.desc_operario}}
-                                </option>
-                            </select>
-                        </div>
-
-                    </div>
-
-                    <a id="id_link" href="" download style="display:none">link</a>
-                </div>
-                <div class="row" style="    margin-bottom: -20px;">
-                    <div class="col-md-7">
-                        <div class="col-xs-6 col-sm-6 col-md-3  col-lg-3 ">
-                            <div class="form-group">
-                                <label class="control-label">
-                                    Suministro
-                                </label>
-                                <br />
-                                <input id="txt_suministro" class="form-control" type="text" placeholder="Ingresar Suministro" maxlength="30">
-                            </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-3  col-lg-3 ">
-                            <div class="form-group">
-                                <label class="control-label">
-                                    Medidor
-                                </label>
-                                <br />
-                                <input id="txt_medidor" class="form-control" type="text" placeholder="Ingresar medidor" maxlength="30">
-                            </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-3  col-lg-3 ">
-                            <div class="form-group">
-                                <label class="control-label">
-                                    Técnico Asignado
-                                </label>
-                                <br />
-                                <select id="cbo_tecnico" class="form-control">
-                                    <option value=0>--[Todos ]-- </option>
-                                    <option ng-repeat="item in ListaTecnico" value="{{item.ope_id}}">
-                                        {{item.ope_nombre}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-3  col-lg-3 ">
-                            <div class="form-group">
-                                <label class="control-label">
-                                    Tipo Cliente
-                                </label>
-                                <br />
-                                <select id="cbo_TipoCliente" class="form-control">
-                                    <option ng-repeat="item in List_TipoCliente" value="{{item.id}}">
-                                        {{item.desc}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-5">
-                        @*<div class="col-xs-12 col-sm-3 col-md-4  col-lg-4 ">
-                            <div class="form-group form-group-sm">
-                                <label class="control-label">
-                                    Fecha Asignación
-                                </label>
-                                <br />
-                                <div class="input-group">
-                                    <input style=" width: 120px;" class="form-control" id="dtp_fechaAsigna" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
-                                </div>
-                            </div>
-                        </div>*@
-                        <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8 ">
-                            <div class="form-group">
-                                <label class="control-label">
-                                </label>
-                                <br />
-                                <button class="btn btn-sm btn-danger" ng-click="RecepcionLecturas();"><span class="glyphicon glyphicon-ok"></span> Recepcion (Solo Lectura)</button>
-                                <button class="btn btn-sm btn-primary" ng-click="ListandoInformacionOrdenesTrabajo()"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+        <div class="panel panel-oscuro" style="margin-top: -14px;">
+            <div class="panel-heading">
+                <h6><i class="fa fa-table fa-lg"></i> ENVIAR TRABAJOS AL CLIENTE</h6>
             </div>
+            <div class="panel-body">
+                <div class="well" style="background: #314b75; color: white;    margin-bottom: 1px;">
+                    <div class="row" style="    margin-top: -15px">
+                        <div class="col-xs-12 col-sm-12 col-md-7  col-lg-7 ">
+                            <div class="col-xs-6 col-sm-4 col-md-3  col-lg-3 " style="display:none">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Local
+                                    </label>
+                                    <br />
+                                    <select id="cbo_local" class="form-control" ng-model="id_local" ng-change="Tecnico_Change(id_tipoServicio);">
+                                        <option value=0>--[ Seleccione ]-- </option>
+                                        <option ng-repeat="item in ListaLocales" value="{{item.loc_id}}">
+                                            {{item.loc_nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
 
-             
+                            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 ">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Servicios
+                                    </label>
+                                    <br />
+                                    <select id="cbo_servicio" class="form-control" ng-model="id_tipoServicio" ng-change="Tecnico_Change(id_tipoServicio); Servicios_Change(id_tipoServicio); ChangeObservaciones(id_tipoServicio); ">
+                                        <option value=0>--[ Seleccione ]-- </option>
+                                        <option ng-repeat="item in ListaServicios" value="{{item.id_TipoServicio}}">
+                                            {{item.nombre_tiposervicio}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
 
-            <div id="Principal" class="table table-responsive">
-                <div ng-show="Flag_Show_LecturaRelectura;">
-                    <table id="tblLecturasRelecturas" class="table  table-responsive table-bordered  table-condensed" ng-show="Flag_Show_LecturaRelectura;" border="0" cellspacing="0" cellpadding="0" style="font-size:11px">
-                        <thead style="background:#F0F3F5; text-align:center !important">
-                            <tr style="text-align:center !important">
-                                <th>
-                                </th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th colspan="2" style="text-align:center !important">
-                                    <input type="checkbox" id="chk_pendientes" style="margin-top: 2px; margin-left: 2px;" value="1" ng-model="checkePendientes" ng-click="verPendientes(checkePendientes)">
-                                    <label style="color:red" for="chk_pendientes">Ver</label>
-                                </th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            <tr style="text-align:center !important">
+                            <div class="col-xs-12 col-sm-4 col-md-4  col-lg-4 ">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Estados
+                                    </label>
+                                    <br />
+                                    <select id="cbo_estado" class="form-control">
+                                        <option value=0>--[ Seleccione ]-- </option>
+                                        <option ng-repeat="item in ListaEstados" value="{{item.id_Estado}}">
+                                            {{item.descripcion_estado}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-4 col-md-4  col-lg-4 ">
+                                <div class="form-group form-group-sm">
+                                    <label class="control-label">
+                                        Fecha Asignación
+                                    </label>
+                                    <br />
+                                    <div class="input-group">
+                                        <input class="form-control Julio" id="dtp_fechaAsigna" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="col-xs-12 col-sm-12 col-md-5  col-lg-5 " style="background-color:beige;   padding: 2px;" title="Filtro sólo para el servicio de lecturas" tooltip-persistent>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <label for="_supervisor" class="control-label">Supervisor</label>
+                                <select id="cbo_supervisor" class="form-control" ng-model="id_supervisor" ng-change="Change_listando_Usuario_Operarios(id_supervisor); ">
+
+                                    <option ng-repeat="item in ListaSupervisor" value="{{item.id_Usuario}}">
+                                        {{item.supervisor}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <label for="_supervisor" class="control-label">Operarios</label>
+                                <select id="cbo_Operario_supervisor" class="form-control">
+                                    <option value=0>--[ TODOS ]-- </option>
+                                    <option ng-repeat="item in ListaUsuario_Operarios" value="{{item.id_Operario}}">
+                                        {{item.desc_operario}}
+                                    </option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <a id="id_link" href="" download style="display:none">link</a>
+                    </div>
+                    <div class="row" style="    margin-bottom: -20px;">
+                        <div class="col-md-7">
+                            <div class="col-xs-6 col-sm-6 col-md-3  col-lg-3 ">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Suministro
+                                    </label>
+                                    <br />
+                                    <input id="txt_suministro" class="form-control" type="text" placeholder="Ingresar Suministro" maxlength="30">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-3  col-lg-3 ">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Medidor
+                                    </label>
+                                    <br />
+                                    <input id="txt_medidor" class="form-control" type="text" placeholder="Ingresar medidor" maxlength="30">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-3  col-lg-3 ">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Técnico Asignado
+                                    </label>
+                                    <br />
+                                    <select id="cbo_tecnico" class="form-control">
+                                        <option value=0>--[Todos ]-- </option>
+                                        <option ng-repeat="item in ListaTecnico" value="{{item.ope_id}}">
+                                            {{item.ope_nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-3  col-lg-3 ">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Tipo Cliente
+                                    </label>
+                                    <br />
+                                    <select id="cbo_TipoCliente" class="form-control">
+                                        <option ng-repeat="item in List_TipoCliente" value="{{item.id}}">
+                                            {{item.desc}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5">
+                            @*<div class="col-xs-12 col-sm-3 col-md-4  col-lg-4 ">
+                                <div class="form-group form-group-sm">
+                                    <label class="control-label">
+                                        Fecha Asignación
+                                    </label>
+                                    <br />
+                                    <div class="input-group">
+                                        <input style=" width: 120px;" class="form-control" id="dtp_fechaAsigna" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8 ">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                    </label>
+                                    <br />
+                                    <button class="btn btn-sm btn-danger" ng-click="RecepcionLecturas();"><span class="glyphicon glyphicon-ok"></span> Recepcion (Solo Lectura)</button>
+                                    <button class="btn btn-sm btn-primary" ng-click="ListandoInformacionOrdenesTrabajo()"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div id="Principal" class="table table-responsive">
+                    <div ng-show="Flag_Show_LecturaRelectura;">
+                        <table id="tblLecturasRelecturas" class="table  table-responsive table-bordered  table-condensed" ng-show="Flag_Show_LecturaRelectura;" border="0" cellspacing="0" cellpadding="0" style="font-size:11px">
+                            <thead style="background:#F0F3F5; text-align:center !important">
+                                <tr style="text-align:center !important">
+                                    <th>
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th colspan="2" style="text-align:center !important">
+                                        <input type="checkbox" id="chk_pendientes" style="margin-top: 2px; margin-left: 2px;" value="1" ng-model="checkePendientes" ng-click="verPendientes(checkePendientes)">
+                                        <label style="color:red" for="chk_pendientes">Ver</label>
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                <tr style="text-align:center !important">
+                                    <th>
+                                        <div class="checkbox clip-check check-danger checkbox-inline">
+                                            <input type="checkbox" id="checkboxAll" value="1" ng-model="checkedAll" ng-click="checkedAll_OrdenTrabajo(checkedAll,1)">
+                                            <label for="checkboxAll">
+                                            </label>
+                                        </div>
+                                    </th>
+                                    <th>Orden</th>
+                                    <th>Foto</th>
+                                    <th style="text-align:center !important">Fecha Lectura</th>
+                                    <th style="text-align:center !important">Cuenta Contrato</th>
+                                    <th style="text-align:center !important">Medidor</th>
+
+                                    <th style="text-align:center !important">Consumo 1</th>
+                                    <th style="text-align:center !important">Consumo 2</th>
+                                    <th style="text-align:center !important">Consumo 3</th>
+                                    <th style="text-align:center !important">Prom. Consumo</th>
+                                    <th style="text-align:center !important">Lect. Anterior</th>
+                                    <th style="text-align:center !important">Lect. Actual</th>
+
+                                    <th style="text-align:center !important">Consumo Actual</th>
+                                    <th style="text-align:center !important">Porcentaje</th>
+                                    <th style="text-align:center !important"> % Mayor </th>
+                                    <th style="text-align:center !important">Consumo Menor</th>
+
+                                    <th style="text-align:center !important">Cod. Observacion</th>
+                                    <th style="text-align:center !important">Obs. Lectura</th>
+                                    <th style="text-align:center !important">Operador</th>
+                                    <th>Desplazamiento</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in ListaLecturasRelectura">
+                                    <td>
+                                        <div class="checkbox clip-check check-primary checkbox-inline check">
+                                            <input type="checkbox" id="checkbox{{$index}}" value="true" ng-model="item.checkeado">
+                                            <label for="checkbox{{$index}}">
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {{$index + 1}}
+                                    </td>
+
+                                    <td><a href="#" ng-click="MostrarFoto(item.id_Lectura, 1);">{{item.foto}}</a> </td>
+                                    <td>{{item.fechLectura}}</td>
+                                    <td>{{item.suministro_lectura}}</td>
+                                    <td>{{item.medidor_lectura}}</td>
+
+                                    <td style="text-align:right !important">{{item.Consumo1}}</td>
+                                    <td style="text-align:right !important">{{item.Consumo2}}</td>
+                                    <td style="text-align:right !important">{{item.Consumo3}}</td>
+
+                                    <td style="text-align:right !important">{{item.ConsumoProm}}</td>
+                                    <td style="text-align:right !important">{{item.lectura_Anterior}}</td>
+                                    <td style="text-align:right !important;cursor: pointer" ng-click="ModificarLecturaRelectura(item,item.lecMovil, 'lectura');"><a href=" #">{{item.lecMovil}}</a></td>
+                                    <td style="text-align:right !important">{{item.ConsumoActual}}</td>
+                                    <td style="text-align:right !important">{{item.Porcentaje}}</td>
+                                    <td style="text-align:center;color:red !important">{{item.PorcentajeMayo}}</td>
+                                    <td style="text-align:center;color:red !important">{{item.LecturaMenor}}</td>
+                                    <td ng-click="ModificarLecturaRelectura(item,item.idLecObs, 'cod_observacion');" style="cursor: pointer;    font-size: 8px;"><a href=" #">{{item.descripcion_observacion}}</a></td>
+
+                                    <td>{{item.lecObs}}</td>
+                                    <td><div style="width:250px;"> {{item.ope_nombre}}</div> </td>
+                                    <td>{{item.desplazamiento}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <table id="tblCortesReconexiones" class="table  table-responsive table-bordered  table-condensed" ng-show="Flag_Show_CorteReconexion ;" border="0" cellspacing="0" cellpadding="0" style="font-size:11px">
+                        <thead style="background:#F0F3F5;">
+                            <tr>
                                 <th>
                                     <div class="checkbox clip-check check-danger checkbox-inline">
-                                        <input type="checkbox" id="checkboxAll" value="1" ng-model="checkedAll" ng-click="checkedAll_OrdenTrabajo(checkedAll,1)">
+                                        <input type="checkbox" id="checkboxAll" value="1" ng-model="checkedAll" ng-click="checkedAll_OrdenTrabajo(checkedAll,2)">
                                         <label for="checkboxAll">
                                         </label>
                                     </div>
                                 </th>
+                                <th>Item</th>
                                 <th>Orden</th>
                                 <th>Foto</th>
-                                <th style="text-align:center !important">Fecha Lectura</th>
-                                <th style="text-align:center !important">Cuenta Contrato</th>
-                                <th style="text-align:center !important">Medidor</th>
-
-                                <th style="text-align:center !important">Consumo 1</th>
-                                <th style="text-align:center !important">Consumo 2</th>
-                                <th style="text-align:center !important">Consumo 3</th>
-                                <th style="text-align:center !important">Prom. Consumo</th>
-                                <th style="text-align:center !important">Lect. Anterior</th>
-                                <th style="text-align:center !important">Lect. Actual</th>
-
-                                <th style="text-align:center !important">Consumo Actual</th>
-                                <th style="text-align:center !important">Porcentaje</th>
-                                <th style="text-align:center !important"> % Mayor </th>
-                                <th style="text-align:center !important">Consumo Menor</th>
-
-                                <th style="text-align:center !important">Cod. Observacion</th>
-                                <th style="text-align:center !important">Obs. Lectura</th>
-                                <th style="text-align:center !important">Operador</th>
-                                <th>Desplazamiento</th>
+                                <th>Fecha Corte</th>
+                                <th>Cuenta Contrato</th>
+                                <th>Medidor</th>
+                                <th>Cliente</th>
+                                <th>Lectura</th>
+                                <th>Observación</th>
+                                <th>Resultado</th>
+                                <th>Operario</th>
+                                <th>Dirección</th>
+                                <th>Distrito</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in ListaLecturasRelectura">
+                            <tr ng-repeat="item in ListaCortes">
                                 <td>
-                                    <div class="checkbox clip-check check-primary checkbox-inline check"  >
-                                        <input type="checkbox" id="checkbox{{$index}}" value="true" ng-model="item.checkeado">
+                                    <div class="checkbox clip-check check-primary checkbox-inline check">
+                                        <input type="checkbox" id="checkbox{{$index}}" value="true" ng-model="item.checkeado" ng-click="addIdChecked(item.Numero_OrdImport,item.checked)">
                                         <label for="checkbox{{$index}}">
                                         </label>
                                     </div>
@@ -2990,884 +3188,859 @@
                                 <td>
                                     {{$index + 1}}
                                 </td>
-
-                                <td><a href="#" ng-click="MostrarFoto(item.id_Lectura, 1);">{{item.foto}}</a> </td>
-                                <td>{{item.fechLectura}}</td>
-                                <td>{{item.suministro_lectura}}</td>
-                                <td>{{item.medidor_lectura}}</td>
-
-                                <td style="text-align:right !important">{{item.Consumo1}}</td>
-                                <td style="text-align:right !important">{{item.Consumo2}}</td>
-                                <td style="text-align:right !important">{{item.Consumo3}}</td>
-
-                                <td style="text-align:right !important">{{item.ConsumoProm}}</td>
-                                <td style="text-align:right !important">{{item.lectura_Anterior}}</td>
-                                <td style="text-align:right !important;cursor: pointer" ng-click="ModificarLecturaRelectura(item,item.lecMovil, 'lectura');"  ><a href=" #">{{item.lecMovil}}</a></td>
-                                <td style="text-align:right !important">{{item.ConsumoActual}}</td>
-                                <td style="text-align:right !important">{{item.Porcentaje}}</td>
-                                <td style="text-align:center;color:red !important">{{item.PorcentajeMayo}}</td>
-                                <td style="text-align:center;color:red !important">{{item.LecturaMenor}}</td>
-                                <td ng-click="ModificarLecturaRelectura(item,item.idLecObs, 'cod_observacion');" style="cursor: pointer;    font-size: 8px;"><a href=" #">{{item.descripcion_observacion}}</a></td>
-
-                                <td>{{item.lecObs}}</td>
-                                <td><div style="width:250px;"> {{item.ope_nombre}}</div> </td>
-                                <td>{{item.desplazamiento}}</td>
+                                <td>{{item.orden}}</td>
+                                <td><a href="#" ng-click="MostrarFoto(item.id_Lectura, 2);">{{item.foto}}</a> </td>
+                                <td>{{item.fecha_corte}}</td>
+                                <td>{{item.cuenta_contrato}}</td>
+                                <td>{{item.medidor_corte}}</td>
+                                <td>{{item.cliente}}</td>
+                                <td ng-click="ModificarCortesReconexiones(item,item.lectura, 'corte_lectura');" style="cursor: pointer"><a href=" #">{{item.lectura}}</a></td>
+                                <td ng-click="ModificarCortesReconexiones(item,item.id_Observacion_corte, 'cod_observacion');" style="cursor: pointer"><a href=" #">{{item.observacion}}</a></td>
+                                <td ng-click="ModificarCortesReconexiones(item,item.id_resultadoObsCorte, 'cod_observacionResultado');" style="cursor: pointer"><a href=" #">{{item.id_observacionResultado_corte}}</a></td>
+                                <td>{{item.ope_nombre}}</td>
+                                <td>{{item.direccion}}</td>
+                                <td>{{item.distrito}}</td>
+                                <td><a data-toggle="modal" data-target="#modal-historico_CortesReconexiones" ng-click="OrdenTrabajo_Historico_CortesReconexiones(item.suministro_corte);" href="#"> Histórico</a></td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
 
-                <table id="tblCortesReconexiones" class="table  table-responsive table-bordered  table-condensed" ng-show="Flag_Show_CorteReconexion ;" border="0" cellspacing="0" cellpadding="0" style="font-size:11px">
-                    <thead style="background:#F0F3F5;">
-                        <tr>
-                            <th>
-                                <div class="checkbox clip-check check-danger checkbox-inline">
-                                    <input type="checkbox" id="checkboxAll" value="1" ng-model="checkedAll" ng-click="checkedAll_OrdenTrabajo(checkedAll,2)">
-                                    <label for="checkboxAll">
-                                    </label>
-                                </div>
-                            </th>
-                            <th>Item</th>
-                            <th>Orden</th>
-                            <th>Foto</th>
-                            <th>Fecha Corte</th>
-                            <th>Cuenta Contrato</th>
-                            <th>Medidor</th>
-                            <th>Cliente</th>
-                            <th>Lectura</th>
-                            <th>Observación</th>
-                            <th>Resultado</th>
-                            <th>Operario</th>
-                            <th>Dirección</th>
-                            <th>Distrito</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in ListaCortes">
-                            <td>
-                                <div class="checkbox clip-check check-primary checkbox-inline check">
-                                    <input type="checkbox" id="checkbox{{$index}}" value="true" ng-model="item.checkeado" ng-click="addIdChecked(item.Numero_OrdImport,item.checked)">
-                                    <label for="checkbox{{$index}}">
-                                    </label>
-                                </div>
-                            </td>
-                            <td>
-                                {{$index + 1}}
-                            </td>
-                            <td>{{item.orden}}</td>
-                            <td><a href="#" ng-click="MostrarFoto(item.id_Lectura, 2);">{{item.foto}}</a> </td>
-                            <td>{{item.fecha_corte}}</td>
-                            <td>{{item.cuenta_contrato}}</td>
-                            <td>{{item.medidor_corte}}</td>
-                            <td>{{item.cliente}}</td>
-                            <td ng-click="ModificarCortesReconexiones(item,item.lectura, 'corte_lectura');" style="cursor: pointer"><a href=" #">{{item.lectura}}</a></td>
-                            <td ng-click="ModificarCortesReconexiones(item,item.id_Observacion_corte, 'cod_observacion');" style="cursor: pointer"><a href=" #">{{item.observacion}}</a></td>
-                            <td ng-click="ModificarCortesReconexiones(item,item.id_resultadoObsCorte, 'cod_observacionResultado');" style="cursor: pointer"><a href=" #">{{item.id_observacionResultado_corte}}</a></td>
-                            <td>{{item.ope_nombre}}</td>
-                            <td>{{item.direccion}}</td>
-                            <td>{{item.distrito}}</td>
-                            <td><a data-toggle="modal" data-target="#modal-historico_CortesReconexiones" ng-click="OrdenTrabajo_Historico_CortesReconexiones(item.suministro_corte);" href="#"> Histórico</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <table id="tblReparto" class="table  table-responsive table-bordered  table-condensed" ng-show="Flag_Show_Reparto ;" border="0" cellspacing="0" cellpadding="0" style="font-size:11px">
-                    <thead style="background:#F0F3F5;">
-                        <tr>
-                            <th>
-                                <div class="checkbox clip-check check-danger checkbox-inline">
-                                    <input type="checkbox" id="checkboxAll" value="1" ng-model="checkedAll" ng-click="checkedAll_OrdenTrabajo(checkedAll,3)">
-                                    <label for="checkboxAll">
-                                    </label>
-                                </div>
-                            </th>
-                            <th>Item</th>
-                            <th>Foto</th>
-                            <th>Cuenta Contrato</th>
-                            <th>Fecha Reparto</th>
-                            <th>Doc. Impresion</th>
-                            <th>Nro. Recibo</th>
-
-                            <th>Aviso</th>
-                            <th>Cargo</th>
-                            <th>Muestra</th>
-
-                            <th>Operario</th>
-                            <th>Cliente</th>
-                            <th>Direccion</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in ListaReparto">
-                            <td>
-                                <div class="checkbox clip-check check-primary checkbox-inline">
-                                    <input style="margin-top: -4px;" type="checkbox" id="checkbox{{$index}}" value="true" ng-model="item.checkeado"> <label for="checkbox{{$index}}"> </label>
-                                </div>
-                            </td>
-                            <td>
-                                {{$index + 1}}
-                            </td>
-                            <td><a href="#" ng-click="MostrarFoto(item.id_Reparto, 3);">{{item.foto}}</a> </td>
-                            <td>{{item.CuentaContrato_Reparto}}</td>
-                            <td>{{item.fecha_reparto}}</td>
-                            <td>{{item.DocImpresion_Reparto}}</td>
-                            <td>{{item.NroRecibo_Reparto}}</td>
-
-                            <td>{{item.aviso_Reparto}}</td>
-                            <td>{{item.cargo_Reparto}}</td>
-                            <td>{{item.muestra_Reparto}}</td>
-
-                            <td>{{item.ope_nombre}}</td>
-                            <td>{{item.nombreCliente_Reparto}}</td>
-                            <td>{{item.direccion_Reparto}}</td>
-                            @*<td><a data-toggle="modal" data-target="#modal-historico_CortesReconexiones" ng-click="OrdenTrabajo_Historico_CortesReconexiones(item.suministro_corte);" href="#"> Histórico</a></td>*@
-                        </tr>
-                    </tbody>
-                </table>
-
-            </div>
-
-
-            <table id="tblTrabajos" style="display:none">
-                <thead>
-                    <tr>
-                        <th>ITEM</th>
-                        <th>INSTALACIÓN</th>
-                        <th>EQUIPO</th>
-                        <th>MEDIDOR</th>
-                        <th>CTA.CTO</th>
-                        <th>FECHA PLAN LECTURA</th>
-                        <th>FECHA REAL DE LECTURA</th>
-                        <th>HORA DE LECTURA REAL</th>
-                        <th>LECTURA</th>
-                        <th>NOTA DE LECTURISTA</th>
-                        <th>CÓDIGO DE COMENTARIO</th>
-                        <th>COMENTARIO</th>
-                        <th>CODIGO DE LECTOR</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="item in listTrabajos">
-                        <td>{{item.ITEM}}</td>
-                        <td>{{item.INSTALACION}}</td>
-                        <td>{{item.EQUIPO}}</td>
-                        <td>{{item.MEDIDOR}}</td>
-                        <td>{{item.CTACTO}}</td>
-                        <td>{{item.FecPlanLectura}}</td>
-                        <td>{{item.FecRealPlanLectura}}</td>
-                        <td>{{item.Hora_Plantilla}}</td>
-                        <td>{{item.Lectura}}</td>
-                        <td>{{item.Nota}}</td>
-                        <td>{{item.Cod_Comentario}}</td>
-                        <td>{{item.Comentario}}</td>
-                        <td>{{item.Codigo_Lector}}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <br />
-            <div class="row">
-                <div class="panel-body" style="height: 40px;">
-                    <div class="col-sm-12" style="text-align:center;">
-                        <div class="form-group form-group-sm">
-                            @*<button class="btn btn-danger btn-sm" ng-click="AbrirModal_Importacion();"><span class="glyphicon glyphicon-list-alt"></span> Importar Archivos Lectura Manual</button>
-                            <button class="btn btn-default" ng-click="EnviarVerificacion_porcentaje()"><span class="glyphicon glyphicon-minus-sign"></span> Enviar Lecturas Observadas</button>*@
-                            <button role="button" class="btn btn-warning btn-sm" ng-click="DescargarArchivos();" title="Descargar Todas Fotos"><i class="fa fa-camera fa-lg"></i> Descargar Fotos</button>
-                            <button role="button" class="btn btn-primary btn-sm" ng-click="DescargarArchivos_sinObservacion();" title="Descargar Fotos sin Observacion (Solo para Lecturas)"><span class="glyphicon glyphicon-save"></span> Fotos SinObservación</button>
-
-                            <button role="button" class="btn btn-success btn-sm" ng-click="DescargaExcel_PreEnvio();"><i class="fa fa-windows fa-lg"></i> Visualizar Pre-Envío al Cliente</button>
-                            <button role="button" class="btn btn-info btn-sm" ng-click="DescargaExcel_EnvioCliente();"><i class="fa fa-download fa-lg"></i> Enviar al Cliente</button>
-                            <button role="button" class="btn btn-danger btn-sm" ng-click="VisualizarModalPendientes();"><i class="fa fa-windows fa-lg"></i> Visualizar Pendientes</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div id="modal-envioAppMovil" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog">
-            <div class="panel panel-oscuro">
-                <div class="panel-heading">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i>Enviar al Movil</h6>
-                </div>
-                <div class="panel-body">
-                    <form class="form-horizontal">
-
-                        <fieldset class="fieldset-border">
-                            <legend>Enviar Datos al Aplicativo Movil</legend>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="col-md-10">
-                                        <div class="form-group">
-                                            <label class="control-label">
-                                                Fecha Asignación :
-                                            </label>
-                                            <br />
-                                            <br />
-                                            <div class="form-group form-group-sm">
-                                                <div class="input-group">
-                                                    <input class="form-control" id="_fechaEnvioMovil" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
-                                <button role="button" class="btn btn-primary" ng-click="UpdateFechaAplicativoMovil();"><i class="fa fa-mobile-phone fa-lg"></i> Enviar al Movil</button>
-                                <button role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-historico_LecturaRelectura" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" style=" width: 60% !important;">
-            <div class="panel panel-oscuro">
-                <div class="panel-heading">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> HISTÓRICO LECTURA Y/O RELECTURA</h6>
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <table id="table_historico_Lectura_Relectura" class="table table-condensed table-bordered table-responsive" cellspacing="0">
-                            <thead style="background:#F0F3F5;">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Medidor</th>
-                                    <th>Fecha de Lectura</th>
-                                    <th>Lectura</th>
-                                    <th>Operario</th>
-                                    <th>Observación</th>
-                                    <th>Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="lista in Lista_OrdenTrabajo_LecturaRelectura" on-finish-render="ngRepeatFinished">
-                                    <td>{{$index + 1}}</td>
-                                    <td>{{lista.medidor_lectura}}</td>
-                                    <td>{{lista.fechaLecturaMovil_lectura}}</td>
-                                    <td>{{lista.lectura_Anterior}}</td>
-                                    <td>{{lista.ope_nombre}}</td>
-                                    <td>{{lista.Observacion_lectura}}</td>
-                                    <td>{{lista.abreviatura_estado}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
-                                <button role="button" class="btn btn-default" ng-click="tableToExcel_Historico('#table_exportar_lecturaRelectura')"><i class="fa fa-download fa-lg"></i> Exportar</button>
-                                <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>Cancelar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-reasignaoperador" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" id="modalreasig">
-            <div class="panel panel-oscuro">
-                <div class="panel-heading">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> RE-ASIGNAR OPERADOR</h6>
-                </div>
-                <div class="panel-body">
-                    <form class="form-horizontal">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <fieldset class="fieldset-border">
-                                    <legend>Reasignar Operador</legend>
-                                    <div class="form-group form-group-sm">
-                                        <br />
-                                        <label for="_operador" class="col-sm-4 control-label">Operador</label>
-                                        <div class="col-md-8">
-                                            <div class="form-group form-group-sm">
-                                                <select id="cbo_tecnicoReasignar" class="form-control">
-                                                    <option value=0>--[ Seleccione ]-- </option>
-                                                    <option ng-repeat="item in ListaTecnicoReasignar" value="{{item.ope_id}}">
-                                                        {{item.ope_nombre}}
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group form-group-sm">
-                                        <label for="_fechaReasignaOperador" class="col-sm-4 control-label">Fecha Toma</label>
-                                        <div class="col-md-1">
-                                            <div class="form-group form-group-sm">
-                                                <div class="input-group">
-                                                    <input style="width:90px;" class="form-control" id="_fechaReasignaOperador" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
-                                <button role="button" class="btn btn-success" ng-click="updReasignaOperador(0);"><i class="fa fa-save fa-lg"></i> Guardar</button>
-                                <button role="button" class="btn btn-primary" ng-click="updReasignaOperador(1);"><i class="fa fa-mobile-phone fa-lg"></i> Enviar al Movil</button>
-                                <button role="button" class="btn btn-default" data-dismiss="modal" ng-click="CerraModalReasignar()"><i class="fa fa-close fa-lg"></i> Cancelar</button>
-                                @*  <button role="button" class="btn btn-default" ng-click="CerraModalReasignar()"><i class="fa fa-close fa-lg"></i> Cancelar</button>*@
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <table id="table_exportar_lecturaRelectura" ng-show="false">
-        <tr>
-            <th>Medidor</th>
-            <th>Fecha de Lectura</th>
-            <th>Lectura</th>
-            <th>Operario</th>
-            <th>Observación</th>
-            <th>Estado</th>
-        </tr>
-        <tr ng-repeat="lista in Lista_OrdenTrabajo_LecturaRelectura">
-            <td>{{lista.medidor_lectura}}</td>
-            <td>{{lista.fechaLecturaMovil_lectura}}</td>
-            <td>{{lista.lectura_Anterior}}</td>
-            <td>{{lista.ope_nombre}}</td>
-            <td>{{lista.Observacion_lectura}}</td>
-            <td>{{lista.abreviatura_estado}}</td>
-        </tr>
-    </table>
-
-
-    <table id="table_exportar_CortesReconexiones" ng-show="false">
-        <tr>
-            <th>#</th>
-            <th>Medidor</th>
-            <th>Fecha de Lectura</th>
-            <th>Lectura</th>
-            <th>Operario</th>
-            <th>Observación</th>
-            <th>Estado</th>
-        </tr>
-        <tr ng-repeat="lista in Lista_OrdenTrabajo_CortesReconexiones">
-            <td>{{$index + 1}}</td>
-            <td>{{lista.medidor_corte}}</td>
-            <td>{{lista.fechaAsignacion_corte}}</td>
-            <td>{{lista.id_Corte}}</td>
-            <td>{{lista.ope_nombre}}</td>
-            <td>{{lista.Observacion_corte}}</td>
-            <td>{{lista.abreviatura_estado}}</td>
-        </tr>
-    </table>
-
-    <div id="modal-historico_CortesReconexiones" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" style=" width: 60% !important;">
-            <div class="panel panel-oscuro">
-                <div class="panel-heading">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> HISTÓRICO LECTURA Y/O RELECTURA</h6>
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <table id="table_historico_CortesReconexiones" class="table table-condensed table-bordered table-responsive" cellspacing="0">
-                            <thead style="background:#F0F3F5;">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Medidor</th>
-                                    <th>Fecha de Corte</th>
-                                    <th>Corte</th>
-                                    <th>Operario</th>
-                                    <th>Observación</th>
-                                    <th>Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="lista in Lista_OrdenTrabajo_CortesReconexiones">
-                                    <td>{{$index + 1}}</td>
-                                    <td>{{lista.medidor_corte}}</td>
-                                    <td>{{lista.fechaAsignacion_corte}}</td>
-                                    <td>{{lista.id_Corte}}</td>
-                                    <td>{{lista.ope_nombre}}</td>
-                                    <td>{{lista.Observacion_corte}}</td>
-                                    <td>{{lista.abreviatura_estado}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
-                                <button role="button" class="btn btn-default" ng-click="tableToExcel_Historico('#table_exportar_CortesReconexiones')"><i class="fa fa-download fa-lg"></i> Exportar</button>
-                                <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>Cancelar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="fotos" class="modal fade">
-        <div class="modal-dialog" style="width:500px; height:450px; text-align: center;">
-
-            <div class="modal-body" style="text-align: center; background-color: white;">
-
-                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                    <!-- Indicators -->
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner" id="corre">
-                    </div>
-
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#carousel-example-generic" ng-click="previusPhoto()" role="button" data-slide="prev" style="background-color:black;">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                    </a>
-                    <a class="right carousel-control" href="#carousel-example-generic" ng-click="nextPhoto()" role="button" data-slide="next" style="background-color:black;">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                    </a>
-                </div>
-                <!-- Carousel -->
-            </div>
-        </div>
-    </div>
-
-
-    <div id="modal_VisualizarPendientes" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" style=" width: 60% !important;">
-            <div class="panel panel-oscuro">
-                <div class="panel-heading">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> Visualizar Pendientes</h6>
-                </div>
-                <div class="panel-body">
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <label for="_fechaPendientes" class="control-label">Fecha Asignación : </label>
-                            <input style=" width: 120px;" class="form-control" id="_fechaPendientes" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
-                        </div>
-                        <button role="button" class="btn btn-danger btn-sm" ng-click="VisualizarPendientes();"><i class="fa fa-windows fa-lg"></i> Visualizar Pendientes</button>
-                        <hr />
-                    </form>
-
-                    <table id="tbl_VisualizarPendientes" class="table table-condensed table-bordered table-responsive" cellspacing="0">
+                    <table id="tblReparto" class="table  table-responsive table-bordered  table-condensed" ng-show="Flag_Show_Reparto ;" border="0" cellspacing="0" cellpadding="0" style="font-size:11px">
                         <thead style="background:#F0F3F5;">
                             <tr>
-                                <th>#</th>
-                                <th>OPERARIO</th>
-                                <th>ESTADO</th>
-                                <th>CANTIDAD</th>
+                                <th>
+                                    <div class="checkbox clip-check check-danger checkbox-inline">
+                                        <input type="checkbox" id="checkboxAll" value="1" ng-model="checkedAll" ng-click="checkedAll_OrdenTrabajo(checkedAll,3)">
+                                        <label for="checkboxAll">
+                                        </label>
+                                    </div>
+                                </th>
+                                <th>Item</th>
+                                <th>Foto</th>
+                                <th>Cuenta Contrato</th>
+                                <th>Fecha Reparto</th>
+                                <th>Doc. Impresion</th>
+                                <th>Nro. Recibo</th>
+
+                                <th>Aviso</th>
+                                <th>Cargo</th>
+                                <th>Muestra</th>
+
+                                <th>Operario</th>
+                                <th>Cliente</th>
+                                <th>Direccion</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="lista in Lista_PendientesLiquidaciones">
-                                <td>{{$index + 1}}</td>
-                                <td>{{lista.Operario}}</td>
-                                <td>{{lista.Estado}}</td>
-                                <td>{{lista.Cantidad}}</td>
-                                <td><a data-toggle="modal" data-target="#modal_detalladoPendientes" ng-click="Visualizar_DetalladoPendientes(lista);" href="#"> Ver Detalle</a></td>
+                            <tr ng-repeat="item in ListaReparto">
+                                <td>
+                                    <div class="checkbox clip-check check-primary checkbox-inline">
+                                        <input style="margin-top: -4px;" type="checkbox" id="checkbox{{$index}}" value="true" ng-model="item.checkeado"> <label for="checkbox{{$index}}"> </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    {{$index + 1}}
+                                </td>
+                                <td><a href="#" ng-click="MostrarFoto(item.id_Reparto, 3);">{{item.foto}}</a> </td>
+                                <td>{{item.CuentaContrato_Reparto}}</td>
+                                <td>{{item.fecha_reparto}}</td>
+                                <td>{{item.DocImpresion_Reparto}}</td>
+                                <td>{{item.NroRecibo_Reparto}}</td>
+
+                                <td>{{item.aviso_Reparto}}</td>
+                                <td>{{item.cargo_Reparto}}</td>
+                                <td>{{item.muestra_Reparto}}</td>
+
+                                <td>{{item.ope_nombre}}</td>
+                                <td>{{item.nombreCliente_Reparto}}</td>
+                                <td>{{item.direccion_Reparto}}</td>
+                                @*<td><a data-toggle="modal" data-target="#modal-historico_CortesReconexiones" ng-click="OrdenTrabajo_Historico_CortesReconexiones(item.suministro_corte);" href="#"> Histórico</a></td>*@
                             </tr>
                         </tbody>
                     </table>
 
                 </div>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
-                                <button role="button" class="btn btn-default" ng-click="tableToExcel_Pendientes('#table_Pendientes')"><i class="fa fa-download fa-lg"></i> Exportar</button>
-                                <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>Cancelar</button>
+
+
+                <table id="tblTrabajos" style="display:none">
+                    <thead>
+                        <tr>
+                            <th>ITEM</th>
+                            <th>INSTALACIÓN</th>
+                            <th>EQUIPO</th>
+                            <th>MEDIDOR</th>
+                            <th>CTA.CTO</th>
+                            <th>FECHA PLAN LECTURA</th>
+                            <th>FECHA REAL DE LECTURA</th>
+                            <th>HORA DE LECTURA REAL</th>
+                            <th>LECTURA</th>
+                            <th>NOTA DE LECTURISTA</th>
+                            <th>CÓDIGO DE COMENTARIO</th>
+                            <th>COMENTARIO</th>
+                            <th>CODIGO DE LECTOR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in listTrabajos">
+                            <td>{{item.ITEM}}</td>
+                            <td>{{item.INSTALACION}}</td>
+                            <td>{{item.EQUIPO}}</td>
+                            <td>{{item.MEDIDOR}}</td>
+                            <td>{{item.CTACTO}}</td>
+                            <td>{{item.FecPlanLectura}}</td>
+                            <td>{{item.FecRealPlanLectura}}</td>
+                            <td>{{item.Hora_Plantilla}}</td>
+                            <td>{{item.Lectura}}</td>
+                            <td>{{item.Nota}}</td>
+                            <td>{{item.Cod_Comentario}}</td>
+                            <td>{{item.Comentario}}</td>
+                            <td>{{item.Codigo_Lector}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <div class="row">
+                    <div class="panel-body" style="height: 40px;">
+                        <div class="col-sm-12" style="text-align:center;">
+                            <div class="form-group form-group-sm">
+                                @*<button class="btn btn-danger btn-sm" ng-click="AbrirModal_Importacion();"><span class="glyphicon glyphicon-list-alt"></span> Importar Archivos Lectura Manual</button>
+                                <button class="btn btn-default" ng-click="EnviarVerificacion_porcentaje()"><span class="glyphicon glyphicon-minus-sign"></span> Enviar Lecturas Observadas</button>*@
+                                <button role="button" class="btn btn-warning btn-sm" ng-click="DescargarArchivos();" title="Descargar Todas Fotos"><i class="fa fa-camera fa-lg"></i> Descargar Fotos</button>
+                                <button role="button" class="btn btn-primary btn-sm" ng-click="DescargarArchivos_sinObservacion();" title="Descargar Fotos sin Observacion (Solo para Lecturas)"><span class="glyphicon glyphicon-save"></span> Fotos SinObservación</button>
+
+                                <button role="button" class="btn btn-success btn-sm" ng-click="DescargaExcel_PreEnvio();"><i class="fa fa-windows fa-lg"></i> Visualizar Pre-Envío al Cliente</button>
+                                <button role="button" class="btn btn-info btn-sm" ng-click="DescargaExcel_EnvioCliente();"><i class="fa fa-download fa-lg"></i> Enviar al Cliente</button>
+                                <button role="button" class="btn btn-danger btn-sm" ng-click="VisualizarModalPendientes();"><i class="fa fa-windows fa-lg"></i> Visualizar Pendientes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="modal-envioAppMovil" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i>Enviar al Movil</h6>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+
+                            <fieldset class="fieldset-border">
+                                <legend>Enviar Datos al Aplicativo Movil</legend>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="control-label">
+                                                    Fecha Asignación :
+                                                </label>
+                                                <br />
+                                                <br />
+                                                <div class="form-group form-group-sm">
+                                                    <div class="input-group">
+                                                        <input class="form-control" id="_fechaEnvioMovil" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                    <button role="button" class="btn btn-primary" ng-click="UpdateFechaAplicativoMovil();"><i class="fa fa-mobile-phone fa-lg"></i> Enviar al Movil</button>
+                                    <button role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <table id="table_Pendientes" ng-show="false">
-        <tr>
-            <th>#</th>
-            <th>OPERARIO</th>
-            <th>ESTADO</th>
-            <th>CANTIDAD</th>
-        </tr>
-        <tr ng-repeat="lista in Lista_PendientesLiquidaciones">
-            <td>{{$index + 1}}</td>
-            <td>{{lista.Operario}}</td>
-            <td>{{lista.Estado}}</td>
-            <td>{{lista.Cantidad}}</td>
-        </tr>
-    </table>
-
-
-
-    <div id="modal_detalladoPendientes" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" style=" width: 60% !important;">
-            <div class="panel panel-oscuro">
-                <div class="panel-heading">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> DETALLADO DE PENDIENTES</h6>
+        <div id="modal-historico_LecturaRelectura" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" style=" width: 60% !important;">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> HISTÓRICO LECTURA Y/O RELECTURA</h6>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <table id="table_historico_Lectura_Relectura" class="table table-condensed table-bordered table-responsive" cellspacing="0">
+                                <thead style="background:#F0F3F5;">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Medidor</th>
+                                        <th>Fecha de Lectura</th>
+                                        <th>Lectura</th>
+                                        <th>Operario</th>
+                                        <th>Observación</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="lista in Lista_OrdenTrabajo_LecturaRelectura" on-finish-render="ngRepeatFinished">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{lista.medidor_lectura}}</td>
+                                        <td>{{lista.fechaLecturaMovil_lectura}}</td>
+                                        <td>{{lista.lectura_Anterior}}</td>
+                                        <td>{{lista.ope_nombre}}</td>
+                                        <td>{{lista.Observacion_lectura}}</td>
+                                        <td>{{lista.abreviatura_estado}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                    <button role="button" class="btn btn-default" ng-click="tableToExcel_Historico('#table_exportar_lecturaRelectura')"><i class="fa fa-download fa-lg"></i> Exportar</button>
+                                    <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <table id="tbl_detallado_Pendientes" class="table table-condensed table-bordered table-responsive" cellspacing="0">
+            </div>
+        </div>
+
+        <div id="modal-reasignaoperador" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" id="modalreasig">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> RE-ASIGNAR OPERADOR</h6>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <fieldset class="fieldset-border">
+                                        <legend>Reasignar Operador</legend>
+                                        <div class="form-group form-group-sm">
+                                            <br />
+                                            <label for="_operador" class="col-sm-4 control-label">Operador</label>
+                                            <div class="col-md-8">
+                                                <div class="form-group form-group-sm">
+                                                    <select id="cbo_tecnicoReasignar" class="form-control">
+                                                        <option value=0>--[ Seleccione ]-- </option>
+                                                        <option ng-repeat="item in ListaTecnicoReasignar" value="{{item.ope_id}}">
+                                                            {{item.ope_nombre}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group form-group-sm">
+                                            <label for="_fechaReasignaOperador" class="col-sm-4 control-label">Fecha Toma</label>
+                                            <div class="col-md-1">
+                                                <div class="form-group form-group-sm">
+                                                    <div class="input-group">
+                                                        <input style="width:90px;" class="form-control" id="_fechaReasignaOperador" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                    <button role="button" class="btn btn-success" ng-click="updReasignaOperador(0);"><i class="fa fa-save fa-lg"></i> Guardar</button>
+                                    <button role="button" class="btn btn-primary" ng-click="updReasignaOperador(1);"><i class="fa fa-mobile-phone fa-lg"></i> Enviar al Movil</button>
+                                    <button role="button" class="btn btn-default" data-dismiss="modal" ng-click="CerraModalReasignar()"><i class="fa fa-close fa-lg"></i> Cancelar</button>
+                                    @*  <button role="button" class="btn btn-default" ng-click="CerraModalReasignar()"><i class="fa fa-close fa-lg"></i> Cancelar</button>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table id="table_exportar_lecturaRelectura" ng-show="false">
+            <tr>
+                <th>Medidor</th>
+                <th>Fecha de Lectura</th>
+                <th>Lectura</th>
+                <th>Operario</th>
+                <th>Observación</th>
+                <th>Estado</th>
+            </tr>
+            <tr ng-repeat="lista in Lista_OrdenTrabajo_LecturaRelectura">
+                <td>{{lista.medidor_lectura}}</td>
+                <td>{{lista.fechaLecturaMovil_lectura}}</td>
+                <td>{{lista.lectura_Anterior}}</td>
+                <td>{{lista.ope_nombre}}</td>
+                <td>{{lista.Observacion_lectura}}</td>
+                <td>{{lista.abreviatura_estado}}</td>
+            </tr>
+        </table>
+
+
+        <table id="table_exportar_CortesReconexiones" ng-show="false">
+            <tr>
+                <th>#</th>
+                <th>Medidor</th>
+                <th>Fecha de Lectura</th>
+                <th>Lectura</th>
+                <th>Operario</th>
+                <th>Observación</th>
+                <th>Estado</th>
+            </tr>
+            <tr ng-repeat="lista in Lista_OrdenTrabajo_CortesReconexiones">
+                <td>{{$index + 1}}</td>
+                <td>{{lista.medidor_corte}}</td>
+                <td>{{lista.fechaAsignacion_corte}}</td>
+                <td>{{lista.id_Corte}}</td>
+                <td>{{lista.ope_nombre}}</td>
+                <td>{{lista.Observacion_corte}}</td>
+                <td>{{lista.abreviatura_estado}}</td>
+            </tr>
+        </table>
+
+        <div id="modal-historico_CortesReconexiones" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" style=" width: 60% !important;">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> HISTÓRICO LECTURA Y/O RELECTURA</h6>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <table id="table_historico_CortesReconexiones" class="table table-condensed table-bordered table-responsive" cellspacing="0">
+                                <thead style="background:#F0F3F5;">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Medidor</th>
+                                        <th>Fecha de Corte</th>
+                                        <th>Corte</th>
+                                        <th>Operario</th>
+                                        <th>Observación</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="lista in Lista_OrdenTrabajo_CortesReconexiones">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{lista.medidor_corte}}</td>
+                                        <td>{{lista.fechaAsignacion_corte}}</td>
+                                        <td>{{lista.id_Corte}}</td>
+                                        <td>{{lista.ope_nombre}}</td>
+                                        <td>{{lista.Observacion_corte}}</td>
+                                        <td>{{lista.abreviatura_estado}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                    <button role="button" class="btn btn-default" ng-click="tableToExcel_Historico('#table_exportar_CortesReconexiones')"><i class="fa fa-download fa-lg"></i> Exportar</button>
+                                    <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="fotos" class="modal fade">
+            <div class="modal-dialog" style="width:500px; height:450px; text-align: center;">
+
+                <div class="modal-body" style="text-align: center; background-color: white;">
+
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators -->
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" id="corre">
+                        </div>
+
+                        <!-- Controls -->
+                        <a class="left carousel-control" href="#carousel-example-generic" ng-click="previusPhoto()" role="button" data-slide="prev" style="background-color:black;">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-generic" ng-click="nextPhoto()" role="button" data-slide="next" style="background-color:black;">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
+                    <!-- Carousel -->
+                </div>
+            </div>
+        </div>
+
+
+        <div id="modal_VisualizarPendientes" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" style=" width: 60% !important;">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> Visualizar Pendientes</h6>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label for="_fechaPendientes" class="control-label">Fecha Asignación : </label>
+                                <input style=" width: 120px;" class="form-control" id="_fechaPendientes" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                            </div>
+                            <button role="button" class="btn btn-danger btn-sm" ng-click="VisualizarPendientes();"><i class="fa fa-windows fa-lg"></i> Visualizar Pendientes</button>
+                            <hr />
+                        </form>
+
+                        <table id="tbl_VisualizarPendientes" class="table table-condensed table-bordered table-responsive" cellspacing="0">
                             <thead style="background:#F0F3F5;">
                                 <tr>
                                     <th>#</th>
-                                    <th>Orden</th>
-                                    <th>Cuenta Contrato</th>
-                                    <th>Nro Instalacion</th>
-                                    <th>Nro Serie</th>
-                                    <th>Direccion</th>
-                                    <th>Ubicacion Med.</th>
-                                    <th>Fecha Alta</th>
-                                    <th>Cliente</th>
-                                    <th>Inter Locutor</th>
-                                    <th>Operario</th>
+                                    <th>OPERARIO</th>
+                                    <th>ESTADO</th>
+                                    <th>CANTIDAD</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="lista in Lista_Detallado_PendientesLiquidaciones">
+                                <tr ng-repeat="lista in Lista_PendientesLiquidaciones" on-finish-render="ngRepeatFinishedPendiente">
                                     <td>{{$index + 1}}</td>
-                                    <td>{{lista.Orden}}</td>
-                                    <td>{{lista.Cuenta_Contrato}}</td>
-                                    <td>{{lista.Nro_Instalacion}}</td>
-                                    <td>{{lista.Nro_Serie}}</td>
-                                    <td>{{lista.Direccion}}</td>
-                                    <td>{{lista.Ubicacion_Med}}</td>
-
-                                    <td>{{lista.Fecha_Alta}}</td>
-                                    <td>{{lista.Cliente}}</td>
-                                    <td>{{lista.Inter_Locutor}}</td>
                                     <td>{{lista.Operario}}</td>
+                                    <td>{{lista.Estado}}</td>
+                                    <td>{{lista.Cantidad}}</td>
+                                    <td><a data-toggle="modal" data-target="#modal_detalladoPendientes" ng-click="Visualizar_DetalladoPendientes(lista);" href="#"> Ver Detalle</a></td>
                                 </tr>
                             </tbody>
                         </table>
+
                     </div>
-                </div>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
-                                <button role="button" class="btn btn-default" ng-click="tableToExcel_Pendientes_Detallado('#table_PendientesDetallado')"><i class="fa fa-download fa-lg"></i> Exportar</button>
-                                <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>Cancelar</button>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                    <button role="button" class="btn btn-default" ng-click="tableToExcel_Pendientes('#table_Pendientes')"><i class="fa fa-download fa-lg"></i> Exportar</button>
+                                    <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>Cancelar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <table id="table_Pendientes" ng-show="false">
+            <tr>
+                <th>#</th>
+                <th>OPERARIO</th>
+                <th>ESTADO</th>
+                <th>CANTIDAD</th>
+            </tr>
+            <tr ng-repeat="lista in Lista_PendientesLiquidaciones">
+                <td>{{$index + 1}}</td>
+                <td>{{lista.Operario}}</td>
+                <td>{{lista.Estado}}</td>
+                <td>{{lista.Cantidad}}</td>
+            </tr>
+        </table>
 
 
-    <table id="table_PendientesDetallado" ng-show="false">
-        <tr>
-            <th>#</th>
-            <th>Orden</th>
-            <th>Cuenta Contrato</th>
-            <th>Nro Instalacion</th>
-            <th>Nro Serie</th>
-            <th>Direccion</th>
-            <th>Ubicacion Med.</th>
-            <th>Fecha Alta</th>
-            <th>Cliente</th>
-            <th>Inter Locutor</th>
-            <th>Operario</th>
-        </tr>
-        <tr ng-repeat="lista in Lista_Detallado_PendientesLiquidaciones">
-            <td>{{$index + 1}}</td>
-            <td>{{lista.Orden}}</td>
-            <td>{{lista.Cuenta_Contrato}}</td>
-            <td>{{lista.Nro_Instalacion}}</td>
-            <td>{{lista.Nro_Serie}}</td>
-            <td>{{lista.Direccion}}</td>
-            <td>{{lista.Ubicacion_Med}}</td>
 
-            <td>{{lista.Fecha_Alta}}</td>
-            <td>{{lista.Cliente}}</td>
-            <td>{{lista.Inter_Locutor}}</td>
-            <td>{{lista.Operario}}</td>
-        </tr>
-    </table>
+        <div id="modal_detalladoPendientes" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" style=" width: 60% !important;">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> DETALLADO DE PENDIENTES</h6>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <table id="tbl_detallado_Pendientes" class="table table-condensed table-bordered table-responsive" cellspacing="0">
+                                <thead style="background:#F0F3F5;">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Orden</th>
+                                        <th>Cuenta Contrato</th>
+                                        <th>Nro Instalacion</th>
+                                        <th>Nro Serie</th>
+                                        <th>Direccion</th>
+                                        <th>Ubicacion Med.</th>
+                                        <th>Fecha Alta</th>
+                                        <th>Cliente</th>
+                                        <th>Inter Locutor</th>
+                                        <th>Operario</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="lista in Lista_Detallado_PendientesLiquidaciones" on-finish-render="ngRepeatFinishedPendiente_Det">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{lista.Orden}}</td>
+                                        <td>{{lista.Cuenta_Contrato}}</td>
+                                        <td>{{lista.Nro_Instalacion}}</td>
+                                        <td>{{lista.Nro_Serie}}</td>
+                                        <td>{{lista.Direccion}}</td>
+                                        <td>{{lista.Ubicacion_Med}}</td>
 
-
-    <div id="modal_EditarLecturasRelecturas" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" id="modalLecturass">
-            <div class="panel panel-oscuro">
-                <div class="panel-heading">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> EDITAR REGISTRO</h6>
-                </div>
-                <div class="panel-body">
-                    <form class="form-inline ">
-                        <fieldset class="fieldset-border">
-
-                            <input id="txt_edit_idlectura" class="form-control" type="text" ng-show="false">
-                            <div class="row">
-                                <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px">
-                                    <label for="txtcontrato" class="control-label">Contrato : </label>
-                                    <input id="txtcontrato" class="form-control" type="text" disabled>
+                                        <td>{{lista.Fecha_Alta}}</td>
+                                        <td>{{lista.Cliente}}</td>
+                                        <td>{{lista.Inter_Locutor}}</td>
+                                        <td>{{lista.Operario}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                    <button role="button" class="btn btn-default" ng-click="tableToExcel_Pendientes_Detallado('#table_PendientesDetallado')"><i class="fa fa-download fa-lg"></i> Exportar</button>
+                                    <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>Cancelar</button>
                                 </div>
-                                <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px">
-                                    <label for="txtmedidor" class="control-label">Medidor : </label>
-                                    <input id="txtmedidor" class="form-control" type="text" disabled>
-                                </div>
-
-                                <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px" ng-show=FlagLectura>
-                                    <label for="txt_edit_lectura" class="control-label">Lectura : </label>
-                                    <input id="txt_edit_lectura" class="form-control" type="text" placeholder="Ingrese la lectura movil" maxlength="30">
-                                </div>
-                                <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px" ng-show=FlagCodObservacion>
-                                    <label for="txt_edit_observacion" class="control-label">Observacion : </label>
-                                    <select id="txt_edit_observacion" class="form-control" style="width:220px;">
-                                        <option value=0>--[ Seleccione ]-- </option>
-                                        <option ng-repeat="item in ListaObservacionesLecturas" value="{{item.id_Observacion}}">{{item.descripcion_observacion}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
-                                <button role="button" class="btn btn-success" ng-click="UpdateLecturasRelecturas();"><i class="fa fa-save fa-lg"></i> Guardar</button>
-                                <button role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
-    <div id="modal_EditarCortesReconexiones" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" id="modalcortess">
-            <div class="panel panel-oscuro">
-                <div class="panel-heading">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> EDITAR REGISTRO</h6>
-                </div>
-                <div class="panel-body">
-                    <form class="form-inline ">
-                        <fieldset class="fieldset-border">
+        <table id="table_PendientesDetallado" ng-show="false">
+            <tr>
+                <th>#</th>
+                <th>Orden</th>
+                <th>Cuenta Contrato</th>
+                <th>Nro Instalacion</th>
+                <th>Nro Serie</th>
+                <th>Direccion</th>
+                <th>Ubicacion Med.</th>
+                <th>Fecha Alta</th>
+                <th>Cliente</th>
+                <th>Inter Locutor</th>
+                <th>Operario</th>
+            </tr>
+            <tr ng-repeat="lista in Lista_Detallado_PendientesLiquidaciones">
+                <td>{{$index + 1}}</td>
+                <td>{{lista.Orden}}</td>
+                <td>{{lista.Cuenta_Contrato}}</td>
+                <td>{{lista.Nro_Instalacion}}</td>
+                <td>{{lista.Nro_Serie}}</td>
+                <td>{{lista.Direccion}}</td>
+                <td>{{lista.Ubicacion_Med}}</td>
 
-                            <input id="txt_edit_idcorte" class="form-control" type="text" ng-show="false">
-                            <div class="row">
+                <td>{{lista.Fecha_Alta}}</td>
+                <td>{{lista.Cliente}}</td>
+                <td>{{lista.Inter_Locutor}}</td>
+                <td>{{lista.Operario}}</td>
+            </tr>
+        </table>
 
-                                <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px">
-                                    <label for="txtcontratoCorte" class="control-label">Contrato : </label>
-                                    <input id="txtcontratoCorte" class="form-control" type="text" disabled>
-                                </div>
-                                <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px">
-                                    <label for="txtmedidorCorte" class="control-label">Medidor : </label>
-                                    <input id="txtmedidorCorte" class="form-control" type="text" disabled>
-                                </div>
 
-                                <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px" ng-show=FlagLecturaCorte>
-                                    <label for="txt_edit_lecturacorte" class="control-label">Lectura : </label>
-                                    <input id="txt_edit_lecturacorte" class="form-control" type="text" placeholder="Ingrese la lectura movil" maxlength="30">
-                                </div>
-                                <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px" ng-show=FlagCorteCodObservacion>
-                                    <label for="txt_edit_Corteobservacion" class="control-label">Observacion : </label>
-                                    <select id="txt_edit_Corteobservacion" class="form-control" style="width:220px;">
-                                        <option value=0>--[ Seleccione ]-- </option>
-                                        <option ng-repeat="item in ListaObservaciones" value="{{item.id_Observacion}}">{{item.descripcion_observacion}}</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px" ng-show=FlagCorteCodObservacionResultado>
-                                    <label for="txt_edit_CorteobservacionResultado" class="control-label">Resultado : </label>
-                                    <select id="txt_edit_CorteobservacionResultado" class="form-control" style="width:220px;">
-                                        <option value=0>--[ Seleccione ]-- </option>
-                                        <option ng-repeat="item in ListaObservacionesResultado" value="{{item.id_Observacion}}">{{item.descripcion_observacion}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
-                                <button role="button" class="btn btn-success" ng-click="UpdateCortesReconexiones();"><i class="fa fa-save fa-lg"></i> Guardar</button>
-                                <button role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
-                            </div>
-                        </div>
+        <div id="modal_EditarLecturasRelecturas" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" id="modalLecturass">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> EDITAR REGISTRO</h6>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    <div class="panel-body">
+                        <form class="form-inline ">
+                            <fieldset class="fieldset-border">
 
-    <div id="modalfotos" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" style="width: 30% !important;">
-            <div class="panel panel-oscuro">
-                <div class="panel-heading">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> RELACION DE FOTOS </h6>
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <div id="galeria" class="table table-responsive" style=" max-height: 520px !important;overflow: auto;">
-                            <div class="thumbnails">
-                                <div class="col-md-12" style=" text-align:center;" ng-repeat="pic in pictures">
-                                    <a href="{{pic.url}}" data-lightbox="example-set" data-title="Fotos">
-                                        <img class="img-thumbnail" ng-src="{{pic.url}}" style="width: 530px; height: 310px;">
-                                    </a>
-                                    <hr />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
-                                <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                                <input id="txt_edit_idlectura" class="form-control" type="text" ng-show="false">
+                                <div class="row">
+                                    <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px">
+                                        <label for="txtcontrato" class="control-label">Contrato : </label>
+                                        <input id="txtcontrato" class="form-control" type="text" disabled>
+                                    </div>
+                                    <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px">
+                                        <label for="txtmedidor" class="control-label">Medidor : </label>
+                                        <input id="txtmedidor" class="form-control" type="text" disabled>
+                                    </div>
 
-
-    <div id="modal_importacion" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog  modal_dsige " style="width:98%;">
-            <div class="panel panel-oscuro">
-                <div class="panel-heading">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h6 class="modal-title"><i class="fa fa-calendar fa-lg"></i> Importacion Trabajos Manuales</h6>
-                </div>
-                <div class="panel-body">
-                    <hr style="margin-top: -1px;margin-bottom: 7px;" />
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-4  col-lg-4 ">
-                            <input id="id_seleccionFile" type="file" class="filestyle" file-model="myFile" data-placeholder="Ningun Archivo Seleccionado" data-buttonname="btn-primary" data-size="sm" data-buttonbefore="true" data-buttontext="  Seleccionar Archivo..">
-                        </div>
-                        <div class="col-xs-4 col-sm-6 col-md-4  col-lg-4 ">
-                            <form class="form-horizontal" role="form">
-                                <div class="form-group">
-                                    <label for="dtp_fecha_lectura" class="col-sm-6 col-md-6 col-lg-6 control-label"> Fecha lectura móvil</label>
-                                    <div class="col-sm-6 col-md-6 col-lg-6">
-                                        <input style=" width: 120px;" class="form-control" id="dtp_fecha_lectura" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                    <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px" ng-show=FlagLectura>
+                                        <label for="txt_edit_lectura" class="control-label">Lectura : </label>
+                                        <input id="txt_edit_lectura" class="form-control" type="text" placeholder="Ingrese la lectura movil" maxlength="30">
+                                    </div>
+                                    <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px" ng-show=FlagCodObservacion>
+                                        <label for="txt_edit_observacion" class="control-label">Observacion : </label>
+                                        <select id="txt_edit_observacion" class="form-control" style="width:220px;">
+                                            <option value=0>--[ Seleccione ]-- </option>
+                                            <option ng-repeat="item in ListaObservacionesLecturas" value="{{item.id_Observacion}}">{{item.descripcion_observacion}}</option>
+                                        </select>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="col-xs-8 col-sm-12 col-md-4  col-lg-4 " style="text-align:center">
-                            <button id="btn_ver" type="button" class="btn btn-primary btn-sm" ng-click="uploadFile()"><i class="fa fa-upload"></i> Guardar Información</button>
-                            <button id="btn_nueva" type="button" class="btn btn-primary btn-sm" ng-click="nuevaimportacion();"><i class="fa fa-file-excel-o"></i> Nueva Importacion</button>
-                        </div>
+                            </fieldset>
+                        </form>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6" style="margin-top: 2px;">
-                            <button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span> </button>
-                            <label for="checkbox6" style="font-size: 11px; letter-spacing: normal; font-family: tahoma; color:red;">Registros incorrectos .</label>
-                        </div>
-                        <div class="col-md-6" style="margin-top: 2px;">
-                            <span class="label label-success" style="font-size: 11px;"> Después que ingrese la Lectura pulsar la Tecla Enter</span>
-                        </div>
-                    </div>
-
-                    <div class="row" id="form_cabecera" style="display:none">
-                        <div class="col-md-12 col-sm-12 col-lg-12">
-                            <div class="form-group">
-                                <table id="tbl_alertas" class="table table-condensed table-bordered table-responsive" cellspacing="0" style="font-family: tahoma; font-size: 10px;">
-                                    <thead style="background:#F0F3F5;">
-                                        <tr>
-                                            <th>#</th>
-                                            <th>UNIDAD_LECTURA</th>
-                                            <th style="text-align:center">SUMINISTRO</th>
-                                            <th> MEDIDOR</th>
-                                            <th>LECTURISTA</th>
-                                            <th>OBS_ACTUAL</th>
-                                            <th>LECT_MAXIMA.</th>
-                                            <th>LECT_ACTUAL</th>
-                                            <th>LECT_MINIMA</th>
-
-
-                                            <th>COMPARTIVA_MAX</th>
-                                            <th>COMPARTIVA_MIN</th>
-                                            <th><div style="width:200px">RESULTADOS</div></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody style="font-family: tahoma; font-size: 9px;">
-                                        <tr ng-repeat="lista in ListaAlertas" on-finish-render="ngRepeatFinished_alerta">
-                                            <td>{{$index + 1}}</td>
-                                            <td>{{lista.unidad_lectura}}</td>
-                                            <td>{{lista.suministro_lectura}}</td>
-                                            <td>{{lista.medidor_lectura}}</td>
-                                            <td> {{lista.operario}}   </td>
-                                            <td>{{lista.descripcion_observacion}}</td>
-
-                                            <td style="text-align:center">{{lista.lectura_mxa}}</td> 
-                                            <td style="text-align:center"><b> <input id="id_{{$index}}" class="form-control" title="Después que ingrese la Lectura pulsar la Tecla Enter" type="text" style="color:black;background-color:#fcf8e3;text-align:right" ng-model="lista.lectura_movil" ng-keypress="KeyDown_Lectura($event,lista,$index)" />  </b>  </td>
-                                            
-                                            <td style="text-align:right">{{lista.lectura_min}}</td>
-                                            <td style="text-align:right">{{lista.comparativa_max}}</td>
-                                            <td style="text-align:right">{{lista.comparativa_min}}</td>
-                                            <td style="color:red;font-size: 10px;"> <div style="width:200px">{{lista.resultado}}</div>   </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr style="margin-top: -1px;margin-bottom: 7px;" />
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12" style="text-align:center">
-                            <button id="btn_guardar" type="button" class="btn btn-primary btn-sm" ng-click="Actualizar_Lecturas()"><span class="glyphicon glyphicon-floppy-disk"></span> Actualizar</button>
-                            <button id="btn_guardarVac" type="button" class="btn btn-danger btn-sm" ng-click="Actualizar_Lecturas_Vacias()"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar Todas (Lectura Observadas)</button>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
-                                <button id="btn_cancel" role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                    <button role="button" class="btn btn-success" ng-click="UpdateLecturasRelecturas();"><i class="fa fa-save fa-lg"></i> Guardar</button>
+                                    <button role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
+        <div id="modal_EditarCortesReconexiones" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" id="modalcortess">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> EDITAR REGISTRO</h6>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-inline ">
+                            <fieldset class="fieldset-border">
+
+                                <input id="txt_edit_idcorte" class="form-control" type="text" ng-show="false">
+                                <div class="row">
+
+                                    <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px">
+                                        <label for="txtcontratoCorte" class="control-label">Contrato : </label>
+                                        <input id="txtcontratoCorte" class="form-control" type="text" disabled>
+                                    </div>
+                                    <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px">
+                                        <label for="txtmedidorCorte" class="control-label">Medidor : </label>
+                                        <input id="txtmedidorCorte" class="form-control" type="text" disabled>
+                                    </div>
+
+                                    <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px" ng-show=FlagLecturaCorte>
+                                        <label for="txt_edit_lecturacorte" class="control-label">Lectura : </label>
+                                        <input id="txt_edit_lecturacorte" class="form-control" type="text" placeholder="Ingrese la lectura movil" maxlength="30">
+                                    </div>
+                                    <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px" ng-show=FlagCorteCodObservacion>
+                                        <label for="txt_edit_Corteobservacion" class="control-label">Observacion : </label>
+                                        <select id="txt_edit_Corteobservacion" class="form-control" style="width:220px;">
+                                            <option value=0>--[ Seleccione ]-- </option>
+                                            <option ng-repeat="item in ListaObservaciones" value="{{item.id_Observacion}}">{{item.descripcion_observacion}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" style="padding-left: 5px; padding-right: 5px;padding-top: 10px" ng-show=FlagCorteCodObservacionResultado>
+                                        <label for="txt_edit_CorteobservacionResultado" class="control-label">Resultado : </label>
+                                        <select id="txt_edit_CorteobservacionResultado" class="form-control" style="width:220px;">
+                                            <option value=0>--[ Seleccione ]-- </option>
+                                            <option ng-repeat="item in ListaObservacionesResultado" value="{{item.id_Observacion}}">{{item.descripcion_observacion}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                    <button role="button" class="btn btn-success" ng-click="UpdateCortesReconexiones();"><i class="fa fa-save fa-lg"></i> Guardar</button>
+                                    <button role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalfotos" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" style="width: 30% !important;">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> RELACION DE FOTOS </h6>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div id="galeria" class="table table-responsive" style=" max-height: 520px !important;overflow: auto;">
+                                <div class="thumbnails">
+                                    <div class="col-md-12" style=" text-align:center;" ng-repeat="pic in pictures">
+                                        <a href="{{pic.url}}" data-lightbox="example-set" data-title="Fotos">
+                                            <img class="img-thumbnail" ng-src="{{pic.url}}" style="width: 530px; height: 310px;">
+                                        </a>
+                                        <hr />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                    <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal_importacion" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog  modal_dsige " style="width:98%;">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="fa fa-calendar fa-lg"></i> Importacion Trabajos Manuales</h6>
+                    </div>
+                    <div class="panel-body">
+                        <hr style="margin-top: -1px;margin-bottom: 7px;" />
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-4  col-lg-4 ">
+                                <input id="id_seleccionFile" type="file" class="filestyle" file-model="myFile" data-placeholder="Ningun Archivo Seleccionado" data-buttonname="btn-primary" data-size="sm" data-buttonbefore="true" data-buttontext="  Seleccionar Archivo..">
+                            </div>
+                            <div class="col-xs-4 col-sm-6 col-md-4  col-lg-4 ">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label for="dtp_fecha_lectura" class="col-sm-6 col-md-6 col-lg-6 control-label"> Fecha lectura móvil</label>
+                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                            <input style=" width: 120px;" class="form-control" id="dtp_fecha_lectura" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-xs-8 col-sm-12 col-md-4  col-lg-4 " style="text-align:center">
+                                <button id="btn_ver" type="button" class="btn btn-primary btn-sm" ng-click="uploadFile()"><i class="fa fa-upload"></i> Guardar Información</button>
+                                <button id="btn_nueva" type="button" class="btn btn-primary btn-sm" ng-click="nuevaimportacion();"><i class="fa fa-file-excel-o"></i> Nueva Importacion</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6" style="margin-top: 2px;">
+                                <button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span> </button>
+                                <label for="checkbox6" style="font-size: 11px; letter-spacing: normal; font-family: tahoma; color:red;">Registros incorrectos .</label>
+                            </div>
+                            <div class="col-md-6" style="margin-top: 2px;">
+                                <span class="label label-success" style="font-size: 11px;"> Después que ingrese la Lectura pulsar la Tecla Enter</span>
+                            </div>
+                        </div>
+
+                        <div class="row" id="form_cabecera" style="display:none">
+                            <div class="col-md-12 col-sm-12 col-lg-12">
+                                <div class="form-group">
+                                    <table id="tbl_alertas" class="table table-condensed table-bordered table-responsive" cellspacing="0" style="font-family: tahoma; font-size: 10px;">
+                                        <thead style="background:#F0F3F5;">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>UNIDAD_LECTURA</th>
+                                                <th style="text-align:center">SUMINISTRO</th>
+                                                <th> MEDIDOR</th>
+                                                <th>LECTURISTA</th>
+                                                <th>OBS_ACTUAL</th>
+                                                <th>LECT_MAXIMA.</th>
+                                                <th>LECT_ACTUAL</th>
+                                                <th>LECT_MINIMA</th>
+
+
+                                                <th>COMPARTIVA_MAX</th>
+                                                <th>COMPARTIVA_MIN</th>
+                                                <th><div style="width:200px">RESULTADOS</div></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-family: tahoma; font-size: 9px;">
+                                            <tr ng-repeat="lista in ListaAlertas" on-finish-render="ngRepeatFinished_alerta">
+                                                <td>{{$index + 1}}</td>
+                                                <td>{{lista.unidad_lectura}}</td>
+                                                <td>{{lista.suministro_lectura}}</td>
+                                                <td>{{lista.medidor_lectura}}</td>
+                                                <td> {{lista.operario}}   </td>
+                                                <td>{{lista.descripcion_observacion}}</td>
+
+                                                <td style="text-align:center">{{lista.lectura_mxa}}</td>
+                                                <td style="text-align:center"><b> <input id="id_{{$index}}" class="form-control" title="Después que ingrese la Lectura pulsar la Tecla Enter" type="text" style="color:black;background-color:#fcf8e3;text-align:right" ng-model="lista.lectura_movil" ng-keypress="KeyDown_Lectura($event,lista,$index)" />  </b>  </td>
+
+                                                <td style="text-align:right">{{lista.lectura_min}}</td>
+                                                <td style="text-align:right">{{lista.comparativa_max}}</td>
+                                                <td style="text-align:right">{{lista.comparativa_min}}</td>
+                                                <td style="color:red;font-size: 10px;"> <div style="width:200px">{{lista.resultado}}</div>   </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr style="margin-top: -1px;margin-bottom: 7px;" />
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12" style="text-align:center">
+                                <button id="btn_guardar" type="button" class="btn btn-primary btn-sm" ng-click="Actualizar_Lecturas()"><span class="glyphicon glyphicon-floppy-disk"></span> Actualizar</button>
+                                <button id="btn_guardarVac" type="button" class="btn btn-danger btn-sm" ng-click="Actualizar_Lecturas_Vacias()"><span class="glyphicon glyphicon-floppy-disk"></span> Guardar Todas (Lectura Observadas)</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                    <button id="btn_cancel" role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="modalCorteReconexion" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" style="width:  300px !important;">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h5 class="modal-title"><i class="fa fa-cogs fa-lg"></i> Detalle </h5>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label  for="cbo_tipoReporte" class="control-label"> Servicio :  {{nombreServicio}}</label>
+                             </div>
+                        </div> 
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label style="width: 100px;" for="cbo_tipoReporte" class="control-label">Tipo :</label>
+                                <select class="form-control" id="cbo_tipoReporte">
+                                    <option value="0" selected="selected">  -- SELECCIONE --</option>
+                                    <option value="1">     EFECTIVA - EXITOSA   </option>
+                                    <option value="2">     NO EFECTIVA - INFRUCTUOSA    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                    <button role="button" class="btn btn-info btn-sm" ng-click="DescargaExcel_EnvioCliente_CorteReconexion();"><i class="fa fa-download fa-lg"></i> Envio al Cliente</button>
+                                    <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
-
-
-</div>

@@ -1065,9 +1065,13 @@
             }
             
             var urlPage = '';
-            if (cbo_servicio.value == 1 || cbo_servicio.value == 2) {
+            if (cbo_servicio.value == 1 || cbo_servicio.value == 2 || cbo_servicio.value == 9) {
                 urlPage = '../LecturaEnviarCliente/DescargarArchivoTexto_EnvioCliente';
-            } else {
+            }
+            else if (cbo_servicio.value == 3 || cbo_servicio.value == 4) {
+                urlPage = '../LecturaEnviarCliente/DescargarArchivoTexto_CorteReconexiones';
+            }
+            else {
                 urlPage = '../LecturaEnviarCliente/DescargaExcel_EnviarCliente';
             }
 
@@ -1093,7 +1097,7 @@
             $http(variables)
             .success(function (data) {
                 var res = data.split("|");
-                if (cbo_servicio.value == 1 || cbo_servicio.value == 2) {
+                if (cbo_servicio.value == 1 || cbo_servicio.value == 2 || cbo_servicio.value == 3 || cbo_servicio.value == 4 || cbo_servicio.value == 9) {
                     if (res[0].replace(/["]/gi, '') == 0 || res[0].replace(/["]/gi, '') == "0") {
                         new PNotify({
                             title: 'Sistemas',
@@ -1104,9 +1108,6 @@
                         alert(res[1]);
                     }
                     else {
-                        //id_link.href = res[1].replace(/["]/gi, '');
-                        //id_link.click();
-
                         let url = res[1].replace(/["]/gi, '');
                         id_link.href = res[1].replace(/["]/gi, '');
                         id_link.click();

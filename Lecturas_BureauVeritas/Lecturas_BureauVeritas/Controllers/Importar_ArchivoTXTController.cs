@@ -118,6 +118,8 @@ namespace DSIGE.Web.Controllers
         public ActionResult saveTextToServidor_new(HttpPostedFileBase file, string fechaAsignacion, string TipoServicio)
         {
             object loDatos = null;
+            var ac = 0;
+
             try
             {
                 List<CorteTemporalCorte> oCortes = new List<CorteTemporalCorte>();
@@ -129,9 +131,18 @@ namespace DSIGE.Web.Controllers
 
                 List<ImportarArchivoPlano_new> List_obj_datos = new List<ImportarArchivoPlano_new>();
                 string[] lines = System.IO.File.ReadAllLines(fileLocation);
+           
+
                 foreach (string line in lines)
                 {
                     var arrayText = line.ToString().Split('\t');
+
+                    ac += 1;
+
+                    if (ac == 8694)
+                    {
+                        ac += ac;
+                    }
 
                     ImportarArchivoPlano_new obj_entidad = new ImportarArchivoPlano_new();
                     obj_entidad.Item = arrayText[0];

@@ -146,8 +146,10 @@ namespace DSIGE.Web.Controllers
 
                             oWs.Cells[_fila,1].Value = acu;
                             oWs.Cells[_fila,2].Value = oBj.id_Lectura;
-                            oWs.Cells[_fila,3].Value=oBj.Instalacion; 
-                            oWs.Cells[_fila,4].Value=oBj.Aparato;
+                            oWs.Cells[_fila,3].Value= oBj.Instalacion;
+
+                            oWs.Cells[_fila, 4].Style.Numberformat.Format = "#,##0";
+                            oWs.Cells[_fila, 4].Value = Convert.ToDouble(oBj.Aparato);
 
                             oWs.Cells[_fila, 5].Value = oBj.Tipo_calle;
                             oWs.Cells[_fila, 6].Value = oBj.Nombre_Calle;

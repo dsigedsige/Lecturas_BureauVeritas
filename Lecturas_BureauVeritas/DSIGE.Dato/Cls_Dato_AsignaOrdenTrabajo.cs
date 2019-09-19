@@ -2543,6 +2543,118 @@ namespace DSIGE.Dato
         }
 
 
+        public string Capa_dato_DescargarArchivoTexto_cortesReconexiones(int servicio, int estado, string fechaAsigna, int operario, int id_usuario, int tipo)
+        {
+            string Resultado = "";
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+ 
+                string _rutafile = "";
+                string _nombreServicio = "";
+                string _rutaServer = "";
+                string _nombreFile = "";
+
+                List<Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio> ListData = new List<Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio>();
+
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_LECTURA_ENVIAR_CLIENTE_CORTE_RECONEXION_TXT", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@idTipoServicio", SqlDbType.Int).Value = servicio;
+                        cmd.Parameters.Add("@tecnicoAsignado", SqlDbType.Int).Value = operario;
+                        cmd.Parameters.Add("@estadoAsignacion", SqlDbType.Int).Value = estado;
+                        cmd.Parameters.Add("@fechaAsignacion", SqlDbType.VarChar).Value = fechaAsigna;
+                        cmd.Parameters.Add("@tipo", SqlDbType.Int).Value = tipo;
+
+                        DataTable dt_detalle = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+
+                            if (dt_detalle.Rows.Count <= 0)
+                            {
+                                Resultado = "0|No hay informacion disponible";
+                            }
+                            else
+                            {
+                                string[] linesArchivo = new string[dt_detalle.Rows.Count];
+                                _nombreServicio = "";
+                                int i = 0;
+
+                                if (servicio == 3)
+                                {
+                                    if (tipo == 1) ////- EFECTIVA - EXITOSA  
+                                    {
+                                        _nombreServicio = id_usuario + "CARGA_EFECTIVA_CORTES_" + servicio;
+                                    } else if (tipo == 2) { /// NO EFECTIVA - INFRUCTUOSA 
+                                        _nombreServicio = id_usuario + "CARGA_NO_EFECTIVA_CORTES_" + servicio;
+                                    }
+
+                                    foreach (DataRow Fila in dt_detalle.Rows)
+                                    {
+                                        linesArchivo[i] = Fila["Aviso"].ToString() + ',' + Fila["tcos"].ToString() + ',' + Fila["dni"].ToString() + ',' + Fila["LECTURA"].ToString() + ',' + Fila["ResultadoGRP"].ToString()
+                                                          + ',' + Fila["ResultadoCOD"].ToString() + ',' + Fila["CausaGRP"].ToString() + ',' + Fila["CausaCOD"].ToString() + ',' + Fila["Fecha_aviso"].ToString() + ',' + Fila["HORA"].ToString();
+                                        i = i + 1;
+                                    }
+                                }
+                                else if (servicio == 4)
+                                {
+                                    if (tipo == 1) ////- EFECTIVA - EXITOSA  
+                                    {
+                                        _nombreServicio = id_usuario + "CARGA_EXITOSA_RECONEXIONES_" + servicio;
+                                        foreach (DataRow Fila in dt_detalle.Rows)
+                                        {
+                                            linesArchivo[i] = Fila["Aviso"].ToString() + ',' + Fila["tcos"].ToString() + ',' + Fila["dni"].ToString() + ',' + Fila["LECTURA"].ToString() + ',' + Fila["nombreInterLocutor_Corte"].ToString() + ',' + Fila["ResultadoGRP"].ToString()
+                                                              + ',' + Fila["ResultadoCOD"].ToString() + ',' + Fila["Fecha_aviso"].ToString() + ',' + Fila["HORA"].ToString();
+                                            i = i + 1;
+                                        }
+                                    }
+                                    else if (tipo == 2)
+                                    { /// NO EFECTIVA - INFRUCTUOSA 
+                                        _nombreServicio = id_usuario + "CARGA_INFRUCTUOSA_RECONEXIONES_" + servicio;
+                                        foreach (DataRow Fila in dt_detalle.Rows)
+                                        {
+                                            linesArchivo[i] = Fila["Aviso"].ToString() + ',' + Fila["tcos"].ToString() + ',' + Fila["dni"].ToString() + ',' + Fila["LECTURA"].ToString() + ',' + Fila["nombreInterLocutor_Corte"].ToString() + ',' + Fila["ResultadoGRP"].ToString()
+                                                              + ',' + Fila["ResultadoCOD"].ToString() + ',' + Fila["CausaGRP"].ToString() + ',' + Fila["CausaCOD"].ToString() + ',' + Fila["Fecha_aviso"].ToString() + ',' + Fila["HORA"].ToString();
+                                            i = i + 1;
+                                        }
+                                    }
+                                }
+
+                                _nombreFile = _nombreServicio + ".csv";
+
+                                _rutafile = System.Web.Hosting.HostingEnvironment.MapPath("~/temp/" + _nombreFile);
+                                _rutaServer = ConfigurationManager.AppSettings["Archivos"];
+
+                                FileInfo _file = new FileInfo(_rutafile);
+                                if (_file.Exists)
+                                {
+                                    _file.Delete();
+                                }
+                                System.IO.File.WriteAllLines(_rutafile, linesArchivo);
+                                Resultado = "1|" + _rutaServer + _nombreFile;
+                            }
+                        }
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Resultado = "-1|" + ex.Message;
+            }
+
+            return Resultado;
+        }
+
+
+
         public string Capa_Dato_Set_procesarRecepcionLecturas(int servicio, string fechaAsigna)
         {
             cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
@@ -2731,7 +2843,38 @@ namespace DSIGE.Dato
                 throw ex;
             }
         }
-               
+
+
+
+        public string Capa_Dato_set_anulandoFoto(int id_lectura, int id_usuario)
+        {
+            var Resultado = "";
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_U_VALIDACION_LECTURA_ANULAR_FOTO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@id_lectura", SqlDbType.Int).Value = id_lectura;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+                        cmd.ExecuteNonQuery();
+                        Resultado = "OK";
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Resultado = ex.Message;
+            }
+            return Resultado;
+        }
+
 
 
         public List<Cls_Entidad_AsignaOrdenTrabajo.Observaciones> Capa_Dato_Get_Alertas_lecturas(string fecha_asignacion, int id_usuario)

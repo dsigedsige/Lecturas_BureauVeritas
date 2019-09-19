@@ -89,7 +89,7 @@ namespace DSIGE.Dato
                using (SqlConnection cn = new SqlConnection(cadenaCnx))
                {
                    cn.Open();
-                   using (SqlCommand cmd = new SqlCommand("SP_S_EXPORT_TRABAJOS_LECTURA_EXCEL", cn))
+                   using (SqlCommand cmd = new SqlCommand("SP_S_EXPORT_TRABAJOS_LECTURA_EXCEL_xx", cn))
                    {
                        cmd.CommandTimeout = 0;
                        cmd.CommandType = CommandType.StoredProcedure;

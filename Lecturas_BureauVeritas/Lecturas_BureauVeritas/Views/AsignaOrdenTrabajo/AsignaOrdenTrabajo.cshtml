@@ -1032,18 +1032,18 @@
                             <th>Distrito</th>
                             <th>UL</th>
                             <th>Apellidos Nombres del Lector</th>
-                            <th>Grand Total</th>
+                            @*<th>Grand Total</th>
                             <th>Count</th>
                             <th>Accion</th>
-                            <th>Resultado de Corte</th>
+                            <th>Resultado de Corte</th>*@
                             <th>Fecha de Corte</th>
-                            <th>Mes de Corte</th>
-                            <th>Hora de Corte</th>
+                            @*<th>Mes de Corte</th>
+                            <th>Hora de Corte</th>*@
                             <th>Lectura al Corte</th>
-                            <th>Tipo de Corte</th>
+                            @*<th>Tipo de Corte</th>*@
                             <th>Cod. OBS</th>
                             <th>Observacion de Lectura</th>
-                            <th>Detalle de Observación</th>
+                            @*<th>Detalle de Observación</th>*@
                             <th>Estado</th>
                             <th></th>
                         </tr>
@@ -1067,28 +1067,28 @@
                             <td>{{item.cuenta_contrato}}</td>
 
                             <td>{{item.nro_serie_medidor}}</td>
-                            <td>{{item.cliente}}</td>
-                            <td>{{item.direc_instalacion}}</td>
+                            <td class="text-left">{{item.cliente}}</td>
+                            <td class="text-left">{{item.direc_instalacion}}</td>
                             <td>{{item.distrito}}</td>
 
                             <td>{{item.UL}}</td>
-                            <td>{{item.apellido_lector}}</td>
-                            <td>{{item.grand_total}}</td>
+                            <td class="text-left">{{item.apellido_lector}}</td>
+                            @*<td>{{item.grand_total}}</td>
                             <td>{{item.count}}</td>
 
                             <td>{{item.accion}}</td>
-                            <td>{{item.resultado_corte}}</td>
+                            <td>{{item.resultado_corte}}</td>*@
                             <td>{{item.fecha_corte}}</td>
-                            <td>{{item.mes_corte}}</td>
-                            <td>{{item.hora_corte}}</td>
+                            @*<td>{{item.mes_corte}}</td>
+                            <td>{{item.hora_corte}}</td>*@
 
 
                             <td>{{item.lectura_corte}}</td>
-                            <td>{{item.tipo_corte}}</td>
+                            @*<td>{{item.tipo_corte}}</td>*@
                             <td>{{item.cod_OBS}}</td>
                             <td>{{item.observacion_lectura}}</td>
-                            <td>{{item.detalle_observaciones}}</td>
-                            <td>{{item.estado}}</td>
+                            @*<td>{{item.detalle_observaciones}}</td>*@
+                            <td>{{item.abreviatura_estado}}</td>
                             <td><a data-toggle="modal" data-target="#modal-historico_CortesReconexiones" ng-click="OrdenTrabajo_Historico_CortesReconexiones(item.suministro_corte);" href="#"> Histórico</a></td>
 
 
