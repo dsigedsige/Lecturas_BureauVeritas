@@ -373,6 +373,176 @@ namespace DSIGE.Web.Controllers
 
 
 
+        //anterior formato
+
+        //public string DescargaExcel_PreEnvio_CortesReconexiones(int id_local, int id_tipo_servicio, int estado, string suministro, string medidor, int tecnico, string fechaAsignacion, int id_supervisor, int id_operario_supervisor)
+        //{
+        //    Int32 _fila = 2;
+        //    string _servidor = "";
+        //    String _ruta;
+        //    string ruta_descarga = ConfigurationManager.AppSettings["Archivos"];
+
+        //    try
+        //    {
+
+        //        _servidor = ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + "DescargaExcel_PreEnvio" + id_tipo_servicio + ".xlsx";
+        //        _ruta = Path.Combine(Server.MapPath("~/Temp") + "\\" + _servidor);
+
+        //        FileInfo _file = eliminarFiles(_ruta);
+        //        string cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+
+        //        using (SqlConnection cn = new SqlConnection(cadenaCnx))
+        //        {
+        //            cn.Open();
+        //            using (SqlCommand cmd = new SqlCommand("NEW_SP_S_LECTURA_ENVIAR_CLIENTE_DESCARGAR_PRE_ENVIO", cn))
+        //            {
+        //                cmd.CommandTimeout = 0;
+        //                cmd.CommandType = CommandType.StoredProcedure;
+
+        //                cmd.Parameters.Add("@empresa", SqlDbType.Int).Value = 1;
+        //                cmd.Parameters.Add("@idTipoServicio", SqlDbType.Int).Value = id_tipo_servicio;
+        //                cmd.Parameters.Add("@idLocal", SqlDbType.Int).Value = id_local;
+        //                cmd.Parameters.Add("@suministro", SqlDbType.VarChar).Value = suministro;
+        //                cmd.Parameters.Add("@medidor", SqlDbType.VarChar).Value = medidor;
+        //                cmd.Parameters.Add("@tecnicoAsignado", SqlDbType.Int).Value = tecnico;
+        //                cmd.Parameters.Add("@estadoAsignacion", SqlDbType.Int).Value = estado;
+        //                cmd.Parameters.Add("@fechaAsignacion", SqlDbType.VarChar).Value = fechaAsignacion;
+
+        //                cmd.Parameters.Add("@id_supervisor", SqlDbType.Int).Value = id_supervisor;
+        //                cmd.Parameters.Add("@id_operario_supervisor", SqlDbType.Int).Value = id_operario_supervisor;
+
+        //                DataTable dt_detalle = new DataTable();
+        //                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+        //                {
+        //                    da.Fill(dt_detalle);
+        //                    if (dt_detalle.Rows.Count <= 0)
+        //                    {
+        //                        return _Serialize("0|No hay informacion para mostrar.", true);
+        //                    }
+        //                    else
+        //                    {
+        //                        var nombreExcel = "";
+        //                        if (id_tipo_servicio ==3)
+        //                        {
+        //                            nombreExcel = "CORTES";
+
+        //                            using (Excel.ExcelPackage oEx = new Excel.ExcelPackage(_file))
+        //                            {
+        //                                Excel.ExcelWorksheet oWs = oEx.Workbook.Worksheets.Add(nombreExcel);
+        //                                oWs.Cells.Style.Font.SetFromFont(new Font("Tahoma", 9));
+
+        //                                oWs.Cells[1, 1].Value = " Aviso";
+        //                                oWs.Cells[1, 2].Value = " Nombre del Contratista";
+        //                                oWs.Cells[1, 3].Value = " DNI del Contratista";
+        //                                oWs.Cells[1, 4].Value = " Lectura de Desconexión";
+        //                                oWs.Cells[1, 5].Value = " Resultado GRP ";
+        //                                oWs.Cells[1, 6].Value = " Resultado COD ";
+
+        //                                oWs.Cells[1, 7].Value = " Causa GRP ";
+        //                                oWs.Cells[1, 8].Value = " Causa COD";
+        //                                oWs.Cells[1, 9].Value = " Fecha Ejecución";
+        //                                oWs.Cells[1, 10].Value = " Hora Ejecución";
+
+        //                                foreach (DataRow oBj in dt_detalle.Rows)
+        //                                {
+        //                                    oWs.Cells[_fila, 1].Value = oBj["Aviso"].ToString();
+        //                                    oWs.Cells[_fila, 2].Value = oBj["tcos"].ToString();
+        //                                    oWs.Cells[_fila, 3].Value = oBj["dni"].ToString();
+        //                                    oWs.Cells[_fila, 4].Value = oBj["LECTURA"].ToString();
+
+        //                                    oWs.Cells[_fila, 5].Value = oBj["ResultadoGRP"].ToString();
+        //                                    oWs.Cells[_fila, 6].Value = oBj["ResultadoCOD"].ToString();
+        //                                    oWs.Cells[_fila, 7].Value = oBj["CausaGRP"].ToString();
+
+        //                                    oWs.Cells[_fila, 8].Value = oBj["CausaCOD"].ToString();
+        //                                    oWs.Cells[_fila, 9].Value = oBj["Fecha_aviso"].ToString();
+        //                                    oWs.Cells[_fila, 10].Value = oBj["HORA"].ToString();
+        //                                    _fila++;
+        //                                }
+
+        //                                oWs.Row(1).Style.Font.Bold = true;
+        //                                oWs.Row(1).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
+        //                                oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
+        //                                oWs.Column(1).Style.Font.Bold = true;
+
+        //                                for (int k = 1; k <= 10; k++)
+        //                                {
+        //                                    oWs.Column(k).AutoFit();
+        //                                }
+        //                                oEx.Save();
+        //                            }
+        //                        }
+        //                        else
+        //                        {
+        //                            nombreExcel = "RECONEXIONES";
+        //                            using (Excel.ExcelPackage oEx = new Excel.ExcelPackage(_file))
+        //                            {
+        //                                Excel.ExcelWorksheet oWs = oEx.Workbook.Worksheets.Add(nombreExcel);
+        //                                oWs.Cells.Style.Font.SetFromFont(new Font("Tahoma", 9));
+
+        //                                oWs.Cells[1, 1].Value = " Aviso";
+        //                                oWs.Cells[1, 2].Value = "Nombre del Contratista";
+        //                                oWs.Cells[1, 3].Value = " DNI del Contratista";
+        //                                oWs.Cells[1, 4].Value = " Lectura de Reconexión";
+        //                                oWs.Cells[1, 5].Value = " Nombre de Titula o Representante del Cliente";
+        //                                oWs.Cells[1, 6].Value = " Resultado GRP";
+
+        //                                oWs.Cells[1, 7].Value = " Resultado COD";
+        //                                oWs.Cells[1, 8].Value = " Causa GRP";
+        //                                oWs.Cells[1, 9].Value = " Causa COD";
+        //                                oWs.Cells[1, 10].Value = " Fecha Ejecución";
+        //                                oWs.Cells[1, 11].Value = " Hora Ejecución";
+
+        //                                foreach (DataRow oBj in dt_detalle.Rows)
+        //                                {
+        //                                    oWs.Cells[_fila, 1].Value = oBj["Aviso"].ToString();
+        //                                    oWs.Cells[_fila, 2].Value = oBj["tcos"].ToString();
+        //                                    oWs.Cells[_fila, 3].Value = oBj["dni"].ToString();
+        //                                    oWs.Cells[_fila, 4].Value = oBj["LECTURA"].ToString();
+
+        //                                    oWs.Cells[_fila, 5].Value = oBj["nombreInterLocutor_Corte"].ToString();
+        //                                    oWs.Cells[_fila, 6].Value = oBj["ResultadoGRP"].ToString();
+        //                                    oWs.Cells[_fila, 7].Value = oBj["ResultadoCOD"].ToString();
+
+        //                                    oWs.Cells[_fila, 8].Value = oBj["CausaGRP"].ToString();
+        //                                    oWs.Cells[_fila, 9].Value = oBj["CausaCOD"].ToString();
+        //                                    oWs.Cells[_fila, 10].Value = oBj["Fecha_aviso"].ToString();
+        //                                    oWs.Cells[_fila, 11].Value = oBj["HORA"].ToString();
+        //                                    _fila++;
+        //                                }
+
+
+        //                                //---- por las sanats
+
+
+        //                                oWs.Row(1).Style.Font.Bold = true;
+        //                                oWs.Row(1).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
+        //                                oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
+        //                                oWs.Column(1).Style.Font.Bold = true;
+
+        //                                for (int k = 1; k <= 11; k++)
+        //                                {
+        //                                    oWs.Column(k).AutoFit();
+        //                                }
+        //                                oEx.Save();
+        //                            }
+        //                        }
+
+        //                        return _Serialize("1|" + ruta_descarga + _servidor, true);
+
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return _Serialize("0|" + ex.Message, true);
+        //    } 
+        //}
+
+        //nuevo formato
 
         public string DescargaExcel_PreEnvio_CortesReconexiones(int id_local, int id_tipo_servicio, int estado, string suministro, string medidor, int tecnico, string fechaAsignacion, int id_supervisor, int id_operario_supervisor)
         {
@@ -393,7 +563,7 @@ namespace DSIGE.Web.Controllers
                 using (SqlConnection cn = new SqlConnection(cadenaCnx))
                 {
                     cn.Open();
-                    using (SqlCommand cmd = new SqlCommand("NEW_SP_S_LECTURA_ENVIAR_CLIENTE_DESCARGAR_PRE_ENVIO", cn))
+                    using (SqlCommand cmd = new SqlCommand("SP_S_LECTURA_ENVIAR_CLIENTE_PRE_ENVIO_CORTE_RECO", cn))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -421,7 +591,7 @@ namespace DSIGE.Web.Controllers
                             else
                             {
                                 var nombreExcel = "";
-                                if (id_tipo_servicio ==3)
+                                if (id_tipo_servicio == 3)
                                 {
                                     nombreExcel = "CORTES";
 
@@ -430,44 +600,88 @@ namespace DSIGE.Web.Controllers
                                         Excel.ExcelWorksheet oWs = oEx.Workbook.Worksheets.Add(nombreExcel);
                                         oWs.Cells.Style.Font.SetFromFont(new Font("Tahoma", 9));
 
-                                        oWs.Cells[1, 1].Value = " Aviso";
-                                        oWs.Cells[1, 2].Value = " Nombre del Contratista";
-                                        oWs.Cells[1, 3].Value = " DNI del Contratista";
-                                        oWs.Cells[1, 4].Value = " Lectura de Desconexión";
-                                        oWs.Cells[1, 5].Value = " Resultado GRP ";
-                                        oWs.Cells[1, 6].Value = " Resultado COD ";
+                                        oWs.Cells[1, 1].Value = "Clase de aviso";
+                                        oWs.Cells[1, 2].Value = "Aviso";
+                                        oWs.Cells[1, 3].Value = "Fecha de aviso";
+                                        oWs.Cells[1, 4].Value = "Documento de bloqueo";
+                                        oWs.Cells[1, 5].Value = "Cta.Contr.";
 
-                                        oWs.Cells[1, 7].Value = " Causa GRP ";
-                                        oWs.Cells[1, 8].Value = " Causa COD";
-                                        oWs.Cells[1, 9].Value = " Fecha Ejecución";
-                                        oWs.Cells[1, 10].Value = " Hora Ejecución";
+                                        oWs.Cells[1, 6].Value = "Nombre interlocutor";
+                                        oWs.Cells[1, 7].Value = "Clase cuenta";
+                                        oWs.Cells[1, 8].Value = "Deuda Soles";
+                                        oWs.Cells[1, 9].Value = "Cantidad de recibos";
+                                        oWs.Cells[1, 10].Value = "Instalación";
+                                        oWs.Cells[1, 11].Value = "N°Ser.Me.";
+
+                                        oWs.Cells[1, 12].Value = "Dirección de Instal.";
+                                        oWs.Cells[1, 13].Value = "Distrito de Instal.";
+                                        oWs.Cells[1, 14].Value = "Unidad de Lectura";
+                                        oWs.Cells[1, 15].Value = "Ejecutante";
+
+                                        oWs.Cells[1, 16].Value = "Orden";
+                                        oWs.Cells[1, 17].Value = "Creado por";
+
+                                        oWs.Cells[1, 18].Value = "Status de sistema";
+                                        oWs.Cells[1, 19].Value = "Cód.codificación";
+                                        oWs.Cells[1, 20].Value = "Codificación";
+                                        oWs.Cells[1, 21].Value = "Contador";
+
+                                        oWs.Cells[1, 22].Value = "tcos";
+                                        oWs.Cells[1, 23].Value = "HORA";
+                                        oWs.Cells[1, 24].Value = "LECTURA ";
+                                        oWs.Cells[1, 25].Value = "IMPOSIBILIDAD ";
 
                                         foreach (DataRow oBj in dt_detalle.Rows)
                                         {
-                                            oWs.Cells[_fila, 1].Value = oBj["Aviso"].ToString();
-                                            oWs.Cells[_fila, 2].Value = oBj["tcos"].ToString();
-                                            oWs.Cells[_fila, 3].Value = oBj["dni"].ToString();
-                                            oWs.Cells[_fila, 4].Value = oBj["LECTURA"].ToString();
+                                            oWs.Cells[_fila, 1].Value = oBj["claseAviso"].ToString();
+                                            oWs.Cells[_fila, 2].Value = oBj["aviso"].ToString();
+                                            oWs.Cells[_fila, 3].Value = oBj["fechaAviso"].ToString();
+                                            oWs.Cells[_fila, 4].Value = oBj["docBloqueo"].ToString();
 
-                                            oWs.Cells[_fila, 5].Value = oBj["ResultadoGRP"].ToString();
-                                            oWs.Cells[_fila, 6].Value = oBj["ResultadoCOD"].ToString();
-                                            oWs.Cells[_fila, 7].Value = oBj["CausaGRP"].ToString();
+                                            oWs.Cells[_fila, 5].Style.Numberformat.Format = "###0";
+                                            oWs.Cells[_fila, 5].Value =Convert.ToDouble(oBj["ctaContrato"]); 
 
-                                            oWs.Cells[_fila, 8].Value = oBj["CausaCOD"].ToString();
-                                            oWs.Cells[_fila, 9].Value = oBj["Fecha_aviso"].ToString();
-                                            oWs.Cells[_fila, 10].Value = oBj["HORA"].ToString();
+                                            oWs.Cells[_fila, 6].Value = oBj["nombreInterlocutor"].ToString();
+
+                                            oWs.Cells[_fila, 7].Value = oBj["claseCuenta"].ToString();
+                                            oWs.Cells[_fila, 8].Value = oBj["Deuda_Soles"].ToString();
+                                            oWs.Cells[_fila, 9].Value = oBj["cantRecibos"].ToString();
+                                            oWs.Cells[_fila, 10].Value = oBj["instalacion"].ToString();
+
+                                            oWs.Cells[_fila, 11].Style.Numberformat.Format = "###0";
+                                            oWs.Cells[_fila, 11].Value = Convert.ToDouble(oBj["nroSerieMedidor"]);
+
+                                            oWs.Cells[_fila, 12].Value = oBj["direcInstalacion"].ToString();
+                                            oWs.Cells[_fila, 13].Value = oBj["distritoInstalacion"].ToString();
+                                            oWs.Cells[_fila, 14].Value = oBj["unidadLectura"].ToString();
+                                            oWs.Cells[_fila, 15].Value = oBj["Ejecutante"].ToString();
+
+                                            oWs.Cells[_fila, 16].Value = oBj["orden"].ToString();
+                                            oWs.Cells[_fila, 17].Value = oBj["creadoPor"].ToString();
+
+                                            oWs.Cells[_fila, 18].Value = oBj["estatusSistema"].ToString();
+                                            oWs.Cells[_fila, 19].Value = oBj["codCodificacion"].ToString();
+                                            oWs.Cells[_fila, 20].Value = oBj["codificacion"].ToString();
+                                            oWs.Cells[_fila, 21].Value = oBj["contador"].ToString();
+
+                                            oWs.Cells[_fila, 22].Value = oBj["tcos"].ToString();
+                                            oWs.Cells[_fila, 23].Value = oBj["hora"].ToString();
+                                            oWs.Cells[_fila, 24].Value = oBj["lectura"].ToString();
+                                            oWs.Cells[_fila, 25].Value = oBj["imposibilidad"].ToString();
                                             _fila++;
                                         }
 
                                         oWs.Row(1).Style.Font.Bold = true;
                                         oWs.Row(1).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
                                         oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
-                                        oWs.Column(1).Style.Font.Bold = true;
 
-                                        for (int k = 1; k <= 10; k++)
+
+
+                                        for (int i = 1; i <= 25; i++)
                                         {
-                                            oWs.Column(k).AutoFit();
+                                            oWs.Column(i).AutoFit();
                                         }
+
                                         oEx.Save();
                                     }
                                 }
@@ -479,54 +693,99 @@ namespace DSIGE.Web.Controllers
                                         Excel.ExcelWorksheet oWs = oEx.Workbook.Worksheets.Add(nombreExcel);
                                         oWs.Cells.Style.Font.SetFromFont(new Font("Tahoma", 9));
 
-                                        oWs.Cells[1, 1].Value = " Aviso";
-                                        oWs.Cells[1, 2].Value = "Nombre del Contratista";
-                                        oWs.Cells[1, 3].Value = " DNI del Contratista";
-                                        oWs.Cells[1, 4].Value = " Lectura de Reconexión";
-                                        oWs.Cells[1, 5].Value = " Nombre de Titula o Representante del Cliente";
-                                        oWs.Cells[1, 6].Value = " Resultado GRP";
 
-                                        oWs.Cells[1, 7].Value = " Resultado COD";
-                                        oWs.Cells[1, 8].Value = " Causa GRP";
-                                        oWs.Cells[1, 9].Value = " Causa COD";
-                                        oWs.Cells[1, 10].Value = " Fecha Ejecución";
-                                        oWs.Cells[1, 11].Value = " Hora Ejecución";
+                                        oWs.Cells[1, 1].Value = "Clase de aviso";
+                                        oWs.Cells[1, 2].Value = "Aviso";
+                                        oWs.Cells[1, 3].Value = "Fecha de aviso";
+                                        oWs.Cells[1, 4].Value = "Documento de bloqueo";
+                                        oWs.Cells[1, 5].Value = "Cta.Contr.";
+
+                                        oWs.Cells[1, 6].Value = "Nombre interlocutor";
+                                        oWs.Cells[1, 7].Value = "Clase cuenta";
+                                        oWs.Cells[1, 8].Value = "Aviso";
+                                        oWs.Cells[1, 9].Value = "Cantidad de recibos";
+                                        oWs.Cells[1, 10].Value = "Instalación";
+                                        oWs.Cells[1, 11].Value = "N°Ser.Me.";
+
+                                        oWs.Cells[1, 12].Value = "Dirección de Instal.";
+                                        oWs.Cells[1, 13].Value = "Distrito de Instal.";
+                                        oWs.Cells[1, 14].Value = "Unidad de Lectura";
+                                        oWs.Cells[1, 15].Value = "Ejecutante";
+
+                                        oWs.Cells[1, 16].Value = "Orden";
+                                        oWs.Cells[1, 17].Value = "Creado por";
+                                        oWs.Cells[1, 18].Value = "Contador";
+                                        oWs.Cells[1, 19].Value = "Estado Instalación";
+                                        oWs.Cells[1, 20].Value = "Status de usuario";
+
+                                        oWs.Cells[1, 21].Value = "Status de sistema";
+                                        oWs.Cells[1, 22].Value = "Codificación";
+                                        oWs.Cells[1, 23].Value = "Cód.codificación";
+
+                                        oWs.Cells[1, 24].Value = "tcos";
+                                        oWs.Cells[1, 25].Value = "HORA";
+                                        oWs.Cells[1, 26].Value = "LECTURA ";
+                                        oWs.Cells[1, 27].Value = "IMPOSIBILIDAD ";
+                                        oWs.Cells[1, 28].Value = "NOMBRE DEL CLIENTE";
 
                                         foreach (DataRow oBj in dt_detalle.Rows)
                                         {
-                                            oWs.Cells[_fila, 1].Value = oBj["Aviso"].ToString();
-                                            oWs.Cells[_fila, 2].Value = oBj["tcos"].ToString();
-                                            oWs.Cells[_fila, 3].Value = oBj["dni"].ToString();
-                                            oWs.Cells[_fila, 4].Value = oBj["LECTURA"].ToString();
+                                            oWs.Cells[_fila, 1].Value = oBj["claseAviso"].ToString();
+                                            oWs.Cells[_fila, 2].Value = oBj["aviso"].ToString();
+                                            oWs.Cells[_fila, 3].Value = oBj["fechaAviso"].ToString();
+                                            oWs.Cells[_fila, 4].Value = oBj["docBloqueo"].ToString();
 
-                                            oWs.Cells[_fila, 5].Value = oBj["nombreInterLocutor_Corte"].ToString();
-                                            oWs.Cells[_fila, 6].Value = oBj["ResultadoGRP"].ToString();
-                                            oWs.Cells[_fila, 7].Value = oBj["ResultadoCOD"].ToString();
+                                            oWs.Cells[_fila, 5].Style.Numberformat.Format = "###0";
+                                            oWs.Cells[_fila, 5].Value = Convert.ToDouble(oBj["ctaContrato"]);
 
-                                            oWs.Cells[_fila, 8].Value = oBj["CausaGRP"].ToString();
-                                            oWs.Cells[_fila, 9].Value = oBj["CausaCOD"].ToString();
-                                            oWs.Cells[_fila, 10].Value = oBj["Fecha_aviso"].ToString();
-                                            oWs.Cells[_fila, 11].Value = oBj["HORA"].ToString();
+                                            oWs.Cells[_fila, 6].Value = oBj["nombreInterlocutor"].ToString();
+
+                                            oWs.Cells[_fila, 7].Value = oBj["claseCuenta"].ToString();
+                                            oWs.Cells[_fila, 8].Value = oBj["aviso"].ToString();
+                                            oWs.Cells[_fila, 9].Value = oBj["cantRecibos"].ToString();
+                                            oWs.Cells[_fila, 10].Value = oBj["instalacion"].ToString();
+ 
+                                            oWs.Cells[_fila, 11].Style.Numberformat.Format = "###0";
+                                            oWs.Cells[_fila, 11].Value = Convert.ToDouble(oBj["nroSerieMedidor"]);
+
+                                            oWs.Cells[_fila, 12].Value = oBj["direcInstalacion"].ToString();
+                                            oWs.Cells[_fila, 13].Value = oBj["distritoInstalacion"].ToString();
+                                            oWs.Cells[_fila, 14].Value = oBj["unidadLectura"].ToString();
+
+                                            oWs.Cells[_fila, 15].Value = oBj["Ejecutante"].ToString();
+                                            oWs.Cells[_fila, 16].Value = oBj["orden"].ToString();
+                                            oWs.Cells[_fila, 17].Value = oBj["creadoPor"].ToString();
+                                            oWs.Cells[_fila, 18].Value = oBj["contador"].ToString();
+                                            oWs.Cells[_fila, 19].Value = oBj["estadoInstalacion"].ToString();
+
+                                            oWs.Cells[_fila, 20].Value = oBj["estatusUsuario"].ToString();
+                                            oWs.Cells[_fila, 21].Value = oBj["estatusSistema"].ToString();
+
+                                            oWs.Cells[_fila, 22].Value = oBj["codificacion"].ToString();
+                                            oWs.Cells[_fila, 23].Value = oBj["codCodificacion"].ToString();
+                                            oWs.Cells[_fila, 24].Value = oBj["tcos"].ToString();
+
+                                            oWs.Cells[_fila, 25].Value = oBj["hora"].ToString();
+                                            oWs.Cells[_fila, 26].Value = oBj["lectura"].ToString();
+                                            oWs.Cells[_fila, 27].Value = oBj["imposibilidad"].ToString();
+                                            oWs.Cells[_fila, 28].Value = oBj["nombreCliente"].ToString();
+
                                             _fila++;
                                         }
-
-
-                                        //---- por las sanats
-                                        
 
                                         oWs.Row(1).Style.Font.Bold = true;
                                         oWs.Row(1).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
                                         oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
-                                        oWs.Column(1).Style.Font.Bold = true;
-                                        
-                                        for (int k = 1; k <= 11; k++)
+
+                                        for (int i = 1; i <= 28; i++)
                                         {
-                                            oWs.Column(k).AutoFit();
+                                            oWs.Column(i).AutoFit();
                                         }
+
                                         oEx.Save();
                                     }
                                 }
-                                
+
                                 return _Serialize("1|" + ruta_descarga + _servidor, true);
 
                             }
@@ -538,8 +797,244 @@ namespace DSIGE.Web.Controllers
             catch (Exception ex)
             {
                 return _Serialize("0|" + ex.Message, true);
-            } 
+            }
         }
+
+
+
+
+        [HttpPost]
+        public string DescargaExcel_PreEnvio_xxxxxx(int id_local, int id_tipo_servicio, int estado, string suministro, string medidor, int tecnico, string fechaAsignacion, int id_supervisor, int id_operario_supervisor)
+        {
+            Int32 _fila = 2;
+            string _servidor;
+            String _ruta;
+
+            try
+            {
+                List<Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio> _lista = new List<Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio>();
+
+                Cls_Negocio_AsignarOrdenTrabajo obj_negocio = new Cls_Negocio_AsignarOrdenTrabajo();
+                _lista = obj_negocio.Capa_Negocio_DescargaExcel_PreEnvio(((Sesion)Session["Session_Usuario_Acceso"]).empresa.emp_id, id_local, id_tipo_servicio, estado, suministro, medidor, tecnico, fechaAsignacion, id_supervisor, id_operario_supervisor);
+
+                if (_lista.Count == 0)
+                {
+                    return _Serialize("0|No hay informacion para mostrar.", true);
+                }
+
+                //_servidor = String.Format("{0:ddMMyyyy_hhmmss}.xlsx", DateTime.Now);
+                _servidor = ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + "DescargaExcel_PreEnvio" + id_tipo_servicio + ".xlsx";
+                _ruta = Path.Combine(Server.MapPath("~/Temp") + "\\" + _servidor);
+
+                FileInfo _file = new FileInfo(_ruta);
+                if (_file.Exists)
+                {
+                    _file.Delete();
+                    _file = new FileInfo(_ruta);
+                }
+
+                if (id_tipo_servicio == 3) // cortes
+                {
+                    using (Excel.ExcelPackage oEx = new Excel.ExcelPackage(_file))
+                    {
+                        Excel.ExcelWorksheet oWs = oEx.Workbook.Worksheets.Add("Importar");
+                        oWs.Cells.Style.Font.SetFromFont(new Font("Tahoma", 9));
+
+                        oWs.Cells[1, 1].Value = "Clase de aviso";
+                        oWs.Cells[1, 2].Value = "Aviso";
+                        oWs.Cells[1, 3].Value = "Fecha de aviso";
+                        oWs.Cells[1, 4].Value = "Documento de bloqueo";
+                        oWs.Cells[1, 5].Value = "Cta.Contr.";
+
+                        oWs.Cells[1, 6].Value = "Nombre interlocutor";
+                        oWs.Cells[1, 7].Value = "Clase cuenta";
+                        oWs.Cells[1, 8].Value = "Deuda Soles";
+                        oWs.Cells[1, 9].Value = "Cantidad de recibos";
+                        oWs.Cells[1, 10].Value = "Instalación";
+                        oWs.Cells[1, 11].Value = "N°Ser.Me.";
+
+                        oWs.Cells[1, 12].Value = "Dirección de Instal.";
+                        oWs.Cells[1, 13].Value = "Distrito de Instal.";
+                        oWs.Cells[1, 14].Value = "Unidad de Lectura";
+                        oWs.Cells[1, 15].Value = "Ejecutante";
+
+                        oWs.Cells[1, 16].Value = "Orden";
+                        oWs.Cells[1, 17].Value = "Creado por";
+
+                        oWs.Cells[1, 18].Value = "Status de sistema";
+                        oWs.Cells[1, 19].Value = "Cód.codificación";
+                        oWs.Cells[1, 20].Value = "Codificación";
+                        oWs.Cells[1, 21].Value = "Contador";
+
+                        oWs.Cells[1, 22].Value = "tcos";
+                        oWs.Cells[1, 23].Value = "HORA";
+                        oWs.Cells[1, 24].Value = "LECTURA ";
+                        oWs.Cells[1, 25].Value = "IMPOSIBILIDAD ";
+
+                        foreach (Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio oBj in _lista)
+                        {
+
+
+                            oWs.Cells[_fila, 1].Value = oBj.claseAviso;
+                            oWs.Cells[_fila, 2].Value = oBj.aviso;
+                            oWs.Cells[_fila, 3].Value = oBj.fechaAviso;
+                            oWs.Cells[_fila, 4].Value = oBj.docBloqueo;
+                            oWs.Cells[_fila, 5].Value = oBj.ctaContrato;
+                            oWs.Cells[_fila, 6].Value = oBj.nombreInterlocutor;
+
+                            oWs.Cells[_fila, 7].Value = oBj.claseCuenta;
+                            oWs.Cells[_fila, 8].Value = oBj.Deuda_Soles;
+                            oWs.Cells[_fila, 9].Value = oBj.cantRecibos;
+                            oWs.Cells[_fila, 10].Value = oBj.instalacion;
+                            oWs.Cells[_fila, 11].Value = oBj.nroSerieMedidor;
+
+                            oWs.Cells[_fila, 12].Value = oBj.direcInstalacion;
+                            oWs.Cells[_fila, 13].Value = oBj.distritoInstalacion;
+                            oWs.Cells[_fila, 14].Value = oBj.unidadLectura;
+                            oWs.Cells[_fila, 15].Value = oBj.Ejecutante;
+
+                            oWs.Cells[_fila, 16].Value = oBj.orden;
+                            oWs.Cells[_fila, 17].Value = oBj.creadoPor;
+
+                            oWs.Cells[_fila, 18].Value = oBj.estatusSistema;
+                            oWs.Cells[_fila, 19].Value = oBj.codCodificacion;
+                            oWs.Cells[_fila, 20].Value = oBj.codificacion;
+                            oWs.Cells[_fila, 21].Value = oBj.contador;
+
+                            oWs.Cells[_fila, 22].Value = oBj.tcos;
+                            oWs.Cells[_fila, 23].Value = oBj.hora;
+                            oWs.Cells[_fila, 24].Value = oBj.lectura;
+                            oWs.Cells[_fila, 25].Value = oBj.imposibilidad;
+                            _fila++;
+                        }
+
+                        oWs.Row(1).Style.Font.Bold = true;
+                        oWs.Row(1).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
+                        oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
+
+                        //oWs.Column(1).Style.Font.Bold = true;
+
+                        for (int i = 1; i <= 25; i++)
+                        {
+                            oWs.Column(i).AutoFit();
+                        }
+
+                        oEx.Save();
+                    }
+                }
+                else if (id_tipo_servicio == 4) // Reconexion
+                {
+
+                    using (Excel.ExcelPackage oEx = new Excel.ExcelPackage(_file))
+                    {
+                        Excel.ExcelWorksheet oWs = oEx.Workbook.Worksheets.Add("Importar");
+                        oWs.Cells.Style.Font.SetFromFont(new Font("Tahoma", 9));
+
+
+                        oWs.Cells[1, 1].Value = "Clase de aviso";
+                        oWs.Cells[1, 2].Value = "Aviso";
+                        oWs.Cells[1, 3].Value = "Fecha de aviso";
+                        oWs.Cells[1, 4].Value = "Documento de bloqueo";
+                        oWs.Cells[1, 5].Value = "Cta.Contr.";
+
+                        oWs.Cells[1, 6].Value = "Nombre interlocutor";
+                        oWs.Cells[1, 7].Value = "Clase cuenta";
+                        oWs.Cells[1, 8].Value = "Aviso";
+                        oWs.Cells[1, 9].Value = "Cantidad de recibos";
+                        oWs.Cells[1, 10].Value = "Instalación";
+                        oWs.Cells[1, 11].Value = "N°Ser.Me.";
+
+                        oWs.Cells[1, 12].Value = "Dirección de Instal.";
+                        oWs.Cells[1, 13].Value = "Distrito de Instal.";
+                        oWs.Cells[1, 14].Value = "Unidad de Lectura";
+                        oWs.Cells[1, 15].Value = "Ejecutante";
+
+                        oWs.Cells[1, 16].Value = "Orden";
+                        oWs.Cells[1, 17].Value = "Creado por";
+                        oWs.Cells[1, 18].Value = "Contador";
+                        oWs.Cells[1, 19].Value = "Estado Instalación";
+                        oWs.Cells[1, 20].Value = "Status de usuario";
+
+                        oWs.Cells[1, 21].Value = "Status de sistema";
+                        oWs.Cells[1, 22].Value = "Codificación";
+                        oWs.Cells[1, 23].Value = "Cód.codificación";
+
+                        oWs.Cells[1, 24].Value = "tcos";
+                        oWs.Cells[1, 25].Value = "HORA";
+                        oWs.Cells[1, 26].Value = "LECTURA ";
+                        oWs.Cells[1, 27].Value = "IMPOSIBILIDAD ";
+                        oWs.Cells[1, 28].Value = "NOMBRE DEL CLIENTE";
+
+                        foreach (Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio oBj in _lista)
+                        {
+
+
+
+                            oWs.Cells[_fila, 1].Value = oBj.claseAviso;
+                            oWs.Cells[_fila, 2].Value = oBj.aviso;
+                            oWs.Cells[_fila, 3].Value = oBj.fechaAviso;
+                            oWs.Cells[_fila, 4].Value = oBj.docBloqueo;
+                            oWs.Cells[_fila, 5].Value = oBj.ctaContrato;
+                            oWs.Cells[_fila, 6].Value = oBj.nombreInterlocutor;
+
+                            oWs.Cells[_fila, 7].Value = oBj.claseCuenta;
+                            oWs.Cells[_fila, 8].Value = oBj.aviso;
+                            oWs.Cells[_fila, 9].Value = oBj.cantRecibos;
+                            oWs.Cells[_fila, 10].Value = oBj.instalacion;
+                            oWs.Cells[_fila, 11].Value = oBj.nroSerieMedidor;
+
+                            oWs.Cells[_fila, 12].Value = oBj.direcInstalacion;
+                            oWs.Cells[_fila, 13].Value = oBj.distritoInstalacion;
+                            oWs.Cells[_fila, 14].Value = oBj.unidadLectura;
+
+                            oWs.Cells[_fila, 15].Value = oBj.Ejecutante;
+                            oWs.Cells[_fila, 16].Value = oBj.orden;
+                            oWs.Cells[_fila, 17].Value = oBj.creadoPor;
+                            oWs.Cells[_fila, 18].Value = oBj.contador;
+                            oWs.Cells[_fila, 19].Value = oBj.estadoInstalacion;
+
+                            oWs.Cells[_fila, 20].Value = oBj.estatusUsuario;
+                            oWs.Cells[_fila, 21].Value = oBj.estatusSistema;
+
+                            oWs.Cells[_fila, 22].Value = oBj.codificacion;
+                            oWs.Cells[_fila, 23].Value = oBj.codCodificacion;
+                            oWs.Cells[_fila, 24].Value = oBj.tcos;
+
+                            oWs.Cells[_fila, 25].Value = oBj.hora;
+                            oWs.Cells[_fila, 26].Value = oBj.lectura;
+                            oWs.Cells[_fila, 27].Value = oBj.imposibilidad;
+                            oWs.Cells[_fila, 28].Value = oBj.nombreCliente;
+                            _fila++;
+                        }
+
+                        oWs.Row(1).Style.Font.Bold = true;
+                        oWs.Row(1).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
+                        oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
+
+                        //oWs.Column(1).Style.Font.Bold = true;
+
+                        for (int i = 1; i <= 28; i++)
+                        {
+                            oWs.Column(i).AutoFit();
+                        }
+
+                        oEx.Save();
+                    }
+                }
+
+                return _Serialize("1|" + _servidor, true);
+
+
+            }
+            catch (Exception ex)
+            {
+                return _Serialize("0|" + ex.Message, true);
+            }
+        }
+
+
+
+
 
 
 

@@ -575,11 +575,16 @@
 
             $scope.ModificarCortesReconexiones = function (obj_data, CampoModificar, campo_opcion) {
 
+               console.log(CampoModificar)
+               console.log(campo_opcion)
+
                 $scope.FlagLecturaCorte = false;
                 $scope.FlagCorteCodObservacion = false;
                 $scope.FlagCorteCodObservacionResultado = false;
                 $scope.campo_opcion_Cortes = '';
                 $scope.campo_opcion_Cortes = campo_opcion;
+
+                $('#modal_EditarCortesReconexiones').modal('show');
 
                 if (campo_opcion == 'corte_lectura') {
                     $scope.FlagLecturaCorte = true;
@@ -587,30 +592,33 @@
                     txt_edit_lecturacorte.value = CampoModificar;
 
                 } else if (campo_opcion == 'cod_observacion') {
-                    $scope.FlagCorteCodObservacion = true;
-                    txt_edit_Corteobservacion = document.getElementById('txt_edit_Corteobservacion');
 
-                    if (CampoModificar == '' || CampoModificar == null) {
-                        txt_edit_Corteobservacion.value = 0;
+                   $scope.FlagCorteCodObservacion = true;
+                    if (CampoModificar.trim() == undefined || CampoModificar.trim() == '' || CampoModificar.trim() == null) {
+                        setTimeout(function () {
+                            $('#txt_edit_Corteobservacion').val(String('0')).trigger('change');
+                        }, 500);
                     } else {
                         setTimeout(function () {
-                            txt_edit_Corteobservacion.value = CampoModificar;
+                            console.log(CampoModificar)
+                            $('#txt_edit_Corteobservacion').val(String(CampoModificar).trim()).trigger('change');
                         }, 500);
-
-
                     }
                 } else if (campo_opcion == 'cod_observacionResultado') {
-                    $scope.FlagCorteCodObservacionResultado = true;
-                    txt_edit_CorteobservacionResultado = document.getElementById('txt_edit_CorteobservacionResultado');
 
-                    if (CampoModificar == '' || CampoModificar == null) {
-                        txt_edit_CorteobservacionResultado.value = 0;
+                    $scope.FlagCorteCodObservacionResultado = true;
+                    if (CampoModificar.trim() == undefined || CampoModificar.trim() == '' || CampoModificar.trim() == null) {
+                        setTimeout(function () {
+                            $('#txt_edit_CorteobservacionResultado').val('0').trigger('change');
+                        }, 500);
                     } else {
-                        txt_edit_CorteobservacionResultado.value = CampoModificar;
+                        setTimeout(function () {
+                            $('#txt_edit_CorteobservacionResultado').val(String(CampoModificar).trim()).trigger('change');
+                        }, 500);
                     }
                 }
 
-                $('#modal_EditarCortesReconexiones').modal('show');
+
                 txt_edit_idcorte = document.getElementById('txt_edit_idcorte');
                 txtcontratoCorte = document.getElementById('txtcontratoCorte');
                 txtmedidorCorte = document.getElementById('txtmedidorCorte');
@@ -3023,7 +3031,7 @@
                         </div>
 
                         <div class="col-md-5">
-                            @*<div class="col-xs-12 col-sm-3 col-md-4  col-lg-4 ">
+                            @*<div class="col-xs-12 col-sm-3 col-md-4  col-lg-4 "  -------------->
                                 <div class="form-group form-group-sm">
                                     <label class="control-label">
                                         Fecha Asignación

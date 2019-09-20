@@ -245,7 +245,6 @@ namespace DSIGE.Negocio
 
         public List<Servicio> Capa_Negocio_PermisoListUsuarioServicio(int idusuario)
         {
-
             try
             {
                 Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
@@ -253,11 +252,37 @@ namespace DSIGE.Negocio
             }
             catch (Exception e)
             {
-
                 throw e;
             }
+        }
 
 
+        public object Capa_Negocio_get_marcaMedidor()
+        {
+            try
+            {
+                Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
+                return Objeto_Dato.Capa_Dato_get_marcaMedidor();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+
+        public object Capa_Negocio_buscarCodigoEMr(string codigo)
+        {
+            try
+            {
+                Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
+                return Objeto_Dato.Capa_Dato_get_buscarCodgioEmr(codigo);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
 

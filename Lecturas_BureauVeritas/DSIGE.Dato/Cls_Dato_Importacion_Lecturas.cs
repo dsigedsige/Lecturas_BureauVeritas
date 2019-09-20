@@ -203,7 +203,74 @@ namespace DSIGE.Dato
                 throw e;
             }
         }
-        
+
+
+        public object Capa_Dato_get_marcaMedidor()
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                List<DistribuirLecturas_E> ListData = new List<DistribuirLecturas_E>();
+
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    /// generando los archivos excel
+                    using (SqlCommand cmd = new SqlCommand("SP_S_IMPORTAR_ARCHIVO_MEDIDOR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
+
+        public object Capa_Dato_get_buscarCodgioEmr(string codigo)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                List<DistribuirLecturas_E> ListData = new List<DistribuirLecturas_E>();
+
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    /// generando los archivos excel
+                    using (SqlCommand cmd = new SqlCommand("SP_S_IMPORTAR_ARCHIVO_BUSCAR_EMR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@codigo", SqlDbType.VarChar).Value = codigo;
+                        
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
+
+
+
         public List<Servicio> Capa_Dato_Listado_Servicios()
         {
             try
@@ -2002,10 +2069,10 @@ namespace DSIGE.Dato
                 List<int> list_operarios = new List<int>();
                 List<Archivo_E> listArchivos = new List<Archivo_E>();
 
-                nombreServicio = "CORTES_";
+                nombreServicio = "_EMAIL_CORTES_";
                 if (servicio ==4)
                 {
-                    nombreServicio = "RECONEXIONES_";
+                    nombreServicio = "_EMAIL_RECONEXIONES_";
                 }
 
                 ///----obteniendo los Operarios---
@@ -2113,6 +2180,10 @@ namespace DSIGE.Dato
 
                         listArchivos.Add(obj_entidad);
                     }
+
+                    //------suspendemos el hilo, y esperamos ..
+                    System.Threading.Thread.Sleep(2000);
+
                 }
 
                 //---generando el envio de correo
