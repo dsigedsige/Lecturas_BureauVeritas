@@ -285,6 +285,19 @@ namespace DSIGE.Negocio
             }
         }
 
+        public int Capa_Negocio_grabarGrandesClienteFile(int Id_GrandeCliente, string CodigoEMR, string nameFile_GrandeClienteFile, string urlNameFile_GrandeClienteFile, int id_marcaMedidor , string fechaCarga, int idUsuario)
+        {
+            try
+            {
+                Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
+                return Objeto_Dato.Capa_Dato_grabarGrandesClienteFile(Id_GrandeCliente, CodigoEMR, nameFile_GrandeClienteFile, urlNameFile_GrandeClienteFile, id_marcaMedidor, fechaCarga, idUsuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
 
 
         public List<Servicio> Capa_Negocio_Listado_Servicios()

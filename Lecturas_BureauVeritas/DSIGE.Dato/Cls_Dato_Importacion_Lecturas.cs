@@ -270,6 +270,47 @@ namespace DSIGE.Dato
 
 
 
+        public int Capa_Dato_grabarGrandesClienteFile(int Id_GrandeCliente, string CodigoEMR, string nameFile_GrandeClienteFile, string urlNameFile_GrandeClienteFile, int id_marcaMedidor, string fechaCarga, int idUsuario)
+        {
+            int resultado = 0;
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                List<DistribuirLecturas_E> ListData = new List<DistribuirLecturas_E>();
+
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    /// generando los archivos excel
+                    using (SqlCommand cmd = new SqlCommand("SP_I_GRANDES_CLIENTE_FILE", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@Id_GrandeCliente", SqlDbType.Int).Value = Id_GrandeCliente;
+                        cmd.Parameters.Add("@CodigoEMR", SqlDbType.VarChar).Value = CodigoEMR;
+                        cmd.Parameters.Add("@nameFile_GrandeClienteFile", SqlDbType.VarChar).Value = nameFile_GrandeClienteFile;
+
+                        cmd.Parameters.Add("@urlNameFile_GrandeClienteFile", SqlDbType.VarChar).Value = urlNameFile_GrandeClienteFile;
+                        cmd.Parameters.Add("@id_marcaMedidor", SqlDbType.Int).Value = id_marcaMedidor;
+                        cmd.Parameters.Add("@fechaCarga", SqlDbType.VarChar).Value = fechaCarga;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUsuario;
+                        cmd.Parameters.Add("@id_file", SqlDbType.Int).Direction = ParameterDirection.Output;
+                        cmd.ExecuteNonQuery();
+
+                        resultado = Convert.ToInt32(cmd.Parameters["@id_file"].Value.ToString());
+ 
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return resultado;
+        }
+
+         
+
 
         public List<Servicio> Capa_Dato_Listado_Servicios()
         {

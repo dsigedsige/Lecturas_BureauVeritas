@@ -145,6 +145,14 @@
         app.controller('MyController', function ($scope, $timeout, $http, fileUpload) {
             ///Creando la Funcion
 
+            $(function () {
+                $('#id_fecha_carga').datepicker({
+                    format: 'dd/mm/yyyy',
+                    language: 'es',
+                    autoclose: true
+                });
+            });
+
             $scope.inicializando = function () {
                 $scope.Listado_Servicios();
             }
@@ -162,6 +170,7 @@
                     .success(function (data) {
                         $scope.list_marcaMedidores = [];
                         $scope.list_marcaMedidores = data;
+ 
                     })
                     .error(function () {
                         alert('Ocurrio un problema con la conexion, vuelva a intentar.')
@@ -169,14 +178,16 @@
                     });
             }
 
+            $scope.Id_GrandeCliente = 0;
+            $scope.id_MarcaMedidor = '0';
             $scope.CodigoEMR = "";
             $scope.nombreCliente_lectura = "";
             $scope.direccion_lectura = "";
             $scope.distrito_lectura = "";
-
+            $scope.fecha_carga = fechaActual();         
 
             $scope.searchCodigo = function () {
-                if ($scope.CodigoEMR == undefined || $scope.CodigoEMR == '' || $scope.CodigoEMR == null ) {
+                if (String($scope.CodigoEMR).trim() == undefined || String($scope.CodigoEMR).trim() == '' || String($scope.CodigoEMR).trim()  == null ) {
                     return;
                 }
                 var variables = {
@@ -186,18 +197,20 @@
                         'Content-Type': 'application/json; charset=utf-8'
                     },
                     data:{
-                        codigo: $scope.CodigoEMR
+                        codigo: String($scope.CodigoEMR).trim()
                     }
                 }
 
+                $scope.Id_GrandeCliente = 0;
                 $scope.nombreCliente_lectura = '';
                 $scope.direccion_lectura ='';
                 $scope.distrito_lectura = '';
 
                 $http(variables)
                     .success(function (data) {
-                        console.log(data);
+ 
                         if (data.length > 0) {
+                            $scope.Id_GrandeCliente = data[0].Id_GrandeCliente
                             $scope.nombreCliente_lectura = data[0].nombreCliente_lectura;
                             $scope.direccion_lectura = data[0].direccion_lectura;
                             $scope.distrito_lectura = data[0].distrito_lectura;
@@ -216,35 +229,188 @@
                     }); 
             }
 
-            var files = [];
-            $scope.guardarFile = function () {
-                files.push($scope.myFile)
-
-                console.log(files);
-
-            }
-
             $scope.files = [];
             $scope.nombreFile = " Ningun Archivo Seleccionado";
+
             $scope.getFileDetails = function (e) {
                 $scope.$apply(function () {
                     // STORE THE FILE OBJECT IN AN ARRAY.
-                    var files = [];
                     for (var i = 0; i < e.files.length; i++) {
-                        files.push({
-                            'file': e.files[i]
-                        })
+                        if (VerificarFile(e.files[i].name) == false) {
+                            $scope.files.push({
+                                'file': e.files[i]
+                            })
+                        } else {
+                            new PNotify({
+                                title: ' ',
+                                text: 'El archivo ' + e.files[i].name  +  ' ya se encuentra cargado; Verifique el nombre',
+                                type: 'error'
+                            });
+                        }
                     }
-                    $scope.files = files;
+
+                    $scope.nombreFile = $scope.files.length  +  " : Archivos Seleccionados";
+
                 });
-
-                console.log($scope.files);
-
-                //-- validando que contenga archivos..
-                if ($scope.files.length > 0) {
-                    $('#Modal_upload').modal('show');
-                }
             };
+
+            function VerificarFile(fileName) {     
+                var flag = false;
+                for (obj of $scope.files) { 
+                    if (obj.file.name == fileName) {
+                        flag = true;
+                        break;
+                    }
+                }
+                return flag;
+            }
+
+            $scope.formateaValor = function(valor) {
+                return isNaN(valor) ? valor : parseFloat(valor).toFixed(2);
+            }
+
+            $scope.elimianarCarga = function (item) {
+                var i = $scope.files.indexOf(item);
+                $scope.files.splice(i, 1);
+                $scope.nombreFile = $scope.files.length + " : Archivos Seleccionados";
+            }
+
+            $scope.blank = function () {
+
+                $scope.Id_GrandeCliente = 0;
+                $scope.id_MarcaMedidor = '0';
+
+                $scope.CodigoEMR = "";
+                $scope.nombreCliente_lectura = "";
+                $scope.direccion_lectura = "";
+                $scope.distrito_lectura = "";
+                $scope.fecha_carga = fechaActual();   
+ 
+                $scope.files = [];
+                $scope.nombreFile = " Ningun Archivo Seleccionado";
+            }
+
+            function fechaActual() {
+
+                var fecha = new Date(); //Fecha actual
+                var mes = fecha.getMonth() + 1; //obteniendo mes
+                var dia = fecha.getDate(); //obteniendo dia
+                var ano = fecha.getFullYear(); //obteniendo año
+                if (dia < 10) {
+                    dia = '0' + dia; //agrega cero si el menor de 10
+                }
+                if (mes < 10) {
+                    mes = '0' + mes //agrega cero si el menor de 10
+                }
+                return dia + "/" + mes + "/" + ano;
+            }
+
+            $scope.almcenarRegistro = function () {
+
+                if ($scope.Id_GrandeCliente == '' || $scope.Id_GrandeCliente == null || $scope.Id_GrandeCliente == 0 || $scope.Id_GrandeCliente == '0') {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor busque el codigo E.M.R',
+                        type: 'error'
+                    });
+                    return;
+                }
+ 
+
+                if ($scope.fecha_carga == '' || $scope.fecha_carga == null || $scope.fecha_carga == 0 || $scope.fecha_carga == '0') {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor seleccione la fecha de Importacion',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                if ($scope.id_MarcaMedidor == '' || $scope.id_MarcaMedidor == null || $scope.id_MarcaMedidor == 0 || $scope.id_MarcaMedidor == '0') {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor seleccione la Marca del medidor',
+                        type: 'error'
+                    });
+                    return;
+                }
+                if ($scope.files.length <=0) {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor seleccione sus archivos',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                (new PNotify({
+                    title: 'Sistemas Confirmacion ',
+                    text: 'Esta seguro de almacenar los archivos cargados.?',
+                    icon: 'glyphicon glyphicon-question-sign',
+                    hide: false,
+                    confirm: {
+                        confirm: true
+                    },
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    },
+                    history: {
+                        history: false
+                    }
+                })).get().on('pnotify.confirm', function () {
+                     $('.sige-load').show();
+                    //$('.sige-load').hide();          
+
+                    var totalRegistro = $scope.files.length;
+                    var fd;
+
+                    var enviarFiles = function (index) {
+                        if (totalRegistro == index) {
+                            new PNotify({
+                                title: ' ',
+                                text: 'Proceso generado Exitosamente.',
+                                type: 'success'
+                            });
+                            $scope.blank();
+                            return;
+                        }
+
+                        fd = new FormData();
+                        fd.append('file', $scope.files[index].file);
+                        fd.append('Id_GrandeCliente', $scope.Id_GrandeCliente);
+                        fd.append('CodigoEMR', $scope.CodigoEMR);
+                        fd.append('id_marcaMedidor', $scope.id_MarcaMedidor );
+                        fd.append('fechaCarga', $scope.fecha_carga);
+ 
+                        $http.post('../Importar/save_GrandesClientesfile', fd,
+                        {
+                            transformRequest: angular.identity,
+                            headers: { 'Content-Type': undefined }
+                        }).success(function (res) {
+                            $('.sige-load').hide();
+                            if (res == "OK" || res == '"OK"' || res == '"OK') {
+                                enviarFiles(index + 1);
+                            } else {
+                                enviarFiles(index + 1);
+                                alert(res + $scope.files[index].file.name + '..')
+                            }                      
+                        })
+                        .error(function () {
+                            enviarFiles(index + 1);
+                            alert('Ocurrio un problema con este archivo' + $scope.files[index].file.name + '..')
+                            $('.sige-load').hide();
+                        });
+                    }
+
+                    if (totalRegistro > 0 ) {
+                        enviarFiles(0);
+                    }
+                      
+                }).on('pnotify.cancel', function () {
+
+                });
+            }
 
 
 
@@ -258,7 +424,7 @@
     </head>
     <body>
         <div class="container" ng-app="MyApp" ng-controller="MyController" style="margin-top: -10px;" ng-init="inicializando();">
-            <div class="panel panel-oscuro">
+            <div class="panel panel-oscuro" style="margin-top: -17px;">
                 <div class="panel-heading">
                     <h6><i class="fa fa-table fa-lg"></i> SUBIR ARCHIVOS DE MEDIDORES DE GRANDES CLIENTES</h6>
                 </div>
@@ -272,8 +438,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class=" col-xs-8 col-md-6">
-                                    <label for="txt_codigo"> Ingrese el codigo de E.R.P :</label>
-                                    <input type="text" ng-enter="searchCodigo(CodigoEMR)" class="form-control" id="txt_codigo"  ng-model="CodigoEMR"  autocomplete="off">
+                                    <label for="txt_codigo"> Ingrese el codigo de E.M.R :</label>
+                                    <input type="text" ng-enter="searchCodigo(CodigoEMR)" class="form-control" id="txt_codigo"  ng-model="CodigoEMR" maxlength="30" autocomplete="off">
                                 </div>
                                 <div class=" col-xs-4  col-md-6 text-left">
                                     <br />
@@ -281,9 +447,15 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="col-md-12">
+                                <div class="col-xs-6 col-md-5">
+                                    <label   for="_usuario" class="control-label">Fecha de Carga:</label>
+                                    <div style="width: 150px;">
+                                        <input class="form-control julio" id="id_fecha_carga" ng-model="fecha_carga" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                    </div>
+                                </div>
+                                <div class=" col-xs-6 col-md-6">
                                     <label for="email"> Marca medidor :</label>
-                                    <select class="form-control" id="id_servicio">
+                                    <select class="form-control" id="id_MarcaMedidor" ng-model="id_MarcaMedidor">
                                         <option value="0" selected="selected">-- SELECCIONE --</option>
                                         <option ng-repeat="item in list_marcaMedidores" value="{{item.id_MarcaMedidor}}"> {{item.nombre_MarcaMedidor}} </option>
                                     </select>
@@ -311,8 +483,6 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="col-sm-6 col-md-6">
-                                    @*<input type="file" class="filestyle" style="height: 38px !important;" file-model="myFile" data-placeholder="Ningun Archivo Seleccionado" data-buttonname="btn-primary" data-size="sm" data-buttonbefore="true" data-buttontext="  Seleccionar Archivo..">*@
-
                                     <div id="upload_button">
                                         <label>
                                             <input type="file" id="file" name="file" multiple onchange="angular.element(this).scope().getFileDetails(this)" />
@@ -324,19 +494,35 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-md-6">
-                                    <button class="btn btn-primary btn-sm" id="btn_verificar" ng-click="guardarFile()"><span class="glyphicon glyphicon-refresh"></span> Verificar</button>
+ 
+                                    <button class="btn btn-success btn-sm" ng-click="almcenarRegistro();"><span class="glyphicon glyphicon-floppy-open"></span> Guardar</button>
+                                    <button class="btn btn-info btn-sm" ng-click="blank()"><span class="glyphicon glyphicon-plus"></span> Nuevo </button>
                                 </div>
                             </div>
                         </div>
                         <hr />  
-
                         <div class="row">
-                            <div class="col-md-6">
-                                <ul class="list-group">
-                                    <li class="list-group-item list-group-item-info" ng-repeat="file in files">
-                                       Nombre Archivo : {{file.file.name }} -    Peso  {{ (file.file.size / 1024) }}
-                                    </li> 
-                                </ul>
+                            <div class="col-md-8">
+                                <h4 class="text-center" style="color:#337ab7"> ARCHIVOS SELECCIONADOS</h4>
+ 
+                                    <ul class="list-group">
+                                        <li class="list-group-item list-group-item-warning" ng-repeat="file in files">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="label" style="color: brown;font-family: tahoma;font-size: 12px;">NOMBRE DEL ARCHIVO : {{file.file.name }}</label>
+                                                </div>
+                                                <div class="col-xs-8 col-md-4" style=" ">
+                                                    <label class="label" style="color: brown;font-family: tahoma;font-size: 12px;">PESO : {{formateaValor(file.file.size / 1024) }}</label>
+                                                </div>
+                                                <div class="col-xs-4  col-md-2" style="text-align:center">
+                                                    <span style="cursor:pointer; text-decoration:underline" ng-click="elimianarCarga(file);" class="label label-danger" title="Eliminar registro"> Eliminar</span>
+                                                </div>
+                                            </div>
+
+                                        </li>
+                                    </ul>
+          
+
                             </div>
                         </div>
 
