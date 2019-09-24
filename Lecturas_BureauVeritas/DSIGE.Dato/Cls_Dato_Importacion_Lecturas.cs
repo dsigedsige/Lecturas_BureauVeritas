@@ -1056,7 +1056,43 @@ namespace DSIGE.Dato
             return res;
         }
 
-        
+
+        public object Capa_Dato_Agrupado_grandesClientes(string fechaAsignacion, int cod_usuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            resul res = new resul();
+            object resul = null;
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_IMPORTAR_EXCEL_GRANDES_CLIENTES_AGRUPADO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = cod_usuario;
+                        cmd.Parameters.Add("@fecha_asignar", SqlDbType.VarChar).Value = fechaAsignacion;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                            resul = dt_detalle;
+                        }
+                    }
+                }
+                res.ok = true;
+                res.data = resul;
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
+        }
+
+
         public object Capa_Dato_Agrupado_lectura_reclamos(string fechaAsignacion, int cod_usuario)
         {
             DataTable dt_detalle = new DataTable();
@@ -1440,6 +1476,36 @@ namespace DSIGE.Dato
             return Resultado;
         }
 
+        public string Capa_Dato_save_grandesClientes(string fechaAsignacion, string fechaMovil, int id_user)
+        {
+            var Resultado = "";
+
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(cadenaCnx))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_I_IMPORTAR_EXCEL_GRANDES_CLIENTES_MOVIL", con))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@FechaAsigna", SqlDbType.VarChar).Value = fechaAsignacion;
+                        cmd.Parameters.Add("@FechaMovil", SqlDbType.VarChar).Value = fechaMovil;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_user;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                Resultado = "1|Ok";
+            }
+            catch (Exception e)
+            {
+                Resultado = "0|" + e.Message;
+            }
+            return Resultado;
+        }
+
+
         public string Capa_Dato_save_Lecturas_Reclamos(string fechaAsignacion, string fechaMovil, int id_user)
         {
             var Resultado = "";
@@ -1705,6 +1771,76 @@ namespace DSIGE.Dato
             public bool ok { get; set; }
             public object data { get; set; }
         }
+
+
+
+        public object Capa_Dato_save_Temporal_grandesClientes(string fileLocation, int usuario, int idlocal, int idservicio, string idfechaAsignacion, string nombreArchivo)
+        {
+            object resul = null;
+            resul res = new resul();
+
+            DataTable dt = new DataTable();
+
+            try
+            {
+                string sql = "SELECT * FROM [Importar$]";
+
+                OleDbDataAdapter da = new OleDbDataAdapter(sql, ConectarExcel(fileLocation));
+                da.SelectCommand.CommandType = CommandType.Text;
+                da.Fill(dt);
+                cn.Close();
+
+                using (SqlConnection con = new SqlConnection(cadenaCnx))
+                {
+                    con.Open();
+
+                    //eliminando registros del usuario
+                    using (SqlCommand cmd = new SqlCommand("SP_D_TEMP_GRANDES_CLIENTES", con))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = usuario;
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    //guardando al informacion de la importacion
+                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(con))
+                    {
+
+                        bulkCopy.BatchSize = 500;
+                        bulkCopy.NotifyAfter = 1000;
+                        bulkCopy.DestinationTableName = "TEMP_GRANDES_CLIENTES";
+                        bulkCopy.WriteToServer(dt);
+
+                        //Actualizando campos 
+
+                        string Sql = "UPDATE TEMP_GRANDES_CLIENTES SET nombreArchivo='" + nombreArchivo + "',   loc_id ='" + idlocal + "' , idUsuarioExport='" + usuario + "', fechaAsignacion=getdate()   WHERE idUsuarioExport IS NULL    ";
+
+                        using (SqlCommand cmd = new SqlCommand(Sql, con))
+                        {
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.Text;
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    resul = "OK";
+                }
+
+                res.ok = true;
+                res.data = resul;
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return res;
+        }
+
 
         public object Capa_Dato_save_temporalLectura(string fileLocation, int usuario, int idlocal, int idservicio, string idfechaAsignacion, string nombreArchivo)
         {

@@ -128,6 +128,10 @@ namespace DSIGE.Web.Controllers
                 {
                     nomExcel = idServicio + "_REPARTO_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
                 }
+                else if (idServicio == 7)  //----- grandes clientes---
+                {
+                    nomExcel = idServicio + "_GRANDESCLIENTES_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
+                }
                 else if (idServicio == 9)
                 {
                     nomExcel = idServicio + "_RECLAMOS_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
@@ -191,6 +195,27 @@ namespace DSIGE.Web.Controllers
 
                     loDatos = Objeto_Negocio.Capa_Negocio_Listar_Temporal_Reparto_Agrupado(idfechaAsignacion, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id, idServicio);
                 }
+
+                else if (idServicio == 7)//----grandes clientes
+                {
+                    Cls_Negocio_Importacion_Lecturas Objeto_Negocio = new Cls_Negocio_Importacion_Lecturas();
+                    loDatos = Objeto_Negocio.Capa_Negocio_save_Temporal_grandesClientes(fileLocation, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id, idlocal, idServicio, idfechaAsignacion, NombreArchivo);
+
+                    var res = _Serialize(loDatos, true);
+                    JObject data = JObject.Parse(res.ToString());
+
+                    if (data["ok"].ToString() == "True")
+                    {
+                        loDatos = null;
+                        loDatos = Objeto_Negocio.Capa_Negocio_Agrupado_temporal_grandesClientes(idfechaAsignacion, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+                        return _Serialize(loDatos, true);
+                    }
+                    else
+                    {
+                        return res;
+                    }
+                }
+
                 else if (idServicio == 9) //----reclamos
                 {
                     Cls_Negocio_Importacion_Lecturas Objeto_Negocio = new Cls_Negocio_Importacion_Lecturas();
@@ -396,10 +421,7 @@ namespace DSIGE.Web.Controllers
                 throw ex;
             }
         }
-
-
-
-
+                     
 
         [HttpPost]
         public string set_enviarMovil_lecturas(string fechaAsignacion, string fechaMovil, int id_servicio, string nombre_archivo)
@@ -417,6 +439,27 @@ namespace DSIGE.Web.Controllers
                 throw ex;
             }
         }
+
+
+        [HttpPost]
+        public string set_enviarMovil_grandesClientes(string fechaAsignacion, string fechaMovil, int id_servicio, string nombre_archivo)
+        {
+            object loDatos = null;
+            try
+            {
+                var usuario = ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id;
+                Cls_Negocio_Importacion_Lecturas obj_negocio = new Cls_Negocio_Importacion_Lecturas();
+                loDatos = obj_negocio.Capa_Negocio_save_grandesClientes(fechaAsignacion, fechaMovil, id_servicio, nombre_archivo, usuario);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
 
         [HttpPost]
         public string set_enviarMovil_reclamos(string fechaAsignacion, string fechaMovil, int id_servicio, string nombre_archivo, int opcion)

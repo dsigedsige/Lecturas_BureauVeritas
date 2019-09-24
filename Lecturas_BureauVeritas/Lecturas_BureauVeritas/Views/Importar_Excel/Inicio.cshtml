@@ -309,22 +309,33 @@
                         $scope.show_Lectura = true;
                         $scope.show_otros = false;
                         $scope.showReclamos = false;
+                        $scope.showClientes = false;
                     }
                     if (idServicio == 6) {
                         $scope.showReparto = true;
                         $scope.show_otros = false;
                         $scope.showReclamos = false;
+                        $scope.showClientes = false;
                     }
+                    if (idServicio == 7) {
+                        $scope.show_Lectura = false;
+                        $scope.show_otros = false;
+                        $scope.showReclamos = false;
+                        $scope.showClientes = true;
+                    }
+
                     if (idServicio == 9) {
 
                         if (cbo_opcion == 1) {///----cargando
                             $scope.showReclamos = true;
                             $scope.showReparto = false;
                             $scope.show_otros = false;
+                            $scope.showClientes = false;
                         } else {///----actualizando
                             $scope.show_Lectura = true;
                             $scope.show_otros = false;
                             $scope.showReclamos = false;
+                            $scope.showClientes = false;
                         }
                     }
 
@@ -441,7 +452,7 @@
                             }).success(function (res) {
                                 $('.sige-load').hide();
 
-                                if (idServicio == 1 || idServicio == '1') {
+                                if (idServicio == 1 || idServicio == '1' || idServicio == 7 || idServicio == '7') {
                                     if (res.ok == true) {
                                         console.log(res.data);
                                         btn_ver.disabled = true;
@@ -476,17 +487,6 @@
                                     btn_ver.disabled = true;
                                     btn_Guardar.disabled = false;
                                 }
-                                //else if (idServicio == 9 || idServicio == '9') {
-                                //    if (res.ok == true) {
-                                //        btn_ver.disabled = true;
-                                //        $scope.Lista_Lecturas_Temporal = res.data;
-                                //        btn_Guardar.disabled = false;
-
-                                //    } else {
-                                //        btn_Guardar.disabled = true;
-                                //        alert(res.data);
-                                //    }
-                                //}
                                 else {
 
                                     if (res == 'ERROR' || res == '"ERROR"') {
@@ -541,7 +541,7 @@
                         $scope.Obj_List_Servicios = [];
 
                         for (obj of data) {
-                            if (obj._a == '1' || obj._a == '2' || obj._a == '3' || obj._a == '4' || obj._a == '6' || obj._a == '9') {
+                            if (obj._a == '1' || obj._a == '2' || obj._a == '3' || obj._a == '4' || obj._a == '6' || obj._a == '7' || obj._a == '9') {
                                 $scope.Obj_List_Servicios.push(obj);
                             }
                         }
@@ -715,6 +715,17 @@
                     }
                     ruta = 'set_enviarMovil_reparto';
                 }
+
+                else if (idServicio == 7 || idServicio == '7') {
+                    params = {
+                        fechaAsignacion: fecha_asignacion,
+                        fechaMovil: fecha_Movil,
+                        id_servicio: document.getElementById('id_servicio').value,
+                        nombre_archivo: $scope.myFile.name
+                    }
+                    ruta = 'set_enviarMovil_grandesClientes';
+                }
+
                 else if (idServicio == 9 || idServicio == '9') {
                     console.log('reclamos');
                     console.log(cbo_opcion);
@@ -1267,9 +1278,12 @@
                                 <tr ng-if="showReclamos">
                                     <th>Nro fila</th>
                                     <th>Distrito</th>
-                                    @*<th>Unidad Lectura</th>*@
                                     <th>Total</th>
-                                    @*<th>Ver Reporte</th>*@
+                                </tr>
+                                <tr ng-if="showClientes">
+                                    <th>Nro fila</th>
+                                    <th>Distrito</th>
+                                    <th>Total</th>
                                 </tr>
                                 <tr ng-show="show_otros">
                                     <th>Nro fila</th>
@@ -1293,15 +1307,19 @@
                                     <td>{{item.nombre_UnidadLectura}}</td>
                                     <td>{{item.total}}</td>
                                     @*<td align="center">
-                                            <button type="button" class="btn btn-default btn-xs" ng-click="getPdf(item)">
-                                                <span class="glyphicon glyphicon-list"></span> Ver Reporte
-                                            </button>
-                                        </td>*@
+                <button type="button" class="btn btn-default btn-xs" ng-click="getPdf(item)">
+                    <span class="glyphicon glyphicon-list"></span> Ver Reporte
+                </button>
+            </td>*@
                                 </tr>
                                 <tr ng-if="showReclamos" ng-repeat="item in Lista_Lecturas_Temporal">
                                     <td>{{$index + 1}}</td>
                                     <td>{{item.distrito_suministro}}</td>
-                                    @*<td>{{item.unidad_lectura}}</td>*@
+                                    <td>{{item.cantidad}}</td>
+                                </tr>
+                                <tr ng-if="showClientes" ng-repeat="item in Lista_Lecturas_Temporal">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{item.distrito}}</td>
                                     <td>{{item.cantidad}}</td>
                                 </tr>
                                 <tr ng-show="show_otros" ng-repeat="item in Lista_Lecturas_Temporal">
@@ -1324,7 +1342,7 @@
                 <div class="form-group">
                     <div class="col-sm-12 col-md-offset-5" style=" padding-top: 20px; ">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento">
-                            @*<button id="btn_guardar" disabled="disabled" role="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-asignacion"><i class="fa fa-save fa-lg"></i> Guardar</button>*@
+ 
                             <button id="btn_guardar" disabled="disabled" role="button" class="btn btn-primary" ng-click="abrirModal_Asignacion();"><i class="fa fa-save fa-lg"></i> Guardar</button>
                             <button class="btn btn-success" ng-click="enviarCorreo();" title="Valido para Cortes-Reconexiones"><span class="glyphicon glyphicon-envelope"></span> Enviar Correo</button>
                             <button class="btn btn-info" ng-click="generarRepartoPdf();" title="Valido para Cortes-Reconexiones"><span class="glyphicon glyphicon-list-alt"></span> Generar Impresion Reparto</button>

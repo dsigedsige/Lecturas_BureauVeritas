@@ -568,8 +568,21 @@ namespace DSIGE.Negocio
             {
                 throw e;
             }
-
         }
+
+        public string Capa_Negocio_Set_procesarRecepcion_Trabajos(int servicio, string fechaAsigna)
+        {
+            try
+            {
+                Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
+                return Objeto_Dato.Capa_Dato_Set_procesarRecepcion_Trabajos(servicio, fechaAsigna);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
 
         public string Capa_Negocio_Proceso_Verificacion_Porcentaje(string List_codigos, int servicio)
         {

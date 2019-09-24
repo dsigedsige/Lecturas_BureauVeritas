@@ -124,6 +124,25 @@ namespace DSIGE.Negocio
             }
         }
 
+
+        public string Capa_Negocio_save_grandesClientes(string fechaAsignacion, string fechaMovil, int id_servicio, string nombre_archivo, int usuario)
+        {
+            try
+            {
+                List<Cls_Entidad_Lecturas_Relecturas> listaobjeto = new List<Cls_Entidad_Lecturas_Relecturas>();
+                string resultado = "";
+                Cls_Dato_Importacion_Lecturas obj = new Cls_Dato_Importacion_Lecturas();
+                resultado = obj.Capa_Dato_save_grandesClientes(fechaAsignacion, fechaMovil, usuario);
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
         public string Capa_Negocio_save_Lecturas_Reclamos(string fechaAsignacion, string fechaMovil, int id_servicio, string nombre_archivo, int usuario)
         {
             try
@@ -420,6 +439,20 @@ namespace DSIGE.Negocio
         }
 
 
+        public object Capa_Negocio_save_Temporal_grandesClientes(string fileLocation, int usuario, int idlocal, int idservicio, string idfechaAsignacion, string nombreArchivo)
+        {
+            try
+            {
+                Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
+                return Objeto_Dato.Capa_Dato_save_Temporal_grandesClientes(fileLocation, usuario, idlocal, idservicio, idfechaAsignacion, nombreArchivo);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
         public object Capa_Negocio_save_temporalLectura_reclamos(string fileLocation, int usuario, int idlocal, int idservicio, string idfechaAsignacion, string nombreArchivo)
         {
             try
@@ -481,6 +514,21 @@ namespace DSIGE.Negocio
                 throw e;
             }
         }
+
+        public object Capa_Negocio_Agrupado_temporal_grandesClientes(string idfechaAsignacion, int cod_usuario)
+        {
+            try
+            {
+                Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
+                return Objeto_Dato.Capa_Dato_Agrupado_grandesClientes(idfechaAsignacion, cod_usuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
 
         public object Capa_Negocio_Agrupado_temporal_lecturaReclamo(string idfechaAsignacion, int cod_usuario)
         {

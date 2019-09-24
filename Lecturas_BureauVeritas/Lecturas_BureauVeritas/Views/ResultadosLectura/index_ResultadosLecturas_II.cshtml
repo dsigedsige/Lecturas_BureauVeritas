@@ -284,6 +284,64 @@
 
         }
 
+
+        $scope.RecepcionTrabajos = function () {
+
+            var dtp_fechaAsigna = document.getElementById('_fechaAsigna').value;
+            var cbo_servicio = document.getElementById('idservicios').value;
+
+
+            if (cbo_servicio == '' || cbo_servicio == 0 || cbo_servicio == null || cbo_servicio == undefined) {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor seleccione el Servicio, Muchas gracias',
+                    type: 'error'
+                });
+                return;
+            }
+            if (dtp_fechaAsigna == '' || dtp_fechaAsigna == 0 || dtp_fechaAsigna == null || dtp_fechaAsigna == undefined) {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor ingrese o seleccione la Fecha de Asignacion.',
+                    type: 'error'
+                });
+                return;
+            }
+
+            $('.sige-load').show();
+            var variables = {
+                method: 'POST',
+                url: '../LecturaEnviarCliente/Proceso_RecepcionTrabajos',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                data: {
+                    servicio: cbo_servicio,
+                    fechaAsigna: dtp_fechaAsigna,
+
+                }
+            }
+            $http(variables)
+                .success(function (data) {
+                    $('.sige-load').hide();
+
+                    if (data == '"Ok"') {
+                        new PNotify({
+                            title: 'Sistemas',
+                            text: 'Se actualizó la información. Muchas gracias',
+                            type: 'success'
+                        });
+                    } else {
+                        alert(data);
+                    }
+                })
+                .error(function () {
+                    $('.sige-load').hide();
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                });
+
+        }
+
         $scope.nombreServicio = "";
         $scope.MostrarInformacion = function () {
             var fechaAsigna = document.getElementById('_fechaAsigna').value;
@@ -1085,7 +1143,7 @@
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <label for="_supervisor" class="control-label"></label>
                             <div class="form-group" style="text-align:center">
-                                <button class="btn btn-sm  btn-danger" ng-click="RecepcionLecturas();" title="Solo para servicio Lecturas"><span class="glyphicon glyphicon-ok"></span> Recepcion Lectura</button>
+                                <button class="btn btn-sm  btn-danger" ng-click="RecepcionTrabajos();" ><span class="glyphicon glyphicon-ok"></span> Recepcion</button>
                                 <button class="btn btn-sm  btn-success" style=" font-size: 14px;" ng-click="MostrarInformacion();"><span class="glyphicon glyphicon-refresh"></span> Mostrar</button>
                             </div>
                         </div>

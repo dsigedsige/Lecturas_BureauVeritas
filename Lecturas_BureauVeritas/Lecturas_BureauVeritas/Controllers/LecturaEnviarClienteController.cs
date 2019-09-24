@@ -1867,6 +1867,25 @@ namespace DSIGE.Web.Controllers
         }
 
 
+
+        [HttpPost]
+        public string Proceso_RecepcionTrabajos(int servicio, string fechaAsigna)
+        {
+            string loDatos;
+            try
+            {
+                Cls_Negocio_AsignarOrdenTrabajo obj_negocio = new Cls_Negocio_AsignarOrdenTrabajo();
+                loDatos = obj_negocio.Capa_Negocio_Set_procesarRecepcion_Trabajos(servicio, fechaAsigna);
+                return _Serialize(loDatos, true);
+
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
+
+
         [HttpPost]
         public string Proceso_Verificacion_Porcentaje(string List_codigos, int servicio)
         {

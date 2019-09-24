@@ -595,27 +595,48 @@
             $scope.NextImage = function (value) {
                 if (value == 0) {
                     console.log('Enviamos a verificar');
-                    enviarVerificarFoto(itemImg).then(function (res) {
-                        var index = $scope.ListaLecturasRelectura.indexOf(itemImg);
-                        $scope.ListaLecturasRelectura.splice(index, 1);
+                    (new PNotify({
+                        title: 'Sistemas Confirmacion',
+                        text: 'Esta seguro de Enviar a Verificar una vez enviado no hay marcha atras..',
+                        icon: 'glyphicon glyphicon-question-sign',
+                        hide: false,
+                        confirm: {
+                            confirm: true
+                        },
+                        buttons: {
+                            closer: false,
+                            sticker: false
+                        },
+                        history: {
+                            history: false
+                        }
+                    })).get().on('pnotify.confirm', function () {
+                        $('.sige-load').show();
+                        enviarVerificarFoto(itemImg).then(function (res) {
+                            var index = $scope.ListaLecturasRelectura.indexOf(itemImg);
+                            $scope.ListaLecturasRelectura.splice(index, 1);
 
-                        // UNA VEZ QUE ELIMINAMOS EL INDEX OBSERVADO, EL SIGUIENTE TOMA SU LUGAR COMO INDEX.
-                        $timeout(function () {
-                            $scope.paramsDetail = $scope.ListaLecturasRelectura[index];
-                            itemImg = $scope.ListaLecturasRelectura[index];
-                            getHistorico(itemImg);
+                            // UNA VEZ QUE ELIMINAMOS EL INDEX OBSERVADO, EL SIGUIENTE TOMA SU LUGAR COMO INDEX.
+                            $timeout(function () {
+                                $scope.paramsDetail = $scope.ListaLecturasRelectura[index];
+                                itemImg = $scope.ListaLecturasRelectura[index];
+                                getHistorico(itemImg);
 
-                            if (item.id_observacion == 0 || item.id_observacion == null || item.id_observacion == undefined) {
-                                $('#cbo_edit_observacion').val('0').trigger('change');
+                                if (item.id_observacion == 0 || item.id_observacion == null || item.id_observacion == undefined) {
+                                    $('#cbo_edit_observacion').val('0').trigger('change');
 
-                            } else {
-                                $('#cbo_edit_observacion').val(String($scope.ListaLecturasRelectura[index].id_observacion)).trigger('change');
-                            } 
-                        }, 500)
+                                } else {
+                                    $('#cbo_edit_observacion').val(String($scope.ListaLecturasRelectura[index].id_observacion)).trigger('change');
+                                }
+                            }, 500)
 
-                    }, function (err) {
-                        console.log(err);
-                    })
+                        }, function (err) {
+                            console.log(err);
+                            })
+
+                    }).on('pnotify.cancel', function () {
+                        $('.sige-load').hide();
+                    });
 
                 } else if (value == 1) {
                     console.log('Foto sin observación');
@@ -1131,6 +1152,7 @@
 
                             <th class="Julio"> RESULTADOS</th>
                             <th class="Julio"> VALIDACION_FOTO</th>
+                            <th class="Julio"> OBSERVACION</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1152,7 +1174,7 @@
                             <td class="JulioCesar" ng-dblclick="agrandarphoto(item,$index);"> {{item.comparativa_min}} </td>
                             <td style="cursor: pointer;text-align:center"> {{item.resultado}} </td>
                             <td style="cursor: pointer;text-align:center"> {{item.Relecturas}} </td>
-
+                            <td style="cursor: pointer;text-align:left"> <div style="width:200px;"> {{item.Observacion_lectura}} </div>  </td>
                         </tr>
                     </tbody>
                 </table>
@@ -1267,10 +1289,10 @@
                                     Suministro : {{paramsDetail.suministro_lectura}}  | Medidor : {{paramsDetail.medidor_lectura}}  | Lectura Actual : <input type="text" numeric-only style="width:80px;background-color:beige" ng-model="paramsDetail.lectura_movil" />
                                     <button class="btn btn-primary" ng-click="ActualizarLectura(paramsDetail)"><span class="glyphicon glyphicon-floppy-save"></span> Cambiar</button>
                                 </p>
- 
-                                <p style="font-size:14px;">
-                                    Lectura Minima : {{paramsDetail.lectura_min}}  | Maxima : {{paramsDetail.lectura_max}}
-                                </p>
+
+                                <p style="font-size:14px; color:brown">
+                                    Lectura Minima : {{paramsDetail.lectura_min}}  | Maxima : {{paramsDetail.lectura_max}}  |  Obs.Tecnico:  {{paramsDetail.Observacion_lectura}}
+                                </p>    
                             </div>
                             <div class="col-md-5">
                                 <form class="form-inline">

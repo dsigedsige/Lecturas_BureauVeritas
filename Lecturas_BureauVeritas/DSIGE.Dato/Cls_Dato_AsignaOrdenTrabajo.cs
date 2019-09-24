@@ -2432,6 +2432,7 @@ namespace DSIGE.Dato
 
                                 obj_entidad.Relecturas = Fila["Relecturas"].ToString();
                                 obj_entidad.resultado = Fila["resultado"].ToString();
+                                obj_entidad.Observacion_lectura = Fila["Observacion_lectura"].ToString();
 
                                 ListTecnico.Add(obj_entidad);
                             }
@@ -2683,6 +2684,45 @@ namespace DSIGE.Dato
             }
             return Resultado;
         }
+
+
+        public string Capa_Dato_Set_procesarRecepcion_Trabajos(int servicio, string fechaAsigna)
+        {
+            cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+            string Resultado = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("SP_S_PROCESO_RECEPCION", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@idTipoServicio", SqlDbType.Int).Value = servicio;
+                        cmd.Parameters.Add("@fechaAsignacion", SqlDbType.VarChar).Value = fechaAsigna;
+                        cmd.ExecuteNonQuery();
+                        Resultado = "Ok";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Resultado = ex.Message;
+            }
+            return Resultado;
+        }
+
+
+
+
+
+
+
+
+
 
         public string Capa_Dato_Proceso_Verificacion_Porcentaje(string ListaLecturas, int servicio)
         {

@@ -52,6 +52,8 @@ namespace DSIGE.Modelo
             public string  porce { get; set; }
             public string  Relecturas { get; set; }
             public string resultado { get; set; }
+            public string Observacion_lectura { get; set; }
+
             
         }
 
