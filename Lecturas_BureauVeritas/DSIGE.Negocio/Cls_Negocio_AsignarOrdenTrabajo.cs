@@ -170,7 +170,65 @@ namespace DSIGE.Negocio
             }
         }
 
+
+        public object Capa_Negocio_getGrandesClientes(int estado, string fecha_inicial, string fecha_final, string codigoEmr)
+        {
+            try
+            {
+                Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
+                return Objeto_Dato.Capa_Dato_get_grandesClientes(estado, fecha_inicial, fecha_final, codigoEmr);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public object Capa_Negocio_getGrandesClientes_detalle(int Id_GrandeCliente)
+        {
+            try
+            {
+                Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
+                return Objeto_Dato.Capa_Dato_get_grandesClientes_detalle(Id_GrandeCliente);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public object Capa_negocio_get_download_grandesClientes(int Id_GrandeCliente, int tipo, int id_usuario)
+        {
+            try
+            {
+                Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
+                return Objeto_Dato.Capa_Dato_get_download_grandesClientes(Id_GrandeCliente, tipo, id_usuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
         
+
+
+
+
+        public object Capa_Negocio_getGrandesClientes_detalleFile(int Id_GrandeCliente)
+        {
+            try
+            {
+                Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
+                return Objeto_Dato.Capa_Dato_get_grandesClientes_detalleFile(Id_GrandeCliente);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
 
 
 

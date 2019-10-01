@@ -13,13 +13,20 @@ namespace DSIGE.Negocio
         {
             GeneracionActas_DAO Objeto_Dato = new GeneracionActas_DAO();
             return Objeto_Dato.Capa_Dato_Servicios();
-        }    
+        }
 
         public object Capa_Negocio_Mostrando_informacion_general(int servicio, int operario, string fecha)
         {
             GeneracionActas_DAO Objeto_Dato = new GeneracionActas_DAO();
             return Objeto_Dato.Capa_Dato_Mostrando_informacion_general(servicio, operario, fecha);
         }
+
+
+        //public object Capa_Negocio_Mostrando_informacion_general(int servicio, int operario, string fecha)
+        //{
+        //    GeneracionActas_DAO Objeto_Dato = new GeneracionActas_DAO();
+        //    return Objeto_Dato.getCrearPDF_actas();
+        //}
 
 
         public object Capa_Negocio_Mostrando_informacion_Inspecciones(int servicio, int operario, string fecha, int tipoReporte)

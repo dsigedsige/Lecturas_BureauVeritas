@@ -216,11 +216,7 @@
                         alert('Lo sentimos, Ocurrio un problema, vuelva a intentar.')
                     });
             };
-
-
-
-
-
+                                          
             $scope.getPdf_2 = function (data) {
                 var doc = new jsPDF('landscape');
                 var hoy = new Date();
@@ -446,9 +442,9 @@
        
 
                     alturaO = alturaO + 13;
-                    doc.text(pos + 113, alturaO, 'Fecha Max. ' + $scope.formatDate(data[index].fechaMaxima)); // 117
+                    doc.text(pos + 113, alturaO, 'Fecha Max. ' + data[index].fechaMaxima); // 117
                     alturaO = alturaO + 4;
-                    doc.text(pos + 113, alturaO, 'Fecha Entrega ' + $scope.formatDate(data[index].fechaEntrega)); //117
+                    doc.text(pos + 113, alturaO, 'Fecha Entrega ' + data[index].fechaEntrega); //117
 
                     doc.text(pos + 51, alturaO - 3, '___________________________'); // 56
                     alturaO = alturaO + 1;
@@ -839,7 +835,7 @@
                         doc.addPage()
                         inc = 1;
                     }
-                    doc.rect(pos, altura, 145, 68) //---dibujando un rectangulo
+                    doc.rect(pos, altura, 145, 68) //---dibujando un rectangulo 
                     altura = altura + 2.5;
                     doc.setFontSize(7);
                     doc.setFontType("bold");
@@ -900,7 +896,7 @@
 
 
                     alturaV = alturaV + 1.2;
-                    doc.rect(pos + 27, alturaV, 5, 3); doc.text(pos + 28.5, alturaV - 0.5, obj.piso_1);  //---dibujando un rectangulo 31
+                    doc.rect(pos + 27, alturaV, 5, 3); doc.text(pos + 28.5, alturaV - 0.5, obj.piso_1);  //---dibujando un rectangulo 31 
                     doc.rect(pos + 50, alturaV, 5, 3); doc.text(pos + 51.5, alturaV - 0.5, obj.vivienda_casa);//---dibujando un rectangulo 54
                     doc.rect(pos + 74, alturaV, 5, 3); doc.text(pos + 75.5, alturaV - 0.5, obj.fachada_crema);//---dibujando un rectangulo 78
                     doc.rect(pos + 98, alturaV, 5, 3); doc.text(pos + 99.5, alturaV - 0.5, obj.puerta_madera); //---dibujando un rectangulo 102

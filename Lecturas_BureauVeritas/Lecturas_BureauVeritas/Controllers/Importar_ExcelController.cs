@@ -110,31 +110,31 @@ namespace DSIGE.Web.Controllers
 
                 if (idServicio ==1)
                 {
-                   nomExcel = idServicio +  "_LECTURAS_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
+                   nomExcel = idServicio +  "_IMPORT_LECTURAS_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
                 }
                 else if (idServicio == 2)
                 {
-                    nomExcel = idServicio + "_RELECTURAS_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
+                    nomExcel = idServicio + "_IMPORT_RELECTURAS_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
                 }
                 else if (idServicio == 3)
                 {
-                    nomExcel = idServicio + "_CORTES_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
+                    nomExcel = idServicio + "_IMPORT_CORTES_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
                 }
                 else if (idServicio == 4)
                 {
-                    nomExcel = idServicio + "_RECONEXIONES_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
+                    nomExcel = idServicio + "_IMPORT_RECONEXIONES_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
                 }
                 else if (idServicio == 6)
                 {
-                    nomExcel = idServicio + "_REPARTO_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
+                    nomExcel = idServicio + "_IMPORT_REPARTO_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
                 }
                 else if (idServicio == 7)  //----- grandes clientes---
                 {
-                    nomExcel = idServicio + "_GRANDESCLIENTES_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
+                    nomExcel = idServicio + "_IMPORT_GRANDESCLIENTES_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
                 }
                 else if (idServicio == 9)
                 {
-                    nomExcel = idServicio + "_RECLAMOS_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
+                    nomExcel = idServicio + "_IMPORT_RECLAMOS_" + ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id + extension;
                 }
 
                 string NombreArchivo = file.FileName;
@@ -405,7 +405,7 @@ namespace DSIGE.Web.Controllers
         }
 
         [HttpPost]
-        public string set_enviarMovil_reparto(string fechaAsignacion, int id_servicio, string nombre_archivo, string fechaRecojo, string  horaRecojo, int cantidadRecibos,string  fechaMaxima, int ciclo)
+        public string set_enviarMovil_reparto(string fechaAsignacion, int id_servicio, string nombre_archivo, string fechaRecojo, string  horaRecojo, int cantidadRecibos,string  fechaMaxima, string ciclo)
         {
             object loDatos = null;
             try

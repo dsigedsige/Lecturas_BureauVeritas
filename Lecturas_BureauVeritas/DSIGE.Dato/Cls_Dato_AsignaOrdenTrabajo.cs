@@ -15,6 +15,7 @@ using System.Web;
 using Excel = OfficeOpenXml;
 using Style = OfficeOpenXml.Style;
 using System.Drawing;
+using System.Threading;
 
 namespace DSIGE.Dato
 {
@@ -4010,7 +4011,270 @@ namespace DSIGE.Dato
 
             return Resultado;
         }
+               
 
+        public object Capa_Dato_get_grandesClientes(int estado, string fecha_inicial, string fecha_final, string codigoEmr)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_LECTURA_GRANDES_CLIENTES", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@estado", SqlDbType.Int).Value = estado;
+                        cmd.Parameters.Add("@fecha_inicial", SqlDbType.VarChar).Value = fecha_inicial;
+                        cmd.Parameters.Add("@fecha_final", SqlDbType.VarChar).Value = fecha_final;
+                        cmd.Parameters.Add("@codigoEmr", SqlDbType.VarChar).Value = codigoEmr;
+                        
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
+        public object Capa_Dato_get_grandesClientes_detalle(int Id_GrandeCliente)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_LECTURA_GRANDES_CLIENTES_DETALLE", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@Id_GrandeCliente", SqlDbType.Int).Value = Id_GrandeCliente;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
+
+        public class download {
+            public string nombreFile { get; set; }
+            public string nombreBd { get; set; }
+            public string ubicacion { get; set; }
+        }
+
+        public string Capa_Dato_get_download_grandesClientes(int Id_GrandeCliente, int tipo, int id_usuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            List<download> list_files = new List<download>();
+            string rutaFoto = "";
+            string rutaOrig = "";
+            string rutaDest = "";
+            string nombreArchivoReal = "";
+            string ruta_descarga = "";
+
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_LECTURA_GRANDES_CLIENTES_DESCARGAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@Id_GrandeCliente", SqlDbType.Int).Value = Id_GrandeCliente;
+                        cmd.Parameters.Add("@tipo", SqlDbType.Int).Value = tipo;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+
+
+                            if (tipo == 1) /// fotos
+                            {
+                                rutaFoto = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/foto/foto/");
+                                foreach (DataRow row in dt_detalle.Rows)
+                                {
+                                    foreach (DataColumn column in dt_detalle.Columns)
+                                    {
+                                        download obj_entidad = new download();
+                                        obj_entidad.nombreFile = row[column].ToString().Replace('"', ' ').Trim();
+                                        obj_entidad.ubicacion = rutaFoto;
+                                        list_files.Add(obj_entidad);
+                                    }
+                                }
+                            }
+                            else { /// archivos  
+    
+                                rutaFoto = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_GrandesClientes/Descargas/");
+
+                                foreach (DataRow Fila in dt_detalle.Rows)
+                                {
+                                    download obj_entidad = new download();
+                                    obj_entidad.nombreFile = Fila["archivo"].ToString();
+                                    obj_entidad.nombreBd = Fila["nombreBD"].ToString();
+                                    
+                                    obj_entidad.ubicacion = rutaFoto;
+                                    list_files.Add(obj_entidad);
+                                }
+
+                                ////restaurando el archivo...
+                                foreach (download item in list_files)
+                                {
+                                    nombreArchivoReal = "";
+                                    nombreArchivoReal = item.nombreBd.Replace(item.nombreBd, item.nombreFile);
+
+                                    rutaOrig = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_GrandesClientes/" + item.nombreBd);  
+                                    rutaDest = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_GrandesClientes/Descargas/" + nombreArchivoReal);
+
+                                    if (System.IO.File.Exists(rutaDest)) //--- restaurarlo
+                                    {
+                                        System.IO.File.Delete(rutaDest);
+                                        System.IO.File.Copy(rutaOrig, rutaDest);
+                                    }
+                                    else
+                                    {
+                                        System.IO.File.Copy(rutaOrig, rutaDest);
+                                    }
+                                    Thread.Sleep(1000);
+                                }
+                            }
+
+                            if (list_files.Count > 0)
+                            {
+                                if (list_files.Count == 1)
+                                { 
+                                    if (tipo == 1)
+                                    {
+                                        ruta_descarga = "1|" + ConfigurationManager.AppSettings["Archivos"] + "Descargas/" + list_files[0].nombreFile;
+                                    }
+                                    else {
+                                        ruta_descarga = "1|" + ConfigurationManager.AppSettings["ArchivosFile"] + "Descargas/" + list_files[0].nombreFile;
+                                    }
+                                }
+                                else {
+                                    ruta_descarga = "1|" + comprimir_Files(list_files, id_usuario, tipo);
+                                }
+                            }
+                            else {
+                                throw new System.InvalidOperationException("No hay informacion para mostrar");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ruta_descarga = "0|" + ex.Message;
+            }
+            return ruta_descarga;
+        }
+
+
+
+        public string comprimir_Files(List<download> list_download, int usuario_creacion, int tipo)
+        {
+            string resultado = "";
+            try
+            {
+                string ruta_destino =  "";
+                string ruta_descarga = "";
+
+                if (tipo == 1) ///--fotos
+                {
+                    ruta_destino = System.Web.Hosting.HostingEnvironment.MapPath("~/Temp/Descargas/" + usuario_creacion + "_FotosDescarga.zip");
+                    ruta_descarga = ConfigurationManager.AppSettings["Archivos"] + "Descargas/" + usuario_creacion + "_FotosDescarga.zip";
+                }
+                else {
+                    ruta_destino = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_GrandesClientes/Descargas/" + usuario_creacion + "_ArchivosDescarga.zip");
+                    ruta_descarga = ConfigurationManager.AppSettings["ArchivosFile"] + "Descargas/" + usuario_creacion + "_ArchivosDescarga.zip";
+                }
+
+                if (File.Exists(ruta_destino)) //--- restaurarlo
+                {
+                    System.IO.File.Delete(ruta_destino);
+                }
+                using (Ionic.Zip.ZipFile zip = new Ionic.Zip.ZipFile())
+                {
+                    foreach (download item in list_download)
+                    {
+                        var nombre = item.ubicacion + item.nombreFile;
+                        if (System.IO.File.Exists(item.ubicacion + item.nombreFile))
+                        {
+                            zip.AddFile(item.ubicacion + item.nombreFile, "");
+                        }
+                    }
+                    // Guardando el archivo zip 
+                    zip.Save(ruta_destino);
+                }
+                Thread.Sleep(2000);
+
+                if (File.Exists(ruta_destino))
+                {
+                    resultado = ruta_descarga;
+                }
+                else
+                {
+                    throw new System.InvalidOperationException("No se pudo generar la Descarga del Archivo");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return resultado;
+        }
+
+
+
+
+        public object Capa_Dato_get_grandesClientes_detalleFile(int Id_GrandeCliente)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_LECTURA_GRANDES_CLIENTES_DETALLE_FILE", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@Id_GrandeCliente", SqlDbType.Int).Value = Id_GrandeCliente;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
 
 
     }

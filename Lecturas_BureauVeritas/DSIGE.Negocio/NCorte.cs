@@ -84,6 +84,20 @@ namespace DSIGE.Negocio
                 throw e;
             }
         }
+        public string Capa_Negocio_Generando_EnvioMovil_grandesClientes_Detallado(List<GrandesClientesDetalle> ListaGrandesClientes, string FechaAsigna, string FechaMovil, int id_usuario, string Forma)
+        {
+            try
+            {
+                DCorte oCorte = new DCorte();
+                return oCorte.Capa_Dato_Generando_EnvioMovil_grandesClientes_Detallado(ListaGrandesClientes, FechaAsigna, FechaMovil, id_usuario, Forma);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
 
         public string Capa_Negocio_Generando_EnvioMovil_programacion_Detallado(List<CorteReconexionDetalle> ListaCorRec, string FechaAsigna, string FechaMovil, int id_usuario)
         {
@@ -108,10 +122,24 @@ namespace DSIGE.Negocio
             }
             catch (Exception e)
             {
-
                 throw e;
             }
         }
+
+        public bool Capa_Negocio_Actualizar_grandesClientes_Agrupado(int id_operario, string distrito, string fechaAsignatura, int id_operario_cambiar)
+        {
+            try
+            {
+                DCorte oCorte = new DCorte();
+                return oCorte.Capa_Dato_Actualizar_GrandesClientes(id_operario, distrito, fechaAsignatura, id_operario_cambiar);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
 
         public string Capa_Negocio_Validar_Operario(int id_operario)
         {
@@ -163,10 +191,26 @@ namespace DSIGE.Negocio
             }
             catch (Exception e)
             {
-
                 throw e;
             }
         }
+
+
+        public object Capa_Negocio_get_grandesClientes_Agrupado(string fechaAsignacion, int cod_usuario)
+        {
+            try
+            {
+                DCorte oCorte = new DCorte();
+                return oCorte.Capa_Dato_Listar_grandesClientes_agrupado(fechaAsignacion, cod_usuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+
 
         public object Capa_Negocio_Listar_Reparto_Agrupado_detallado(string fechaAsignacion, string tipo, string cod_unidad, int id_operario, string forma)
         {
@@ -181,6 +225,20 @@ namespace DSIGE.Negocio
             }
         }
 
+
+
+        public object Capa_Negocio_get_grandesClientes_Agrupado_detallado(string fechaAsignacion, string distrito, int id_operario, string forma)
+        {
+            try
+            {
+                DCorte oCorte = new DCorte();
+                return oCorte.Capa_Dato_get_grandesClientes_Detallado(fechaAsignacion, distrito, id_operario, forma);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
 
         public bool Capa_Negocio_ListaExcel(string fileLocation, int usuario, int idlocal, string idfechaAsignacion)
@@ -308,7 +366,7 @@ namespace DSIGE.Negocio
         }
 
 
-        public bool Capa_Negocio_MigracionTablaTemporalReparto(string fechaAsignacion, int id_servicio, string nombre_archivo, int usuario, string fechaRecojo, string horaRecojo, int cantidadRecibos, string fechaMaxima, int ciclo)
+        public bool Capa_Negocio_MigracionTablaTemporalReparto(string fechaAsignacion, int id_servicio, string nombre_archivo, int usuario, string fechaRecojo, string horaRecojo, int cantidadRecibos, string fechaMaxima, string ciclo)
         {
             try
             {

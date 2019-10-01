@@ -1092,7 +1092,10 @@
                     window.open("../formatos/FORMATO_RECONEXION.xls");
                 } else if ($scope.servicios == 6) {
                     window.open("../formatos/FORMATO_REPARTO.xlsx");
-                } else if ($scope.servicios == 9) {
+                }else if ($scope.servicios == 7) {
+                    window.open("../formatos/FORMATO_GRANDES_CLIENTES.xlsx");
+                }
+                else if ($scope.servicios == 9) {
                     window.open("../formatos/FORMATO_RECLAMOS.xlsx");
                 }
             }
@@ -1101,6 +1104,7 @@
             $scope.abrirModal_Asignacion = function () {
                 var idServicio = document.getElementById('id_servicio').value;
                 var form_asignacionReparto = document.getElementById('form_asignacionReparto');
+                var cbo_ciclo = document.getElementById('cbo_ciclo');
 
                 if (idServicio == 6 || idServicio == '6') {
                     form_asignacionReparto.style.display = '';
@@ -1108,6 +1112,7 @@
                     form_asignacionReparto.style.display = 'none';
                 }
                 $('#modal-asignacion').modal('show');
+                cbo_ciclo.value = "";
             }
 
             var get_repartoPdf = function (data) {
@@ -1478,7 +1483,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label style="width: 100px;" for="cbo_ciclo" class="control-label">Ciclo Facturacion :</label>
-                                    <select class="form-control" id="cbo_ciclo">
+                                    @* <select class="form-control" id="cbo_ciclo">
                                         <option value="0" selected="selected"> [ SELECCIONE ] </option>
                                         <option value="1"> 1 </option>
                                         <option value="2"> 2 </option>
@@ -1490,7 +1495,8 @@
                                         <option value="8"> 8 </option>
                                         <option value="9"> 9 </option>
                                         <option value="10"> 10 </option>
-                                    </select>
+                                    </select>*@
+                                    <input input type="text" id="cbo_ciclo" class="form-control" />
                                 </div>
                             </div>
                             <hr />

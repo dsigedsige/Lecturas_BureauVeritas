@@ -1814,7 +1814,7 @@ namespace DSIGE.Dato
 
                         //Actualizando campos 
 
-                        string Sql = "UPDATE TEMP_GRANDES_CLIENTES SET nombreArchivo='" + nombreArchivo + "',   loc_id ='" + idlocal + "' , idUsuarioExport='" + usuario + "', fechaAsignacion=getdate()   WHERE idUsuarioExport IS NULL    ";
+                        string Sql = "UPDATE TEMP_GRANDES_CLIENTES SET nombreArchivo='" + nombreArchivo + "',   loc_id ='" + idlocal + "' , idUsuarioExport='" + usuario + "', fechaAsignacion= '" + idfechaAsignacion + "'   WHERE idUsuarioExport IS NULL    ";
 
                         using (SqlCommand cmd = new SqlCommand(Sql, con))
                         {

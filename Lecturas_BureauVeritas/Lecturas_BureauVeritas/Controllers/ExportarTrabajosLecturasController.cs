@@ -14,6 +14,7 @@ using DSIGE.Modelo;
 using DSIGE.Negocio;
 using System.Configuration;
 using System.Drawing;
+using System.Globalization;
 
 namespace DSIGE.Web.Controllers
 {
@@ -77,11 +78,11 @@ namespace DSIGE.Web.Controllers
 
               if (TipoServicio==1)
               {
-                  nombreArchivo = "LECTURAS_" + usuario + ".xls";
+                  nombreArchivo = "LECTURAS_EXPORTADO" + usuario + ".xls";
               }
               else if (TipoServicio == 2)
               {
-                  nombreArchivo = "RELECTURAS_" + usuario + ".xls";
+                  nombreArchivo = "RELECTURAS_EXPORTADO" + usuario + ".xls";
               }
                 else if (TipoServicio == 9)
                 {
@@ -137,40 +138,41 @@ namespace DSIGE.Web.Controllers
                     int acu = 0;
                    foreach (Cls_Entidad_Export_trabajos_lectura oBj in _lista)
                     {
-                     acu = acu + 1 ;
+                        acu = acu + 1 ;
 
                         for (int i = 1; i <= 21; i++)
                         {
                             oWs.Cells[_fila, i].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                         }
 
-                            oWs.Cells[_fila,1].Value = acu;
-                            oWs.Cells[_fila,2].Value = oBj.id_Lectura;
-                            oWs.Cells[_fila,3].Value= oBj.Instalacion;
+                        oWs.Cells[_fila,1].Value = acu;
+                        oWs.Cells[_fila,2].Value = oBj.id_Lectura;
+                        oWs.Cells[_fila,3].Value= oBj.Instalacion;
 
-                            oWs.Cells[_fila, 4].Style.Numberformat.Format = "#,##0";
-                            oWs.Cells[_fila, 4].Value = Convert.ToDouble(oBj.Aparato);
+                        //oWs.Cells[_fila, 4].Style.Numberformat.Format = "#,##0";
+                        //oWs.Cells[_fila, 4].Value = Convert.ToDouble(oBj.Aparato);
+                        oWs.Cells[_fila, 4].Value =  oBj.Aparato;
 
-                            oWs.Cells[_fila, 5].Value = oBj.Tipo_calle;
-                            oWs.Cells[_fila, 6].Value = oBj.Nombre_Calle;
-                            oWs.Cells[_fila, 7].Value = oBj.Altura_Calle;
-                            oWs.Cells[_fila, 8].Value = oBj.Numero_Edificio;
-                            oWs.Cells[_fila, 9].Value = oBj.Numero_Departamento; 
+                        oWs.Cells[_fila, 5].Value = oBj.Tipo_calle;
+                        oWs.Cells[_fila, 6].Value = oBj.Nombre_Calle;
+                        oWs.Cells[_fila, 7].Value = oBj.Altura_Calle;
+                        oWs.Cells[_fila, 8].Value = oBj.Numero_Edificio;
+                        oWs.Cells[_fila, 9].Value = oBj.Numero_Departamento; 
  
-                            oWs.Cells[_fila, 10].Value = oBj.Detalle_Construccion;
-                            oWs.Cells[_fila, 11].Value = oBj.Conjunto_Vivienda;
-                            oWs.Cells[_fila, 12].Value = oBj.Manzana_Lote;
-                            oWs.Cells[_fila, 13].Value = oBj.Distrito;
+                        oWs.Cells[_fila, 10].Value = oBj.Detalle_Construccion;
+                        oWs.Cells[_fila, 11].Value = oBj.Conjunto_Vivienda;
+                        oWs.Cells[_fila, 12].Value = oBj.Manzana_Lote;
+                        oWs.Cells[_fila, 13].Value = oBj.Distrito;
 
-                            oWs.Cells[_fila, 14].Value = oBj.Cuenta_contrato;
-                            oWs.Cells[_fila, 15].Value = oBj.Secuencia_lectura;
-                            oWs.Cells[_fila, 16].Value = oBj.Unidad_lectura;
-                            oWs.Cells[_fila, 17].Value = oBj.Numero_lecturas_estimadas_consecutivas; 
-                            oWs.Cells[_fila, 18].Value = oBj.Empresa_Lectora ;
+                        oWs.Cells[_fila, 14].Value = oBj.Cuenta_contrato;
+                        oWs.Cells[_fila, 15].Value = oBj.Secuencia_lectura;
+                        oWs.Cells[_fila, 16].Value = oBj.Unidad_lectura;
+                        oWs.Cells[_fila, 17].Value = oBj.Numero_lecturas_estimadas_consecutivas; 
+                        oWs.Cells[_fila, 18].Value = oBj.Empresa_Lectora ;
  
-                            oWs.Cells[_fila, 19].Value = oBj.Nota_2_ubicacion_aparato;
-                            oWs.Cells[_fila, 20].Value = oBj.Tecnico ;
-                            oWs.Cells[_fila, 21].Value = oBj.Secuencia; 
+                        oWs.Cells[_fila, 19].Value = oBj.Nota_2_ubicacion_aparato;
+                        oWs.Cells[_fila, 20].Value = oBj.Tecnico ;
+                        oWs.Cells[_fila, 21].Value = oBj.Secuencia; 
 
                       _fila++;
                   }

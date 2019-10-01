@@ -301,11 +301,39 @@ namespace DSIGE.Dato
             }
             catch (Exception)
             {
-
                 return false;
             }
         }
-               
+
+
+        public bool Capa_Dato_Actualizar_GrandesClientes(int id_operario, string distrito, string fechaAsignatura, int id_operario_cambiar)
+        {
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_U_GRANDES_CLIENTES_ENVIO_MOVIL", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@id_operario", SqlDbType.Int).Value = id_operario;
+                        cmd.Parameters.Add("@distrito", SqlDbType.VarChar).Value = distrito;
+                        cmd.Parameters.Add("@fechaAsignacion", SqlDbType.VarChar).Value = fechaAsignatura;
+                        cmd.Parameters.Add("@id_operario_cambiar", SqlDbType.Int).Value = id_operario_cambiar;
+
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
 
         public string Capa_Dato_Generando_EnvioMovil_Distribucion_Detallado(List<RepartoDetalle> ListaRepartos, string FechaAsigna, string FechaMovil, int id_usuario, string Forma, string Tipo_recibo)
         {
@@ -590,6 +618,36 @@ namespace DSIGE.Dato
         }
 
 
+        public object Capa_Dato_Listar_grandesClientes_agrupado(string fechaAsignacion, int cod_usuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_LISTAR_GRANDES_CLIENTES_AGRUPADO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@fecha_asignacion", SqlDbType.VarChar).Value = fechaAsignacion;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = cod_usuario;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return dt_detalle;
+        }
+
+
         public object Capa_Dato_Listar_Reparto_Detallado(string fechaAsignacion,  string tipo, string cod_unidad, int id_operario, string forma)
         {
             DataTable dt_detalle = new DataTable();
@@ -621,6 +679,112 @@ namespace DSIGE.Dato
             }
             return dt_detalle;
         }
+                       
+        public object Capa_Dato_get_grandesClientes_Detallado(string fechaAsignacion,  string distrito, int id_operario, string forma)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_LISTAR_GRANDES_CLIENTES_DETALLADO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@fecha_asignacion", SqlDbType.VarChar).Value = fechaAsignacion;
+                        cmd.Parameters.Add("@distrito", SqlDbType.VarChar).Value = distrito;
+                        cmd.Parameters.Add("@id_operario", SqlDbType.Int).Value = id_operario;
+                        cmd.Parameters.Add("@forma", SqlDbType.VarChar).Value = forma;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return dt_detalle;
+        }
+
+
+        public string Capa_Dato_Generando_EnvioMovil_grandesClientes_Detallado(List<GrandesClientesDetalle> ListaGrandesClientes, string FechaAsigna, string FechaMovil, int id_usuario, string Forma)
+        {
+            string Resultado = "";
+            try
+            {
+                PropertyDescriptorCollection properties = System.ComponentModel.TypeDescriptor.GetProperties(typeof(GrandesClientesDetalle));
+                DataTable table = new DataTable();
+
+                foreach (PropertyDescriptor prop in properties)
+                {
+                    table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+                }
+
+                foreach (GrandesClientesDetalle item in ListaGrandesClientes)
+                {
+                    DataRow row = table.NewRow();
+                    foreach (PropertyDescriptor prop in properties)
+                        row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+                    table.Rows.Add(row);
+                }
+
+
+                using (SqlConnection con = new SqlConnection(cadenaCnx))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_D_T_GrandesClientes", con))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+                        cmd.ExecuteNonQuery();
+                    }
+                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(con))
+                    {
+                        bulkCopy.BatchSize = 500;
+                        bulkCopy.NotifyAfter = 1000;
+                        bulkCopy.DestinationTableName = "T_GrandesClientes";
+                        bulkCopy.WriteToServer(table);
+
+                        //Actualizando campos 
+                        string Sql = "";
+                        Sql = "UPDATE T_GrandesClientes SET   FechaAsigna='" + FechaAsigna + "' ,  FechaMovil='" + FechaMovil + "'  , id_usuario='" + id_usuario + "' WHERE  id_usuario IS NULL";
+                        using (SqlCommand cmd = new SqlCommand(Sql, con))
+                        {
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.Text;
+                            cmd.ExecuteNonQuery();
+                        }
+                        // update en la tabla Lecturas
+                        using (SqlCommand cmd = new SqlCommand("SP_U_GRANDES_CLIENTES_ENVIO_MOVIL_DETALLADO", con))
+                        {
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Add("@FechaAsigna", SqlDbType.VarChar).Value = FechaAsigna;
+                            cmd.Parameters.Add("@FechaMovil", SqlDbType.VarChar).Value = FechaMovil;
+                            cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+                            cmd.Parameters.Add("@Forma", SqlDbType.VarChar).Value = Forma;
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                }
+
+                Resultado = "OK";
+            }
+            catch (Exception ex)
+            {
+                Resultado = ex.Message;
+            }
+            return Resultado;
+        }
+
+
 
 
         /// <summary>
@@ -955,7 +1119,7 @@ namespace DSIGE.Dato
             }
         }
 
-        public bool Capa_Dato_Guardar_InformacionReparto(string fechaAsignacion, int id_servicio, string nombre_archivo, int usuario, string fechaRecojo, string horaRecojo, int cantidadRecibos, string fechaMaxima, int ciclo)
+        public bool Capa_Dato_Guardar_InformacionReparto(string fechaAsignacion, int id_servicio, string nombre_archivo, int usuario, string fechaRecojo, string horaRecojo, int cantidadRecibos, string fechaMaxima, string ciclo)
         {
             try
             {
@@ -978,7 +1142,7 @@ namespace DSIGE.Dato
                         cmd.Parameters.Add("@cantidadRecibos", SqlDbType.Int).Value = cantidadRecibos;
 
                         cmd.Parameters.Add("@fechaMaxima", SqlDbType.VarChar).Value = fechaMaxima;
-                        cmd.Parameters.Add("@ciclo", SqlDbType.Int).Value = ciclo;
+                        cmd.Parameters.Add("@ciclo", SqlDbType.VarChar).Value = ciclo;
 
 
                         cmd.ExecuteNonQuery();

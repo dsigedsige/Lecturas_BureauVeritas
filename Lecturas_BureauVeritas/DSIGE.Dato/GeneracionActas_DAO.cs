@@ -272,5 +272,36 @@ namespace DSIGE.Dato
             }
         }
 
+
+        public string getCrearPDF_actas() {
+            var res = "";
+            var nombrePdf = "pruebas.pdf";
+            string path = System.Web.Hosting.HostingEnvironment.MapPath("~/Temp/pdf/" + nombrePdf);
+
+
+            SelectPdf.HtmlToPdf converter = new SelectPdf.HtmlToPdf();
+            var stringHtml = "<div align='center'><p> Gas Natural de Lima y Callao S.A </p>" +
+                             "<p> Calle Morelli Nro. 150 Urb.San Borja </p>" +
+                             "<p> (Torre 2 CC la Rambla) Lima - Lima - San Borja </p> </div>" +
+                             "<h1>OBSERVACIONES</h1>" ;
+            converter.Options.MarginTop = 15;
+            converter.Options.MarginLeft = 5;
+            converter.Options.MarginRight = 5;
+            SelectPdf.PdfDocument doc = converter.ConvertHtmlString(stringHtml);
+            doc.Save(path);
+            doc.Close();
+
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                res = ex.Message;
+            }
+            return res;
+        }
+
+
     }
 }

@@ -149,7 +149,7 @@ namespace DSIGE.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult ListandoReparto_Tomadas(int servicio, string tipoRecibo, int cicloFacturacion , int Estado, string fecha_ini, string fecha_fin, string suministro, string medidor, int operario)
+        public ActionResult ListandoReparto_Tomadas(int servicio, string tipoRecibo, string cicloFacturacion , int Estado, string fecha_ini, string fecha_fin, string suministro, string medidor, int operario)
         {
             return new ContentResult
             {
@@ -397,7 +397,7 @@ namespace DSIGE.Web.Controllers
         }
         
         [HttpPost]
-        public string Descarga_repartoExcel(int servicio, string tipoRecibo, int cicloFacturacion, int Estado, string fecha_ini, string fecha_fin, string suministro, string medidor, int operario)
+        public string Descarga_repartoExcel(int servicio, string tipoRecibo, string cicloFacturacion, int Estado, string fecha_ini, string fecha_fin, string suministro, string medidor, int operario)
         {
             int _fila = 2;
             string _ruta;

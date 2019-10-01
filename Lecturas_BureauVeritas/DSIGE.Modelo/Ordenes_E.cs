@@ -38,10 +38,6 @@ namespace DSIGE.Modelo
  
     }
 
-
- 
-
-
     public class RepartoDetalle
     {
         public int id_Reparto { get; set; }
@@ -58,6 +54,16 @@ namespace DSIGE.Modelo
         public int id_operario { get; set; }
 
     }
+
+    public class GrandesClientesDetalle
+    {
+        public int Id_GrandeCliente { get; set; }
+        public int id_operario { get; set; }
+        public int id_operario_inicial { get; set; }
+        public string direccion_lectura { get; set; }
+ 
+    }
+
 
 }
  

@@ -314,7 +314,7 @@ namespace DSIGE.Negocio
 
 
 
-        public DataTable N_ListandoReparto_Tomadas(int servicio, string tipoRecibo, int cicloFacturacion, int Estado, string fecha_ini, string fecha_fin, string suministro, string medidor, int operario)
+        public DataTable N_ListandoReparto_Tomadas(int servicio, string tipoRecibo, string cicloFacturacion, int Estado, string fecha_ini, string fecha_fin, string suministro, string medidor, int operario)
         {
             try
             {

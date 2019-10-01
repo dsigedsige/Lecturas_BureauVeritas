@@ -99,7 +99,7 @@ namespace DSIGE.Web.Controllers
 
  
         [HttpPost]
-        public string ListandoResumenLecturas(string FechaAsignacion, int id_tiposervicio,int id_supervisor, int id_operario_supervisor, int ciclo)
+        public string ListandoResumenLecturas(string FechaAsignacion, int id_tiposervicio,int id_supervisor, int id_operario_supervisor, string ciclo)
         {
             object loDatos;
             try
@@ -133,7 +133,7 @@ namespace DSIGE.Web.Controllers
         
 
         [HttpPost]
-        public string ListandoResumenLecturas_Detallado(string FechaAsignacion, int id_tiposervicio,int id_supervisor, int id_operario_supervisor, int ciclo)
+        public string ListandoResumenLecturas_Detallado(string FechaAsignacion, int id_tiposervicio,int id_supervisor, int id_operario_supervisor, string ciclo)
         {
             object loDatos;
             try

@@ -1208,7 +1208,7 @@ namespace DSIGE.Dato
         }
 
 
-        public DataTable D_ListandoReparto_Tomadas(int servicio, string tipoRecibo, int cicloFacturacion, int Estado, string fecha_ini, string fecha_fin, string suministro, string medidor, int operario)
+        public DataTable D_ListandoReparto_Tomadas(int servicio, string tipoRecibo, string cicloFacturacion, int Estado, string fecha_ini, string fecha_fin, string suministro, string medidor, int operario)
         {
             DataTable dt_detalle = new DataTable();
             try
@@ -1225,7 +1225,7 @@ namespace DSIGE.Dato
 
                         cmd.Parameters.Add("@servicio", SqlDbType.Int).Value = servicio;
                         cmd.Parameters.Add("@tipoRecibo", SqlDbType.VarChar).Value = tipoRecibo;
-                        cmd.Parameters.Add("@cicloFacturacion", SqlDbType.Int).Value = cicloFacturacion;
+                        cmd.Parameters.Add("@cicloFacturacion", SqlDbType.VarChar).Value = cicloFacturacion;
                         cmd.Parameters.Add("@Estado", SqlDbType.Int).Value = Estado;
                         cmd.Parameters.Add("@fecha_ini", SqlDbType.VarChar).Value = fecha_ini;
                         cmd.Parameters.Add("@fecha_fin", SqlDbType.VarChar).Value = fecha_fin;

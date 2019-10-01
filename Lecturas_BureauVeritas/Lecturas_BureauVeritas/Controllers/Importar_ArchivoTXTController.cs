@@ -184,7 +184,6 @@ namespace DSIGE.Web.Controllers
                     obj_entidad.Nota_ubicacion_aparato = arrayText[35];
                     obj_entidad.Nota_dos_ubicacion_aparato = arrayText[36];
                     obj_entidad.Secuencia = arrayText[37];
-
                     obj_entidad.estado_instalacion = arrayText[38];
                     obj_entidad.lectura_corte = arrayText[39];
                     obj_entidad.lectura_maxima = arrayText[40];

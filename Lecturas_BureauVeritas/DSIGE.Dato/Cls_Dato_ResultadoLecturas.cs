@@ -162,7 +162,7 @@ namespace DSIGE.Dato
        }
 
 
-       public List<ResultadoLecturas_E> Capa_Dato_Get_ResumenLecturas(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor, int ciclo)
+       public List<ResultadoLecturas_E> Capa_Dato_Get_ResumenLecturas(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor, string ciclo)
         {
            try
            {
@@ -182,7 +182,7 @@ namespace DSIGE.Dato
                         cmd.Parameters.Add("@id_tiposervicio", SqlDbType.Int).Value = id_tiposervicio;
                         cmd.Parameters.Add("@id_supervisor", SqlDbType.Int).Value = id_supervisor;
                         cmd.Parameters.Add("@id_operario_supervisor", SqlDbType.Int).Value = id_operario_supervisor;
-                        cmd.Parameters.Add("@ciclo", SqlDbType.Int).Value = ciclo;
+                        cmd.Parameters.Add("@ciclo", SqlDbType.VarChar).Value = ciclo;
 
                         DataTable dt_detalle = new DataTable();
                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -265,7 +265,7 @@ namespace DSIGE.Dato
            }
        }
 
-       public List<ResultadoLecturas_E> Capa_Dato_Get_ResumenLecturas_Detallado(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor, int ciclo)
+       public List<ResultadoLecturas_E> Capa_Dato_Get_ResumenLecturas_Detallado(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor, string ciclo)
         {
            try
            {
@@ -285,7 +285,7 @@ namespace DSIGE.Dato
                         cmd.Parameters.Add("@id_tiposervicio", SqlDbType.Int).Value = id_tiposervicio;
                         cmd.Parameters.Add("@id_supervisor", SqlDbType.Int).Value = id_supervisor;
                         cmd.Parameters.Add("@id_operario_supervisor", SqlDbType.Int).Value = id_operario_supervisor;
-                        cmd.Parameters.Add("@ciclo", SqlDbType.Int).Value = ciclo;
+                        cmd.Parameters.Add("@ciclo", SqlDbType.VarChar).Value = ciclo;
 
                         DataTable dt_detalle = new DataTable();
                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))

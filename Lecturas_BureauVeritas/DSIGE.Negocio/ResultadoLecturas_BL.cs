@@ -50,7 +50,7 @@ namespace DSIGE.Negocio
             }
         }
 
-        public List<ResultadoLecturas_E> Capa_Negocio_Get_ListaResumenLectura(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor, int ciclo)
+        public List<ResultadoLecturas_E> Capa_Negocio_Get_ListaResumenLectura(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor, string ciclo)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace DSIGE.Negocio
         }
 
 
-        public List<ResultadoLecturas_E> Capa_Negocio_Get_ListaLectura_Detallado(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor,  int ciclo)           
+        public List<ResultadoLecturas_E> Capa_Negocio_Get_ListaLectura_Detallado(string FechaAsignacion, int id_tiposervicio, int id_supervisor, int id_operario_supervisor,  string ciclo)           
         {
             try
             {
