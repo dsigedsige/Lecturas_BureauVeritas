@@ -19,5 +19,8 @@ namespace DSIGE.Modelo
         public string Mes { get; set; }
         public string consumo { get; set; }
         public string Orden { get; set; }
+
+        public string id_Lectura { get; set; }
+        public string foto { get; set; }
     }
 }

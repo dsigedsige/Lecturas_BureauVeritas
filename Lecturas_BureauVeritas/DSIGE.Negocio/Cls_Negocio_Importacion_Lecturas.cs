@@ -291,12 +291,12 @@ namespace DSIGE.Negocio
 
 
 
-        public object Capa_Negocio_buscarCodigoEMr(string codigo)
+        public object Capa_Negocio_buscarCodigoEMr(string codigo, string fechaCarga)
         {
             try
             {
                 Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
-                return Objeto_Dato.Capa_Dato_get_buscarCodgioEmr(codigo);
+                return Objeto_Dato.Capa_Dato_get_buscarCodgioEmr(codigo, fechaCarga);
             }
             catch (Exception e)
             {

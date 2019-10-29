@@ -1990,6 +1990,54 @@ namespace DSIGE.Web.Controllers
         }
 
 
+
+        [HttpPost]
+        public string set_cambiarfoto(HttpPostedFileBase file, int idfotoLectura, string nombrefotoLectura)
+        {
+            object loDatos;
+            try
+            {
+                Cls_Negocio_AsignarOrdenTrabajo obj_negocio = new Cls_Negocio_AsignarOrdenTrabajo();
+                string extension = System.IO.Path.GetExtension(file.FileName); 
+
+                string[] obj_foto = nombrefotoLectura.Split('_');
+                string nameFoto = DateTime.Now.ToString("HH:mm:ss.FFF").Replace(":", "");
+                nameFoto = nameFoto.Replace(".", "");
+
+                //--- formateando el nuevo nombre-----
+                string nombrefinal = obj_foto[0] + "_" + obj_foto[1] + "_" + obj_foto[2] + "_" + nameFoto + extension;
+
+                //---- guardando la imagen ---
+                string fileLocation = Server.MapPath("~/Content/foto/foto") + "\\" + nombrefinal;
+                file.SaveAs(fileLocation);
+
+                if (System.IO.File.Exists(fileLocation))
+                {
+                    loDatos = obj_negocio.Capa_Negocio_cambiarfoto(((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id, idfotoLectura,  nombrefinal);
+                    return _Serialize(loDatos, true);
+                }
+                else {
+                    loDatos = new
+                    {
+                        ok = false,
+                        mensaje = "Error: No se pudo guardar la foto en el servidor"
+                    };
+
+                    return _Serialize(loDatos, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                loDatos = new
+                {
+                    ok = false,
+                    mensaje = ex.Message
+                };
+                return _Serialize(loDatos, true);
+            }
+        }
+
+
         [HttpPost]
         public string Proceso_Almacenar_lecturas_vacias()
         {

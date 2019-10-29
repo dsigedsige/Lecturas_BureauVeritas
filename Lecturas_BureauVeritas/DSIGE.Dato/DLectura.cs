@@ -1084,7 +1084,8 @@ namespace DSIGE.Dato
                                         fechaLectura = Convert.ToString(iDr["fechaLecturaMovil_lectura"]),
                                         obs = Convert.ToString(iDr["OBS"]),
                                         notas = Convert.ToString(iDr["Observacion_lectura"]),
-                                        id_TipoServicio = Convert.ToInt32(iDr["id_TipoServicio"])
+                                        id_TipoServicio = Convert.ToInt32(iDr["id_TipoServicio"]),
+                                        fotoActa = Convert.ToString(iDr["fotoActa"]),
                                     }
                                 );
                         }

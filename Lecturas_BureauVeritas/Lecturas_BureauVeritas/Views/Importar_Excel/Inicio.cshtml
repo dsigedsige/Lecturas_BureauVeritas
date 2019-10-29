@@ -431,7 +431,8 @@
 
                         }).on('pnotify.cancel', function () {
 
-                        });
+                            });
+
                     }
                     else
                     {
@@ -1312,10 +1313,10 @@
                                     <td>{{item.nombre_UnidadLectura}}</td>
                                     <td>{{item.total}}</td>
                                     @*<td align="center">
-                <button type="button" class="btn btn-default btn-xs" ng-click="getPdf(item)">
-                    <span class="glyphicon glyphicon-list"></span> Ver Reporte
-                </button>
-            </td>*@
+                                        <button type="button" class="btn btn-default btn-xs" ng-click="getPdf(item)">
+                                            <span class="glyphicon glyphicon-list"></span> Ver Reporte
+                                        </button>
+                                    </td>*@
                                 </tr>
                                 <tr ng-if="showReclamos" ng-repeat="item in Lista_Lecturas_Temporal">
                                     <td>{{$index + 1}}</td>

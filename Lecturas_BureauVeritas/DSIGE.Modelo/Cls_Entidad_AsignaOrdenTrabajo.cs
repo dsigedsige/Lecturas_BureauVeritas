@@ -324,6 +324,7 @@ namespace DSIGE.Modelo
 
             public string fecha { get; set; }
             public string desplazamiento { get; set; }
+                   public string ubicacion_Medidor { get; set; }
 
             public string Lectura1 { get; set; }
             public string Consumo1 { get; set; }

@@ -345,6 +345,10 @@ namespace DSIGE.Modelo
         public string size_foto { get; set; }
 
 
+        [JsonProperty("_fa")]
+        public string fotoActa { get; set; }
+
+
     }
 
 

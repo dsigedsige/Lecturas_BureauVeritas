@@ -102,6 +102,9 @@
             cursor: pointer;
             text-align: right
         }
+
+  
+
     </style>
 }
 
@@ -176,7 +179,7 @@
 
             var pictures = $scope.pictures = [];
             $scope.MostrarFoto = function (idLectura, flagOpcion) {
-                $('#modalfotos').modal();
+
                 $('.sige-load').show();
 
                 var variables = {
@@ -193,6 +196,9 @@
                 $http(variables)
                     .success(function (data) {
                         $('.sige-load').hide();
+                        $('#modalfotos').modal('show');
+
+                        $scope.pictures = []
                         pictures = $scope.pictures = [];
                         for (var i = 0; i < data.length; i++) {
                             pictures.push({
@@ -618,15 +624,20 @@
 
                             // UNA VEZ QUE ELIMINAMOS EL INDEX OBSERVADO, EL SIGUIENTE TOMA SU LUGAR COMO INDEX.
                             $timeout(function () {
-                                $scope.paramsDetail = $scope.ListaLecturasRelectura[index];
-                                itemImg = $scope.ListaLecturasRelectura[index];
-                                getHistorico(itemImg);
 
-                                if (item.id_observacion == 0 || item.id_observacion == null || item.id_observacion == undefined) {
-                                    $('#cbo_edit_observacion').val('0').trigger('change');
+                                if ($scope.ListaLecturasRelectura.length > 0) {
+                                    $scope.paramsDetail = $scope.ListaLecturasRelectura[index];
+                                    itemImg = $scope.ListaLecturasRelectura[index];
+                                    getHistorico(itemImg);
 
+                                    if (item.id_observacion == 0 || item.id_observacion == null || item.id_observacion == undefined) {
+                                        $('#cbo_edit_observacion').val('0').trigger('change');
+
+                                    } else {
+                                        $('#cbo_edit_observacion').val(String($scope.ListaLecturasRelectura[index].id_observacion)).trigger('change');
+                                    }
                                 } else {
-                                    $('#cbo_edit_observacion').val(String($scope.ListaLecturasRelectura[index].id_observacion)).trigger('change');
+                                    $('#ModalImagen').modal("hide");
                                 }
                             }, 500)
 
@@ -638,30 +649,39 @@
                         $('.sige-load').hide();
                     });
 
-                } else if (value == 1) {
+                }
+                else if (value == 1) {
                     console.log('Foto sin observación');
-                    enviarSinObservacion(itemImg).then(function (res) {
-                        var index = $scope.ListaLecturasRelectura.indexOf(itemImg);
-                        $scope.ListaLecturasRelectura.splice(index, 1);
+                  
+                        enviarSinObservacion(itemImg)
+                            .then(function (res) {
+                                var index = $scope.ListaLecturasRelectura.indexOf(itemImg);
+                                $scope.ListaLecturasRelectura.splice(index, 1);
 
-                        // UNA VEZ QUE ELIMINAMOS EL INDEX OBSERVADO, EL SIGUIENTE TOMA SU LUGAR COMO INDEX.
-                        $timeout(function () {
-                            $scope.paramsDetail = $scope.ListaLecturasRelectura[index];
-                            itemImg = $scope.ListaLecturasRelectura[index];
-                            getHistorico(itemImg);
-                            mostrarFoto(itemImg);
+                                // UNA VEZ QUE ELIMINAMOS EL INDEX OBSERVADO, EL SIGUIENTE TOMA SU LUGAR COMO INDEX.
+                                $timeout(function () {                                                                       
+                                    if ($scope.ListaLecturasRelectura.length > 0) {
+                                        $scope.paramsDetail = $scope.ListaLecturasRelectura[index];
+                                        itemImg = $scope.ListaLecturasRelectura[index];
+                                        getHistorico(itemImg);
+                                        mostrarFoto(itemImg);
 
-                            if (item.id_observacion == 0 || item.id_observacion == null || item.id_observacion == undefined) {
-                                $('#cbo_edit_observacion').val('0').trigger('change');
+                                        if (item.id_observacion == 0 || item.id_observacion == null || item.id_observacion == undefined) {
+                                            $('#cbo_edit_observacion').val('0').trigger('change');
 
-                            } else {
-                                $('#cbo_edit_observacion').val(String($scope.ListaLecturasRelectura[index].id_observacion)).trigger('change');
-                            }     
-                        }, 500)
+                                        } else {
+                                            $('#cbo_edit_observacion').val(String($scope.ListaLecturasRelectura[index].id_observacion)).trigger('change');
+                                        }
 
-                    }, function (err) {
-                        console.log(err);
-                    })
+                                    } else {
+                                        $('#ModalImagen').modal("hide");
+                                    }
+                                }, 500)
+
+                            }, function (err) {
+                                console.log(err);
+                            })
+     
                 };
 
             }
@@ -1046,273 +1066,251 @@
             }
 
 
+            $(document).on('click', '#Crear', function () {
+                $('#ModalCrear').modal('show');
+            });
+
+            $(document).on('click', '#agregar_nombres', function () {
+                $('#ModalAgregarNombre').modal('show');
+            });
+
+
         })
                
     </script>
 }
 
-<div ng-app="appLecturaEnviarCliente" ng-controller="LecturaEnviarClienteCtrl" ng-init="listando_Estados()">
+    <div ng-app="appLecturaEnviarCliente" ng-controller="LecturaEnviarClienteCtrl" ng-init="listando_Estados()">
 
-    <div class="panel panel-oscuro" style="margin-top: -13px;">
-        <div class="panel-heading">
-            <h6><i class="fa fa-table fa-lg"></i> VALIDACION DE LECTURAS </h6>
-        </div>
-        <div class="panel-body">
-            <div class="well" style="background: #314b75; color: white;    margin-bottom: 1px;">
-
-                <div class="row" style="    margin-top: -17px;  margin-bottom: -10px;">
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <div class="col-md-4">
-                            <label class="control-label">
-                                Estados
-                            </label>
-                            <select id="cbo_estado" class="form-control">
-                                <option value=0>--[ SELECCIONE ]-- </option>
-                                <option ng-repeat="item in ListaEstados" value="{{item.id_Estado}}">
-                                    {{item.descripcion_estado}}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="_supervisor" class="control-label">Supervisor</label>
-                            <select id="cbo_supervisor" class="form-control" ng-model="id_supervisor" ng-change="Change_listando_Usuario_Operarios(id_supervisor); ">
-                                <option ng-repeat="item in ListaSupervisor" value="{{item.id_Usuario}}">
-                                    {{item.supervisor}}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="_supervisor" class="control-label">Operarios</label>
-                            <select id="cbo_Operario_supervisor" class="form-control">
-                                <option value=0>--[ TODOS ]-- </option>
-                                <option ng-repeat="item in ListaUsuario_Operarios" value="{{item.id_Operario}}">
-                                    {{item.desc_operario}}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <div class="col-md-4">
-                            <label class="control-label"> Resultado</label>
-                            <select id="cbo_resultado" class="form-control">
-                                <option value=0>--[ SELECCIONE ]-- </option>
-                                <option value="2">FUERA DE RANGO</option>
-                                <option value="1">DENTRO DEL RANGO</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label"> Fecha Asignación </label>
-                            <input class="form-control" id="dtp_fechaAsigna" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
-                        </div>
-                        <div class="col-md-4" style="text-align:center">
-                            <br />
-                            <button class="btn btn-primary" ng-click="ListandoInformacionOrdenesTrabajo()"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>
-                        </div>
-                    </div>
-
-                </div>
-
+        <div class="panel panel-oscuro" style="margin-top: -13px;">
+            <div class="panel-heading">
+                <h6><i class="fa fa-table fa-lg"></i> VALIDACION DE LECTURAS </h6>
             </div>
+            <div class="panel-body">
+                <div class="well" style="background: #314b75; color: white;    margin-bottom: 1px;">
 
-            <div class="row" style="    padding: 3px;">
-                <div class="col-xs-12 col-sm-8 col-md-8  col-lg-8 ">
-                    <span class="label label-primary" style=" font-size: 12px;"> Double Click en cualquier registro para abrir el detalle de la Lectura </span>
-                </div>
-            </div>
-            <div id="Principal" class="table-responsive">
-                <table id="tblLecturasRelecturas" class="table " border="0" cellspacing="0" cellpadding="0" style="font-size:11px">
-                    <thead>
-                        <tr>
-                            <th>
-                                #
-                            </th>
-                            <th colspan="2">
-                                <input id="buscarDelegacion" style="background-color: beige;color:green;font-family: tahoma;" type="text" class="form-control" placeholder="Buscar cuenta contrato, medidor" />
-                            </th>
-                            <th colspan="11"></th>
-                        </tr>
-                        <tr>
-                            <th>
-                                #
-                            </th>
-                            <th class="Julio">C_CONTRATO</th>
-                            <th class="Julio">MEDIDOR</th>
-                            <th class="Julio">LECTURISTA</th>
-
-                            <th class="Julio">FOTO</th>
-                            <th class="Julio" style="text-align:center"> OBS_ACTUAL</th>
-
-
-                            <th class="Julio"> LECT_MAXIMA</th>
-                            <th class="Julio"> LECT_ACTUAL</th>
-                            <th class="Julio"> LECT_MINIMA</th>
-                            <th class="Julio"> COMPARTIVA_MAX</th>
-                            <th class="Julio"> COMPARTIVA_MIN</th>
-
-                            <th class="Julio"> RESULTADOS</th>
-                            <th class="Julio"> VALIDACION_FOTO</th>
-                            <th class="Julio"> OBSERVACION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in ListaLecturasRelectura ">
-                            <td>
-                                {{$index +1}}
-                            </td>
-                            <td class="Julio" ng-dblclick="agrandarphoto(item,$index);">{{item.suministro_lectura}}</td>
-                            <td class="Julio" ng-dblclick="agrandarphoto(item,$index);">{{item.medidor_lectura}}</td>
-                            <td class="Julio" ng-dblclick="agrandarphoto(item,$index);"><div style="width:250px;">{{item.operario}}</div> </td>
-
-                            <td><a href="#" ng-click="MostrarFoto(item.id_Lectura, 1);">{{item.foto}}</a> </td>
-                            <td class="Julio" ng-dblclick="agrandarphoto(item,$index);"><div style="width:120px;text-align:center">  {{item.descripcion_observacion}} </div> </td>
-
-                            <td class="JulioCesar" ng-dblclick="agrandarphoto(item,$index);"> {{item.lectura_max}} </td>
-                            <td class="JulioCesar" ng-dblclick="agrandarphoto(item,$index);"> {{item.lectura_movil}} </td>
-                            <td class="JulioCesar" ng-dblclick="agrandarphoto(item,$index);"> {{item.lectura_min}} </td>
-                            <td class="JulioCesar" ng-dblclick="agrandarphoto(item,$index);"> {{item.comparativa_max}} </td>
-                            <td class="JulioCesar" ng-dblclick="agrandarphoto(item,$index);"> {{item.comparativa_min}} </td>
-                            <td style="cursor: pointer;text-align:center"> {{item.resultado}} </td>
-                            <td style="cursor: pointer;text-align:center"> {{item.Relecturas}} </td>
-                            <td style="cursor: pointer;text-align:left"> <div style="width:200px;"> {{item.Observacion_lectura}} </div>  </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <br />
-            <div class="row">
-                <div class="panel-body" style="height: 40px;">
-                    <div class="col-sm-12" style="text-align:center;">
-                        <div class="col-sm-12">
-                            <div class="form-group form-group-sm">
-                                <button class="btn btn-success" ng-click="DescargaExcelValidacionLectura();"><span class="glyphicon glyphicon-download-alt"></span> Descargar</button>
+                    <div class="row" style="    margin-top: -17px;  margin-bottom: -10px;">
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-md-4">
+                                <label class="control-label">
+                                    Estados
+                                </label>
+                                <select id="cbo_estado" class="form-control">
+                                    <option value=0>--[ SELECCIONE ]-- </option>
+                                    <option ng-repeat="item in ListaEstados" value="{{item.id_Estado}}">
+                                        {{item.descripcion_estado}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="_supervisor" class="control-label">Supervisor</label>
+                                <select id="cbo_supervisor" class="form-control" ng-model="id_supervisor" ng-change="Change_listando_Usuario_Operarios(id_supervisor); ">
+                                    <option ng-repeat="item in ListaSupervisor" value="{{item.id_Usuario}}">
+                                        {{item.supervisor}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="_supervisor" class="control-label">Operarios</label>
+                                <select id="cbo_Operario_supervisor" class="form-control">
+                                    <option value=0>--[ TODOS ]-- </option>
+                                    <option ng-repeat="item in ListaUsuario_Operarios" value="{{item.id_Operario}}">
+                                        {{item.desc_operario}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-       
-    <table id="table_exportar_lecturaRelectura" ng-show="false">
-        <tr>
-            <th>Medidor</th>
-            <th>Fecha de Lectura</th>
-            <th>Lectura</th>
-            <th>Operario</th>
-            <th>Observación</th>
-            <th>Estado</th>
-        </tr>
-        <tr ng-repeat="lista in Lista_OrdenTrabajo_LecturaRelectura">
-            <td>{{lista.medidor_lectura}}</td>
-            <td>{{lista.fechaLecturaMovil_lectura}}</td>
-            <td>{{lista.lectura_Anterior}}</td>
-            <td>{{lista.ope_nombre}}</td>
-            <td>{{lista.Observacion_lectura}}</td>
-            <td>{{lista.abreviatura_estado}}</td>
-        </tr>
-    </table>
-    
-    <div id="fotos" class="modal fade">
-        <div class="modal-dialog" style="width:500px; height:450px; text-align: center;">
 
-            <div class="modal-body" style="text-align: center; background-color: white;">
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-md-4">
+                                <label class="control-label"> Resultado</label>
+                                <select id="cbo_resultado" class="form-control">
+                                    <option value=0>--[ SELECCIONE ]-- </option>
+                                    <option value="2">FUERA DE RANGO</option>
+                                    <option value="1">DENTRO DEL RANGO</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label"> Fecha Asignación </label>
+                                <input class="form-control" id="dtp_fechaAsigna" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                            </div>
+                            <div class="col-md-4" style="text-align:center">
+                                <br />
+                                <button class="btn btn-primary" ng-click="ListandoInformacionOrdenesTrabajo()"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>
+                            </div>
+                        </div>
 
-                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                    <!-- Indicators -->
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner" id="corre">
                     </div>
 
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#carousel-example-generic" ng-click="previusPhoto()" role="button" data-slide="prev" style="background-color:black;">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                    </a>
-                    <a class="right carousel-control" href="#carousel-example-generic" ng-click="nextPhoto()" role="button" data-slide="next" style="background-color:black;">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                    </a>
                 </div>
-                <!-- Carousel -->
-            </div>
-        </div>
-    </div>
-     
-    <div id="modalfotos" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" style="width: 30% !important;">
-            <div class="panel panel-oscuro">
-                <div class="panel-heading">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> RELACION DE FOTOS </h6>
+
+                <div class="row" style="    padding: 3px;">
+                    <div class="col-xs-12 col-sm-8 col-md-8  col-lg-8 ">
+                        <span class="label label-primary" style=" font-size: 12px;"> Double Click en cualquier registro para abrir el detalle de la Lectura </span>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <div id="galeria" class="table table-responsive" style=" max-height: 520px !important;overflow: auto;">
-                            <div class="thumbnails">
-                                <div class="col-md-12" style=" text-align:center;" ng-repeat="pic in pictures">
-                                    <a href="{{pic.url}}" data-lightbox="example-set" data-title="Fotos">
-                                        <img class="img-thumbnail" ng-src="{{pic.url}}" style="width: 530px; height: 310px;">
-                                    </a>
-                                    <hr />
+                <div id="Principal" class="table-responsive">
+                    <table id="tblLecturasRelecturas" class="table " border="0" cellspacing="0" cellpadding="0" style="font-size:11px">
+                        <thead>
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th colspan="2">
+                                    <input id="buscarDelegacion" style="background-color: beige;color:green;font-family: tahoma;" type="text" class="form-control" placeholder="Buscar cuenta contrato, medidor" />
+                                </th>
+                                <th colspan="11"></th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th class="Julio">C_CONTRATO</th>
+                                <th class="Julio">MEDIDOR</th>
+                                <th class="Julio">LECTURISTA</th>
+
+                                <th class="Julio">FOTO</th>
+                                <th class="Julio" style="text-align:center"> OBS_ACTUAL</th>
+
+
+                                <th class="Julio"> LECT_MAXIMA</th>
+                                <th class="Julio"> LECT_ACTUAL</th>
+                                <th class="Julio"> LECT_MINIMA</th>
+                                <th class="Julio"> COMPARTIVA_MAX</th>
+                                <th class="Julio"> COMPARTIVA_MIN</th>
+
+                                <th class="Julio"> RESULTADOS</th>
+                                <th class="Julio"> VALIDACION_FOTO</th>
+                                <th class="Julio"> OBSERVACION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ListaLecturasRelectura ">
+                                <td>
+                                    {{$index +1}}
+                                </td>
+                                <td class="Julio" ng-dblclick="agrandarphoto(item,$index);">{{item.suministro_lectura}}</td>
+                                <td class="Julio" ng-dblclick="agrandarphoto(item,$index);">{{item.medidor_lectura}}</td>
+                                <td class="Julio" ng-dblclick="agrandarphoto(item,$index);"><div style="width:250px;">{{item.operario}}</div> </td>
+
+                                <td><a href="#" ng-click="MostrarFoto(item.id_Lectura, 1);">{{item.foto}}</a> </td>
+                                <td class="Julio" ng-dblclick="agrandarphoto(item,$index);"><div style="width:120px;text-align:center">  {{item.descripcion_observacion}} </div> </td>
+
+                                <td class="JulioCesar" ng-dblclick="agrandarphoto(item,$index);"> {{item.lectura_max}} </td>
+                                <td class="JulioCesar" ng-dblclick="agrandarphoto(item,$index);"> {{item.lectura_movil}} </td>
+                                <td class="JulioCesar" ng-dblclick="agrandarphoto(item,$index);"> {{item.lectura_min}} </td>
+                                <td class="JulioCesar" ng-dblclick="agrandarphoto(item,$index);"> {{item.comparativa_max}} </td>
+                                <td class="JulioCesar" ng-dblclick="agrandarphoto(item,$index);"> {{item.comparativa_min}} </td>
+                                <td style="cursor: pointer;text-align:center"> {{item.resultado}} </td>
+                                <td style="cursor: pointer;text-align:center"> {{item.Relecturas}} </td>
+                                <td style="cursor: pointer;text-align:left"> <div style="width:200px;"> {{item.Observacion_lectura}} </div>  </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <br />
+                <div class="row">
+                    <div class="panel-body" style="height: 40px;">
+                        <div class="col-sm-12" style="text-align:center;">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-sm">
+                                    <button class="btn btn-success" ng-click="DescargaExcelValidacionLectura();"><span class="glyphicon glyphicon-download-alt"></span> Descargar</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
-                                <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cerrar</button>
-                            </div>
+            </div>
+        </div>
+
+        <table id="table_exportar_lecturaRelectura" ng-show="false">
+            <tr>
+                <th>Medidor</th>
+                <th>Fecha de Lectura</th>
+                <th>Lectura</th>
+                <th>Operario</th>
+                <th>Observación</th>
+                <th>Estado</th>
+            </tr>
+            <tr ng-repeat="lista in Lista_OrdenTrabajo_LecturaRelectura">
+                <td>{{lista.medidor_lectura}}</td>
+                <td>{{lista.fechaLecturaMovil_lectura}}</td>
+                <td>{{lista.lectura_Anterior}}</td>
+                <td>{{lista.ope_nombre}}</td>
+                <td>{{lista.Observacion_lectura}}</td>
+                <td>{{lista.abreviatura_estado}}</td>
+            </tr>
+        </table>
+
+        <div id="fotos" class="modal fade">
+            <div class="modal-dialog" style="width:500px; height:450px; text-align: center;">
+
+                <div class="modal-body" style="text-align: center; background-color: white;">
+
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators -->
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" id="corre">
                         </div>
+
+                        <!-- Controls -->
+                        <a class="left carousel-control" href="#carousel-example-generic" ng-click="previusPhoto()" role="button" data-slide="prev" style="background-color:black;">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-generic" ng-click="nextPhoto()" role="button" data-slide="next" style="background-color:black;">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
                     </div>
+                    <!-- Carousel -->
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div id="ModalImagen" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-img" style="width: 80%;">
-            <div class="panel panel-oscuro">
-                <div class="panel-heading">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <a ng-click="rotateImg();" class="pull-right rotate" style="    margin-top: -10px; font-size: 12px; padding: 3px 4px;  color: white;  margin-right: 20px;cursor:pointer"><i class="fa fa-repeat" style="Color:#337ab7; font-size: 30px" aria-hidden="true"></i>Girar</a>
-                    <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> Detalle de Foto</h6>
-                </div>
+         
 
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-7">
-                                <p style="font-size:14px; margin-bottom: 0px;">
-                                    Suministro : {{paramsDetail.suministro_lectura}}  | Medidor : {{paramsDetail.medidor_lectura}}  | Lectura Actual : <input type="text" numeric-only style="width:80px;background-color:beige" ng-model="paramsDetail.lectura_movil" />
-                                    <button class="btn btn-primary" ng-click="ActualizarLectura(paramsDetail)"><span class="glyphicon glyphicon-floppy-save"></span> Cambiar</button>
-                                </p>
 
-                                <p style="font-size:14px; color:brown">
-                                    Lectura Minima : {{paramsDetail.lectura_min}}  | Maxima : {{paramsDetail.lectura_max}}  |  Obs.Tecnico:  {{paramsDetail.Observacion_lectura}}
-                                </p>    
+
+        <div id="ModalImagen" class="modal fade" role="dialog" style="overflow-y: scroll;">
+            <div class="modal-dialog modal-img" style="width: 85%;">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <a ng-click="rotateImg();" class="pull-right rotate" style="    margin-top: -10px; font-size: 12px; padding: 3px 4px;  color: white;  margin-right: 20px;cursor:pointer"><i class="fa fa-repeat" style="Color:#337ab7; font-size: 30px" aria-hidden="true"></i>Girar</a>
+                        <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> Detalle de Foto</h6>
+                    </div>
+
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <p style="font-size:14px; margin-bottom: 0px;">
+                                        Suministro : {{paramsDetail.suministro_lectura}}  | Medidor : {{paramsDetail.medidor_lectura}}  | Lectura Actual : <input type="text" numeric-only style="width:80px;background-color:beige" ng-model="paramsDetail.lectura_movil" />
+                                        <button class="btn btn-primary" ng-click="ActualizarLectura(paramsDetail)"><span class="glyphicon glyphicon-floppy-save"></span> Cambiar</button>
+                                    </p>
+
+                                    <p style="font-size:14px; color:brown">
+                                        Lectura Minima : {{paramsDetail.lectura_min}}  | Maxima : {{paramsDetail.lectura_max}}  |  Obs.Tecnico:  {{paramsDetail.Observacion_lectura}}
+                                    </p>
+                                </div>
+                                <div class="col-md-5">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="email">Observacion:</label>
+                                            <select id="cbo_edit_observacion" class="form-control" style="width:220px;">
+                                                <option value=0>--[ SELECCIONE ]-- </option>
+                                                <option ng-repeat="item in ListaObservacionesLecturas" value="{{item.id_Observacion}}">{{item.descripcion_observacion}}</option>
+                                            </select>
+                                            <button class="btn btn-primary" ng-click="Actualizar_Observacion();"><span class="glyphicon glyphicon-floppy-save"></span> Cambiar</button>
+                                        </div>
+                                    </form>
+
+
+                                </div>
                             </div>
-                            <div class="col-md-5">
-                                <form class="form-inline">
-                                    <div class="form-group">
-                                        <label for="email">Observacion:</label>
-                                        <select id="cbo_edit_observacion" class="form-control" style="width:220px;">
-                                            <option value=0>--[ SELECCIONE ]-- </option>
-                                            <option ng-repeat="item in ListaObservacionesLecturas" value="{{item.id_Observacion}}">{{item.descripcion_observacion}}</option>
-                                        </select>
-                                        <button class="btn btn-primary" ng-click="Actualizar_Observacion();"><span class="glyphicon glyphicon-floppy-save"></span> Cambiar</button>
-                                    </div>
-                                </form>
- 
 
-                            </div>
-                        </div>
+                            <div class="row">
 
-                        <div class="row">
-
-                                <div class="col-md-6">
+                                <div class="col-xs-12 col-sm-8 col-md-6">
                                     <center>
 
                                         <h3>Historico</h3>
@@ -1327,6 +1325,7 @@
                                                 <th>Observacion</th>
                                                 <th>Fecha</th>
                                                 <th>Consumo</th>
+                                                <th>Foto</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -1337,17 +1336,19 @@
                                                 <td>{{item.Observacion}}</td>
                                                 <td>{{item.fechaAsignacion_lectura}}</td>
                                                 <td style="text-align:right"> <b style="font-family: tahoma;">{{item.consumo}} </b></td>
-
+                                                <td style="text-align:left" ng-click="MostrarFoto(item.id_Lectura, 1);">{{item.foto}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-xs-12 col-sm-4 col-md-6">
                                     <p style="font-size:14px;color:red;cursor:pointer" ng-click="anularFoto();">
                                         Anular foto
                                     </p>
-
-                                    <img id="imgRotate" src="{{rutaFoto}}" class="img-responsive img-rounded" alt="imagen suministro" style="width:450px;height:450px;">
+                                    <div class="text-center">
+                                        <img id="imgRotate" src="{{rutaFoto}}" class="img-responsive img-rounded" alt="imagen suministro" style="width:98%;height:350px;">
+                                    </div>
+                          
                                     <hr />
                                     <div class="text-center">
                                         <div class="row">
@@ -1361,21 +1362,51 @@
                                 </div>
                             </div>
 
-                     </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+
+                                <div class="col-sm-4">
+
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                        <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="modalfotos" class="modal fade" role="dialog">
+            <div class="modal-dialog" style="width: 35% !important;">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> RELACION DE FOTOS </h6>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div id="galeria" class="table table-responsive" style=" max-height: 510px !important;overflow: auto;">
+                                <div class="thumbnails">
+                                    <div class="col-md-12" style=" text-align:center;" ng-repeat="pic in pictures">
+                                        @*<a href="{{pic.url}}" data-lightbox="example-set" data-title="Fotos">*@
+                                        <img class="img-thumbnail" ng-src="{{pic.url}}" style="width: 530px; height: 310px;">
+                                        @*</a>*@
+                                        <hr />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="panel-footer">
                         <div class="row">
-
-                            <div class="col-sm-4">
-
-                            </div>
-                            @*<div class="col-sm-3">
-                                <button role="button" id="btnCancelar" class="btn btn-danger" ng-click="NextImage(0)"><i class="fa fa-ban fa-lg"></i> Enviar Relectura</button>
-                            </div>
-                            <div class="col-sm-3">
-                                <button role="button" id="btnCancelar" class="btn btn-success" ng-click="NextImage(1)"><i class="fa fa-check fa-lg"></i> Sin Observación</button>
-                            </div>*@
-
-                            <div class="col-sm-2">
+                            <div class="col-sm-12">
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
                                     <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cerrar</button>
                                 </div>
@@ -1385,6 +1416,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    
-</div>
+
+
+
+
+
+            </div>

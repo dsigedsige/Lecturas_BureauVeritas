@@ -191,7 +191,141 @@ namespace DSIGE.Dato
            }
        }
 
+        public List<GeneracionActas_E> Capa_Dato_MostrandoActa(int idCorte, int servicio)
+        {
+            try
+            {
+                List<GeneracionActas_E> ListArchivos = new List<GeneracionActas_E>();
+                string ruta = ConfigurationManager.AppSettings["servidor-foto-lectura"];
 
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("SP_S_HISTORICO_ACTAS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_corte", SqlDbType.Int).Value = idCorte;
+                        cmd.Parameters.Add("@id_servicio", SqlDbType.Int).Value = servicio;
+   
+                        DataTable dt_detalle = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                            foreach (DataRow Fila in dt_detalle.Rows)
+                            {
+                                GeneracionActas_E obj_entidad = new GeneracionActas_E();
+
+
+                                if (servicio == 3)
+                                {
+                                    obj_entidad.id_TipoServicio = Convert.ToInt32(Fila["id_TipoServicio"].ToString());
+                                    obj_entidad.fecha = Fila["fecha"].ToString();
+                                    obj_entidad.hora = Fila["hora"].ToString();
+                                    obj_entidad.fechaLecturaMovil_corte = Fila["fechaLecturaMovil_corte"].ToString();
+                                    obj_entidad.cliente_suministro = Fila["cliente_suministro"].ToString();
+                                    obj_entidad.instalacion = Fila["instalacion"].ToString();
+                                    obj_entidad.medidor = Fila["medidor"].ToString();
+
+
+                                    obj_entidad.ubicacion_medidor_interno = Fila["ubicacion_medidor_interno"].ToString();
+                                    obj_entidad.ubicacion_medidor_externo = Fila["ubicacion_medidor_externo"].ToString();
+
+                                    obj_entidad.nombre_cliente = Fila["nombre_cliente"].ToString();
+                                    obj_entidad.direccion_suministro = Fila["direccion_suministro"].ToString();
+
+                                    obj_entidad.distrito = Fila["distrito"].ToString();
+                                    obj_entidad.nombre_personal = Fila["nombre_personal"].ToString();
+                                    obj_entidad.dni_personal = Fila["dni_personal"].ToString();
+                                    obj_entidad.lectura_cierre = Fila["lectura_cierre"].ToString();
+
+                                    obj_entidad.motivo_cierre_deuda = Fila["motivo_cierre_deuda"].ToString();
+                                    obj_entidad.motivo_cierre_fuga_gas = Fila["motivo_cierre_fuga_gas"].ToString();
+                                    obj_entidad.motivo_cierre_pedido_cliente = Fila["motivo_cierre_pedido_cliente"].ToString();
+                                    obj_entidad.motivo_cierre_seguridad = Fila["motivo_cierre_seguridad"].ToString();
+
+                                    obj_entidad.resultado_cierre_ejecutado = Fila["resultado_cierre_ejecutado"].ToString();
+                                    obj_entidad.resultado_cierre_ausente = Fila["resultado_cierre_ausente"].ToString();
+                                    obj_entidad.resultado_cierre_acceso = Fila["resultado_cierre_acceso"].ToString();
+                                    obj_entidad.resultado_cierre_resistencia = Fila["resultado_cierre_resistencia"].ToString();
+
+                                    obj_entidad.observaciones = Fila["observaciones"].ToString();
+
+                                    obj_entidad.ruta_foto_1 = ruta + Fila["ruta_foto_1"].ToString();
+                                    obj_entidad.ruta_foto_2 = ruta + Fila["ruta_foto_2"].ToString();
+                                    obj_entidad.ruta_foto_3 = ruta + Fila["ruta_foto_3"].ToString();
+                                    obj_entidad.ruta_foto_4 = ruta + Fila["ruta_foto_4"].ToString();
+                                }
+                                else
+                                {
+
+                                    obj_entidad.id_TipoServicio = Convert.ToInt32(Fila["id_TipoServicio"].ToString());
+                                    obj_entidad.fecha = Fila["fecha"].ToString();
+                                    obj_entidad.hora = Fila["hora"].ToString();
+                                    obj_entidad.fechaLecturaMovil_corte = Fila["fechaLecturaMovil_corte"].ToString();
+                                    obj_entidad.cliente_suministro = Fila["cliente_suministro"].ToString();
+                                    obj_entidad.instalacion = Fila["instalacion"].ToString();
+                                    obj_entidad.medidor = Fila["medidor"].ToString();
+
+
+                                    obj_entidad.ubicacion_medidor_interno = Fila["ubicacion_medidor_interno"].ToString();
+                                    obj_entidad.ubicacion_medidor_externo = Fila["ubicacion_medidor_externo"].ToString();
+
+                                    obj_entidad.nombre_cliente = Fila["nombre_cliente"].ToString();
+                                    obj_entidad.direccion_suministro = Fila["direccion_suministro"].ToString();
+
+                                    obj_entidad.distrito = Fila["distrito"].ToString();
+                                    obj_entidad.nombre_personal = Fila["nombre_personal"].ToString();
+                                    obj_entidad.dni_personal = Fila["dni_personal"].ToString();
+                                    obj_entidad.lectura_cierre = Fila["lectura_cierre"].ToString();
+
+                                    obj_entidad.motivo_deuda = Fila["motivo_deuda"].ToString();
+                                    obj_entidad.motivo_apc = Fila["motivo_apc"].ToString();
+                                    obj_entidad.motivo_tecnico = Fila["motivo_tecnico"].ToString();
+                                    obj_entidad.motivo_otros = Fila["motivo_otros"].ToString();
+
+                                    obj_entidad.recone_exitosa = Fila["recone_exitosa"].ToString();
+
+                                    obj_entidad.artefac_cocina = Fila["artefac_cocina"].ToString();
+                                    obj_entidad.artefac_terma = Fila["artefac_terma"].ToString();
+                                    obj_entidad.artefac_secadora = Fila["artefac_secadora"].ToString();
+                                    obj_entidad.artefac_estufa = Fila["artefac_estufa"].ToString();
+
+
+                                    obj_entidad.recone_infrutuosa = Fila["recone_infrutuosa"].ToString();
+                                    obj_entidad.motivo_cliente_ausente = Fila["motivo_cliente_ausente"].ToString();
+                                    obj_entidad.motivo_cliente_impide = Fila["motivo_cliente_impide"].ToString();
+
+                                    obj_entidad.motivo_cliente_otros = Fila["motivo_cliente_otros"].ToString();
+                                    obj_entidad.primera_visita_recone = Fila["primera_visita_recone"].ToString();
+                                    obj_entidad.proxima_visita_fecha_check = Fila["proxima_visita_fecha_check"].ToString();
+                                    obj_entidad.proxima_visita_fecha = Fila["proxima_visita_fecha"].ToString();
+                                    obj_entidad.proxima_visita_hora = Fila["proxima_visita_hora"].ToString();
+                                    obj_entidad.proxima_visita_solicita = Fila["proxima_visita_solicita"].ToString();
+
+                                    obj_entidad.observaciones = Fila["observaciones"].ToString();
+
+                                    obj_entidad.ruta_foto_1 = ruta + Fila["ruta_foto_1"].ToString();
+                                    obj_entidad.ruta_foto_2 = ruta + Fila["ruta_foto_2"].ToString();
+                                }
+
+                                ListArchivos.Add(obj_entidad);
+                            }
+                        }
+                    }
+                }
+
+                return ListArchivos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        
 
         public List<Inspecciones_E> Capa_Dato_Mostrando_informacion_Inspecciones(int servicio, int operario, string fecha, int tipoReporte)
         {

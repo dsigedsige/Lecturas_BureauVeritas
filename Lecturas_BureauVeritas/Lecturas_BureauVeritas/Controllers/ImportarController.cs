@@ -59,14 +59,14 @@ namespace Lecturas_BureauVeritas.Controllers
         }
 
         [HttpPost]
-        public string get_buscarCodigoEmr(string codigo)
+        public string get_buscarCodigoEmr(string codigo, string fechaCarga)
         {
 
             object loDatos;
             try
             {
                 Cls_Negocio_Importacion_Lecturas objeto_negocio = new Cls_Negocio_Importacion_Lecturas();
-                loDatos = objeto_negocio.Capa_Negocio_buscarCodigoEMr(codigo);
+                loDatos = objeto_negocio.Capa_Negocio_buscarCodigoEMr(codigo, fechaCarga);
 
             }
             catch (Exception ex)

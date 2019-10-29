@@ -84,6 +84,8 @@ namespace DSIGE.Dato
                                 obj_entidad.fechaAsignacion_lectura = Fila["fechaAsignacion_lectura"].ToString();
                                 obj_entidad.consumo = Fila["consumo"].ToString();
                                 obj_entidad.Observacion = Fila["Observacion"].ToString();
+                                obj_entidad.id_Lectura = Fila["id_Lectura"].ToString();
+                                obj_entidad.foto = Fila["foto"].ToString();
                                 ListHistorico.Add(obj_entidad);
                             }
                         }

@@ -236,7 +236,7 @@ namespace DSIGE.Dato
         }
 
 
-        public object Capa_Dato_get_buscarCodgioEmr(string codigo)
+        public object Capa_Dato_get_buscarCodgioEmr(string codigo, string fechaCarga)
         {
             DataTable dt_detalle = new DataTable();
             try
@@ -253,7 +253,8 @@ namespace DSIGE.Dato
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@codigo", SqlDbType.VarChar).Value = codigo;
-                        
+                        cmd.Parameters.Add("@fechaCarga", SqlDbType.VarChar).Value = fechaCarga;
+
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                         {
                             da.Fill(dt_detalle);

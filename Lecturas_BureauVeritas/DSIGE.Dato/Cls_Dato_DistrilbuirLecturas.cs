@@ -1166,7 +1166,7 @@ namespace DSIGE.Dato
                                else
                                {
                                    Archivo_E obj_entidad = new Archivo_E();
-                                   Res = GenerarArchivoExcel(dt_detalle, ListaTrabajos[i]);
+                                   Res = GenerarArchivoExcel(dt_detalle, ListaTrabajos[i], servicio);
 
                                    string[] ArchivosExcel = Res.Split('|');                                   
                                    obj_entidad.email = ArchivosExcel[0];
@@ -1182,13 +1182,13 @@ namespace DSIGE.Dato
                        }
                    }
 
-                   //---generando el envio de correo
+                    //---generando el envio de correo
 
-                   for (int i = 0; i < listArchivos.Count(); i++)
-                   {
-                       mensaje = SendEmail(listArchivos[i].email, listArchivos[i].ruta, listArchivos[i].nombreFile);
-                   }
-               }       
+                    for (int i = 0; i < listArchivos.Count(); i++)
+                    {
+                        mensaje = SendEmail(listArchivos[i].email, listArchivos[i].ruta, listArchivos[i].nombreFile);
+                    }
+                }       
            }
            catch (Exception ex)
            {
@@ -1249,13 +1249,14 @@ namespace DSIGE.Dato
            catch (Exception ex)
            {
                mensaje = ex.Message;
+                string name = correo;
            }
            return mensaje;
        }
         
-       public string GenerarArchivoExcel(DataTable dt_detalles, string id_operario)
+       public string GenerarArchivoExcel(DataTable dt_detalles, string id_operario, int idServices)
        {
-            string nombreServicio = "LECTURAS_";
+            string nombreServicio = "";
             string _servidor ="";
             string _ruta = "";
             string Res = "";
@@ -1263,6 +1264,15 @@ namespace DSIGE.Dato
             var correo = "";
             try
             {
+                if (idServices == 1)
+                {
+                    nombreServicio = "MAIL_LECTURAS_";
+                }
+                else
+                {
+                    nombreServicio = "MAIL_RECLAMOS_";
+                }
+
                 _servidor = String.Format("{0:ddMMyyyy_hhmmss}.xlsx", DateTime.Now);
                 _ruta = HttpContext.Current.Server.MapPath("~/Temp/" + id_operario +"_"+ nombreServicio + _servidor);
 
@@ -1273,12 +1283,13 @@ namespace DSIGE.Dato
                     _file = new FileInfo(_ruta);
                 }
 
+
                 using (Excel.ExcelPackage oEx = new Excel.ExcelPackage(_file))
                 {
                     Excel.ExcelWorksheet oWs = oEx.Workbook.Worksheets.Add("DatosSuministros");
                     oWs.Cells.Style.Font.SetFromFont(new Font("Tahoma", 9));
 
-                    for (int i = 1; i <= 6; i++)
+                    for (int i = 1; i <= 7; i++)
                     {
                         oWs.Cells[1, i].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                     }
@@ -1289,13 +1300,14 @@ namespace DSIGE.Dato
                     oWs.Cells[1, 4].Value = "Direccion Lectura";
                     oWs.Cells[1, 5].Value = "Manzana";
                     oWs.Cells[1, 6].Value = "Unidad Lectura";
- 
+                    oWs.Cells[1, 7].Value = "Foto";
+
 
                     int ac = 0;
                     foreach (DataRow oBj in dt_detalles.Rows)
                     {
                         ac += 1;
-                        for (int j = 1; j <= 6; j++)
+                        for (int j = 1; j <= 7; j++)
                         {
                             oWs.Cells[_fila, j].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                         }
@@ -1315,6 +1327,8 @@ namespace DSIGE.Dato
                         oWs.Cells[_fila, 4].Value = oBj["direccion_lectura"].ToString();
                         oWs.Cells[_fila, 5].Value = oBj["Manzana"].ToString();
                         oWs.Cells[_fila, 6].Value = oBj["Unidad_Lecturas"].ToString();
+                        oWs.Cells[_fila, 7].Value = oBj["foto"].ToString();
+
                         _fila++;
                     }
                     oWs.Cells.Style.Font.Size = 8; //letra tamaño  
@@ -1323,7 +1337,7 @@ namespace DSIGE.Dato
                     oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
                     oWs.Column(1).Style.Font.Bold = true;
 
-                    for (int k = 1; k <= 6; k++)
+                    for (int k = 1; k <= 7; k++)
                     {
                         oWs.Column(k).AutoFit();
                     }

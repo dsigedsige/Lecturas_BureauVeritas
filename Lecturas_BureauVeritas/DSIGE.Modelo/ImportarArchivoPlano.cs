@@ -102,7 +102,10 @@ namespace DSIGE.Modelo
         public string lectura_minima { get; set; }
         public string estado_contrato { get; set; }
         public string lectura_inmediata_ant { get; set; }
-                
+
+        public string latitud { get; set; }
+        public string longitud { get; set; }
+
         public string nombre_ArchivoImportado { get; set; }
         public string fecha_Asignacion { get; set; }
         public string id_TipoServicio { get; set; }

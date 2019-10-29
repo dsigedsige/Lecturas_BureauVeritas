@@ -187,6 +187,16 @@
             $scope.fecha_carga = fechaActual();         
 
             $scope.searchCodigo = function () {
+
+                if ($scope.fecha_carga == '' || $scope.fecha_carga == null || $scope.fecha_carga == 0 || $scope.fecha_carga == '0') {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor seleccione la fecha de Importacion',
+                        type: 'error'
+                    });
+                    return;
+                }
+
                 if (String($scope.CodigoEMR).trim() == undefined || String($scope.CodigoEMR).trim() == '' || String($scope.CodigoEMR).trim()  == null ) {
                     return;
                 }
@@ -197,7 +207,8 @@
                         'Content-Type': 'application/json; charset=utf-8'
                     },
                     data:{
-                        codigo: String($scope.CodigoEMR).trim()
+                        codigo: String($scope.CodigoEMR).trim(),
+                        fechaCarga: $scope.fecha_carga
                     }
                 }
 
@@ -436,23 +447,26 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class=" col-xs-8 col-md-6">
-                                    <label for="txt_codigo"> Ingrese el codigo de E.M.R :</label>
-                                    <input type="text" ng-enter="searchCodigo(CodigoEMR)" class="form-control" id="txt_codigo"  ng-model="CodigoEMR" maxlength="30" autocomplete="off">
-                                </div>
-                                <div class=" col-xs-4  col-md-6 text-left">
-                                    <br />
-                                    <button class="btn btn-primary btn-sm" id="btn_verificar" ng-click="searchCodigo()"><span class="glyphicon glyphicon-refresh"></span> Verificar</button>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="col-xs-6 col-md-5">
-                                    <label   for="_usuario" class="control-label">Fecha de Carga:</label>
-                                    <div style="width: 150px;">
+                            <div class="col-md-8">
+                                <div class="col-xs-6 col-md-4">
+                                    <label for="_usuario" class="control-label">Fecha de Carga:</label>
+                                    <div style="width: 180px;">
                                         <input class="form-control julio" id="id_fecha_carga" ng-model="fecha_carga" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
                                     </div>
                                 </div>
+
+                                <div class="col-xs-6 col-md-6">
+                                    <label for="txt_codigo"> Ingrese el codigo de E.M.R :</label>
+                                    <div class="input-group">
+                                        <input type="text" ng-enter="searchCodigo(CodigoEMR)" class="form-control" id="txt_codigo" ng-model="CodigoEMR" maxlength="30" autocomplete="off">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary btn-sm" id="btn_verificar" ng-click="searchCodigo()"><span class="glyphicon glyphicon-refresh"></span> Verificar</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
                                 <div class=" col-xs-6 col-md-6">
                                     <label for="email"> Marca medidor :</label>
                                     <select class="form-control" id="id_MarcaMedidor" ng-model="id_MarcaMedidor">

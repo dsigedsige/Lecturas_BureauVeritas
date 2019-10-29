@@ -22,6 +22,14 @@ namespace DSIGE.Negocio
         }
 
 
+        public object Capa_Negocio_MostrandoActa(int idCorte, int idServicio)
+        {
+            GeneracionActas_DAO Objeto_Dato = new GeneracionActas_DAO();
+            return Objeto_Dato.Capa_Dato_MostrandoActa(idCorte, idServicio);
+        }
+
+
+
         //public object Capa_Negocio_Mostrando_informacion_general(int servicio, int operario, string fecha)
         //{
         //    GeneracionActas_DAO Objeto_Dato = new GeneracionActas_DAO();

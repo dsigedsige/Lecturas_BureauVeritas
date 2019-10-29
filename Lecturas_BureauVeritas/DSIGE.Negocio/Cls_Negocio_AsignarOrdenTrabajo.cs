@@ -697,6 +697,23 @@ namespace DSIGE.Negocio
 
         }
 
+
+        public object Capa_Negocio_cambiarfoto(int id_usuario, int idfotoLectura, string nombrefotoLectura)
+        {
+            try
+            {
+                Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
+                return Objeto_Dato.Capa_Dato_cambiarfoto(id_usuario, idfotoLectura, nombrefotoLectura);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+
+
         public string Capa_Negocio_Proceso_almacenar_lecturas_vacias(int id_usuario)
         {
             try

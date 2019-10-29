@@ -933,6 +933,7 @@ namespace DSIGE.Dato
                                     obj_entidad.id_observacionResultado_corte = Fila["id_observacionResultado_corte"].ToString();
                                     obj_entidad.id_Observacion_corte = Fila["id_Observacion_corte"].ToString();
                                     obj_entidad.id_resultadoObsCorte = Fila["id_resultadoObsCorte"].ToString();
+                                    obj_entidad.ubicacion_Medidor = Fila["ubicacion_Medidor"].ToString();
                                 }
                                 else if (id_tipo_servicio == 6)  // Repartos
                                 {
@@ -2046,7 +2047,8 @@ namespace DSIGE.Dato
                                     new Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio()
                                     {
                                         id_Lectura = Convert.ToInt32(iDr["fot_id_lectura"]),
-                                        foto = ruta + Convert.ToString(iDr["fot_nombre"])
+                                        foto = ruta + Convert.ToString(iDr["fot_nombre"]),
+                                        nombreFoto = Convert.ToString(iDr["fot_nombre"])
                                     }
                                 );
                         }
@@ -2812,6 +2814,52 @@ namespace DSIGE.Dato
             }
             return Resultado;
         }
+
+        public object Capa_Dato_cambiarfoto(int id_usuario, int idfotoLectura, string nombrefotoLectura)
+        {
+            cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+            object Resultado;
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+
+                    //cambiando el nombre de la foto en el sistema
+                    using (SqlCommand cmd = new SqlCommand("PROC_U_CAMBIAR_FOTO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+                        cmd.Parameters.Add("@idfotoLectura", SqlDbType.Int).Value = idfotoLectura;
+                        cmd.Parameters.Add("@nombrefoto", SqlDbType.VarChar).Value = nombrefotoLectura;
+
+                        cmd.ExecuteNonQuery();
+
+                        Resultado = new
+                               {
+                                   ok =  true,
+                                   mensaje = "../Content/foto/foto/" + nombrefotoLectura
+                               };
+ 
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Resultado = new
+                    {
+                        ok = false,
+                        mensaje = ex.Message
+                    };
+            }
+            return Resultado;
+        }
+
+
+ 
+
+        
 
 
         public string Capa_Dato_Proceso_Almacenar_lecturas_vacias(int id_usuario)

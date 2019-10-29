@@ -11,6 +11,7 @@ using DSIGE.Negocio;
 using System.Data.OleDb;
 using System.Data;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace DSIGE.Web.Controllers
 {
@@ -51,7 +52,7 @@ namespace DSIGE.Web.Controllers
                 file.SaveAs(fileLocation);
 
                 List<ImportarArchivoPlano> List_obj_datos = new List<ImportarArchivoPlano>();
-                 string[] lines = System.IO.File.ReadAllLines(fileLocation);
+                 string[] lines = System.IO.File.ReadAllLines(fileLocation, Encoding.Default);
                  foreach (string line in lines)
                  {
                      var arrayText = line.ToString().Split('\t'); 
@@ -118,8 +119,7 @@ namespace DSIGE.Web.Controllers
         public ActionResult saveTextToServidor_new(HttpPostedFileBase file, string fechaAsignacion, string TipoServicio)
         {
             object loDatos = null;
-            var ac = 0;
-
+ 
             try
             {
                 List<CorteTemporalCorte> oCortes = new List<CorteTemporalCorte>();
@@ -130,19 +130,12 @@ namespace DSIGE.Web.Controllers
                 file.SaveAs(fileLocation);
 
                 List<ImportarArchivoPlano_new> List_obj_datos = new List<ImportarArchivoPlano_new>();
-                string[] lines = System.IO.File.ReadAllLines(fileLocation);
+                string[] lines = System.IO.File.ReadAllLines(fileLocation,   Encoding.Default);
            
 
                 foreach (string line in lines)
                 {
                     var arrayText = line.ToString().Split('\t');
-
-                    ac += 1;
-
-                    if (ac == 8694)
-                    {
-                        ac += ac;
-                    }
 
                     ImportarArchivoPlano_new obj_entidad = new ImportarArchivoPlano_new();
                     obj_entidad.Item = arrayText[0];
@@ -189,7 +182,10 @@ namespace DSIGE.Web.Controllers
                     obj_entidad.lectura_maxima = arrayText[40];
                     obj_entidad.lectura_minima = arrayText[41];
                     obj_entidad.estado_contrato = arrayText[42];
-                    obj_entidad.lectura_inmediata_ant = arrayText[43]; 
+                    obj_entidad.lectura_inmediata_ant = arrayText[43];
+
+                    obj_entidad.latitud = arrayText[44];
+                    obj_entidad.longitud = arrayText[45];
 
                     obj_entidad.nombre_ArchivoImportado = file.FileName;
                     obj_entidad.fecha_Asignacion = fechaAsignacion;
@@ -198,7 +194,7 @@ namespace DSIGE.Web.Controllers
                     List_obj_datos.Add(obj_entidad);
                 }
 
-                ImportarArchivoPlano_BL obj_negocio = new ImportarArchivoPlano_BL(); 
+                ImportarArchivoPlano_BL obj_negocio = new ImportarArchivoPlano_BL();
                 string obj = obj_negocio.Capa_Negocio_GuardarArchivos_new(List_obj_datos, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id, ((Sesion)Session["Session_Usuario_Acceso"]).empresa.emp_id);
 
                 return new ContentResult

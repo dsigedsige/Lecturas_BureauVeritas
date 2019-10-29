@@ -24,7 +24,8 @@
 
     @Scripts.Render("~/Content/bootstrap/js/bootstrap-filestyle.min.js")
     @Scripts.Render("~/Scripts/jquery.fileDownload.js")
-    @Scripts.Render("~/Content/AnglarUpload/angular-file-upload.min.js")
+    @*@Scripts.Render("~/Content/AnglarUpload/angular-file-upload.min.js")*@
+    <script src="~/Content/angularfire/angularfire.min.js"></script>
 
     @Scripts.Render("~/Content/dataTables-bootstrap/js/jquery.dataTables.min.js")
     @Scripts.Render("~/Content/dataTables-bootstrap/js/dataTables.bootstrap.min.js")
@@ -141,6 +142,9 @@
             color: white !important;
         }
 
+        [class^="icon-"], [class*=" icon-"] {
+            font-size: 15px;
+        }
  
     </style>
 }
@@ -297,10 +301,19 @@
 
 
             var pictures = $scope.pictures = [];
-            $scope.MostrarFoto = function (idLectura, flagOpcion) {
-                $('#modalfotos').modal();
-                $('.sige-load').show();
 
+            $scope.edicionFoto = false;
+            $scope.MostrarFoto = function (idLectura, flagOpcion) {
+
+                var cbo_servicio = document.getElementById('cbo_servicio').value;
+                $('.sige-load').show();
+       
+                $scope.edicionFoto = false;
+                if (cbo_servicio == 3 || cbo_servicio == "3" || cbo_servicio == 4 || cbo_servicio == "4" ) {
+                    $scope.edicionFoto = true;
+                }
+
+                $scope.pictures = [];
                 var variables = {
                     method: 'post',
                     url: '../LecturaEnviarCliente/FotosLectura',
@@ -315,10 +328,15 @@
                 $http(variables)
                 .success(function (data) {
                     $('.sige-load').hide();
+
+                    $('#modalfotos').modal();
+
                     pictures = $scope.pictures = [];
                     for (var i = 0; i < data.length; i++) {
                         pictures.push({
+                            id_foto: data[i].id_Lectura,
                             url: data[i].foto,
+                            nombreFoto: data[i].nombreFoto,
                         });
                     }
                 })
@@ -326,6 +344,9 @@
                     alert('Lo sentimos, Ocurrio un problema, vuelva a intentar.')
                 });
             }
+
+
+
 
 
             $scope.ListaObservacionesLecturas = [];
@@ -1873,6 +1894,28 @@
 
             }
 
+
+            $scope.AbrirModal_CambiarFotos = function (objfoto) { 
+                var cbo_servicio = document.getElementById('cbo_servicio').value;
+                if (cbo_servicio == 3 || cbo_servicio == "3" || cbo_servicio == 4 || cbo_servicio == "4") {
+
+                    objFotoLecturaG = objfoto;
+                    $(":file").filestyle('clear');
+                    $scope.myFilefoto = null;
+
+                    $('#modal_cambiarFoto').modal('show');
+                } else {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Solo disponible para el servicio de Cortes o Reconexiones',
+                        type: 'error'
+                    });
+                }                             
+            }
+
+
+            $scope.myFileFoto = [];
+
             $scope.nuevaimportacion = function () {
 
                 $(":file").filestyle('clear');
@@ -1890,6 +1933,14 @@
                 }
 
             }
+
+
+            $scope.nuevaFoto = function () {
+                $(":file").filestyle('clear');
+                $scope.myFilefoto = null;
+                $('#btn_cambiarFoto').attr('disabled', false);
+            }
+
 
             $scope.uploadFile = function () {
 
@@ -2078,7 +2129,95 @@
 
                 }
             };
-                       
+
+            var objFotoLecturaG;
+
+            $scope.Actualizar_foto = function () {   
+
+                if ($scope.myFilefoto == null) {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor seleccione una imagen, para continuar',
+                        type: 'error'
+                    });
+                }
+                else {
+
+                    (new PNotify({
+                        title: 'Sistemas Confirmación ',
+                        text: 'Esta seguro que desea cambiar la Foto, una vez enviada no hay marcha atras..?',
+                        icon: 'glyphicon glyphicon-question-sign',
+                        hide: false,
+                        confirm: {
+                            confirm: true
+                        },
+                        buttons: {
+                            closer: false,
+                            sticker: false
+                        },
+                        history: {
+                            history: false
+                        }
+                    })).get().on('pnotify.confirm', function () {
+
+
+                        if (objFotoLecturaG.nombreFoto == undefined || objFotoLecturaG.nombreFoto == '' || objFotoLecturaG.nombreFoto == null) {
+                            new PNotify({
+                                title: ' ',
+                                text: 'El registro no tiene foto en la base de datos..',
+                                type: 'error'
+                            });
+                        } else {
+
+                            $('.sige-load').show();
+                            var fd = new FormData();
+                            fd.append('file', $scope.myFilefoto);
+                            fd.append('idfotoLectura', objFotoLecturaG.id_foto);
+                            fd.append('nombrefotoLectura', objFotoLecturaG.nombreFoto);
+                            $http.post('../LecturaEnviarCliente/set_cambiarfoto', fd,
+                                {
+                                    transformRequest: angular.identity,
+                                    headers: { 'Content-Type': undefined }
+                                })
+                                .success(function (data) {
+
+                                    if (data.ok == true || data == 'true') {
+                                        $scope.nuevaFoto();
+                                        $('#modal_cambiarFoto').modal('hide');
+                                        $('.sige-load').hide();
+
+                                        for (obj of $scope.pictures) {
+                                            if (obj.id_foto = objFotoLecturaG.id_foto) {
+                                                objFotoLecturaG.url = data.mensaje;
+                                            }
+                                        }
+
+                                        new PNotify({
+                                            title: 'Sistemas',
+                                            text: 'Proceso de modificacion de foto, Realizado Correctamente.',
+                                            type: 'success'
+                                        });
+
+                                    } else {
+                                        $('.sige-load').hide();
+                                        alert(data.mensaje)
+                                    }
+
+                                })
+                                .error(function () {
+                                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                                    $('.sige-load').hide();
+                                }); 
+                        } 
+
+                    }).on('pnotify.cancel', function () {
+
+                    }); 
+                    
+                }
+            };
+
+                        
             $scope.Actualizar_Lecturas_Vacias = function () {
 
                 var idfechaAsignacion = document.getElementById('dtp_fechaAsigna').value;
@@ -2892,6 +3031,8 @@
                 <h6><i class="fa fa-table fa-lg"></i> ENVIAR TRABAJOS AL CLIENTE</h6>
             </div>
             <div class="panel-body">
+ 
+
                 <div class="well" style="background: #314b75; color: white;    margin-bottom: 1px;">
                     <div class="row" style="    margin-top: -15px">
                         <div class="col-xs-12 col-sm-12 col-md-7  col-lg-7 ">
@@ -3032,22 +3173,22 @@
 
                         <div class="col-md-5">
                             @*<div class="col-xs-12 col-sm-3 col-md-4  col-lg-4 "  -------------->
-                                <div class="form-group form-group-sm">
-                                    <label class="control-label">
-                                        Fecha Asignación
-                                    </label>
-                                    <br />
-                                    <div class="input-group">
-                                        <input style=" width: 120px;" class="form-control" id="dtp_fechaAsigna" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
-                                    </div>
-                                </div>
-                            </div>*@
+                        <div class="form-group form-group-sm">
+                            <label class="control-label">
+                                Fecha Asignación
+                            </label>
+                            <br />
+                            <div class="input-group">
+                                <input style=" width: 120px;" class="form-control" id="dtp_fechaAsigna" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                            </div>
+                        </div>
+                    </div>*@
                             <div class="col-xs-12 col-sm-9 col-md-8 col-lg-8 ">
                                 <div class="form-group">
                                     <label class="control-label">
                                     </label>
                                     <br />
-                                    <button class="btn btn-sm btn-danger" ng-click="RecepcionLecturas();"><span class="glyphicon glyphicon-ok"></span> Recepcion (Solo Lectura)</button>
+                                    <button class="btn btn-sm btn-danger" ng-click="RecepcionLecturas();"><span class="glyphicon glyphicon-ok"></span> Recepcion</button>
                                     <button class="btn btn-sm btn-primary" ng-click="ListandoInformacionOrdenesTrabajo()"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>
                                 </div>
                             </div>
@@ -3174,7 +3315,7 @@
                                 <th>Fecha Corte</th>
                                 <th>Cuenta Contrato</th>
                                 <th>Medidor</th>
-                                <th>Cliente</th>
+                                <th>Ubicacion Medidor</th>
                                 <th>Lectura</th>
                                 <th>Observación</th>
                                 <th>Resultado</th>
@@ -3182,6 +3323,7 @@
                                 <th>Dirección</th>
                                 <th>Distrito</th>
                                 <th></th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -3201,7 +3343,7 @@
                                 <td>{{item.fecha_corte}}</td>
                                 <td>{{item.cuenta_contrato}}</td>
                                 <td>{{item.medidor_corte}}</td>
-                                <td>{{item.cliente}}</td>
+                                <td style="color:red">{{item.ubicacion_Medidor}}</td>
                                 <td ng-click="ModificarCortesReconexiones(item,item.lectura, 'corte_lectura');" style="cursor: pointer"><a href=" #">{{item.lectura}}</a></td>
                                 <td ng-click="ModificarCortesReconexiones(item,item.id_Observacion_corte, 'cod_observacion');" style="cursor: pointer"><a href=" #">{{item.observacion}}</a></td>
                                 <td ng-click="ModificarCortesReconexiones(item,item.id_resultadoObsCorte, 'cod_observacionResultado');" style="cursor: pointer"><a href=" #">{{item.id_observacionResultado_corte}}</a></td>
@@ -3209,6 +3351,7 @@
                                 <td>{{item.direccion}}</td>
                                 <td>{{item.distrito}}</td>
                                 <td><a data-toggle="modal" data-target="#modal-historico_CortesReconexiones" ng-click="OrdenTrabajo_Historico_CortesReconexiones(item.suministro_corte);" href="#"> Histórico</a></td>
+                  
                             </tr>
                         </tbody>
                     </table>
@@ -3313,7 +3456,7 @@
                         <div class="col-sm-12" style="text-align:center;">
                             <div class="form-group form-group-sm">
                                 @*<button class="btn btn-danger btn-sm" ng-click="AbrirModal_Importacion();"><span class="glyphicon glyphicon-list-alt"></span> Importar Archivos Lectura Manual</button>
-                                <button class="btn btn-default" ng-click="EnviarVerificacion_porcentaje()"><span class="glyphicon glyphicon-minus-sign"></span> Enviar Lecturas Observadas</button>*@
+                        <button class="btn btn-default" ng-click="EnviarVerificacion_porcentaje()"><span class="glyphicon glyphicon-minus-sign"></span> Enviar Lecturas Observadas</button>*@
                                 <button role="button" class="btn btn-warning btn-sm" ng-click="DescargarArchivos();" title="Descargar Todas Fotos"><i class="fa fa-camera fa-lg"></i> Descargar Fotos</button>
                                 <button role="button" class="btn btn-primary btn-sm" ng-click="DescargarArchivos_sinObservacion();" title="Descargar Fotos sin Observacion (Solo para Lecturas)"><span class="glyphicon glyphicon-save"></span> Fotos SinObservación</button>
 
@@ -3870,20 +4013,22 @@
         </div>
 
         <div id="modalfotos" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog" style="width: 30% !important;">
+            <div class="modal-dialog" style="width: 40% !important;">
                 <div class="panel panel-oscuro">
                     <div class="panel-heading">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> RELACION DE FOTOS </h6>
+                        <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> RELACIÓN DE FOTOS </h6>
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <div id="galeria" class="table table-responsive" style=" max-height: 520px !important;overflow: auto;">
+                            <div id="galeria" class="table table-responsive" style="max-height: 510px !important;overflow: auto;">
                                 <div class="thumbnails">
                                     <div class="col-md-12" style=" text-align:center;" ng-repeat="pic in pictures">
-                                        <a href="{{pic.url}}" data-lightbox="example-set" data-title="Fotos">
+
+                                        <a href="{{pic.url}}" target="_blank" data-lightbox="example-set" data-title="Fotos">
                                             <img class="img-thumbnail" ng-src="{{pic.url}}" style="width: 530px; height: 310px;">
-                                        </a>
+                                        </a>                       
+                                        <button class="btn  btn-sm btn-block btn-success" ng-if="edicionFoto" style=" margin-top: 10px; margin-bottom: -10px;" ng-click="AbrirModal_CambiarFotos(pic)"><span class="glyphicon glyphicon-retweet"></span> Cambiar foto</button>
                                         <hr />
                                     </div>
                                 </div>
@@ -3894,7 +4039,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
-                                    <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cerrar</button>
+                                    <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Salir</button>
                                 </div>
                             </div>
                         </div>
@@ -3902,6 +4047,9 @@
                 </div>
             </div>
         </div>
+
+
+
 
         <div id="modal_importacion" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog  modal_dsige " style="width:98%;">
@@ -4010,6 +4158,34 @@
         </div>
 
 
+ 
+
+
+        <div id="modal_cambiarFoto" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="width:600px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="exampleModalLabel"> Cambiar Foto</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-8 col-md-8  col-lg-8 ">
+                                <input id="id_seleccionFoto" type="file" style="height: 38px !important;" accept="image/x-png,image/gif,image/jpeg" class="filestyle" file-model="myFilefoto" data-placeholder="Ningun Archivo Seleccionado" data-buttonname="btn-primary" data-size="sm" data-buttonbefore="true" data-buttontext="  Seleccionar foto..">
+                            </div>
+                            <div class="col-xs-8 col-sm-4 col-md-4 col-lg-4 " style="text-align:center">
+                                <button id="btn_nuevaFoto" type="button" class="btn btn-success btn-sm" ng-click="nuevaFoto();"><i class="fa fa-file-excel-o"></i> Nuevo</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btn_cambiarFoto" type="button" class="btn btn-primary" ng-click="Actualizar_foto()"><span class="glyphicon glyphicon-floppy-disk"></span> Cambiar foto</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+
 
         <div id="modalCorteReconexion" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog" style="width:  300px !important;">
@@ -4021,9 +4197,9 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <label  for="cbo_tipoReporte" class="control-label"> Servicio :  {{nombreServicio}}</label>
-                             </div>
-                        </div> 
+                                <label for="cbo_tipoReporte" class="control-label"> Servicio :  {{nombreServicio}}</label>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <label style="width: 100px;" for="cbo_tipoReporte" class="control-label">Tipo :</label>

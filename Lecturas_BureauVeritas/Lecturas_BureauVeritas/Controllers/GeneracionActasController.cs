@@ -69,6 +69,23 @@ namespace DSIGE.Web.Controllers
         }
 
 
+        [HttpPost]
+        public string mostrandoActa(int idCorte, int idServicio)
+        {
+            object loDatos;
+            try
+            {
+                GeneracionActas_BL obj_negocio = new GeneracionActas_BL();
+                loDatos = obj_negocio.Capa_Negocio_MostrandoActa(idCorte, idServicio);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
+
+
 
 
 
