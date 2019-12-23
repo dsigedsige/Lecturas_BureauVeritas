@@ -2723,9 +2723,6 @@
 
             $scope.KeyDown_Lectura = function (keyEvent, obj_datos, id_enfoque) {
                 if (keyEvent.which === 13) {
-
- 
-
                    var variables = {
                         method: 'post',
                        url: '../LecturaEnviarCliente/Proceso_Actualizar_lecturas',
@@ -3455,8 +3452,8 @@
                     <div class="panel-body" style="height: 40px;">
                         <div class="col-sm-12" style="text-align:center;">
                             <div class="form-group form-group-sm">
-                                @*<button class="btn btn-danger btn-sm" ng-click="AbrirModal_Importacion();"><span class="glyphicon glyphicon-list-alt"></span> Importar Archivos Lectura Manual</button>
-                        <button class="btn btn-default" ng-click="EnviarVerificacion_porcentaje()"><span class="glyphicon glyphicon-minus-sign"></span> Enviar Lecturas Observadas</button>*@
+                                <button class="btn btn-danger btn-sm" ng-click="AbrirModal_Importacion();"><span class="glyphicon glyphicon-list-alt"></span> Importar Archivos Lectura Manual</button>
+                                @*<button class="btn btn-default" ng-click="EnviarVerificacion_porcentaje()"><span class="glyphicon glyphicon-minus-sign"></span> Enviar Lecturas Observadas</button>*@
                                 <button role="button" class="btn btn-warning btn-sm" ng-click="DescargarArchivos();" title="Descargar Todas Fotos"><i class="fa fa-camera fa-lg"></i> Descargar Fotos</button>
                                 <button role="button" class="btn btn-primary btn-sm" ng-click="DescargarArchivos_sinObservacion();" title="Descargar Fotos sin Observacion (Solo para Lecturas)"><span class="glyphicon glyphicon-save"></span> Fotos SinObservación</button>
 
@@ -4092,7 +4089,7 @@
                         <div class="row" id="form_cabecera" style="display:none">
                             <div class="col-md-12 col-sm-12 col-lg-12">
                                 <div class="form-group">
-                                    <table id="tbl_alertas" class="table table-condensed table-bordered table-responsive" cellspacing="0" style="font-family: tahoma; font-size: 10px;">
+                                    <table id="tbl_alertas" class="table table-condensed table-bordered table-responsive" cellspacing="0" style="font-family: tahoma;margin-bottom: 0px; font-size: 10px;">
                                         <thead style="background:#F0F3F5;">
                                             <tr>
                                                 <th>#</th>

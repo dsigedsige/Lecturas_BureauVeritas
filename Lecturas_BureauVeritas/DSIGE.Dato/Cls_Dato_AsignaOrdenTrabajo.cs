@@ -1074,6 +1074,7 @@ namespace DSIGE.Dato
                                     obj_entidad.Comentario = Convert.ToString(Fila["Comentario"]);
                                     obj_entidad.CodigoLector = Convert.ToString(Fila["CodigoLector"]);
                                     obj_entidad.desplazamiento = Convert.ToString(Fila["desplazamiento"]);
+                                    obj_entidad.tieneFoto = Convert.ToString(Fila["tieneFoto"]);                                    
 
                                 }
                                 else if (id_tipo_servicio == 3)
@@ -2824,8 +2825,6 @@ namespace DSIGE.Dato
                 using (SqlConnection cn = new SqlConnection(cadenaCnx))
                 {
                     cn.Open();
-
-                    //cambiando el nombre de la foto en el sistema
                     using (SqlCommand cmd = new SqlCommand("PROC_U_CAMBIAR_FOTO", cn))
                     {
                         cmd.CommandTimeout = 0;
@@ -2856,12 +2855,6 @@ namespace DSIGE.Dato
             return Resultado;
         }
 
-
- 
-
-        
-
-
         public string Capa_Dato_Proceso_Almacenar_lecturas_vacias(int id_usuario)
         {
             cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
@@ -2871,8 +2864,6 @@ namespace DSIGE.Dato
                 using (SqlConnection cn = new SqlConnection(cadenaCnx))
                 {
                     cn.Open();
-
-                    //using (SqlCommand cmd = new SqlCommand("SP_U_I_SUMINISTROS_MANUAL_VACIAS", cn))
                     using (SqlCommand cmd = new SqlCommand("SP_U_I_SUMINISTROS_MANUAL_VACIAS_V2", cn))
                     {
                         cmd.CommandTimeout = 0;
@@ -2889,9 +2880,7 @@ namespace DSIGE.Dato
             }
             return Resultado;
         }
-
-
-
+               
         public List<Cls_Entidad_AsignaOrdenTrabajo.Observaciones> Capa_Dato_Get_ListaObservaciones(int TipoServicio)
         {
             try
@@ -2932,9 +2921,7 @@ namespace DSIGE.Dato
                 throw ex;
             }
         }
-
-
-
+               
         public string Capa_Dato_set_anulandoFoto(int id_lectura, int id_usuario)
         {
             var Resultado = "";
@@ -2963,9 +2950,7 @@ namespace DSIGE.Dato
             }
             return Resultado;
         }
-
-
-
+               
         public List<Cls_Entidad_AsignaOrdenTrabajo.Observaciones> Capa_Dato_Get_Alertas_lecturas(string fecha_asignacion, int id_usuario)
         {
             try
@@ -2976,8 +2961,6 @@ namespace DSIGE.Dato
                 using (SqlConnection cn = new SqlConnection(cadenaCnx))
                 {
                     cn.Open();
-
-                    //using (SqlCommand cmd = new SqlCommand("SP_S_ENVIAR_TRABAJO_CLIENTE_ALERTAS", cn))
                     using (SqlCommand cmd = new SqlCommand("SP_S_ENVIAR_TRABAJO_CLIENTE_ALERTAS_II", cn))
                     {
                         cmd.CommandTimeout = 0;
@@ -3009,6 +2992,9 @@ namespace DSIGE.Dato
                                 obj_entidad.resultado = Fila["resultado"].ToString();
                                                                
                                 ListObservaciones.Add(obj_entidad);
+
+                                /// t 
+
                             }
                         }
                     }
@@ -3021,8 +3007,7 @@ namespace DSIGE.Dato
                 throw ex;
             }
         }
-
-        
+                
         public List<Cls_Entidad_AsignaOrdenTrabajo.VisualizarPendiente> Capa_Dato_ListandoLectura_Seguimiento(int id_local, int id_servicio, string fechainicial, string fechafinal, int id_usuario)
         {
             try
@@ -3043,9 +3028,7 @@ namespace DSIGE.Dato
                         cmd.Parameters.Add("@fechainicial", SqlDbType.VarChar).Value = fechainicial;
                         cmd.Parameters.Add("@fechafinal", SqlDbType.VarChar).Value = fechafinal;
                         cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
-      
-
-
+                              
                         DataTable dt_detalle = new DataTable();
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                         {
@@ -3074,8 +3057,7 @@ namespace DSIGE.Dato
                 throw ex;
             }
         }
-
-
+        
         public string Capa_Negocio_ListandoFotosDescargar_seguimiento(int local, int servicio, string fecha, string option, int id_usuario)
         {
             var resultado = "";
@@ -3347,9 +3329,7 @@ namespace DSIGE.Dato
             }
             return Res;
         }
-
-
-
+               
         public List<Cls_Entidad_AsignaOrdenTrabajo.Servicios> Capa_Dato_Get_ListaSupervisor()
         {
             try
@@ -4091,7 +4071,210 @@ namespace DSIGE.Dato
                 throw;
             }
             return dt_detalle;
+        }                     
+        
+
+        public object Capa_Dato_get_ultimoCodigoEmr(int usuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("PROC_S_ULTIMO_COD_EMR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = usuario;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
         }
+
+        public object Capa_Dato_download_grandesClientes(int estado, string fecha_inicial, string fecha_final, string codigoEmr, int id_usuario)
+        {
+
+            string resultado;
+            string nombreFile = id_usuario + "_registroTomaLecturas_GrandesClientes.xlsx";
+
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_LECTURA_GRANDES_CLIENTES", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@estado", SqlDbType.Int).Value = estado;
+                        cmd.Parameters.Add("@fecha_inicial", SqlDbType.VarChar).Value = fecha_inicial;
+                        cmd.Parameters.Add("@fecha_final", SqlDbType.VarChar).Value = fecha_final;
+                        cmd.Parameters.Add("@codigoEmr", SqlDbType.VarChar).Value = codigoEmr;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                            if (dt_detalle.Rows.Count <= 0)
+                            {
+                                resultado = "0|No hay informacion disponible";
+                            }
+                            else
+                            {
+                                resultado = GenerarArchivoExcel_grandesClientes(dt_detalle, nombreFile, "grandesClientes");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado = "0|" + ex.Message;
+            }
+            return resultado;
+        }
+
+
+        public string GenerarArchivoExcel_grandesClientes(DataTable dt_detalles, string nombreFile, string nombreExcel)
+        {
+            string _ruta = "";
+            string Res = "";
+            int _fila = 11;
+            string ruta_descarga = ConfigurationManager.AppSettings["Archivos"];
+
+            try
+            {
+                _ruta = HttpContext.Current.Server.MapPath("~/Temp/" + nombreFile);
+
+                FileInfo _file = new FileInfo(_ruta);
+                if (_file.Exists)
+                {
+                    _file.Delete();
+                    _file = new FileInfo(_ruta);
+                }
+
+                using (Excel.ExcelPackage oEx = new Excel.ExcelPackage(_file))
+                {
+                    Excel.ExcelWorksheet oWs = oEx.Workbook.Worksheets.Add(nombreExcel);
+                    oWs.Cells.Style.Font.SetFromFont(new Font("Tahoma", 8));
+
+                                       
+                    oWs.Cells[4, 1, 4, 14].Merge = true;  // combinar celdaS dt
+                    oWs.Cells[4, 1].Value = "REGISTRO DE TOMA DE LECTURA DE MEDIDORES - GRANDES CLIENTES";
+                    oWs.Cells[4, 1].Style.Font.Size = 15; //letra tamaño  
+                    oWs.Cells[4, 1].Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
+                    oWs.Cells[4, 1].Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
+                    oWs.Cells[4, 1].Style.Font.Bold = true; //Letra negrita
+
+
+                    for (int i = 1; i <= 14; i++)
+                    {
+                        oWs.Cells[9, i].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        oWs.Cells[10, i].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    }
+
+                    oWs.Cells[9, 1, 9, 7].Merge = true;  // combinar celdaS dt
+                    oWs.Cells[9, 1].Value = "PUNTO DE LECTURA";
+                    oWs.Cells[9, 1].Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
+                    oWs.Cells[9, 1].Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
+                    oWs.Cells[9, 1].Style.Font.Bold = true; //Letra negrita
+
+                    oWs.Cells[9, 8].Value = "MEDIDOR";
+                    oWs.Cells[9, 8].Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
+                    oWs.Cells[9, 8].Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
+                    oWs.Cells[9, 8].Style.Font.Bold = true; //Letra negrita
+
+                    oWs.Cells[9, 9, 9, 13].Merge = true;  // combinar celdaS dt
+                    oWs.Cells[9, 9].Value = "CORRECTOR";
+                    oWs.Cells[9, 9].Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
+                    oWs.Cells[9, 9].Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
+                    oWs.Cells[9, 9].Style.Font.Bold = true; //Letra negrita
+
+
+
+                    oWs.Cells[10, 1].Value = "NRO";
+                    oWs.Cells[10, 2].Value = "CODIGO ERM";
+                    oWs.Cells[10, 3].Value = "NOMBRE DEL CLIENTE";
+                    oWs.Cells[10, 4].Value = "FECHA";
+                    oWs.Cells[10, 5].Value = "HORA";
+
+                    oWs.Cells[10, 6].Value = "NIVEL DE LEL(%) ";
+                    oWs.Cells[10, 7].Value = "PRESIÓN ENTRADA(BAR)";
+                    oWs.Cells[10, 8].Value = "CONTADOR MECÁNICO(m3)";
+                    oWs.Cells[10, 9].Value = "VOL.ACC.SIN CORREGIR(m3)";
+
+                    oWs.Cells[10, 10].Value = "VOL.ACC.CORREGIDO(Std m3)";
+                    oWs.Cells[10, 11].Value = "PRESIÓN(Bara)";
+
+                    oWs.Cells[10, 12].Value = "TEMP.(ºC)";
+                    oWs.Cells[10, 13].Value = "TIEMPO BATERÍA(Días/%)";
+                    oWs.Cells[10, 14].Value = "OBSERVACIONES";
+ 
+
+                    int ac = 0;
+                    foreach (DataRow oBj in dt_detalles.Rows)
+                    {
+                        ac += 1;
+
+                        oWs.Cells[_fila, 1].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                        oWs.Cells[_fila, 1].Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center; // alinear texto  
+                        oWs.Cells[_fila, 1].Value = ac;
+
+                        oWs.Cells[_fila, 2].Value = oBj["codigo_erm"].ToString();
+                        oWs.Cells[_fila, 3].Value = oBj["nombre_cliente"].ToString();
+                        oWs.Cells[_fila, 4].Value = oBj["fecha"].ToString();
+                        oWs.Cells[_fila, 5].Value = oBj["hora"].ToString();
+
+                        oWs.Cells[_fila, 6].Value = oBj["nivelel_porc"].ToString();
+                        oWs.Cells[_fila, 7].Value = oBj["presion_entrada_bar"].ToString();
+                        oWs.Cells[_fila, 8].Value = oBj["contador_mecanico_m3"].ToString();
+                        oWs.Cells[_fila, 9].Value = oBj["vol_acc_sin_corregir_m3"].ToString();
+
+                        oWs.Cells[_fila, 10].Value = oBj["vol_acc_corregido_std_m3"].ToString();
+                        oWs.Cells[_fila, 11].Value = oBj["presion_bara"].ToString();
+
+                        oWs.Cells[_fila, 12].Value = oBj["temp"].ToString();
+                        oWs.Cells[_fila, 13].Value = oBj["tiempo_bateria_dias"].ToString();
+                        oWs.Cells[_fila, 14].Value = oBj["observaciones"].ToString();
+
+                        _fila++;
+                    }
+
+                    oWs.Row(10).Style.Font.Bold = true;
+                    oWs.Row(10).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
+                    oWs.Row(10).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
+                    oWs.Column(1).Style.Font.Bold = true;
+
+                    for (int k = 1; k <= 14; k++)
+                    {
+                        oWs.Column(k).AutoFit();
+                    }
+                    oEx.Save();
+                }
+
+                Res = "1|" + ruta_descarga + nombreFile;
+            }
+            catch (Exception ex)
+            {
+                Res = "0|" + ex.Message;
+            }
+            return Res;
+        }
+
+
+
 
         public object Capa_Dato_get_grandesClientes_detalle(int Id_GrandeCliente)
         {

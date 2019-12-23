@@ -544,6 +544,9 @@ namespace DSIGE.Web.Controllers
 
         //nuevo formato
 
+
+
+
         public string DescargaExcel_PreEnvio_CortesReconexiones(int id_local, int id_tipo_servicio, int estado, string suministro, string medidor, int tecnico, string fechaAsignacion, int id_supervisor, int id_operario_supervisor)
         {
             Int32 _fila = 2;
@@ -630,6 +633,7 @@ namespace DSIGE.Web.Controllers
                                         oWs.Cells[1, 23].Value = "HORA";
                                         oWs.Cells[1, 24].Value = "LECTURA ";
                                         oWs.Cells[1, 25].Value = "IMPOSIBILIDAD ";
+                                        oWs.Cells[1, 26].Value = "OBSERVACION ";
 
                                         foreach (DataRow oBj in dt_detalle.Rows)
                                         {
@@ -668,6 +672,8 @@ namespace DSIGE.Web.Controllers
                                             oWs.Cells[_fila, 23].Value = oBj["hora"].ToString();
                                             oWs.Cells[_fila, 24].Value = oBj["lectura"].ToString();
                                             oWs.Cells[_fila, 25].Value = oBj["imposibilidad"].ToString();
+                                            oWs.Cells[_fila, 26].Value = oBj["Observacion_corte"].ToString();
+
                                             _fila++;
                                         }
 
@@ -677,7 +683,7 @@ namespace DSIGE.Web.Controllers
 
 
 
-                                        for (int i = 1; i <= 25; i++)
+                                        for (int i = 1; i <= 26; i++)
                                         {
                                             oWs.Column(i).AutoFit();
                                         }
@@ -727,6 +733,7 @@ namespace DSIGE.Web.Controllers
                                         oWs.Cells[1, 26].Value = "LECTURA ";
                                         oWs.Cells[1, 27].Value = "IMPOSIBILIDAD ";
                                         oWs.Cells[1, 28].Value = "NOMBRE DEL CLIENTE";
+                                        oWs.Cells[1, 29].Value = "OBSERVACION ";
 
                                         foreach (DataRow oBj in dt_detalle.Rows)
                                         {
@@ -769,6 +776,7 @@ namespace DSIGE.Web.Controllers
                                             oWs.Cells[_fila, 26].Value = oBj["lectura"].ToString();
                                             oWs.Cells[_fila, 27].Value = oBj["imposibilidad"].ToString();
                                             oWs.Cells[_fila, 28].Value = oBj["nombreCliente"].ToString();
+                                            oWs.Cells[_fila, 29].Value = oBj["Observacion_corte"].ToString();
 
                                             _fila++;
                                         }
@@ -777,7 +785,7 @@ namespace DSIGE.Web.Controllers
                                         oWs.Row(1).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
                                         oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
 
-                                        for (int i = 1; i <= 28; i++)
+                                        for (int i = 1; i <= 29; i++)
                                         {
                                             oWs.Column(i).AutoFit();
                                         }
@@ -1033,14 +1041,6 @@ namespace DSIGE.Web.Controllers
         }
 
 
-
-
-
-
-
-
-
-
         [HttpPost]
         public string DescargaExcel_PreEnvio(int id_local, int id_tipo_servicio, int estado, string suministro, string medidor, int tecnico, string fechaAsignacion, int  id_supervisor, int id_operario_supervisor)
         {
@@ -1087,6 +1087,7 @@ namespace DSIGE.Web.Controllers
                         oWs.Cells[1, 12].Value = "COMENTARIO";
                         oWs.Cells[1, 13].Value = "CODIGO DE LECTOR";
                         oWs.Cells[1, 14].Value = "DESPLAZAMIENTO";
+                        oWs.Cells[1, 15].Value = "FOTO";
 
                         int acu = 0;
 
@@ -1117,6 +1118,8 @@ namespace DSIGE.Web.Controllers
                             oWs.Cells[_fila, 13].Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center; // alinear texto 
 
                             oWs.Cells[_fila, 14].Value = oBj.desplazamiento;
+                            oWs.Cells[_fila, 15].Value = oBj.tieneFoto;
+                            
                             _fila++;
                         }
 

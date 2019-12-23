@@ -458,7 +458,7 @@ namespace DSIGE.Web.Controllers
             }
         }
 
-
+        ///
 
 
         [HttpPost]
@@ -486,7 +486,9 @@ namespace DSIGE.Web.Controllers
             }
         }
 
+       
 
+               
         [HttpPost]
         public string Lecturas_Detallado(int idServ, int idtecnico, string distrito)
         {

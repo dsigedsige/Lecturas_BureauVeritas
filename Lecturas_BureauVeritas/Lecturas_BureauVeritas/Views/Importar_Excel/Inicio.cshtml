@@ -332,14 +332,14 @@
                             $scope.show_otros = false;
                             $scope.showClientes = false;
                         } else {///----actualizando
-                            $scope.show_Lectura = true;
+                            $scope.show_Lectura = false;
                             $scope.show_otros = false;
-                            $scope.showReclamos = false;
+                            $scope.showReclamos = true;
                             $scope.showClientes = false;
                         }
                     }
 
-                    if (idServicio == 9) {
+                    if (idServicio == 9) { /// solo reclamos --
 
                         var name = "";
                         if (cbo_opcion == 1) {///----cargando
@@ -626,9 +626,6 @@
                 }
 
                 var params = {};
-
-
-
                 var ruta = '';
                 if (idServicio == 1 || idServicio == '1') {
                     params = {
@@ -784,10 +781,9 @@
                     btn_Guardar.disabled = true;
                     cancel.click();
 
-                }).error(function () {
-
+                }).error(function (error) {
                     $('.sige-load').hide();
-                    alert('Ocurrio un problema, vuelva a intentar.')
+                    alert(error)
                 });
 
             }

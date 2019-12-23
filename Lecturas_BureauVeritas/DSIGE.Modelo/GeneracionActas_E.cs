@@ -59,6 +59,8 @@ namespace DSIGE.Modelo
         public string motivo_cliente_ausente { get; set; }
         public string motivo_cliente_impide { get; set; }
         public string motivo_cliente_otros { get; set; }
+        public string motivo_cliente_otros_check { get; set; }
+        
         public string primera_visita_recone { get; set; }
         public string proxima_visita_fecha_check { get; set; }        
         public string proxima_visita_fecha { get; set; }

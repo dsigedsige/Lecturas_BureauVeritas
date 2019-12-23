@@ -187,7 +187,7 @@
                         //$scope.ListaEstados = data;
                         $scope.ListaEstados = [];
                         for (obj of data) {
-                            if (obj.id_Estado == 3 || obj.id_Estado == 5) {
+                            if (obj.id_Estado == 3 || obj.id_Estado == 5 || obj.id_Estado == 7) {
                                 $scope.ListaEstados.push(obj);
                             }
                         }
@@ -267,6 +267,83 @@
                         $('.sige-load').hide();
                     });
             }
+                                 
+
+            $scope.descargar_grandesClientes = function () {
+                var id_link = document.getElementById('id_link');
+                var cbo_estado = document.getElementById('cbo_estado').value;
+                var fecha_inicial = document.getElementById('dtp_fechaAsigna_inicial').value;
+                var fecha_final = document.getElementById('dtp_fechaAsigna_final').value;
+                var txt_codigoEmr = document.getElementById('txt_codigoEmr').value;
+
+                if (cbo_estado == '' || cbo_estado == '0' || cbo_estado == 0) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccione un Estado de la Lectura',
+                        type: 'error'
+                    });
+                    return;
+                }
+                if (fecha_inicial == '' || fecha_inicial == '0' || fecha_inicial == 0) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccione la fecha inicial de asignacion',
+                        type: 'error'
+                    });
+                    return;
+                }
+                if (fecha_final == '' || fecha_final == '0' || fecha_final == 0) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccione la fecha final de asignacion',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                $('.sige-load').show();
+                var variables = {
+                    method: 'POST',
+                    url: '../Lectura_grandesClientes/download_grandesClientes',
+
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        estado: cbo_estado,
+                        fecha_inicial: fecha_inicial,
+                        fecha_final: fecha_final,
+                        codigoEmr: txt_codigoEmr
+                    }
+                }
+                $http(variables)
+                    .success(function (data) {
+ 
+                        $('.sige-load').hide();
+                        var res = data.split("|");
+                        if (res[0].replace(/["]/gi, '') == 0 || res[0].replace(/["]/gi, '') == "0") {
+                            new PNotify({
+                                title: 'Sistemas',
+                                text: 'No hay información para mostrar.',
+                                type: 'success'
+                            });
+                        } else if (res[0].replace(/["]/gi, '') == -1 || res[0].replace(/["]/gi, '') == "-1") {
+                            alert(res[1]);
+                        }
+                        else {
+                            let url = res[1].replace(/["]/gi, '');
+                            id_link.href = res[1].replace(/["]/gi, '');
+                            id_link.click();
+                        }
+                    })
+                    .error(function () {
+                        alert('Lo sentimos, Ocurrio un problema, vuelva a intentar.')
+                        $scope.list_grandesClientes = [];
+                        $('.sige-load').hide();
+                    });
+            }
+
+
 
             function SavePhoto(item) {
                 var nameFoto = item.nombreFoto.split("_");
@@ -433,6 +510,7 @@
                 $http(variables)
                     .success(function (data) {
                         $('.sige-load').hide();
+                        console.log(data);
                         var res = data.split("|");
                         if (res[0].replace(/["]/gi, '') == "0" || res[0].replace(/["]/gi, '') == 0) {
                             alert(res[1]);
@@ -454,10 +532,42 @@
                 $scope.descargarFile(tipo);
             }
 
-            
 
 
-        })
+            $scope.listandoUltimoCodigoEmr = function () {
+
+                var txt_codigoEmr = document.getElementById('txt_codigoEmr');
+                $('.sige-load').show();
+                var variables = {
+                    method: 'POST',
+                    url: '../Lectura_grandesClientes/get_ultimoCodigoEmr',
+
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                }
+                $http(variables)
+                    .success(function (data) {
+                        $('.sige-load').hide();
+                        if (data.length > 0) {
+                            setTimeout(function () {
+                                txt_codigoEmr.value = data[0].CodigoEMR
+                            }, 500);
+                        } else {
+                            setTimeout(function () {
+                                txt_codigoEmr.value = "";
+                            }, 500);
+                        }
+                    })
+                  .error(function () {
+                        alert('Lo sentimos, Ocurrio un problema, vuelva a intentar.')
+                        setTimeout(function () {
+                            txt_codigoEmr.value = "";
+                        }, 500);
+                        $('.sige-load').hide();
+                });
+            }
+         })
 
     </script>
 }
@@ -471,7 +581,7 @@
         <div class="panel-body">
             <div class="well" style="background: #314b75; color: white;    margin-bottom: 1px;">
                 <div class="row" style="    margin-top: -17px;  margin-bottom: -10px;">
-                    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                         <div class="col-sm-6 col-md-4">
                             <label class="control-label"> Estados</label>
                             <select id="cbo_estado" class="form-control">
@@ -488,17 +598,20 @@
                                 <span class="input-group-addon">-</span>
                                 <input class="form-control" id="dtp_fechaAsigna_final" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
                             </div>
+                            <a id="id_link" href="" download style="display:none">link</a>
                         </div>
                     </div>
 
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                        <div class="col-md-6">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <div class=" col-xs-4 col-sm-4 col-md-4">
                             <label class="control-label"> Codigo E.M.R </label>
-                            <input id="txt_codigoEmr" type="text" class="form-control" maxlength="30" />
+                            <input id="txt_codigoEmr" type="text" style="width:150px;" class="form-control" maxlength="30" />
                         </div>
-                        <div class="col-md-6" style="text-align:center">
+                        <div class="col-xs-8 col-sm-8 col-md-8" style="text-align:center">
                             <br />
-                            <button class="btn btn-primary btn-sm" ng-click="listando_grandesClientes()"><span class="glyphicon glyphicon-refresh"></span> Actualizar</button>
+                            <button class="btn btn-primary btn-sm" ng-click="listando_grandesClientes()"><span class="glyphicon glyphicon-refresh"></span> Actualiza</button>
+                            <button class="btn btn-danger btn-sm" ng-click="listandoUltimoCodigoEmr()" title="Obtener el Último Codigo EMR"><span class="glyphicon glyphicon-upload"></span> EMR</button>
+                            <button class="btn btn-success btn-sm" ng-click="descargar_grandesClientes()"><span class="glyphicon glyphicon-download-alt"></span> Descarga</button>
                         </div>
                     </div>
 

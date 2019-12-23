@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
@@ -21,7 +22,7 @@ namespace Lecturas_BureauVeritas.Controllers
 
 
         /// <summary>
-        /// SERIALIZACION DE JSONPROPERTY
+        /// SERIALIZACION DE JSONPROPERTY d 
         /// </summary>
         /// <param name="value"></param>
         /// <param name="ignore"></param>
@@ -41,12 +42,10 @@ namespace Lecturas_BureauVeritas.Controllers
         [HttpPost]
         public string get_marcaMedidor()
         {
-
             object loDatos;
             try
             {
                 Cls_Negocio_Importacion_Lecturas objeto_negocio = new Cls_Negocio_Importacion_Lecturas();
-                //loDatos = objeto_negocio.Capa_Negocio_PermisoListUsuarioServicio(((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
                 loDatos = objeto_negocio.Capa_Negocio_get_marcaMedidor();
 
             }
@@ -54,26 +53,22 @@ namespace Lecturas_BureauVeritas.Controllers
             {
                 throw ex;
             }
-
             return _Serialize(loDatos, true);
         }
 
         [HttpPost]
         public string get_buscarCodigoEmr(string codigo, string fechaCarga)
         {
-
             object loDatos;
             try
             {
                 Cls_Negocio_Importacion_Lecturas objeto_negocio = new Cls_Negocio_Importacion_Lecturas();
                 loDatos = objeto_negocio.Capa_Negocio_buscarCodigoEMr(codigo, fechaCarga);
-
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
             return _Serialize(loDatos, true);
         }
 
@@ -89,8 +84,23 @@ namespace Lecturas_BureauVeritas.Controllers
                 object loDatos = null;
                 int resFile = 0;
 
+                var nombrefile = System.IO.Path.GetFileName(file.FileName);
+                string extension = System.IO.Path.GetExtension(file.FileName);
+                string correlativo = String.Format("{0:ddMMyyyy_hhmmss}", DateTime.Now);
+                string nombreUrl = "";
+
+
+                if ((nombrefile).ToUpper().Contains("D"))
+                {
+                    nombreUrl = CodigoEMR + " D-" + correlativo + extension;
+                }
+                else {
+                    nombreUrl = CodigoEMR + "-" + correlativo + extension;
+                }
+
+
                 Cls_Negocio_Importacion_Lecturas objeto_negocio = new Cls_Negocio_Importacion_Lecturas();
-                resFile = objeto_negocio.Capa_Negocio_grabarGrandesClienteFile(Id_GrandeCliente, CodigoEMR, file.FileName, file.FileName, id_marcaMedidor, fechaCarga, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+                resFile = objeto_negocio.Capa_Negocio_grabarGrandesClienteFile(Id_GrandeCliente, CodigoEMR, file.FileName, nombreUrl, id_marcaMedidor, fechaCarga, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
                 
                 if (resFile > 0)
                 {
@@ -102,29 +112,11 @@ namespace Lecturas_BureauVeritas.Controllers
                         loDatos = "No se pudo guardar el archivo : ";
                     }
                     else {
-                        loDatos = "OK";
-
-
-                        //metodo para poder descargar el archivo...
-                        //string rutaArchivo = "1";
-                        //string nombre_File = "añoNuevo.jpg";
-                        //string nombreArchivoReal = "";
-
-                        //nombreArchivoReal = rutaArchivo.Replace(rutaArchivo, nombre_File);
-
-                        //string rutaOrig = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_GrandesClientes/" + rutaArchivo);
-                        //string rutaDest = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_GrandesClientes/Descargas/" + nombreArchivoReal);
-
-                        //if (System.IO.File.Exists(rutaDest)) //--- restaurarlo
-                        //{
-                        //    System.IO.File.Delete(rutaDest);
-                        //    System.IO.File.Copy(rutaOrig, rutaDest);
-                        //}
-                        //else {
-                        //    System.IO.File.Copy(rutaOrig, rutaDest);
-                        //}                      
+                        loDatos = "OK";                    
                     }
-                }                
+                }
+
+                Thread.Sleep(1000);
                 ////_rutaServer = ConfigurationManager.AppSettings["servidor-archivos"];
                 return _Serialize(loDatos, true);
 

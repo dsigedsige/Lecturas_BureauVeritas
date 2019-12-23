@@ -162,6 +162,7 @@ namespace DSIGE.Dato
                                     obj_entidad.motivo_cliente_impide = Fila["motivo_cliente_impide"].ToString();
 
                                     obj_entidad.motivo_cliente_otros = Fila["motivo_cliente_otros"].ToString();
+                                    obj_entidad.motivo_cliente_otros_check = Fila["motivo_cliente_otros_check"].ToString();
                                     obj_entidad.primera_visita_recone = Fila["primera_visita_recone"].ToString();
                                     obj_entidad.proxima_visita_fecha_check = Fila["proxima_visita_fecha_check"].ToString();
                                     obj_entidad.proxima_visita_fecha = Fila["proxima_visita_fecha"].ToString();

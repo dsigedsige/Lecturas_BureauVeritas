@@ -31,8 +31,6 @@ namespace DSIGE.Web.Controllers
             return JsonConvert.SerializeObject(value, Formatting.Indented, SerializerSettings);
         }
 
-
-
         [HttpPost]
         public string ListandoDiasTrabajo()
         {
@@ -48,10 +46,7 @@ namespace DSIGE.Web.Controllers
                 throw ex;           
             }                     
         }
-
-
-
-
+                       
         [HttpPost]
         public string ListandoOperario()
         {
@@ -70,7 +65,7 @@ namespace DSIGE.Web.Controllers
         }
 
 
-        // guardando la Data
+        // guardando la Data 
 
         [HttpPost]
         public string GuardandoInformacion( int id_dia, int  id_Operario , string NombreDia, string  HoraEntrada, string HoraSalida, int  estado, int  id_Local,  string Tipo_Mant)

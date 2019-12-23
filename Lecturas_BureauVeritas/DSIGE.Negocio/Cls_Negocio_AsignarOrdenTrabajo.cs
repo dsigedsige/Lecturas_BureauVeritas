@@ -183,6 +183,35 @@ namespace DSIGE.Negocio
                 throw e;
             }
         }
+                       
+
+        public object Capa_Negocio_get_ultimoCodigoEmr(int idusuario)
+        {
+            try
+            {
+                Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
+                return Objeto_Dato.Capa_Dato_get_ultimoCodigoEmr(idusuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+        public object Capa_Negocio_download_grandesClientes(int estado, string fecha_inicial, string fecha_final, string codigoEmr, int id_usuario)
+        {
+            try
+            {
+                Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
+                return Objeto_Dato.Capa_Dato_download_grandesClientes(estado, fecha_inicial, fecha_final, codigoEmr, id_usuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
 
         public object Capa_Negocio_getGrandesClientes_detalle(int Id_GrandeCliente)
         {

@@ -519,16 +519,17 @@
                     return;
                 }
 
-                if (cbo_servicio.value == 1 || cbo_servicio.value == '1') {
-                    if (cbo_supervisor == '' || cbo_supervisor == '-1' || cbo_supervisor == -1) {
-                        new PNotify({
-                            title: 'Sistemas',
-                            text: 'Por favor seleccione un supervisor',
-                            type: 'error'
-                        });
-                        return;
-                    }
-                }
+                //if (cbo_servicio.value == 1 || cbo_servicio.value == '1') {
+                //    if (cbo_supervisor == '' || cbo_supervisor == '-1' || cbo_supervisor == -1) {
+                //        new PNotify({
+                //            title: 'Sistemas',
+                //            text: 'Por favor seleccione un supervisor',
+                //            type: 'error'
+                //        });
+                //        return;
+                //    }
+                //}
+
                 $('.sige-load').show();
 
                 var variables = {
@@ -596,14 +597,7 @@
                 return;
             }
 
-            if (cbo_servicio != 1 || cbo_servicio != '1') {
-                new PNotify({
-                    title: 'Sistemas',
-                    text: 'Solo para Lecturas y Re-lecturas.',
-                    type: 'error'
-                });
-                return;
-            }
+ 
 
             $('.sige-load').show();
             var variables = {

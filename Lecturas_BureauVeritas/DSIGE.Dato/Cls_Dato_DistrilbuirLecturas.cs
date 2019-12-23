@@ -26,7 +26,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Data.OleDb;
-
+using System.Threading;
 
 namespace DSIGE.Dato
 {
@@ -1187,9 +1187,10 @@ namespace DSIGE.Dato
                     for (int i = 0; i < listArchivos.Count(); i++)
                     {
                         mensaje = SendEmail(listArchivos[i].email, listArchivos[i].ruta, listArchivos[i].nombreFile);
+                        Thread.Sleep(1000);
                     }
-                }       
-           }
+                }
+            }
            catch (Exception ex)
            {
                mensaje = ex.Message;
@@ -1238,11 +1239,12 @@ namespace DSIGE.Dato
                        UserName = "lecturas.bureauveritas@gmail.com",
                        Password = "Lecturas2019"
                    };
-                   smtp.Credentials = credential;
-                   smtp.Host = "smtp.gmail.com";
-                   smtp.Port = 587;
-                   smtp.EnableSsl = true;
-                   smtp.Send(message);
+                    smtp.Host = "smtp.gmail.com";
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = credential;
+                    smtp.Port = 587;
+                    smtp.EnableSsl = true;
+                    smtp.Send(message);
                }
                mensaje = "OK";
            }
@@ -1254,7 +1256,7 @@ namespace DSIGE.Dato
            return mensaje;
        }
         
-       public string GenerarArchivoExcel(DataTable dt_detalles, string id_operario, int idServices)
+       public string GenerarArchivoExcel_reclamos(DataTable dt_detalles, string id_operario, int idServices)
        {
             string nombreServicio = "";
             string _servidor ="";
@@ -1301,6 +1303,8 @@ namespace DSIGE.Dato
                     oWs.Cells[1, 5].Value = "Manzana";
                     oWs.Cells[1, 6].Value = "Unidad Lectura";
                     oWs.Cells[1, 7].Value = "Foto";
+
+
 
 
                     int ac = 0;
@@ -1353,8 +1357,120 @@ namespace DSIGE.Dato
             return Res;       
        }
 
-       public string Capa_Dato_GuardarArchivo(HttpPostedFileBase file, int idlocal, string fechaAsignacion, int idServicio, int idusuario , string fecha_lectura)
-       {
+
+
+        public string GenerarArchivoExcel(DataTable dt_detalles, string id_operario, int idServices)
+        {
+            string nombreServicio = "";
+            string _servidor = "";
+            string _ruta = "";
+            string Res = "";
+            int _fila = 2;
+            var correo = "";
+            try
+            {
+                if (idServices == 1)
+                {
+                    nombreServicio = "MAIL_LECTURAS_";
+                }
+                else
+                {
+                    nombreServicio = "MAIL_RECLAMOS_";
+                }
+
+                _servidor = String.Format("{0:ddMMyyyy_hhmmss}.xlsx", DateTime.Now);
+                _ruta = HttpContext.Current.Server.MapPath("~/Temp/" + id_operario + "_" + nombreServicio + _servidor);
+
+                FileInfo _file = new FileInfo(_ruta);
+                if (_file.Exists)
+                {
+                    _file.Delete();
+                    _file = new FileInfo(_ruta);
+                }
+
+
+                using (Excel.ExcelPackage oEx = new Excel.ExcelPackage(_file))
+                {
+                    Excel.ExcelWorksheet oWs = oEx.Workbook.Worksheets.Add("DatosSuministros");
+                    oWs.Cells.Style.Font.SetFromFont(new Font("Tahoma", 9));
+
+                    for (int i = 1; i <= 10; i++)
+                    {
+                        oWs.Cells[1, i].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    }
+
+                    oWs.Cells[1, 1].Value = "#";
+                    oWs.Cells[1, 2].Value = "Medidor Lecturas";
+                    oWs.Cells[1, 3].Value = "Lecturas";
+                    oWs.Cells[1, 4].Value = "Direccion Lectura";
+                    oWs.Cells[1, 5].Value = "Manzana";
+                    oWs.Cells[1, 6].Value = "Unidad Lectura";
+                    oWs.Cells[1, 7].Value = "Foto";
+
+                    oWs.Cells[1, 8].Value = "Nota de lectura";
+                    oWs.Cells[1, 9].Value = "Observacion";
+                    oWs.Cells[1, 10].Value = "Suministro";
+
+
+                    int ac = 0;
+                    foreach (DataRow oBj in dt_detalles.Rows)
+                    {
+                        ac += 1;
+                        for (int j = 1; j <= 10; j++)
+                        {
+                            oWs.Cells[_fila, j].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        }
+
+                        oWs.Cells[_fila, 1].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                        oWs.Cells[_fila, 1].Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center; // alinear texto  
+                        oWs.Cells[_fila, 1].Value = ac;
+
+                        correo = oBj["email_operario"].ToString();
+
+                        oWs.Cells[_fila, 2].Value = oBj["medidor_lectura"].ToString();
+
+                        oWs.Cells[_fila, 3].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                        oWs.Cells[_fila, 3].Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center; // alinear texto
+                        oWs.Cells[_fila, 3].Value = "";
+
+                        oWs.Cells[_fila, 4].Value = oBj["direccion_lectura"].ToString();
+                        oWs.Cells[_fila, 5].Value = oBj["Manzana"].ToString();
+                        oWs.Cells[_fila, 6].Value = oBj["Unidad_Lecturas"].ToString();
+                        oWs.Cells[_fila, 7].Value = oBj["foto"].ToString();
+
+                        oWs.Cells[_fila, 8].Value = "";
+                        oWs.Cells[_fila, 9].Value = "";
+                        oWs.Cells[_fila, 10].Value = oBj["suministro_lectura"].ToString();
+
+                        _fila++;
+                    }
+                    oWs.Cells.Style.Font.Size = 8; //letra tamaño  
+                    oWs.Row(1).Style.Font.Bold = true;
+                    oWs.Row(1).Style.HorizontalAlignment = Style.ExcelHorizontalAlignment.Center;
+                    oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
+                    oWs.Column(1).Style.Font.Bold = true;
+
+                    for (int k = 1; k <= 10; k++)
+                    {
+                        oWs.Column(k).AutoFit();
+                    }
+                    oEx.Save();
+                }
+
+                Res = correo + "|" + _ruta + "|" + id_operario + "_" + nombreServicio + _servidor;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Res;
+        }
+
+
+ 
+
+        public string Capa_Dato_GuardarArchivo(HttpPostedFileBase file, int idlocal, string fechaAsignacion, int idServicio, int idusuario , string fecha_lectura)
+        {
            DataTable dt = new DataTable();
            string mensaje = "";
            try
@@ -1431,22 +1547,21 @@ namespace DSIGE.Dato
                    if (validarCod == "")
                    {
                        int Cnssql = 0;
-                        //using (SqlCommand cmd = new SqlCommand("SP_U_SUMINISTROS_MANUAL_II", con))
                         using (SqlCommand cmd = new SqlCommand("SP_U_SUMINISTROS_MANUAL_V2", con))
                         {
-                           cmd.CommandTimeout = 0;
-                           cmd.CommandType = CommandType.StoredProcedure;
-                           cmd.Parameters.Add("@idlocal", SqlDbType.Int).Value = idlocal;
-                           cmd.Parameters.Add("@fechaAsignacion", SqlDbType.VarChar).Value = fechaAsignacion;
-                           cmd.Parameters.Add("@idServicio", SqlDbType.Int).Value = idServicio;
-                           cmd.Parameters.Add("@idusuario", SqlDbType.Int).Value = idusuario;
-                           cmd.Parameters.Add("@fecha_lectura", SqlDbType.VarChar).Value = fecha_lectura;
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Add("@idlocal", SqlDbType.Int).Value = idlocal;
+                            cmd.Parameters.Add("@fechaAsignacion", SqlDbType.VarChar).Value = fechaAsignacion;
+                            cmd.Parameters.Add("@idServicio", SqlDbType.Int).Value = idServicio;
+                            cmd.Parameters.Add("@idusuario", SqlDbType.Int).Value = idusuario;
+                            cmd.Parameters.Add("@fecha_lectura", SqlDbType.VarChar).Value = fecha_lectura;
                             Cnssql = cmd.ExecuteNonQuery();
-                       }
+                        }
 
-                       if (Cnssql == 0)
+                        if (Cnssql == 0)
                        {
-                           mensaje =  "1|No se encontro informacion para Actualizar, ó verifique los filtros (Local, Fecha asignacion, Servicio)";
+                           mensaje =  "1|No se encontro información para Actualizar, ó verifique los filtros (Fecha asignacion, Servicio)";
                        }
                        else
                        {

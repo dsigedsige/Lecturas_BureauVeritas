@@ -46,6 +46,23 @@ namespace Lecturas_BureauVeritas.Controllers
             }
         }
 
+        [HttpPost]
+        public string download_grandesClientes(int estado, string fecha_inicial, string fecha_final, string codigoEmr)
+        {
+            object loDatos;
+            try
+            {
+                Cls_Negocio_AsignarOrdenTrabajo obj_negocio = new Cls_Negocio_AsignarOrdenTrabajo();
+                loDatos = obj_negocio.Capa_Negocio_download_grandesClientes(estado, fecha_inicial, fecha_final, codigoEmr, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
+
+
 
         [HttpPost]
         public string get_grandesClientes_detalle(int Id_GrandeCliente)
@@ -88,6 +105,23 @@ namespace Lecturas_BureauVeritas.Controllers
             {
                 Cls_Negocio_AsignarOrdenTrabajo obj_negocio = new Cls_Negocio_AsignarOrdenTrabajo();
                 loDatos = obj_negocio.Capa_negocio_get_download_grandesClientes(Id_GrandeCliente, tipo, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
+
+
+        [HttpPost]
+        public string get_ultimoCodigoEmr()
+        {
+            object loDatos;
+            try
+            {
+                Cls_Negocio_AsignarOrdenTrabajo obj_negocio = new Cls_Negocio_AsignarOrdenTrabajo();
+                loDatos = obj_negocio.Capa_Negocio_get_ultimoCodigoEmr(((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
                 return _Serialize(loDatos, true);
             }
             catch (Exception ex)
