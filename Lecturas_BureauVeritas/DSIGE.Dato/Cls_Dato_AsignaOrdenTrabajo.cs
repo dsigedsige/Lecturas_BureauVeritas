@@ -343,9 +343,7 @@ namespace DSIGE.Dato
             }
             return Resultado;
         }
-
-
-                       
+                                      
         public List<Cls_Entidad_AsignaOrdenTrabajo.Observaciones> Capa_Dato_Get_ObservacionesLecturas()
         {
             try
@@ -425,9 +423,7 @@ namespace DSIGE.Dato
                 throw ex;
             }
         }
-
-
-
+               
         public List<Cls_Entidad_AsignaOrdenTrabajo.Observaciones> Capa_Dato_Get_ObservacionesCortesResultado()
         {
             try
@@ -914,7 +910,6 @@ namespace DSIGE.Dato
                                 }
                                 else if (id_tipo_servicio == 3 || id_tipo_servicio == 4) //---Cortes y Reconexiones
                                 {
-
                                     obj_entidad.checkeado = false;
                                     obj_entidad.id_Lectura = Convert.ToInt32(Fila["id_Lectura"]);
                                     obj_entidad.orden = Fila["orden"].ToString();
@@ -2718,16 +2713,7 @@ namespace DSIGE.Dato
             }
             return Resultado;
         }
-
-
-
-
-
-
-
-
-
-
+                                    
         public string Capa_Dato_Proceso_Verificacion_Porcentaje(string ListaLecturas, int servicio)
         {
             cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
@@ -4145,8 +4131,7 @@ namespace DSIGE.Dato
             }
             return resultado;
         }
-
-
+        
         public string GenerarArchivoExcel_grandesClientes(DataTable dt_detalles, string nombreFile, string nombreExcel)
         {
             string _ruta = "";
@@ -4272,10 +4257,7 @@ namespace DSIGE.Dato
             }
             return Res;
         }
-
-
-
-
+                     
         public object Capa_Dato_get_grandesClientes_detalle(int Id_GrandeCliente)
         {
             DataTable dt_detalle = new DataTable();
@@ -4420,8 +4402,6 @@ namespace DSIGE.Dato
             return ruta_descarga;
         }
 
-
-
         public string comprimir_Files(List<download> list_download, int usuario_creacion, int tipo)
         {
             string resultado = "";
@@ -4474,9 +4454,6 @@ namespace DSIGE.Dato
             }
             return resultado;
         }
-
-
-
 
         public object Capa_Dato_get_grandesClientes_detalleFile(int Id_GrandeCliente)
         {

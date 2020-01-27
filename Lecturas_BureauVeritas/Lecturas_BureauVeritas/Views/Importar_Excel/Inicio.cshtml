@@ -79,6 +79,10 @@
             background-color: #333 !important;
             color: white !important;
         }
+
+ 
+
+ 
     </style>
 }
 
@@ -145,10 +149,15 @@
         });
 
         $(function () {
-            $('#_fechaEnvioMovil ,#dtp_fechaRecojo , #dtp_fechaMaxima').datepicker({
+            $('#_fechaEnvioMovil ,#dtp_fechaRecojo ').datepicker({
                 format: 'dd/mm/yyyy',
                 language: 'es',
                 autoclose: true
+            });
+
+            $("#dtp_fechaMaxima").datepicker({
+                format: 'dd/mm/yyyy',
+                language: 'es',
             });
         });
 
@@ -1189,7 +1198,7 @@
 <body>
 
     <div ng-app="MyApp" ng-controller="MyController">
-        <div class="panel panel-oscuro">
+        <div class="panel panel-oscuro " style="    margin-top: -13px;">
             <div class="panel-heading">
                 <h6><i class="fa fa-table fa-lg"></i> IMPORTAR ARCHIVOS</h6>
             </div>
@@ -1261,7 +1270,7 @@
                 <br />
 
                 <div class="form-group">
-                    <div class="table-responsive" style="height:500px">
+                    <div class="table-responsive" style="height:250px">
                         <table id="tblLista" class="table  table-bordered table-responsive" cellspacing="0" width="100%">
                             <thead style="background:#F0F3F5;">
                                 <tr ng-if="show_Lectura">
@@ -1308,11 +1317,6 @@
                                     <td>{{item.unidad_lectura}}</td>
                                     <td>{{item.nombre_UnidadLectura}}</td>
                                     <td>{{item.total}}</td>
-                                    @*<td align="center">
-                                        <button type="button" class="btn btn-default btn-xs" ng-click="getPdf(item)">
-                                            <span class="glyphicon glyphicon-list"></span> Ver Reporte
-                                        </button>
-                                    </td>*@
                                 </tr>
                                 <tr ng-if="showReclamos" ng-repeat="item in Lista_Lecturas_Temporal">
                                     <td>{{$index + 1}}</td>
@@ -1344,7 +1348,7 @@
                 <div class="form-group">
                     <div class="col-sm-12 col-md-offset-5" style=" padding-top: 20px; ">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento">
- 
+
                             <button id="btn_guardar" disabled="disabled" role="button" class="btn btn-primary" ng-click="abrirModal_Asignacion();"><i class="fa fa-save fa-lg"></i> Guardar</button>
                             <button class="btn btn-success" ng-click="enviarCorreo();" title="Valido para Cortes-Reconexiones"><span class="glyphicon glyphicon-envelope"></span> Enviar Correo</button>
                             <button class="btn btn-info" ng-click="generarRepartoPdf();" title="Valido para Cortes-Reconexiones"><span class="glyphicon glyphicon-list-alt"></span> Generar Impresion Reparto</button>
@@ -1431,7 +1435,7 @@
 
 
         <div id="modal-asignacion" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog" style="width: 370px;">
+            <div class="modal-dialog" style="width: 300px !important">
                 <div class="panel panel-oscuro">
                     <div class="panel-heading">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -1462,16 +1466,14 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="txt_cantidadRecibos" class="control-label">Cantidad Recibos</label>
-                                    <input input type="number" id="txt_cantidadRecibos"  onkeypress="return filterFloat(event,this);" class="form-control" />
-
-                                    
+                                    <input input type="number" id="txt_cantidadRecibos" onkeypress="return filterFloat(event,this);" class="form-control" />
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="dtp_fechaMaxima" class="control-label">Fecha Max. Entrega</label>
-                                    <input class="form-control" id="dtp_fechaMaxima" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                    <input class="form-control julio" id="dtp_fechaMaxima" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
                                 </div>
                             </div>
 
@@ -1479,20 +1481,7 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label style="width: 100px;" for="cbo_ciclo" class="control-label">Ciclo Facturacion :</label>
-                                    @* <select class="form-control" id="cbo_ciclo">
-                                        <option value="0" selected="selected"> [ SELECCIONE ] </option>
-                                        <option value="1"> 1 </option>
-                                        <option value="2"> 2 </option>
-                                        <option value="3"> 3 </option>
-                                        <option value="4"> 4 </option>
-                                        <option value="5"> 5 </option>
-                                        <option value="6"> 6 </option>
-                                        <option value="7"> 7 </option>
-                                        <option value="8"> 8 </option>
-                                        <option value="9"> 9 </option>
-                                        <option value="10"> 10 </option>
-                                    </select>*@
+                                    <label for="cbo_ciclo" class="control-label">Ciclo Facturacion :</label>
                                     <input input type="text" id="cbo_ciclo" class="form-control" />
                                 </div>
                             </div>
@@ -1505,7 +1494,8 @@
                                 <input class="form-control" id="_fecha" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
                             </div>
                         </div>
-
+                        <br />
+                        <hr />
                         <div class="panel-footer">
                             <div class="row">
                                 <div class="col-sm-12">
@@ -1521,6 +1511,12 @@
                 </div>
             </div>
         </div>
+
+
+
+
+
+
 
         <div id="modal-envioAppMovil" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog">

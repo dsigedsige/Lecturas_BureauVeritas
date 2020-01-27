@@ -237,14 +237,8 @@ namespace DSIGE.Negocio
             {
                 throw e;
             }
-        }
-
-
-        
-
-
-
-
+        }  
+                     
         public object Capa_Negocio_getGrandesClientes_detalleFile(int Id_GrandeCliente)
         {
             try

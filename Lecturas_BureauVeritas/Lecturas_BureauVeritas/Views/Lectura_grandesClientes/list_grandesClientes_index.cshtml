@@ -731,26 +731,51 @@
                                             <div class="col-md-12">
                                                 <ul class="list-group" ng-repeat="item in list_detalle " style="color:#7991a5">
                                                     <li class="list-group-item list-group-item-warning">
-                                                        <p style="margin-bottom: 1px; display: contents;">% Mezcla explosiva :  {{item.mezcla_explosiva_porc}} </p>
+                                                        <p style="margin-bottom: 1px; display: contents;">% Mezcla explosiva : </p> <b>{{item.mezcla_explosiva_porc}}</b>
+                                                        <span ng-if=" '' === item.mezcla_explosiva_porc_foto" class="badge"></span>
+                                                        <span ng-if=" '' !=  item.mezcla_explosiva_porc_foto" class="badge">
+                                                            <a class="example-image-link" href="{{item.mezcla_explosiva_porc_foto}}" data-lightbox="example-1">ver</a>
+                                                        </span>
                                                     </li>
+
                                                     <li class="list-group-item list-group-item-warning">
-                                                        Valor nanometrico de presion de entrada : {{item.valor_nanometrico_presion_entrada}}  
+                                                        <p style="margin-bottom: 1px; display: contents;">Toma de lectura :    </p> <b>{{item.toma_lectura}}</b>
+                                                        <span ng-if=" '' === item.toma_de_lectura_foto" class="badge"></span>
+                                                        <span ng-if=" '' !=  item.toma_de_lectura_foto" class="badge">
+                                                            <a class="example-image-link" href="{{item.toma_de_lectura_foto}}" data-lightbox="example-1">ver</a>
+                                                        </span>
+                                                    </li>
+
+                                                    <li class="list-group-item list-group-item-warning">
+                                                        <p style="margin-bottom: 1px; display: contents;">Valor nanometrico de presion de entrada :   </p> <b>{{item.valor_nanometrico_presion_entrada}}</b>
                                                         <span ng-if=" '' === item.valor_nanometrico_presion_entrada_Foto" class="badge"></span>
                                                         <span ng-if=" '' !=  item.valor_nanometrico_presion_entrada_Foto" class="badge">
                                                             <a class="example-image-link" href="{{item.valor_nanometrico_presion_entrada_Foto}}" data-lightbox="example-1">ver</a>
                                                         </span>
-
                                                     </li>
+
                                                     <li class="list-group-item list-group-item-warning">
-                                                        <p style="margin-bottom: 1px; display: contents;"> Valor de volumen sin corregir de la unidad correctora : {{item.valor_volumen_corregir_unidad_correctora}}  </p>
-                                                        <span ng-if=" '' === item.valor_volumen_corregir_unidad_Foto" class="badge"></span>
-                                                        <span ng-if=" '' !=  item.valor_volumen_corregir_unidad_Foto" class="badge">
-                                                            <a class="example-image-link" href="{{item.valor_volumen_corregir_unidad_Foto}}" data-lightbox="example-1">ver</a>
+                                                        <p style="margin-bottom: 1px; display: contents;">Marca medidor :   </p> <b>{{item.marca_medidor}}</b>
+                                                    </li>
+
+                                                    <li class="list-group-item list-group-item-warning">
+                                                        <p style="margin-bottom: 1px;display: contents;">Foto descargada </p>
+                                                        <span ng-if=" '' === item.foto_Descargada" class="badge"></span>
+                                                        <span ng-if=" '' !=  item.foto_Descargada" class="badge">
+                                                            <a class="example-image-link" href="{{item.foto_Descargada}}" data-lightbox="example-1"> ver</a>
                                                         </span>
                                                     </li>
 
                                                     <li class="list-group-item list-group-item-warning">
-                                                        <p style="margin-bottom: 1px;display: contents;">Valor de volumen sin corregir del medidor : {{item.valor_volumen_corregir_medidor}}  </p>
+                                                        <p style="margin-bottom: 1px;display: contents;">Foto display malograda </p>
+                                                        <span ng-if=" '' === item.foto_disPlayMalogrado" class="badge"></span>
+                                                        <span ng-if=" '' !=  item.foto_disPlayMalogrado" class="badge">
+                                                            <a class="example-image-link" href="{{item.foto_disPlayMalogrado}}" data-lightbox="example-1"> ver</a>
+                                                        </span>
+                                                    </li>
+
+                                                    <li class="list-group-item list-group-item-warning">
+                                                        <p style="margin-bottom: 1px;display: contents;">Valor de volumen sin corregir del medidor :  </p> <b>{{item.valor_volumen_corregir_medidor}} </b>
                                                         <span ng-if=" '' === item.valor_volumen_corregir_Foto" class="badge"></span>
                                                         <span ng-if=" '' !=  item.valor_volumen_corregir_Foto" class="badge">
                                                             <a class="example-image-link" href="{{item.valor_volumen_corregir_Foto}}" data-lightbox="example-1"> ver</a>
@@ -758,50 +783,64 @@
                                                     </li>
 
                                                     <li class="list-group-item list-group-item-warning">
-                                                        <p style="margin-bottom: 1px;display: contents;">Valor de volumen  registrador de la unidad correctora : {{item.valor_volumen_registrador_unidad_correctora}} </p>
+                                                        <p style="margin-bottom: 1px; display: contents;"> Valor de volumen sin corregir de la unidad correctora :  </p><b>{{item.valor_volumen_corregir_unidad_correctora}} </b>
+                                                        <span ng-if=" '' === item.valor_volumen_corregir_unidad_Foto" class="badge"></span>
+                                                        <span ng-if=" '' !=  item.valor_volumen_corregir_unidad_Foto" class="badge">
+                                                            <a class="example-image-link" href="{{item.valor_volumen_corregir_unidad_Foto}}" data-lightbox="example-1">ver</a>
+                                                        </span>
+                                                    </li>
+
+                                                    <li class="list-group-item list-group-item-warning">
+                                                        <p style="margin-bottom: 1px;display: contents;">Valor de volumen  registrador de la unidad correctora : </p> <b>{{item.valor_volumen_registrador_unidad_correctora}}</b>
                                                         <span ng-if=" '' === item.valor_volumen_registrador_unidad_correctora_Foto" class="badge"></span>
                                                         <span ng-if=" '' !=  item.valor_volumen_registrador_unidad_correctora_Foto" class="badge">
                                                             <a class="example-image-link" href="{{item.valor_volumen_registrador_unidad_correctora_Foto}}" data-lightbox="example-1"> ver</a>
                                                         </span>
                                                     </li>
-
                                                     <li class="list-group-item list-group-item-warning">
-                                                        <p style="margin-bottom: 1px;display: contents;">Valor de la presion de medicion de UC :  {{item.valor_presion_medicion_uc}} </p>
+                                                        <p style="margin-bottom: 1px;display: contents;">Valor de la presion de medicion de UC :  </p> <b> {{item.valor_presion_medicion_uc}}</b>
                                                         <span ng-if=" '' === item.valor_presion_medicion_uc_Foto" class="badge"></span>
                                                         <span ng-if=" '' !=  item.valor_presion_medicion_uc_Foto" class="badge">
                                                             <a class="example-image-link" href="{{item.valor_presion_medicion_uc_Foto}}" data-lightbox="example-1"> ver</a>
                                                         </span>
                                                     </li>
                                                     <li class="list-group-item list-group-item-warning">
-                                                        <p style="margin-bottom: 1px;display: contents;">Valor de la temperatura de medicion  de la UC : {{item.valor_temperatura_medicion_uc}} </p>
+                                                        <p style="margin-bottom: 1px;display: contents;">Valor de la temperatura de medicion  de la UC :  </p> <b>{{item.valor_temperatura_medicion_uc}}</b>
                                                         <span ng-if=" '' === item.valor_temperatura_medicion_uc_Foto" class="badge"></span>
                                                         <span ng-if=" '' !=  item.valor_temperatura_medicion_uc_Foto" class="badge">
                                                             <a class="example-image-link" href="{{item.valor_temperatura_medicion_uc_Foto}}" data-lightbox="example-1"> ver</a>
                                                         </span>
                                                     </li>
+
                                                     <li class="list-group-item list-group-item-warning">
-                                                        <p style="margin-bottom: 1px;display: contents;">Tiempo de vida de la bateria : {{item.tiempo_vida_bateria}}</p>
+                                                        <p style="margin-bottom: 1px;display: contents;">Tiempo de vida de la bateria : </p> <b>{{item.tiempo_vida_bateria}} </b>
                                                         <span ng-if=" '' === item.tiempo_vida_bateria_Foto" class="badge"></span>
                                                         <span ng-if=" '' !=  item.tiempo_vida_bateria_Foto" class="badge">
                                                             <a class="example-image-link" href="{{item.tiempo_vida_bateria_Foto}}" data-lightbox="example-1"> ver</a>
                                                         </span>
                                                     </li>
                                                     <li class="list-group-item list-group-item-warning">
-                                                        <p style="margin-bottom: 1px;display: contents;">Foto panoramica :</p>
+                                                        <p style="margin-bottom: 1px;display: contents;">Foto panoramica </p>
                                                         <span ng-if=" '' === item.foto_panoramica" class="badge"></span>
                                                         <span ng-if=" '' !=  item.foto_panoramica" class="badge">
                                                             <a class="example-image-link" href="{{item.foto_panoramica}}" data-lightbox="example-1"> ver</a>
                                                         </span>
                                                     </li>
                                                     <li class="list-group-item list-group-item-warning">
-                                                        <p style="margin-bottom: 1px;display: contents;">Tiene gabinete tememetria : {{item.tiene_gabinete_tememetria}}</p>
+                                                        <p style="margin-bottom: 1px;display: contents;">Tiene gabinete tememetria : </p> <b>{{item.tiene_gabinete_tememetria}} </b>
                                                         <span ng-if=" '' === item.tiene_gabinete_tememetria_Foto" class="badge"></span>
                                                         <span ng-if=" '' !=  item.tiene_gabinete_tememetria_Foto" class="badge">
                                                             <a class="example-image-link" href="{{item.tiene_gabinete_tememetria_Foto}}" data-lightbox="example-1"> ver</a>
                                                         </span>
                                                     </li>
                                                     <li class="list-group-item list-group-item-warning">
-                                                        <p style="margin-bottom: 1px;display: contents;">Presente cliente : {{item.presente_cliente}}</p>
+                                                        <p style="margin-bottom: 1px;display: contents;">Presente cliente : </p> <b>{{item.presente_cliente}}</b>
+                                                    </li>
+                                                    <li class="list-group-item list-group-item-warning">
+                                                        <p style="margin-bottom: 1px;display: contents;">Nombre Contacto : </p> <b>{{item.nombre_contacto}}</b>
+                                                    </li>
+                                                    <li class="list-group-item list-group-item-warning">
+                                                        <p style="margin-bottom: 1px;display: contents;">Comentario : </p> <b>{{item.comentario}}</b>
                                                     </li>
                                                 </ul>
                                             </div>

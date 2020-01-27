@@ -88,14 +88,15 @@ namespace Lecturas_BureauVeritas.Controllers
                 string extension = System.IO.Path.GetExtension(file.FileName);
                 string correlativo = String.Format("{0:ddMMyyyy_hhmmss}", DateTime.Now);
                 string nombreUrl = "";
-
-
+                
                 if ((nombrefile).ToUpper().Contains("D"))
                 {
-                    nombreUrl = CodigoEMR + " D-" + correlativo + extension;
+                    //nombreUrl = CodigoEMR + " D-" + correlativo + extension;
+                    nombreUrl = CodigoEMR + " D" + extension;
                 }
                 else {
-                    nombreUrl = CodigoEMR + "-" + correlativo + extension;
+                    //nombreUrl = CodigoEMR + "-" + correlativo + extension;
+                    nombreUrl = CodigoEMR  + extension;
                 }
 
 
