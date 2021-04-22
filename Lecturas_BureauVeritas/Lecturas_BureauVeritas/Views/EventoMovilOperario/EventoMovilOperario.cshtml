@@ -68,6 +68,10 @@
         th {
         text-align: center;  
         }
+        .Julio table, th {
+            background-color: #333 !important;
+            color: white !important;
+        }
     </style>
 }
 
@@ -263,20 +267,8 @@
                 }
             }
             $http(req).then(function (result) {
-                //$scope.listacomboServicios = result.data;
-                //console.log(result.data)
-
-                //if (result.data.length == $scope.listacomboServicios[0].cantidad) {
-
-                //    $scope.listacomboServicios.push({ nombre_tiposervicio: "TODOS", id_TipoServicio: '0' });
-                //    // $scope.id_tipoServicio = '0';
-                //    $scope.listacomboServicios = result.data;
-                //}
-                //else {
-                //    $scope.listacomboServicios = result.data;
-                //}
-                for (value of result.data) {
-                    if (value.id_TipoServicio == 1 || value.id_TipoServicio == 2 || value.id_TipoServicio == 3 || value.id_TipoServicio == 4) {
+                 for (value of result.data) {
+                     if (value.id_TipoServicio == 1 || value.id_TipoServicio == 2 || value.id_TipoServicio == 3 || value.id_TipoServicio == 4 || value.id_TipoServicio == 6) {
                         $scope.listacomboServicios.push(value);
                     }
                 }

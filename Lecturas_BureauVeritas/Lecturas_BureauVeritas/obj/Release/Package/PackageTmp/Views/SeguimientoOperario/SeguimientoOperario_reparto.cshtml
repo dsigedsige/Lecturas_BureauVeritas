@@ -1179,9 +1179,6 @@
                             if (checkOperario == false && checkSuministro == true && checkTrazabilidad == false) {
                                 funct_mover_mapa_especifico(results[0].geometry.location.lat(), results[0].geometry.location.lng());
                             }
-                                              
-
-                            //console.log('Coordenadas:   ' + results[0].geometry.location.lat() + ', ' + results[0].geometry.location.lng());
                             var icono = '';
                             var titulo = ''
                             var ContenidoMarker = '';
@@ -1190,7 +1187,7 @@
                             ContenidoMarker += '<tr><td><strong>Dirección</strong></td><td>: ' + info._o + '</td></tr>';
                             ContenidoMarker += '<tr><td><strong>Operador</strong></td><td>: ' + info._f + '</td></tr>';
                             ContenidoMarker += '<tr><td><strong>Cliente</strong></td><td>: ' + info._p + ' </td></tr>';
-                            //ContenidoMarker += '<tr><td><strong>Fecha Hora</strong></td><td>: ' + info._u + ' </td></tr>';
+                            ContenidoMarker += '<tr><td><strong>Fecha Hora</strong></td><td>: ' + info._u + ' </td></tr>';
                             if (info._r == 'SI') {
                                 ContenidoMarker += '<tr><td colspan="2" style="text-align:center;"><strong><a onclick="galeriaFotos(' + info._l + ');" href="#">Ver Foto</a></strong></td></tr>';
                             }
@@ -1251,7 +1248,7 @@
                 ContenidoMarker += '<tr><td><strong>Operador</strong></td><td>: ' + info._f + '</td></tr>';
                 ContenidoMarker += '<tr><td><strong>Cliente</strong></td><td>: ' + info._p + ' </td></tr>';
                 //ContenidoMarker += '<tr><td><strong>Lectura</strong></td><td>: ' + info._q + ' </td></tr>';
-                //ContenidoMarker += '<tr><td><strong>Fecha Hora</strong></td><td>: ' + info._u + ' </td></tr>';
+                ContenidoMarker += '<tr><td><strong>Fecha Hora</strong></td><td>: ' + info._u + ' </td></tr>';
                 if (info._r == 'SI') {
                     ContenidoMarker += '<tr><td colspan="2" style="text-align:center;"><strong><a onclick="galeriaFotos(' + info._l + ');" href="#">Ver Foto</a></strong></td></tr>';
                 }

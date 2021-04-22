@@ -167,6 +167,11 @@
                 });
             })
 
+
+            setTimeout(function () {
+                $("select").select2();
+            }, 300);
+
             oTable = null;
 
 
@@ -723,8 +728,12 @@
             $scope.ReasignarOperador = function () {
                 var cbo_tecnicoReasignar = document.getElementById('cbo_tecnicoReasignar');
                 var _fechaReasignaOperador = document.getElementById('_fechaReasignaOperador');
+
                 cbo_tecnicoReasignar.value = 0;
                 _fechaReasignaOperador.value = FechaActualSistema();
+                setTimeout(function () {
+                    $('#cbo_tecnicoReasignar').val(0).trigger('change');
+                }, 300);
             }
 
             $scope.updReasignaOperador = function (Tipo) {
@@ -849,7 +858,7 @@
                                     Local
                                 </label>
                                 <br />
-                                <select id="cbo_local" class="form-control" ng-model="id_local" ng-change="Tecnico_Change(id_tipoServicio);">
+                                <select id="cbo_local"  ng-model="id_local" ng-change="Tecnico_Change(id_tipoServicio);">
                                     <option value=0>--[ Seleccione ]-- </option>
                                     <option ng-repeat="item in ListaLocales" value="{{item.loc_id}}">
                                         {{item.loc_nombre}}
@@ -864,7 +873,7 @@
                                     Servicios
                                 </label>
                                 <br />
-                                <select id="cbo_servicio" class="form-control" ng-model="id_tipoServicio" ng-change="Tecnico_Change(id_tipoServicio); Servicios_Change(id_tipoServicio);">
+                                <select id="cbo_servicio"  style="width:95%;" ng-model="id_tipoServicio" ng-change="Tecnico_Change(id_tipoServicio); Servicios_Change(id_tipoServicio);">
                                     <option value=0>--[ Seleccione ]-- </option>
                                     <option ng-repeat="item in ListaServicios" value="{{item.id_TipoServicio}}">
                                         {{item.nombre_tiposervicio}}
@@ -879,7 +888,7 @@
                                     Estados
                                 </label>
                                 <br />
-                                <select id="cbo_estado" class="form-control">
+                                <select id="cbo_estado"  style="width:95%;"  >
                                     <option value=0>--[ Seleccione ]-- </option>
                                     <option ng-repeat="item in ListaEstados" value="{{item.id_Estado}}">
                                         {{item.descripcion_estado}}
@@ -919,7 +928,7 @@
                                     Técnico Asignado
                                 </label>
                                 <br />
-                                <select id="cbo_tecnico" class="form-control">
+                                <select id="cbo_tecnico"  style="width:95%;" >
                                     <option value=0>--[ Todos ]-- </option>
                                     <option ng-repeat="item in ListaTecnico" value="{{item.ope_id}}">
                                         {{item.ope_nombre}}
@@ -1032,18 +1041,18 @@
                             <th>Distrito</th>
                             <th>UL</th>
                             <th>Apellidos Nombres del Lector</th>
-                            <th>Grand Total</th>
+                            @*<th>Grand Total</th>
                             <th>Count</th>
                             <th>Accion</th>
-                            <th>Resultado de Corte</th>
+                            <th>Resultado de Corte</th>*@
                             <th>Fecha de Corte</th>
-                            <th>Mes de Corte</th>
-                            <th>Hora de Corte</th>
+                            @*<th>Mes de Corte</th>
+                            <th>Hora de Corte</th>*@
                             <th>Lectura al Corte</th>
-                            <th>Tipo de Corte</th>
+                            @*<th>Tipo de Corte</th>*@
                             <th>Cod. OBS</th>
                             <th>Observacion de Lectura</th>
-                            <th>Detalle de Observación</th>
+                            @*<th>Detalle de Observación</th>*@
                             <th>Estado</th>
                             <th></th>
                         </tr>
@@ -1067,28 +1076,28 @@
                             <td>{{item.cuenta_contrato}}</td>
 
                             <td>{{item.nro_serie_medidor}}</td>
-                            <td>{{item.cliente}}</td>
-                            <td>{{item.direc_instalacion}}</td>
+                            <td class="text-left">{{item.cliente}}</td>
+                            <td class="text-left">{{item.direc_instalacion}}</td>
                             <td>{{item.distrito}}</td>
 
                             <td>{{item.UL}}</td>
-                            <td>{{item.apellido_lector}}</td>
-                            <td>{{item.grand_total}}</td>
+                            <td class="text-left">{{item.apellido_lector}}</td>
+                            @*<td>{{item.grand_total}}</td>
                             <td>{{item.count}}</td>
 
                             <td>{{item.accion}}</td>
-                            <td>{{item.resultado_corte}}</td>
+                            <td>{{item.resultado_corte}}</td>*@
                             <td>{{item.fecha_corte}}</td>
-                            <td>{{item.mes_corte}}</td>
-                            <td>{{item.hora_corte}}</td>
+                            @*<td>{{item.mes_corte}}</td>
+                            <td>{{item.hora_corte}}</td>*@
 
 
                             <td>{{item.lectura_corte}}</td>
-                            <td>{{item.tipo_corte}}</td>
+                            @*<td>{{item.tipo_corte}}</td>*@
                             <td>{{item.cod_OBS}}</td>
                             <td>{{item.observacion_lectura}}</td>
-                            <td>{{item.detalle_observaciones}}</td>
-                            <td>{{item.estado}}</td>
+                            @*<td>{{item.detalle_observaciones}}</td>*@
+                            <td>{{item.abreviatura_estado}}</td>
                             <td><a data-toggle="modal" data-target="#modal-historico_CortesReconexiones" ng-click="OrdenTrabajo_Historico_CortesReconexiones(item.suministro_corte);" href="#"> Histórico</a></td>
 
 
@@ -1220,15 +1229,15 @@
                         <form class="form-inline">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="form-group">
+         
                                         <label for="_operador" class="control-label">Operador:</label>
-                                        <select style="width:220px;" id="cbo_tecnicoReasignar" class="form-control">
+                                        <select style="width:95%;" id="cbo_tecnicoReasignar"  >
                                             <option value=0>--[ Seleccione ]-- </option>
                                             <option ng-repeat="item in ListaTecnicoReasignar" value="{{item.ope_id}}">
                                                 {{item.ope_nombre}}
                                             </option>
                                         </select>
-                                    </div>
+                       
                                 </div>
                             </div>
                             <br />

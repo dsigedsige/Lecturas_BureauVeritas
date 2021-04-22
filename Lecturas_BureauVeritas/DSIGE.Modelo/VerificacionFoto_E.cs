@@ -18,7 +18,8 @@ namespace DSIGE.Modelo
         public string desc_operario { get; set; }
         public string foto { get; set; }
         public string url { get; set; }
-
+        public string nombreFoto { get; set; }
+        public string rutaServer { get; set; }    
         public string Sector { get; set; }
 
         public int id_Observacion { get; set; }
@@ -27,7 +28,8 @@ namespace DSIGE.Modelo
         
         public int id_Reparto { get; set; }
 
-        public int id_Lectura { get; set; }  
+        public int id_LecturaFoto { get; set; }
+        public int id_Lectura { get; set; }
         public string suministro_lectura { get; set; }  
         public string medidor_lectura { get; set; }
         public string id_Operario_Lectura { get; set; }

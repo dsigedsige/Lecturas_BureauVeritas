@@ -469,7 +469,54 @@ namespace DSIGE.Dato
                throw ex;
            }
        }
- 
+
+
+
+        public List<ResultadoLecturas_E> Capa_Dato_listando_detalleGrandesClientes(string fechaAsignacion, int idServicio, int operario)
+        {
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+
+                List<ResultadoLecturas_E> ListServicio = new List<ResultadoLecturas_E>();
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_RESULTADO_LECTURAS_GRANDES_CLIENTE_DET", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@FechaAsignacion", SqlDbType.VarChar).Value = fechaAsignacion;
+                        cmd.Parameters.Add("@IdServicio", SqlDbType.Int).Value = idServicio;
+                        cmd.Parameters.Add("@id_Operario", SqlDbType.Int).Value = operario;
+
+                        DataTable dt_detalle = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                            foreach (DataRow Fila in dt_detalle.Rows)
+                            {
+                                ResultadoLecturas_E obj_entidad = new ResultadoLecturas_E();
+
+                                 obj_entidad.CodigoEMR = Fila["CodigoEMR"].ToString();
+                                obj_entidad.operario = Fila["operario"].ToString();
+                                obj_entidad.nombreCliente_lectura = Fila["nombreCliente_lectura"].ToString();
+                                obj_entidad.estados = Fila["estados"].ToString();
+                                ListServicio.Add(obj_entidad);
+                            }
+                        }
+                    }
+                }
+                return ListServicio;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
 
         public string Capa_Dato_Guardar_NotasOperario(string fechaAsignacion, int idServicio, int operario, string observacion, int usuario)
        {

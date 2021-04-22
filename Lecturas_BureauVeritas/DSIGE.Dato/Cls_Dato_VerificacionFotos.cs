@@ -562,9 +562,13 @@ namespace DSIGE.Dato
                             foreach (DataRow Fila in dt_detalle.Rows)
                             {
                                 VerificacionFoto_E obj_entidad = new VerificacionFoto_E();
+                                
+                                obj_entidad.id_LecturaFoto = Convert.ToInt32(Fila["id_LecturaFoto"].ToString());
                                 obj_entidad.id_Lectura = Convert.ToInt32(Fila["id_Lectura"].ToString());
                                 obj_entidad.foto = ruta + Fila["foto"].ToString();
                                 obj_entidad.url = ruta + Fila["foto"].ToString();
+                                obj_entidad.nombreFoto = Fila["nombreFoto"].ToString();
+                                obj_entidad.estado = Convert.ToInt32(Fila["estado"].ToString());
                                 ListData.Add(obj_entidad);
                             }
                         }

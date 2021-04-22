@@ -1113,7 +1113,6 @@
                     <div id="PrincipalDetalle" class="table-responsive">
                         <table id="tblListaDetalleX" class="table  table-bordered table-responsive" border="0" cellspacing="0" cellpadding="0" style="font-size:11px">
                             <thead>
-
                                 <tr ng-if="Flag_agrupado">
                                     <th style="width:2%;text-align: center;">#</th>
                                     <th style="width:4%;text-align: center;">Check</th>
@@ -1121,12 +1120,12 @@
                                     <th style="width:7%;text-align: center;">Cantidad</th>
                                     <th style="width:10%;text-align: center;">COD. LECTOR</th>
                                 </tr>
-
                                 <tr ng-if="Flag_detallado">
                                     <th style="width:2%;text-align: center;">#</th>
-                                    <th style="width:4%;text-align: center;">Check</th>
+                                    <th style="width:4%;text-align: center;">Checks</th>
+                                    <th style="width:4%;text-align: center;">Código EMR</th>
                                     <th style="width:7%;text-align: center;">Cliente</th>
-                                    <th style="width:10%;text-align: center;">COD. LECTOR</th>
+                                    <th style="width:6%;text-align: center;">COD. LECTOR</th>
                                     <th style="width:12%;text-align: center;">Dirección</th>
                                 </tr>
                             </thead>
@@ -1155,8 +1154,9 @@
                                             </label>
                                         </div>
                                     </td>
+                                    <td style="width:4%; text-align:center"> {{item.CodigoEMR}}   </td>
                                     <td style="width:7%; text-align:center">{{item.nombreCliente_lectura}}</td>
-                                    <td style="width:10%; text-align:center">
+                                    <td style="width:6%; text-align:center">
                                         <div><input type="text" id="id_CLD_{{$index}}" class="form-control" style="height: 20px;text-align:center; background-color:green; color:white " ng-model="item.id_operario" onkeypress="return soloNumeros(event)" ng-keypress="KeyDown_Distribuir($event,item,$index)"> </div>
                                     </td>
                                     <td style="width:12%; text-align:left">{{item.direccion_lectura}}</td>

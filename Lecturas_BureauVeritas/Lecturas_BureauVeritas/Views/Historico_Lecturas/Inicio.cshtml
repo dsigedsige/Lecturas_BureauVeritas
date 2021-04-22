@@ -1019,7 +1019,7 @@
                         servicio.append('<option value="-1" > [--SELECCIONE --]</option>');
                         servicio.append('<option value="0" >Todos</option>');
                         for (var i = 0; i < response.length; i++) {
-                            if (response[i].id_TipoServicio == 1 || response[i].id_TipoServicio == 2 || response[i].id_TipoServicio == 3 || response[i].id_TipoServicio == 4) {
+                            if (response[i].id_TipoServicio == 1 || response[i].id_TipoServicio == 2 || response[i].id_TipoServicio == 3 || response[i].id_TipoServicio == 4 || response[i].id_TipoServicio == 9) {
                                 servicio.append('<option value="' + response[i].id_TipoServicio +
                                     '">' + response[i].nombre_tiposervicio + '</option>');
                             }
@@ -1027,7 +1027,7 @@
                     } else {
                         servicio.append('<option value="-1" > [--SELECCIONE --]</option>');
                         for (var i = 0; i < response.length; i++) {
-                            if (response[i].id_TipoServicio == 1 || response[i].id_TipoServicio == 2 || response[i].id_TipoServicio == 3 || response[i].id_TipoServicio == 4) {
+                            if (response[i].id_TipoServicio == 1 || response[i].id_TipoServicio == 2 || response[i].id_TipoServicio == 3 || response[i].id_TipoServicio == 4 || response[i].id_TipoServicio == 9 ) {
                                 servicio.append('<option value="' + response[i].id_TipoServicio +
                                     '">' + response[i].nombre_tiposervicio + '</option>');
                             }

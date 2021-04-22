@@ -9,7 +9,6 @@
 
 @section instances{
 
-
     @Styles.Render("~/Content/dataTables-bootstrap/css/dataTables.bootstrap.min.css")
     @Scripts.Render("~/Content/dataTables-bootstrap/js/jquery.dataTables.min.js")
     @Scripts.Render("~/Content/dataTables-bootstrap/js/dataTables.bootstrap.min.js")
@@ -87,7 +86,6 @@
 }
 
 @section scripts{
-
 
     <script type="text/javascript">
 
@@ -216,9 +214,10 @@
 
                 var formOpcion = document.getElementById('formOpcion');
                 formOpcion.style.display = 'none';
+
                 $scope.count = $scope.count + 1;
                 var idServicio = $scope.servicios
-                if (idServicio == 1 || idServicio == 2) {
+                if (idServicio == 1 ) {
                     $scope.openLectura = true;
                     $scope.openCorte = false;
                 }
@@ -226,7 +225,7 @@
                     $scope.openLectura = false;
                     $scope.openCorte = true;
                 }
-                else if (idServicio == 9) {
+                else if (idServicio == 2 || idServicio == 9) {
                     formOpcion.style.display = '';
                 }
                 else {
@@ -333,7 +332,7 @@
                         $scope.showClientes = true;
                     }
 
-                    if (idServicio == 9) {
+                    if (idServicio == 2 || idServicio == 9) {
 
                         if (cbo_opcion == 1) {///----cargando
                             $scope.showReclamos = true;
@@ -341,18 +340,18 @@
                             $scope.show_otros = false;
                             $scope.showClientes = false;
                         } else {///----actualizando
-                            $scope.show_Lectura = false;
+                            $scope.show_Lectura = true;
                             $scope.show_otros = false;
-                            $scope.showReclamos = true;
+                            $scope.showReclamos = false;
                             $scope.showClientes = false;
                         }
                     }
 
-                    if (idServicio == 9) { /// solo reclamos --
+                    if (idServicio == 2 || idServicio == 9) { /// solo reclamos --
 
                         var name = "";
                         if (cbo_opcion == 1) {///----cargando
-                            name = "  CARGAR ";
+                            name = " CARGAR ";
                         } else {
                             name = " ACTUALIZAR ";
                         }
@@ -376,7 +375,14 @@
                             $('.sige-load').show();
 
                             var file = $scope.myFile;
-                            var uploadUrl = '@Url.Action("InsertaExcel_reclamos")';
+
+                            var uploadUrl = '';
+                            if (idServicio == 2) {
+                                uploadUrl = '@Url.Action("InsertaExcel_relectura")';
+                            }
+                            if (idServicio == 9) {
+                                uploadUrl = '@Url.Action("InsertaExcel_reclamos")';
+                            }
 
                             var fd = new FormData();
                             fd.append('file', file);
@@ -611,10 +617,10 @@
 
                 var cancel = document.getElementById('btn_cancel');
                 var btn_Guardar = document.getElementById('btn_guardar');
-                var fecha_asignacion = document.getElementById('id_fecha_asignacion').value;
-                var fecha_Movil = document.getElementById('_fecha').value;
-                var idServicio = document.getElementById('id_servicio').value;
-                var cbo_opcion = document.getElementById('cbo_opcion').value;
+                const fecha_asignacion = document.getElementById('id_fecha_asignacion').value;
+                const fecha_Movil = document.getElementById('_fecha').value;
+                const idServicio = document.getElementById('id_servicio').value;
+                const cbo_opcion = document.getElementById('cbo_opcion').value;
 
 
                 if (idServicio == '0') {
@@ -644,6 +650,20 @@
                         nombre_archivo: $scope.myFile.name
                     }
                     ruta = 'set_enviarMovil_lecturas';
+                }
+
+                else if (idServicio == 2 || idServicio == '2') {  ///----relectura --
+                    console.log('Relectura');
+                    console.log(cbo_opcion);
+                    params = {
+                        fechaAsignacion: fecha_asignacion,
+                        fechaMovil: fecha_Movil,
+                        id_servicio: idServicio,
+                        nombre_archivo: $scope.myFile.name,
+                        opcion: cbo_opcion
+                    }
+                    ruta = 'set_enviarMovil_relectura';
+
                 }
                 else if (idServicio == 6 || idServicio == '6') {
 
@@ -727,7 +747,7 @@
                     params = {
                         fechaAsignacion: fecha_asignacion,
                         fechaMovil: fecha_Movil,
-                        id_servicio: document.getElementById('id_servicio').value,
+                        id_servicio: idServicio,
                         nombre_archivo: $scope.myFile.name
                     }
                     ruta = 'set_enviarMovil_grandesClientes';
@@ -739,7 +759,7 @@
                     params = {
                         fechaAsignacion: fecha_asignacion,
                         fechaMovil: fecha_Movil,
-                        id_servicio: document.getElementById('id_servicio').value,
+                        id_servicio: idServicio,
                         nombre_archivo: $scope.myFile.name,
                         opcion: cbo_opcion
                     }
@@ -749,7 +769,7 @@
                 else {
                     params = {
                         fechaAsignacion: fecha_Movil,
-                        id_servicio: document.getElementById('id_servicio').value,
+                        id_servicio: idServicio,
                         nombre_archivo: $scope.myFile.name
                     }
                     ruta = 'JsonRegistrarTemp_LecturasExcel';
@@ -768,23 +788,31 @@
                     console.log(data);
                     $('.sige-load').hide();
 
-                    var res = data.split("|");
-                    if (res[0] == '"0' || res[0] == '0' || res[0] == 0) {
-                        new PNotify({
-                            title: 'Sistemas',
-                            text: 'Lo sentimos se produjo un error, realice una captura de Pantalla con el Error y comuniquese con el area de Sistemas..',
-                            type: 'error'
-                        });
-
-                        alert(res[1])
-                        return;
-                    }
-                    else {
+                    if (idServicio == 1 || idServicio == '1') {
                         new PNotify({
                             title: ' ',
                             text: 'Proceso generado Exitosamente.',
                             type: 'success'
                         });
+                    } else {
+                        var res = data.split("|");
+                        if (res[0] == '"0' || res[0] == '0' || res[0] == 0) {
+                            new PNotify({
+                                title: 'Sistemas',
+                                text: 'Lo sentimos se produjo un error, realice una captura de Pantalla con el Error y comuniquese con el area de Sistemas..',
+                                type: 'error'
+                            });
+
+                            alert(res[1])
+                            return;
+                        }
+                        else {
+                            new PNotify({
+                                title: ' ',
+                                text: 'Proceso generado Exitosamente.',
+                                type: 'success'
+                            });
+                        }
                     }
 
                     btn_Guardar.disabled = true;
@@ -928,7 +956,7 @@
             $scope.enviarCorreo = function () {
 
                 var idServicio = document.getElementById('id_servicio').value;
-                var Fecha_asignacion = document.getElementById('_fecha').value;
+                var Fecha_asignacion = document.getElementById('id_fecha_asignacion').value;
 
                 if (idServicio == '0') {
                     new PNotify({
@@ -1094,6 +1122,9 @@
                 if ($scope.servicios == 3) {
                     window.open("../formatos/FORMATO_CORTES.xls");
                 }
+                else if ($scope.servicios == 2) {
+                    window.open("../formatos/FORMATO_RELECTURAS.xlsx");
+                }
                 else if ($scope.servicios == 4) {
                     window.open("../formatos/FORMATO_RECONEXION.xls");
                 } else if ($scope.servicios == 6) {
@@ -1104,6 +1135,7 @@
                 else if ($scope.servicios == 9) {
                     window.open("../formatos/FORMATO_RECLAMOS.xlsx");
                 }
+
             }
 
 
@@ -1183,12 +1215,88 @@
                 doc.save('reclamos.pdf');
             }
 
+            $scope.enviarCorreo_grandesClientes = function () {
+
+                var idServicio = document.getElementById('id_servicio').value;
+                var Fecha_asignacion = document.getElementById('id_fecha_asignacion').value;                
+
+                if (idServicio == '0') {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccione el Servicio Grandes Clientes. Muchas gracias.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                if (idServicio == 7 || idServicio == '7' ) {
+                    if (Fecha_asignacion == '') {
+                        new PNotify({
+                            title: 'Sistemas',
+                            text: 'Por favor seleccione o ingrese la Fecha.',
+                            type: 'error'
+                        });
+                        return;
+                    }
+
+                    $('.sige-load').show();
+                    (new PNotify({
+                        title: 'Sistemas Confirmación',
+                        text: 'Esta seguro de Enviar los Correos?, una vez enviado no hay marcha atras..',
+                        icon: 'glyphicon glyphicon-question-sign',
+                        hide: false,
+                        confirm: {
+                            confirm: true
+                        },
+                        buttons: {
+                            closer: false,
+                            sticker: false
+                        },
+                        history: {
+                            history: false
+                        }
+                    })).get().on('pnotify.confirm', function () {
+
+                        var variables = {
+                            method: 'POST',
+                            url: '../Importar_Excel/set_EnviarCorreo_grandesClientes',
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: {
+                                servicio: idServicio,
+                                fecha_Asigna: Fecha_asignacion
+                            }
+                        }
+                        $http(variables)
+                            .success(function (data) {
+                                $('.sige-load').hide();
+                                if (data == 'OK' || data == '"OK"') {
+                                    new PNotify({
+                                        title: 'Sistemas',
+                                        text: 'Proceso de Envio de correo masivo, Realizado Correctamente.',
+                                        type: 'success'
+                                    });
+                                } else {
+                                    $('.sige-load').hide();
+                                    alert(data)
+                                }
+                            })
+                            .error(function () {
+                                $('.sige-load').hide();
+                                alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                            });
+                    }).on('pnotify.cancel', function () {
+                        $('.sige-load').hide();
+                    });
+                }
+            }
+
 
 
         });
     </script>
 }
-
 
 <html>
 <head>
@@ -1348,12 +1456,11 @@
                 <div class="form-group">
                     <div class="col-sm-12 col-md-offset-5" style=" padding-top: 20px; ">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento">
+                            <button id="btn_guardar" disabled="disabled" role="button" style="margin-left: 2px" class="btn btn-primary" ng-click="abrirModal_Asignacion();"><i class="fa fa-save fa-lg"></i> Guardar</button>
+                            <button class="btn btn-success" ng-click="enviarCorreo();" style="margin-left: 2px" title="Valido para Cortes-Reconexiones"><span class="glyphicon glyphicon-envelope"></span> Enviar Correo</button>
 
-                            <button id="btn_guardar" disabled="disabled" role="button" class="btn btn-primary" ng-click="abrirModal_Asignacion();"><i class="fa fa-save fa-lg"></i> Guardar</button>
-                            <button class="btn btn-success" ng-click="enviarCorreo();" title="Valido para Cortes-Reconexiones"><span class="glyphicon glyphicon-envelope"></span> Enviar Correo</button>
-                            <button class="btn btn-info" ng-click="generarRepartoPdf();" title="Valido para Cortes-Reconexiones"><span class="glyphicon glyphicon-list-alt"></span> Generar Impresion Reparto</button>
-
-
+                            <button class="btn btn-info" ng-click="generarRepartoPdf();" style="margin-left: 3px" title="Valido para Cortes-Reconexiones"><span class="glyphicon glyphicon-list-alt"></span> Generar Impresion Reparto</button>
+                            <button class="btn btn-success" ng-click="enviarCorreo_grandesClientes();" style="margin-left: 2px" title="Valido para Grandes Clientes"><span class="glyphicon glyphicon-envelope"></span> Enviar Email - Grandes Clientes</button>
                         </div>
                     </div>
                 </div>

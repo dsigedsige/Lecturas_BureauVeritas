@@ -190,6 +190,46 @@ namespace DSIGE.Dato
 
 
 
+        public List<Ubicacion_Lectura> Capa_Dato_Get_ListaServicio_new()
+        {
+            try
+            {
+                List<Ubicacion_Lectura> ListServicio = new List<Ubicacion_Lectura>();
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("SP_S_SERVICIO_V", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        DataTable dt_detalle = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                            foreach (DataRow Fila in dt_detalle.Rows)
+                            {
+                                Ubicacion_Lectura obj_entidad = new Ubicacion_Lectura();
+
+                                obj_entidad.id_TipoServicio = Convert.ToInt32(Fila["id_TipoServicio"].ToString());
+                                obj_entidad.nombre_tiposervicio = Fila["nombre_tiposervicio"].ToString();
+                                obj_entidad.estado = Convert.ToInt32(Fila["estado"].ToString());
+                                ListServicio.Add(obj_entidad);
+                            }
+                        }
+                    }
+                }
+
+                return ListServicio;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
         public List<Ubicacion_Lectura> Capa_Dato_Get_ListaServicio_Efectividad()
         {
             try

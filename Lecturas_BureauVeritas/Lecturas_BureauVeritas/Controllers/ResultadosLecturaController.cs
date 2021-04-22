@@ -217,6 +217,24 @@ namespace DSIGE.Web.Controllers
             }
         }
 
+ 
+        [HttpPost]
+        public string listando_detalleGrandesClientes(string fechaAsignacion, int idServicio, int operario)
+        {
+            object loDatos;
+            try
+            {
+                ResultadoLecturas_BL obj_negocio = new ResultadoLecturas_BL();
+                loDatos = obj_negocio.Capa_Negocio_listando_detalleGrandesClientes(fechaAsignacion, idServicio, operario);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
+
+
 
         [HttpPost]
         public string Guardando_NotasOperario(string fechaAsignacion, int idServicio, int operario, string observacion)

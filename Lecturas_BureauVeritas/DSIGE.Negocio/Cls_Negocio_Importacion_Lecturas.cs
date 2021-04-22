@@ -161,6 +161,26 @@ namespace DSIGE.Negocio
         }
 
 
+        public string Capa_Negocio_save_Lecturas_Relectura(string fechaAsignacion, string fechaMovil, int id_servicio, string nombre_archivo, int usuario)
+        {
+            try
+            {
+                List<Cls_Entidad_Lecturas_Relecturas> listaobjeto = new List<Cls_Entidad_Lecturas_Relecturas>();
+                string resultado = "";
+                Cls_Dato_Importacion_Lecturas Objeto_Dato01 = new Cls_Dato_Importacion_Lecturas();
+                resultado = Objeto_Dato01.Capa_Dato_save_Lecturas_Relectura(fechaAsignacion, fechaMovil, usuario);
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
+
         public object Capa_Negocio_generarRepartoPDf(string fechaAsignacion, int tipo)
         {
             try
@@ -196,6 +216,24 @@ namespace DSIGE.Negocio
                 string resultado = "";
                 Cls_Dato_Importacion_Lecturas Objeto_Dato01 = new Cls_Dato_Importacion_Lecturas();
                 resultado = Objeto_Dato01.Capa_Dato_save_Reclamos(fechaAsignacion, fechaMovil, usuario);
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public string Capa_Negocio_save_Relectura(string fechaAsignacion, string fechaMovil, int id_servicio, string nombre_archivo, int usuario)
+        {
+            try
+            {
+                List<Cls_Entidad_Lecturas_Relecturas> listaobjeto = new List<Cls_Entidad_Lecturas_Relecturas>();
+                string resultado = "";
+                Cls_Dato_Importacion_Lecturas Objeto_Dato01 = new Cls_Dato_Importacion_Lecturas();
+                resultado = Objeto_Dato01.Capa_Dato_save_Relectura(fechaAsignacion, fechaMovil, usuario);
 
                 return resultado;
             }
@@ -467,6 +505,20 @@ namespace DSIGE.Negocio
         }
 
 
+        public object Capa_Negocio_save_temporalLectura_relectura(string fileLocation, int usuario, int idlocal, int idservicio, string idfechaAsignacion, string nombreArchivo)
+        {
+            try
+            {
+                Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
+                return Objeto_Dato.Capa_Dato_save_temporalLectura_Relectura(fileLocation, usuario, idlocal, idservicio, idfechaAsignacion, nombreArchivo);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
         public object Capa_Negocio_save_temporalReclamos(string fileLocation, int usuario, int idlocal, int idservicio, string idfechaAsignacion, string nombreArchivo)
         {
             try
@@ -479,6 +531,21 @@ namespace DSIGE.Negocio
                 throw e;
             }
         }
+
+        public object Capa_Negocio_save_temporalRelectura(string fileLocation, int usuario, int idlocal, int idservicio, string idfechaAsignacion, string nombreArchivo)
+        {
+            try
+            {
+                Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
+                return Objeto_Dato.Capa_Dato_save_temporalRelectura(fileLocation, usuario, idlocal, idservicio, idfechaAsignacion, nombreArchivo);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
 
         public List<Cls_Entidad_Lecturas_Relecturas> Capa_Negocio_Listar_Detalle_Lectura_Relectura(int cod_usuario, int idtecnico, string distrito)
         {
@@ -555,10 +622,34 @@ namespace DSIGE.Negocio
                 throw e;
             }
         }
- 
+
+        public object Capa_Negocio_Agrupado_temporal_CargarRelectura(string idfechaAsignacion, int cod_usuario)
+        {
+            try
+            {
+                Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
+                return Objeto_Dato.Capa_Dato_Agrupado_relectura(idfechaAsignacion, cod_usuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
 
-
+        public object Capa_Negocio_Agrupado_temporal_LecturaRelectura(string idfechaAsignacion, int cod_usuario)
+        {
+            try
+            {
+                Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
+                return Objeto_Dato.Capa_Dato_Agrupado_lectura_Relectura(idfechaAsignacion, cod_usuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+               
         public List<Cls_Entidad_Lecturas_Relecturas> Capa_Negocio_Agrupado_temporal_Relectura(string idfechaAsignacion, int cod_usuario)
         {
             try
@@ -572,8 +663,7 @@ namespace DSIGE.Negocio
                 throw e;
             }
         }
-
-
+        
         public string Capa_Negocio_set_EnviarCorreo(int servicio, string fecha_Asigna,int usuario)
         {
             try
@@ -604,6 +694,48 @@ namespace DSIGE.Negocio
             }
         }
 
+        public object Capa_Negocio_save_temporalSuministro(string fileLocation, int usuario, int idservicio)
+        {
+            try
+            {
+                Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
+                return Objeto_Dato.Capa_Dato_save_temporalSuministroMasivo(fileLocation, usuario, idservicio);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        
+        public object Capa_Negocio_Agrupado_temporalSuministroMasivo(int idServicio, int cod_usuario)
+        {
+            try
+            {
+                Cls_Dato_Importacion_Lecturas Objeto_Dato = new Cls_Dato_Importacion_Lecturas();
+                return Objeto_Dato.Capa_Dato_Agrupado_suministroMasivo(idServicio, cod_usuario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public string Capa_Negocio_set_EnviarCorreo_grandesClientes(int servicio, string fecha_Asigna, int usuario)
+        {
+            try
+            {
+                string resultado = "";
+                Cls_Dato_Importacion_Lecturas Objeto_Dato01 = new Cls_Dato_Importacion_Lecturas();
+                resultado = Objeto_Dato01.Capa_Dato_set_EnviarCorreo_grandesClientes(servicio, fecha_Asigna, usuario);
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+ 
 
     }
 }

@@ -750,14 +750,11 @@ namespace DSIGE.Dato
                         //cmd.Parameters.Add("@fechaAsignacion", SqlDbType.VarChar).Value = string.IsNullOrEmpty(fechaAsignacion) ? "" : Convert.ToDateTime(fechaAsignacion).ToString("dd/MM/yyyy");
                         cmd.Parameters.Add("@fechaAsignacion", SqlDbType.VarChar).Value = fechaAsignacion;
 
-                        DataTable dt_detalle = new DataTable();
-                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        using (SqlDataReader Fila = cmd.ExecuteReader())
                         {
-                            da.Fill(dt_detalle);
-                            foreach (DataRow Fila in dt_detalle.Rows)
+                            while (Fila.Read())
                             {
                                 Cls_Entidad_AsignaOrdenTrabajo.OrdenesTrabajo obj_entidad = new Cls_Entidad_AsignaOrdenTrabajo.OrdenesTrabajo();
-
 
                                 if (id_tipo_servicio == 1 || id_tipo_servicio == 2)
                                 {
@@ -831,7 +828,7 @@ namespace DSIGE.Dato
             }
         }
 
-        public List<Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio> Capa_Dato_Get_ListaLecturaEnviarCliente(int empresa, int id_local, int id_tipo_servicio, int estado, string suministro, string medidor, int tecnico, string fechaAsignacion, string tipoCliente, int id_supervisor, int id_operario_supervisor)
+        public List<Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio> Capa_Dato_Get_ListaLecturaEnviarCliente_antiguo(int empresa, int id_local, int id_tipo_servicio, int estado, string suministro, string medidor, int tecnico, string fechaAsignacion, string tipoCliente, int id_supervisor, int id_operario_supervisor, int SuministrosMasivos, int iduser)
         {
             try
             {
@@ -844,7 +841,8 @@ namespace DSIGE.Dato
                 {
                     cn.Open();
 
-                    using (SqlCommand cmd = new SqlCommand("NEW_DSIGE_S_LECTURA_ENVIAR_CLIENTE", cn))
+                    //using (SqlCommand cmd = new SqlCommand("NEW_DSIGE_S_LECTURA_ENVIAR_CLIENTE", cn))
+                    using (SqlCommand cmd = new SqlCommand("NEW_DSIGE_S_LECTURA_ENVIAR_CLIENTE_NEW", cn))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -861,6 +859,9 @@ namespace DSIGE.Dato
 
                         cmd.Parameters.Add("@id_supervisor", SqlDbType.Int).Value = id_supervisor;
                         cmd.Parameters.Add("@id_operario_supervisor", SqlDbType.Int).Value = id_operario_supervisor;
+
+                        cmd.Parameters.Add("@flagSuministroMasivo", SqlDbType.Int).Value = SuministrosMasivos;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = iduser;
 
                         DataTable dt_detalle = new DataTable();
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -959,7 +960,137 @@ namespace DSIGE.Dato
                 throw ex;
             }
         }
+               
+        public List<Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio> Capa_Dato_Get_ListaLecturaEnviarCliente(int empresa, int id_local, int id_tipo_servicio, int estado, string suministro, string medidor, int tecnico, string fechaAsignacion, string tipoCliente, int id_supervisor, int id_operario_supervisor, int SuministrosMasivos, int iduser)
+        {
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
 
+                List<Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio> ListTecnico = new List<Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio>();
+                string ruta = ConfigurationManager.AppSettings["servidor-foto-lectura"];
+
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+
+                    //using (SqlCommand cmd = new SqlCommand("NEW_DSIGE_S_LECTURA_ENVIAR_CLIENTE", cn))
+                    using (SqlCommand cmd = new SqlCommand("NEW_DSIGE_S_LECTURA_ENVIAR_CLIENTE_NEW", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@empresa", SqlDbType.Int).Value = empresa;
+                        cmd.Parameters.Add("@idTipoServicio", SqlDbType.Int).Value = id_tipo_servicio;
+                        cmd.Parameters.Add("@idLocal", SqlDbType.Int).Value = id_local;
+                        cmd.Parameters.Add("@suministro", SqlDbType.VarChar).Value = suministro;
+                        cmd.Parameters.Add("@medidor", SqlDbType.VarChar).Value = medidor;
+                        cmd.Parameters.Add("@tecnicoAsignado", SqlDbType.Int).Value = tecnico;
+                        cmd.Parameters.Add("@estadoAsignacion", SqlDbType.Int).Value = estado;
+                        cmd.Parameters.Add("@fechaAsignacion", SqlDbType.VarChar).Value = fechaAsignacion;
+                        cmd.Parameters.Add("@tipoCliente", SqlDbType.Int).Value = Convert.ToInt32(tipoCliente);
+                        cmd.Parameters.Add("@id_supervisor", SqlDbType.Int).Value = id_supervisor;
+                        cmd.Parameters.Add("@id_operario_supervisor", SqlDbType.Int).Value = id_operario_supervisor;
+                        cmd.Parameters.Add("@flagSuministroMasivo", SqlDbType.Int).Value = SuministrosMasivos;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = iduser;
+                        
+                        using (SqlDataReader Fila = cmd.ExecuteReader())
+                        {
+                            while (Fila.Read())
+                            {
+                                Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio obj_entidad = new Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio();   
+
+                                if (id_tipo_servicio == 1 || id_tipo_servicio == 2 || id_tipo_servicio == 9)
+                                {
+                                    obj_entidad.checkeado = false;
+
+                                    obj_entidad.id_Lectura = Convert.ToInt32(Fila["id_Lectura"]);
+                                    obj_entidad.foto = Convert.ToString(Fila["foto"]);
+                                    obj_entidad.fechLectura = Convert.ToString(Fila["fechLectura"]);
+                                    obj_entidad.suministro_lectura = Convert.ToString(Fila["suministro_lectura"]);
+                                    obj_entidad.medidor_lectura = Convert.ToString(Fila["medidor_lectura"]);
+
+                                    obj_entidad.Consumo1 = Convert.ToString(Fila["Consumo1"]);
+                                    obj_entidad.Consumo2 = Convert.ToString(Fila["Consumo2"]);
+                                    obj_entidad.Consumo3 = Convert.ToString(Fila["Consumo3"]);
+                                    obj_entidad.ConsumoProm = Convert.ToString(Fila["ConsumoProm"]);
+                                    obj_entidad.lectura_Anterior = Convert.ToString(Fila["lectura_Anterior"]);
+
+                                    obj_entidad.lecMovil = Convert.ToString(Fila["lecMovil"]);
+                                    obj_entidad.ConsumoActual = Convert.ToString(Fila["ConsumoActual"]);
+                                    obj_entidad.Porcentaje = Convert.ToString(Fila["Porcentaje"]);
+                                    obj_entidad.PorcentajeMayo = Convert.ToString(Fila["PorcentajeMayo"]);
+
+                                    obj_entidad.LecturaMenor = Convert.ToString(Fila["LecturaMenor"]);
+                                    obj_entidad.lecManual = Convert.ToString(Fila["lecManual"]);
+
+                                    obj_entidad.idLecObs = Convert.ToString(Fila["idLecObs"]);
+                                    obj_entidad.ope_nombre = Convert.ToString(Fila["ope_nombre"]);
+                                    obj_entidad.Zona_lectura = Convert.ToString(Fila["Zona_lectura"]);
+                                    obj_entidad.lecObs = Convert.ToString(Fila["lecObs"]);
+                                    obj_entidad.direccion_lectura = Convert.ToString(Fila["direccion_lectura"]);
+
+                                    obj_entidad.fechaAsignacion_Lectura = Convert.ToString(Fila["fechaAsignacion_Lectura"]);
+                                    obj_entidad.nombreCliente_lectura = Convert.ToString(Fila["nombreCliente_lectura"]);
+                                    obj_entidad.abreviatura_estado = Convert.ToString(Fila["abreviatura_estado"]);
+
+                                    obj_entidad.fotourl = ruta + Convert.ToString(Fila["fotourl"]);
+                                    obj_entidad.descripcion_observacion = Convert.ToString(Fila["descripcion_observacion"]);
+                                    obj_entidad.desplazamiento = Convert.ToString(Fila["desplazamiento"]);
+
+                                }
+                                else if (id_tipo_servicio == 3 || id_tipo_servicio == 4) //---Cortes y Reconexiones
+                                {
+                                    obj_entidad.checkeado = false;
+                                    obj_entidad.id_Lectura = Convert.ToInt32(Fila["id_Lectura"]);
+                                    obj_entidad.orden = Fila["orden"].ToString();
+                                    obj_entidad.foto = Fila["foto"].ToString();
+                                    obj_entidad.fecha_corte = Fila["fecha_corte"].ToString();
+                                    obj_entidad.suministro_corte = Fila["suministro_corte"].ToString();
+                                    obj_entidad.cuenta_contrato = Fila["cuenta_contrato"].ToString();
+                                    obj_entidad.medidor_corte = Fila["medidor_corte"].ToString();
+                                    obj_entidad.cliente = Fila["cliente"].ToString();
+                                    obj_entidad.lectura = Fila["lectura"].ToString();
+                                    obj_entidad.observacion = Fila["observacion"].ToString();
+                                    obj_entidad.ope_nombre = Fila["ope_nombre"].ToString();
+                                    obj_entidad.direccion = Fila["direccion"].ToString();
+                                    obj_entidad.distrito = Fila["distrito"].ToString();
+                                    obj_entidad.fotourl = ruta + Convert.ToString(Fila["fotourl"]);
+                                    obj_entidad.id_observacionResultado_corte = Fila["id_observacionResultado_corte"].ToString();
+                                    obj_entidad.id_Observacion_corte = Fila["id_Observacion_corte"].ToString();
+                                    obj_entidad.id_resultadoObsCorte = Fila["id_resultadoObsCorte"].ToString();
+                                    obj_entidad.ubicacion_Medidor = Fila["ubicacion_Medidor"].ToString();
+                                }
+                                else if (id_tipo_servicio == 6)  // Repartos
+                                {
+                                    obj_entidad.checkeado = false;
+                                    obj_entidad.id_Reparto = Convert.ToInt32(Fila["id_Reparto"]);
+                                    obj_entidad.NroRecibo_Reparto = Fila["NroRecibo_Reparto"].ToString();
+                                    obj_entidad.CuentaContrato_Reparto = Fila["CuentaContrato_Reparto"].ToString();
+                                    obj_entidad.nombreCliente_Reparto = Fila["nombreCliente_Reparto"].ToString();
+                                    obj_entidad.direccion_Reparto = Fila["direccion_Reparto"].ToString();
+                                    obj_entidad.foto = Fila["foto"].ToString();
+                                    obj_entidad.fecha_reparto = Fila["fecha_reparto"].ToString();
+                                    obj_entidad.observacion = Fila["observacion"].ToString();
+                                    obj_entidad.ope_nombre = Fila["ope_nombre"].ToString();
+                                    obj_entidad.aviso_Reparto = Fila["aviso_Reparto"].ToString();
+                                    obj_entidad.cargo_Reparto = Fila["cargo_Reparto"].ToString();
+                                    obj_entidad.muestra_Reparto = Fila["muestra_Reparto"].ToString();
+                                }
+
+                                ListTecnico.Add(obj_entidad);
+                            }
+                        }
+                   }
+                }
+                return ListTecnico;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+                                   
 
         public List<Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio> Capa_Dato_Get_ListaLectura_EnviarCliente(int empresa, int id_local, int id_tipo_servicio, int estado, string suministro, string medidor,int tecnico, string fechaAsignacion, string tipoCliente, int id_supervisor, int id_operario_supervisor)
         {
@@ -984,15 +1115,12 @@ namespace DSIGE.Dato
                         cmd.Parameters.Add("@estadoAsignacion", SqlDbType.Int).Value = estado;
                         cmd.Parameters.Add("@fechaAsignacion", SqlDbType.VarChar).Value = fechaAsignacion;
                         cmd.Parameters.Add("@tipoCliente", SqlDbType.Int).Value = Convert.ToInt32(tipoCliente);
-
                         cmd.Parameters.Add("@id_supervisor", SqlDbType.Int).Value = id_supervisor;
                         cmd.Parameters.Add("@id_operario_supervisor", SqlDbType.Int).Value = id_operario_supervisor;
 
-                        DataTable dt_detalle = new DataTable();
-                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        using (SqlDataReader Fila = cmd.ExecuteReader())
                         {
-                            da.Fill(dt_detalle);
-                            foreach (DataRow Fila in dt_detalle.Rows)
+                            while (Fila.Read())
                             {
                                 Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio obj_entidad = new Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio();
                                 obj_entidad.CL = Fila["CL"].ToString();
@@ -2398,15 +2526,13 @@ namespace DSIGE.Dato
                         cmd.Parameters.Add("@resultado", SqlDbType.Int).Value = Convert.ToInt32(resultado);
                         cmd.Parameters.Add("@id_supervisor", SqlDbType.Int).Value = Convert.ToInt32(id_supervisor);
                         cmd.Parameters.Add("@id_operario_supervisor", SqlDbType.Int).Value = Convert.ToInt32(id_operario_supervisor);
-
-                        DataTable dt_detalle = new DataTable();
-                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        
+                        using (SqlDataReader Fila = cmd.ExecuteReader())
                         {
-                            da.Fill(dt_detalle);
-                            foreach (DataRow Fila in dt_detalle.Rows)
+                            while (Fila.Read())
                             {
                                 Cls_Entidad_AsignaOrdenTrabajo.validacion obj_entidad = new Cls_Entidad_AsignaOrdenTrabajo.validacion();
-
+                                
                                 obj_entidad.checkeado = false;
                                 obj_entidad.estado = Fila["estado"].ToString();
                                 obj_entidad.id_Lectura = Fila["id_Lectura"].ToString();
@@ -2419,15 +2545,12 @@ namespace DSIGE.Dato
 
                                 obj_entidad.id_observacion = Fila["id_observacion"].ToString();
                                 obj_entidad.descripcion_observacion = Fila["descripcion_observacion"].ToString();
-                           
-                                obj_entidad.lectura_movil = string.IsNullOrEmpty(Fila["lectura_movil"].ToString()) ? obj_entidad.lectura_movil = null : Convert.ToDecimal(Fila["lectura_movil"].ToString()).ToString("#,##0.00");                                                               
-
+                                obj_entidad.lectura_movil = string.IsNullOrEmpty(Fila["lectura_movil"].ToString()) ? obj_entidad.lectura_movil = null : Convert.ToDecimal(Fila["lectura_movil"].ToString()).ToString("#,##0.00");
 
                                 obj_entidad.lectura_max = string.IsNullOrEmpty(Fila["lectura_max"].ToString()) ? obj_entidad.Consu_act = null : Convert.ToDecimal(Fila["lectura_max"].ToString()).ToString("#,##0.00");
-                                obj_entidad.lectura_min = string.IsNullOrEmpty(Fila["lectura_min"].ToString()) ? obj_entidad.Porcen = null : Math.Round(Convert.ToDecimal(Fila["lectura_min"]), 2).ToString("#,##0");                                
-                                obj_entidad.comparativa_max = string.IsNullOrEmpty(Fila["comparativa_max"].ToString()) ? obj_entidad.L_ant = null : Convert.ToDecimal(Fila["comparativa_max"].ToString()).ToString("#,##0.00");                                                             
+                                obj_entidad.lectura_min = string.IsNullOrEmpty(Fila["lectura_min"].ToString()) ? obj_entidad.Porcen = null : Math.Round(Convert.ToDecimal(Fila["lectura_min"]), 2).ToString("#,##0");
+                                obj_entidad.comparativa_max = string.IsNullOrEmpty(Fila["comparativa_max"].ToString()) ? obj_entidad.L_ant = null : Convert.ToDecimal(Fila["comparativa_max"].ToString()).ToString("#,##0.00");
                                 obj_entidad.comparativa_min = string.IsNullOrEmpty(Fila["comparativa_min"].ToString()) ? obj_entidad.Prom_3mes = null : Convert.ToDecimal(Fila["comparativa_min"].ToString()).ToString("#,##0.00");
- 
 
                                 obj_entidad.Relecturas = Fila["Relecturas"].ToString();
                                 obj_entidad.resultado = Fila["resultado"].ToString();
@@ -2436,6 +2559,8 @@ namespace DSIGE.Dato
                                 ListTecnico.Add(obj_entidad);
                             }
                         }
+
+
                     }
                 }
                 return ListTecnico;
@@ -2840,6 +2965,50 @@ namespace DSIGE.Dato
             }
             return Resultado;
         }
+
+        public object Capa_Dato_cambiarfoto_Lectura(int id_usuario, int idfotoLectura, string nombrefotoLectura)
+        {
+            cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+            string ruta = ConfigurationManager.AppSettings["servidor-foto-lectura"];
+
+            object Resultado;
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("PROC_U_CAMBIAR_FOTO_LECTURA", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+                        cmd.Parameters.Add("@idfotoLectura", SqlDbType.Int).Value = idfotoLectura;
+                        cmd.Parameters.Add("@nombrefoto", SqlDbType.VarChar).Value = nombrefotoLectura;
+
+                        cmd.ExecuteNonQuery();
+
+                        Resultado = new
+                        {
+                            ok = true,
+                            mensaje = ruta + nombrefotoLectura
+                        };
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Resultado = new
+                {
+                    ok = false,
+                    mensaje = ex.Message
+                };
+            }
+            return Resultado;
+        }
+
+
+
 
         public string Capa_Dato_Proceso_Almacenar_lecturas_vacias(int id_usuario)
         {
@@ -4294,6 +4463,241 @@ namespace DSIGE.Dato
             public string ubicacion { get; set; }
         }
 
+
+
+
+        public object Capa_Negocio_download_grandesClientes_All_download(int estado, string fecha_inicial, string fecha_final, string codigoEmr, int id_usuario, int tipo)
+        {
+            DataTable dt_detalle = new DataTable();
+            List<download> list_files = new List<download>();
+            string rutaFoto = "";
+            string rutaOrig = "";
+            string rutaDest = "";
+            string nombreArchivoReal = "";
+            string ruta_descarga = "";
+
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_LECTURA_GRANDES_CLIENTES_DESCARGAR_MASIVO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@estado", SqlDbType.Int).Value = estado;
+                        cmd.Parameters.Add("@fecha_inicial", SqlDbType.VarChar).Value = fecha_inicial;
+                        cmd.Parameters.Add("@fecha_final", SqlDbType.VarChar).Value = fecha_final;
+                        cmd.Parameters.Add("@codigoEmr", SqlDbType.VarChar).Value = codigoEmr;
+                        cmd.Parameters.Add("@tipo", SqlDbType.Int).Value = tipo;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+
+
+                            if (tipo == 1) /// fotos
+                            {
+                                rutaFoto = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/foto/foto/");
+                                foreach (DataRow row in dt_detalle.Rows)
+                                {
+                                    foreach (DataColumn column in dt_detalle.Columns)
+                                    {
+                                        download obj_entidad = new download();
+                                        obj_entidad.nombreFile = row[column].ToString().Replace('"', ' ').Trim();
+                                        obj_entidad.ubicacion = rutaFoto;
+                                        list_files.Add(obj_entidad);
+                                    }
+                                }
+                            }
+                            else
+                            { /// archivos  
+
+                                rutaFoto = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_GrandesClientes/Descargas/");
+
+                                foreach (DataRow Fila in dt_detalle.Rows)
+                                {
+                                    download obj_entidad = new download();
+                                    obj_entidad.nombreFile = Fila["archivo"].ToString();
+                                    obj_entidad.nombreBd = Fila["nombreBD"].ToString();
+
+                                    obj_entidad.ubicacion = rutaFoto;
+                                    list_files.Add(obj_entidad);
+                                }
+
+                                ////restaurando el archivo...
+                                foreach (download item in list_files)
+                                {
+                                    nombreArchivoReal = "";
+                                    nombreArchivoReal = item.nombreBd.Replace(item.nombreBd, item.nombreFile);
+
+                                    rutaOrig = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_GrandesClientes/" + item.nombreBd);
+                                    rutaDest = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_GrandesClientes/Descargas/" + nombreArchivoReal);
+
+                                    if (System.IO.File.Exists(rutaDest)) //--- restaurarlo
+                                    {
+                                        System.IO.File.Delete(rutaDest);
+                                        System.IO.File.Copy(rutaOrig, rutaDest);
+                                    }
+                                    else
+                                    {
+                                        System.IO.File.Copy(rutaOrig, rutaDest);
+                                    }
+                                    Thread.Sleep(1000);
+                                }
+                            }
+
+                            if (list_files.Count > 0)
+                            {
+                                if (list_files.Count == 1)
+                                {
+                                    if (tipo == 1)
+                                    {
+                                        ruta_descarga = "1|" + ConfigurationManager.AppSettings["Archivos"] + "Descargas/" + list_files[0].nombreFile;
+                                    }
+                                    else
+                                    {
+                                        ruta_descarga = "1|" + ConfigurationManager.AppSettings["ArchivosFile"] + "Descargas/" + list_files[0].nombreFile;
+                                    }
+                                }
+                                else
+                                {
+                                    ruta_descarga = "1|" + comprimir_Files_Masivo(list_files, id_usuario, tipo);
+                                }
+                            }
+                            else
+                            {
+                                throw new System.InvalidOperationException("No hay informacion para mostrar");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ruta_descarga = "0|" + ex.Message;
+            }
+            return ruta_descarga;
+        }
+
+
+        public object Capa_Dato_download_grandesClientes_All_download_v2(int estado, string fecha_inicial, string codigoEmr, int id_usuario, int tipo)
+        {
+            DataTable dt_detalle = new DataTable();
+            List<download> list_files = new List<download>();
+            string rutaFoto = "";
+            string rutaOrig = "";
+            string rutaDest = "";
+            string nombreArchivoReal = "";
+            string ruta_descarga = "";
+
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_LECTURA_GRANDES_CLIENTES_DESCARGAR_MASIVO_V2", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@estado", SqlDbType.Int).Value = estado;
+                        cmd.Parameters.Add("@fecha_ejecucion", SqlDbType.VarChar).Value = fecha_inicial;
+                        cmd.Parameters.Add("@codigoEmr", SqlDbType.VarChar).Value = codigoEmr;
+                        cmd.Parameters.Add("@tipo", SqlDbType.Int).Value = tipo;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+
+
+                            if (tipo == 1) /// fotos
+                            {
+                                rutaFoto = System.Web.Hosting.HostingEnvironment.MapPath("~/Content/foto/foto/");
+                                foreach (DataRow row in dt_detalle.Rows)
+                                {
+                                    foreach (DataColumn column in dt_detalle.Columns)
+                                    {
+                                        download obj_entidad = new download();
+                                        obj_entidad.nombreFile = row[column].ToString().Replace('"', ' ').Trim();
+                                        obj_entidad.ubicacion = rutaFoto;
+                                        list_files.Add(obj_entidad);
+                                    }
+                                }
+                            }
+                            else
+                            { /// archivos  
+
+                                rutaFoto = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_GrandesClientes/Descargas/");
+
+                                foreach (DataRow Fila in dt_detalle.Rows)
+                                {
+                                    download obj_entidad = new download();
+                                    obj_entidad.nombreFile = Fila["archivo"].ToString();
+                                    obj_entidad.nombreBd = Fila["nombreBD"].ToString();
+
+                                    obj_entidad.ubicacion = rutaFoto;
+                                    list_files.Add(obj_entidad);
+                                }
+
+                                ////restaurando el archivo...
+                                foreach (download item in list_files)
+                                {
+                                    nombreArchivoReal = "";
+                                    nombreArchivoReal = item.nombreBd.Replace(item.nombreBd, item.nombreFile);
+
+                                    rutaOrig = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_GrandesClientes/" + item.nombreBd);
+                                    rutaDest = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_GrandesClientes/Descargas/" + nombreArchivoReal);
+
+                                    if (System.IO.File.Exists(rutaDest)) //--- restaurarlo
+                                    {
+                                        System.IO.File.Delete(rutaDest);
+                                        System.IO.File.Copy(rutaOrig, rutaDest);
+                                    }
+                                    else
+                                    {
+                                        System.IO.File.Copy(rutaOrig, rutaDest);
+                                    }
+                                    Thread.Sleep(1000);
+                                }
+                            }
+
+                            if (list_files.Count > 0)
+                            {
+                                if (list_files.Count == 1)
+                                {
+                                    if (tipo == 1)
+                                    {
+                                        ruta_descarga = "1|" + ConfigurationManager.AppSettings["Archivos"] + "Descargas/" + list_files[0].nombreFile;
+                                    }
+                                    else
+                                    {
+                                        ruta_descarga = "1|" + ConfigurationManager.AppSettings["ArchivosFile"] + "Descargas/" + list_files[0].nombreFile;
+                                    }
+                                }
+                                else
+                                {
+                                    ruta_descarga = "1|" + comprimir_Files_Masivo(list_files, id_usuario, tipo);
+                                }
+                            }
+                            else
+                            {
+                                throw new System.InvalidOperationException("No hay informacion para mostrar");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ruta_descarga = "0|" + ex.Message;
+            }
+            return ruta_descarga;
+        }
+
+
+
         public string Capa_Dato_get_download_grandesClientes(int Id_GrandeCliente, int tipo, int id_usuario)
         {
             DataTable dt_detalle = new DataTable();
@@ -4455,6 +4859,60 @@ namespace DSIGE.Dato
             return resultado;
         }
 
+        public string comprimir_Files_Masivo(List<download> list_download, int usuario_creacion, int tipo)
+        {
+            string resultado = "";
+            try
+            {
+                string ruta_destino = "";
+                string ruta_descarga = "";
+
+                if (tipo == 1) ///--fotos
+                {
+                    ruta_destino = System.Web.Hosting.HostingEnvironment.MapPath("~/Temp/Descargas/" + usuario_creacion + "_Masivo_FotosDescarga.zip");
+                    ruta_descarga = ConfigurationManager.AppSettings["Archivos"] + "Descargas/" + usuario_creacion + "_Masivo_FotosDescarga.zip";
+                }
+                else
+                {
+                    ruta_destino = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_GrandesClientes/Descargas/" + usuario_creacion + "_Masivo_ArchivosDescarga.zip");
+                    ruta_descarga = ConfigurationManager.AppSettings["ArchivosFile"] + "Descargas/" + usuario_creacion + "_Masivo_ArchivosDescarga.zip";
+                }
+
+                if (File.Exists(ruta_destino)) //--- restaurarlo
+                {
+                    System.IO.File.Delete(ruta_destino);
+                }
+                using (Ionic.Zip.ZipFile zip = new Ionic.Zip.ZipFile())
+                {
+                    foreach (download item in list_download)
+                    {
+                        var nombre = item.ubicacion + item.nombreFile;
+                        if (System.IO.File.Exists(item.ubicacion + item.nombreFile))
+                        {
+                            zip.AddFile(item.ubicacion + item.nombreFile, "");
+                        }
+                    }
+                    // Guardando el archivo zip 
+                    zip.Save(ruta_destino);
+                }
+                Thread.Sleep(2000);
+
+                if (File.Exists(ruta_destino))
+                {
+                    resultado = ruta_descarga;
+                }
+                else
+                {
+                    throw new System.InvalidOperationException("No se pudo generar la Descarga del Archivo");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return resultado;
+        }
+
         public object Capa_Dato_get_grandesClientes_detalleFile(int Id_GrandeCliente)
         {
             DataTable dt_detalle = new DataTable();
@@ -4483,6 +4941,11 @@ namespace DSIGE.Dato
             }
             return dt_detalle;
         }
+
+
+
+
+
 
 
     }

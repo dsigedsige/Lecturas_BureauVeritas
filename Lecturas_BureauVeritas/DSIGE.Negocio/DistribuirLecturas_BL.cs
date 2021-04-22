@@ -267,10 +267,22 @@ namespace DSIGE.Modelo
            {
                throw e;
            }
-
        }
 
-       public string Capa_Negocio_Inserta_Lecturas(HttpPostedFileBase file, int idlocal, string idfechaAsignacion, int idServicio, int idusuario, string fecha_lectura)
+        public string Capa_Negocio_DetalleLecturas_Correo_planos(List<string> ListaTrabajos, int id_usuario, int id_local, string FechaAsigna, int servicio)
+        {
+            try
+            {
+                Cls_Dato_DistrilbuirLecturas Objeto_Dato = new Cls_Dato_DistrilbuirLecturas();
+                return Objeto_Dato.Capa_Dato_DetalleLecturas_Correo_planos(ListaTrabajos, id_usuario, id_local, FechaAsigna, servicio);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public string Capa_Negocio_Inserta_Lecturas(HttpPostedFileBase file, int idlocal, string idfechaAsignacion, int idServicio, int idusuario, string fecha_lectura)
        {
            Cls_Dato_DistrilbuirLecturas Objeto_Dato = new Cls_Dato_DistrilbuirLecturas();
            return Objeto_Dato.Capa_Dato_GuardarArchivo(file, idlocal, idfechaAsignacion, idServicio, idusuario , fecha_lectura);

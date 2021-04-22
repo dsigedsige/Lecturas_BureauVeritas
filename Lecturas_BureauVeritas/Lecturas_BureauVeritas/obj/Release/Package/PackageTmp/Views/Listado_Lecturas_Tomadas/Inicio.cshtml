@@ -149,6 +149,11 @@
         .resaltado {
             color: green;
         }
+        .Julio table, th {
+            background-color: #333 !important;
+            color: white !important;
+        }
+
     </style>
 
 
@@ -309,16 +314,7 @@
                 var suministro = document.getElementById('suministro').value;
                 var medidor = document.getElementById('medidor').value;
                 var operario = document.getElementById('id_operador').value;
-
-                //if (local == 0) {
-                //    new PNotify({
-                //        title: 'Sistemas',
-                //        text: 'Por favor seleccione un local. Muchas gracias.',
-                //        type: 'error'
-                //    });
-                //    return;
-                //}
-
+ 
                 if ($("#idservicios").val() == -1) {
                     new PNotify({
                         title: 'Sistemas',
@@ -327,14 +323,7 @@
                     });
                     return;
                 }
-                //if (local == 0) {
-                //    new PNotify({
-                //        title: 'Sistemas',
-                //        text: 'Por favor seleccione un local. Muchas gracias.',
-                //        type: 'error'
-                //    });
-                //    return;
-                //}
+ 
 
                 if ($("#idservicios").val() == 0) {
                     $("#idservicios option").each(function () {
@@ -521,6 +510,63 @@
                     alert('Ocurrio un problema con la conexion, vuelva a intentar.')
                 });
             }
+
+                        
+            $scope.descagar_resultadosExcel = function () {
+                var fechaini = document.getElementById('f_inicial').value;
+                var fechafin = document.getElementById('f_final').value;
+                var servicio = document.getElementById('idservicios').value;
+
+                if (servicio == 0 || servicio == -1 ) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccione un Servicio. Muchas gracias.',
+                        type: 'error'
+                    });
+                    return;
+                } 
+
+                if (servicio != 9 || servicio != '9') {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Descarga solo para el Servicio Reclamos.',
+                        type: 'error'
+                    });
+                    return;
+                }  
+
+                $('.sige-load').show();
+
+                var req = {
+                    method: 'POST',
+                    url: 'Descarga_ResultadosReclamosExcel',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        fechaini: fechaini,
+                        fechafin: fechafin,
+                        servicio: servicio,
+                    }
+                }
+                $http(req).success(function (data) {
+                    $('.sige-load').hide();
+
+                    var res = data.split("|");
+                    if (res[0].replace(/["]/gi, '') == "0" || res[0].replace(/["]/gi, '') == 0) {
+                        alert(res[1]);
+                    } else {
+                        var url = res[1].replace(/["]/gi, '');
+                        window.open(url);
+                    }
+
+                }).error(function () {
+                    $scope.listLecturasTomadas = "";
+                    $('.sige-load').hide();
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                });
+            }
+ 
 
         });
 
@@ -755,7 +801,7 @@
                         servicio.append('<option value="-1" >- [ SELECCIONE ] -</option>');
                         servicio.append('<option value="0" >- [ TODOS ] -</option>');
                         for (var i = 0; i < response.length; i++) {
-                            if (response[i].id_TipoServicio == 1 || response[i].id_TipoServicio == 2 || response[i].id_TipoServicio == 3 || response[i].id_TipoServicio == 4) {
+                            if (response[i].id_TipoServicio == 1 || response[i].id_TipoServicio == 2 || response[i].id_TipoServicio == 3 || response[i].id_TipoServicio == 4 ||   response[i].id_TipoServicio == 6 || response[i].id_TipoServicio == 9 ) {
                                 servicio.append('<option value="' + response[i].id_TipoServicio +
                                     '">' + response[i].nombre_tiposervicio + '</option>');
                             }
@@ -763,7 +809,7 @@
                     } else {
                         servicio.append('<option value="-1" >- [ SELECCIONE ] -</option>');
                         for (var i = 0; i < response.length; i++) {
-                            if (response[i].id_TipoServicio == 1 || response[i].id_TipoServicio == 2 || response[i].id_TipoServicio == 3 || response[i].id_TipoServicio == 4) {
+                            if (response[i].id_TipoServicio == 1 || response[i].id_TipoServicio == 2 || response[i].id_TipoServicio == 3 || response[i].id_TipoServicio == 4 || response[i].id_TipoServicio == 6 || response[i].id_TipoServicio == 9) {
                                 servicio.append('<option value="' + response[i].id_TipoServicio +
                                     '">' + response[i].nombre_tiposervicio + '</option>');
                             }
@@ -819,155 +865,130 @@
         <div class="panel-heading">
             <h6><i class="fa fa-table fa-lg"></i> LISTADO DE LECTURAS TOMADAS</h6>
         </div>
-        <div class="panel-body">            
-                <div class="well" style="background: #314b75; color: white;     margin-top: -5px;">
+        <div class="panel-body">
+            <div class="well" style="background: #314b75; color: white;     margin-top: -5px;">
 
-                    <div class="row" style="    margin-top: -17px;  margin-bottom: -10px;">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="col-md-3" style="display:none">
-                                <label class="control-label">
-                                    Local
-                                </label>
-                                <select class="form-control" id="_local">
-                                    <option value="0" selected="selected">-- Seleccione --</option>
-                                    @foreach (Local oBj in new NLocal().NLista(new Request_Local_Select() { emp_id = ((Sesion)Session["Session_Usuario_Acceso"]).empresa.emp_id }))
-                                    {
-                                        <option value="@oBj.loc_id">@oBj.loc_nombre</option>
-                                    }
-                                </select>
-                            </div>
+                <div class="row" style="    margin-top: -17px;  margin-bottom: -10px;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="col-md-3" style="display:none">
+                            <label class="control-label">
+                                Local
+                            </label>
+                            <select class="form-control" id="_local">
+                                <option value="0" selected="selected">-- Seleccione --</option>
+                                @foreach (Local oBj in new NLocal().NLista(new Request_Local_Select() { emp_id = ((Sesion)Session["Session_Usuario_Acceso"]).empresa.emp_id }))
+                                {
+                                    <option value="@oBj.loc_id">@oBj.loc_nombre</option>
+                                }
+                            </select>
+                        </div>
 
-                            <div class="col-md-4">
-                                <label for="_supervisor" class="control-label">Servicios</label>
-                                <select class="form-control" id="idservicios"  >
-                                    <option value="-1">- [ SELECCIONE ] -</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4" style="margin-top: 7px;">
-                                <br />
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                    <input name="suministro" id="suministro" class="form-control" placeholder="Suministro">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <br />
-                                <div class="input-group" style="margin-top: 7px;">
-                                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                    <input name="medidor" id="medidor" class="form-control" placeholder="Medidor">
-                                </div>
+                        <div class="col-md-4">
+                            <label for="idservicios" class="control-label">Servicios</label>
+                            <select class="form-control" id="idservicios" ng-model="idServicio" ng-change="changeServicios(idServicio)">
+                                <option value="-1">- [ SELECCIONE ] -</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4" style="margin-top: 7px;">
+                            <br />
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                <input name="suministro" id="suministro" class="form-control" placeholder="Suministro">
                             </div>
                         </div>
-                    </div>
-
-
-                    <div class="row" style="margin-bottom: -15px;">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="col-md-3">
-                                <label for="_fechaAsigna" class="control-label">Fecha Inicial</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input  class="form-control" id="f_inicial" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="_fechaAsigna" class="control-label">Fecha Final</label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input   class="form-control" id="f_final" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="_supervisor" class="control-label">Lecturista :</label>
-                                <select id="id_operador" class="form-control"  ng-model="id_operario">
-                                    <option value=0>--[ TODOS ]-- </option>
-                                    <option ng-repeat="item in Obj_List_Operario" value="{{item.id_Operario}}">
-                                        {{item.id_Operario}}  :  {{item.desc_operario}}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <br />
-                                <div class="form-group form-group-sm">
-                                    <button role="button" class="btn btn-primary btn-sm" id="actualizar" ng-click="listaLecturasTomadas()"><i class="fa fa-refresh fa-lg"></i> Actualizar</button>
-                                    <button role="button" class="btn btn-default btn-sm" ng-click="Descargar_Excel()" title="Descargar"><i class="fa fa-download fa-lg"></i> </button>
-                                </div>
+                        <div class="col-md-4">
+                            <br />
+                            <div class="input-group" style="margin-top: 7px;">
+                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                <input name="medidor" id="medidor" class="form-control" placeholder="Medidor">
                             </div>
                         </div>
                     </div>
                 </div>
+
+
+                <div class="row" style="margin-bottom: -15px;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="col-md-3">
+                            <label for="_fechaAsigna" class="control-label">Fecha Inicial</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input class="form-control Julio" id="f_inicial" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="_fechaAsigna" class="control-label">Fecha Final</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input class="form-control" id="f_final" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="_supervisor" class="control-label">Lecturista :</label>
+                            <select id="id_operador" class="form-control" ng-model="id_operario">
+                                <option value=0>--[ TODOS ]-- </option>
+                                <option ng-repeat="item in Obj_List_Operario" value="{{item.id_Operario}}">
+                                    {{item.id_Operario}}  :  {{item.desc_operario}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <br />
+                            <div class="form-group form-group-sm">
+                                <button role="button" class="btn btn-primary btn-sm" id="actualizar" ng-click="listaLecturasTomadas()"><i class="fa fa-refresh fa-lg"></i> Actualizar</button>
+                                <button role="button" class="btn btn-default btn-sm" ng-click="Descargar_Excel()" title="Descargar"><i class="fa fa-download fa-lg"></i> </button>
+
+                                <button  class="btn btn-danger" ng-click="descagar_resultadosExcel();" ><span class="glyphicon glyphicon-cloud-download"></span> Resultado Reclamos</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="">
+                <table id="tblLista" class="table  table-bordered table-responsive" border="0" cellspacing="0" cellpadding="0" style="font-size:11px">
+                    <thead>
+                        <tr>
+                            <th>Suministro</th>
+                            <th>Medidor</th>
+                            <th style="text-align:right">Lec. Actual</th>
+
+                            <th style="text-align:right">Lec. Anterior</th>
+                            <th style="text-align:right">Promedio Consumo</th>
+                            <th style="text-align:center">Lecturista</th>
+
+                            <th style="text-align:center">Cod. Observacion</th>
+                            <th>Descripcion Observacion</th>
+                            <th style="text-align:center">Fecha Lectura</th>
+                            <th style="text-align:center">Foto</th>
+                        </tr>
+
+                    </thead>
+                    <tbody style="font-family: tahoma; font-size: 11px;">
+                        <tr  ng-repeat="item in listLecturasTomadas" on-finish-render="ngRepeatFinished">
+                            <td>{{item.Suministro_lectura}}</td>
+                            <td>{{item.Medidor_lectura}}</td>
+                            <td style="text-align:right">{{item.Confirmacion_lectura}}</td>
+                            <td style="text-align:right">{{item.lectura_Anterior}}</td>
+                            <td style="text-align:right">{{item.promedioConsumo_Lectura}}</td>
+                            <td>{{item.Operario}}</td>
+                            <td style="text-align:center">{{item.observacion_lectura}}</td>
+                            <td>{{item.descripcion_observacion}}</td>
+                            <td style="text-align:center">{{item.fechaLecturaMovil_Lectura}}</td>
+                            <td style="text-align:center;"> <a href="#" ng-click="MostrarFotos(item.id_Lectura);">{{item.tieneFoto_lectura}}</a> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
  
-                <div id="">
-                    <table id="tblLista" class="table  table-bordered table-responsive" border="0" cellspacing="0" cellpadding="0" style="font-size:11px">
-                        <thead >
-                            <tr>
-                                <th>Suministro</th>
-                                <th>Medidor</th>
-                                <th style="text-align:right">Lec. Actual</th>
-
-                                <th style="text-align:right">Lec. Anterior</th>
-                                <th style="text-align:right">Promedio Consumo</th>
-                                <th style="text-align:center">Lecturista</th>
-
-                                <th style="text-align:center">Cod. Observacion</th>
-                                <th>Descripcion Observacion</th>
-                                <th style="text-align:center">Fecha Lectura</th>
-                                <th style="text-align:center">Foto</th>
-                            </tr>
-                        </thead>
-                        <tbody style="font-family: tahoma; font-size: 11px;">
-                            <tr ng-repeat="item in listLecturasTomadas" on-finish-render="ngRepeatFinished">
-                                <td>{{item.Suministro_lectura}}</td>
-                                <td>{{item.Medidor_lectura}}</td>
-                                <td style="text-align:right">{{item.Confirmacion_lectura}}</td>
-                                <td style="text-align:right">{{item.lectura_Anterior}}</td>
-                                <td style="text-align:right">{{item.promedioConsumo_Lectura}}</td>
-                                <td>{{item.Operario}}</td>
-                                <td style="text-align:center">{{item.observacion_lectura}}</td>
-                                <td>{{item.descripcion_observacion}}</td>
-                                <td style="text-align:center">{{item.fechaLecturaMovil_Lectura}}</td>
-                                <td style="text-align:center;"> <a href="#" ng-click="MostrarFotos(item.id_Lectura);">{{item.tieneFoto_lectura}}</a> </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="exportar" ng-show="false">
-                    <table id="tbl_exportar">
-                        <thead style="font-family: tahoma; font-size: 12px;">
-                            <tr>
-                                <th>Suministro</th>
-                                <th>Medidor</th>
-                                <th style="text-align:right">Lec. Actual</th>
-
-                                <th style="text-align:right">Lec. Anterior</th>
-                                <th style="text-align:right">Promedio Consumo</th>
-                                <th style="text-align:center">Lecturista</th>
-
-                                <th style="text-align:center">Cod. Observacion</th>
-                                <th>Descripcion Observacion</th>
-                                <th style="text-align:center">Fecha Lectura</th>
-                                <th style="text-align:center">Foto</th>
-
-                            </tr>
-                        </thead>
-                        <tbody style="font-family: tahoma; font-size: 12px;">
-                            <tr ng-repeat="item in listLecturasTomadas">
-                                <td>{{item.Suministro_lectura}}</td>
-                                <td>{{item.Medidor_lectura}}</td>
-                                <td style="text-align:right">{{item.Confirmacion_lectura}}</td>
-                                <td style="text-align:right">{{item.lectura_Anterior}}</td>
-
-                                <td style="text-align:right">{{item.promedioConsumo_Lectura}}</td>
-                                <td>{{item.Operario}}</td>
-                                <td style="text-align:center">{{item.observacion_lectura}}</td>
-                                <td>{{item.descripcion_observacion}}</td>
-                                <td style="text-align:center">{{item.fechaLecturaMovil_Lectura}}</td>
-                                <td style="text-align:center">{{item.tieneFoto_lectura}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>        
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
         </div>
     </div>
     <div id="fotos" class="modal fade bd-example-modal-lg " tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">

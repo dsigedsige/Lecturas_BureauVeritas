@@ -315,6 +315,22 @@ namespace DSIGE.Web.Controllers
             }
         }
 
+        [HttpPost]
+        public string Generando_Enviar_Correo_planos(List<string> ListaOrdenes, int id_local, string FechaAsigna, int servicio)
+        {
+            object loDatos = null;
+            try
+            {
+                DistribuirLecturas_BL obj_negocio = new DistribuirLecturas_BL();
+                loDatos = obj_negocio.Capa_Negocio_DetalleLecturas_Correo_planos(ListaOrdenes, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id, id_local, FechaAsigna, servicio);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize("0|" + ex.Message, true);
+            }
+        }
+
 
         [HttpPost]
         public string Inserta_Excel_Lecturas(HttpPostedFileBase file, int idlocal, string idfechaAsignacion, int idServicio, string fecha_lectura)

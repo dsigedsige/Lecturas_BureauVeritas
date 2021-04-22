@@ -61,7 +61,40 @@ namespace Lecturas_BureauVeritas.Controllers
                 return _Serialize(ex.Message, true);
             }
         }
+                
+        [HttpPost]
+        public string download_grandesClientes_All_download(int estado, string fecha_inicial, string fecha_final, string codigoEmr, int opcion)
+        {
+            object loDatos;
+            try
+            {
+                Cls_Negocio_AsignarOrdenTrabajo obj_negocio = new Cls_Negocio_AsignarOrdenTrabajo();
+                loDatos = obj_negocio.Capa_Negocio_download_grandesClientes_All_download(estado, fecha_inicial, fecha_final, codigoEmr, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id, opcion);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
 
+
+
+        [HttpPost]
+        public string download_grandesClientes_All_download_v2(int estado, string fecha_inicial, string codigoEmr, int opcion)
+        {
+            object loDatos;
+            try
+            {
+                Cls_Negocio_AsignarOrdenTrabajo obj_negocio = new Cls_Negocio_AsignarOrdenTrabajo();
+                loDatos = obj_negocio.Capa_Negocio_download_grandesClientes_All_download_v2(estado, fecha_inicial, codigoEmr, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id, opcion);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
 
 
         [HttpPost]

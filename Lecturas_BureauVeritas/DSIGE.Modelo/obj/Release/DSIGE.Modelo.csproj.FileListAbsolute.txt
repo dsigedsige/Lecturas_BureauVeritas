@@ -142,3 +142,12 @@ C:\Users\user\Desktop\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo
 C:\Users\user\Desktop\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csproj.CopyComplete
 C:\Users\user\Desktop\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
 C:\Users\user\Desktop\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\bin\Release\DSIGE.Modelo.dll
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\bin\Release\DSIGE.Modelo.pdb
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\bin\Release\Newtonsoft.Json.dll
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\bin\Release\Newtonsoft.Json.xml
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csprojAssemblyReference.cache
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csproj.CoreCompileInputs.cache
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Release\DSIGE.Modelo.csproj.CopyComplete
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Release\DSIGE.Modelo.dll
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Release\DSIGE.Modelo.pdb

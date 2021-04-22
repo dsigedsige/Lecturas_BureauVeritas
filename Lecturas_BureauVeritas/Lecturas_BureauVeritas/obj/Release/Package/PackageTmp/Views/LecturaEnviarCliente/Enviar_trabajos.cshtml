@@ -519,16 +519,17 @@
                     return;
                 }
 
-                if (cbo_servicio.value == 1 || cbo_servicio.value == '1') {
-                    if (cbo_supervisor == '' || cbo_supervisor == '-1' || cbo_supervisor == -1) {
-                        new PNotify({
-                            title: 'Sistemas',
-                            text: 'Por favor seleccione un supervisor',
-                            type: 'error'
-                        });
-                        return;
-                    }
-                }
+                //if (cbo_servicio.value == 1 || cbo_servicio.value == '1') {
+                //    if (cbo_supervisor == '' || cbo_supervisor == '-1' || cbo_supervisor == -1) {
+                //        new PNotify({
+                //            title: 'Sistemas',
+                //            text: 'Por favor seleccione un supervisor',
+                //            type: 'error'
+                //        });
+                //        return;
+                //    }
+                //}
+
                 $('.sige-load').show();
 
                 var variables = {
@@ -596,14 +597,7 @@
                 return;
             }
 
-            if (cbo_servicio != 1 || cbo_servicio != '1') {
-                new PNotify({
-                    title: 'Sistemas',
-                    text: 'Solo para Lecturas y Re-lecturas.',
-                    type: 'error'
-                });
-                return;
-            }
+ 
 
             $('.sige-load').show();
             var variables = {
@@ -1065,9 +1059,13 @@
             }
             
             var urlPage = '';
-            if (cbo_servicio.value == 1 || cbo_servicio.value == 2) {
+            if (cbo_servicio.value == 1 || cbo_servicio.value == 2 || cbo_servicio.value == 9) {
                 urlPage = '../LecturaEnviarCliente/DescargarArchivoTexto_EnvioCliente';
-            } else {
+            }
+            else if (cbo_servicio.value == 3 || cbo_servicio.value == 4) {
+                urlPage = '../LecturaEnviarCliente/DescargarArchivoTexto_CorteReconexiones';
+            }
+            else {
                 urlPage = '../LecturaEnviarCliente/DescargaExcel_EnviarCliente';
             }
 
@@ -1093,7 +1091,7 @@
             $http(variables)
             .success(function (data) {
                 var res = data.split("|");
-                if (cbo_servicio.value == 1 || cbo_servicio.value == 2) {
+                if (cbo_servicio.value == 1 || cbo_servicio.value == 2 || cbo_servicio.value == 3 || cbo_servicio.value == 4 || cbo_servicio.value == 9) {
                     if (res[0].replace(/["]/gi, '') == 0 || res[0].replace(/["]/gi, '') == "0") {
                         new PNotify({
                             title: 'Sistemas',
@@ -1104,9 +1102,6 @@
                         alert(res[1]);
                     }
                     else {
-                        //id_link.href = res[1].replace(/["]/gi, '');
-                        //id_link.click();
-
                         let url = res[1].replace(/["]/gi, '');
                         id_link.href = res[1].replace(/["]/gi, '');
                         id_link.click();
@@ -1448,7 +1443,7 @@
 
                         </div>
 
-                        <div class="col-xs-12 col-sm-12 col-md-5  col-lg-5 " style="background-color:beige; padding: 2px;" tooltip="Filtro solo para el servicio de lecturas" tooltip-persistent>
+                        <div class="col-xs-12 col-sm-12 col-md-5  col-lg-5 " style="background-color:beige; padding: 2px;"   title="Filtro sólo para el servicio de lecturas" tooltip-persistent>
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <label for="_supervisor" class="control-label">Supervisor</label>
                                 <select id="cbo_supervisor" class="form-control" ng-model="id_supervisor" ng-change="Change_listando_Usuario_Operarios(id_supervisor); ">

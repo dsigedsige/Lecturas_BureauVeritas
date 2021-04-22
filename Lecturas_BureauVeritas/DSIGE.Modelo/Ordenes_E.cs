@@ -34,8 +34,14 @@ namespace DSIGE.Modelo
     {
         public string email { get; set; }
         public string ruta { get; set; }
-        public string nombreFile { get; set; }
- 
+        public string nombreFile { get; set; } 
+    }
+
+    public class ArchivoPlanos_E
+    {
+        public string id_Operario_Lectura { get; set; }
+        public string Unidad_Lecturas { get; set; }
+        public string email_operario { get; set; }
     }
 
     public class RepartoDetalle

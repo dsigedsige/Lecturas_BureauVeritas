@@ -323,13 +323,13 @@ namespace DSIGE.Web.Controllers
 
 
         [HttpPost]
-        public string ListandoLecturaEnviarCliente(int id_local, int id_tipo_servicio, int estado, string suministro, string medidor, int tecnico, string fechaAsignacion, string tipoCliente, int id_supervisor, int id_operario_supervisor)
+        public string ListandoLecturaEnviarCliente(int id_local, int id_tipo_servicio, int estado, string suministro, string medidor, int tecnico, string fechaAsignacion, string tipoCliente, int id_supervisor, int id_operario_supervisor, int SuministrosMasivos)
         {
             object loDatos;
             try
             {
                 Cls_Negocio_AsignarOrdenTrabajo obj_negocio = new Cls_Negocio_AsignarOrdenTrabajo();
-                loDatos = obj_negocio.Capa_Negocio_Get_ListaLecturaEnviarCliente(((Sesion)Session["Session_Usuario_Acceso"]).empresa.emp_id, id_local, id_tipo_servicio, estado, suministro, medidor, tecnico, fechaAsignacion, tipoCliente, id_supervisor, id_operario_supervisor);
+                loDatos = obj_negocio.Capa_Negocio_Get_ListaLecturaEnviarCliente(((Sesion)Session["Session_Usuario_Acceso"]).empresa.emp_id, id_local, id_tipo_servicio, estado, suministro, medidor, tecnico, fechaAsignacion, tipoCliente, id_supervisor, id_operario_supervisor, SuministrosMasivos,((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
                 return _Serialize(loDatos, true);
             }
             catch (Exception ex)
@@ -2039,6 +2039,58 @@ namespace DSIGE.Web.Controllers
                 return _Serialize(loDatos, true);
             }
         }
+
+
+
+        [HttpPost]
+        public string set_cambiarfoto_Lecturas(HttpPostedFileBase file, int idfotoLectura, string nombrefotoLectura)
+        {
+            object loDatos;
+            try
+            {
+                Cls_Negocio_AsignarOrdenTrabajo obj_negocio = new Cls_Negocio_AsignarOrdenTrabajo();
+                string extension = System.IO.Path.GetExtension(file.FileName);
+
+                string[] obj_foto = nombrefotoLectura.Split('_');
+                string nameFoto = DateTime.Now.ToString("HH:mm:ss.FFF").Replace(":", "");
+                nameFoto = nameFoto.Replace(".", "");
+
+                //--- formateando el nuevo nombre-----
+                string nombrefinal = obj_foto[0] + "_" + obj_foto[1] + "_" + obj_foto[2] + "_" + nameFoto + extension;
+
+                //---- guardando la imagen ---
+                string fileLocation = Server.MapPath("~/Content/foto/foto") + "\\" + nombrefinal;
+                file.SaveAs(fileLocation);
+
+                if (System.IO.File.Exists(fileLocation))
+                {
+                    loDatos = obj_negocio.Capa_Negocio_cambiarfoto_Lectura(((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id, idfotoLectura, nombrefinal);
+                    return _Serialize(loDatos, true);          
+                }
+                else
+                {
+                    loDatos = new
+                    {
+                        ok = false,
+                        mensaje = "Error: No se pudo guardar la foto en el servidor"
+                    };
+
+                    return _Serialize(loDatos, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                loDatos = new
+                {
+                    ok = false,
+                    mensaje = ex.Message
+                };
+                return _Serialize(loDatos, true);
+            }
+        }
+
+
+
 
 
         [HttpPost]

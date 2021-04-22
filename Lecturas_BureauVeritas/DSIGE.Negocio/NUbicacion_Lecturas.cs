@@ -56,6 +56,19 @@ namespace DSIGE.Negocio
             }
         }
 
+        public List<Ubicacion_Lectura> Capa_Negocio_Get_ListaServicios_new()
+        {
+            try
+            {
+                DUbicacion_Lecturas Objeto_Dato = new DUbicacion_Lecturas();
+                return Objeto_Dato.Capa_Dato_Get_ListaServicio_new();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public List<UbicacionOperario> NSeguimiento_Lecturas_II(string pFechaAsiga, int servicio, int operario, string suministro, string medidor)
         {
             try

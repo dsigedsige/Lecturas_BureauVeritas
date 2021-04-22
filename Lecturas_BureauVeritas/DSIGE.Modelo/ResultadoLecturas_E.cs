@@ -63,7 +63,12 @@ namespace DSIGE.Modelo
         public string hora { get; set; } 
         public string latitud { get; set; } 
         public string longitud { get; set; }
-        public string Sector_lectura { get; set; } 
+        public string Sector_lectura { get; set; }
+
+        public string CodigoEMR { get; set; }
+        public string operario { get; set; }
+        public string nombreCliente_lectura { get; set; }
+        public string estados { get; set; }
 
     }
 }

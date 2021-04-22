@@ -78,11 +78,11 @@ namespace DSIGE.Web.Controllers
 
               if (TipoServicio==1)
               {
-                  nombreArchivo = "LECTURAS_EXPORTADO" + usuario + ".xls";
+                  nombreArchivo = "LECTURAS_EXPORTADO_" + usuario + ".xls";
               }
               else if (TipoServicio == 2)
               {
-                  nombreArchivo = "RELECTURAS_EXPORTADO" + usuario + ".xls";
+                  nombreArchivo = "RELECTURAS_EXPORTADO_" + usuario + ".xls";
               }
                 else if (TipoServicio == 9)
                 {

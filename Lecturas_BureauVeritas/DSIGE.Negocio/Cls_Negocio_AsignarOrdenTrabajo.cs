@@ -213,6 +213,33 @@ namespace DSIGE.Negocio
         }
 
 
+        public object Capa_Negocio_download_grandesClientes_All_download(int estado, string fecha_inicial, string fecha_final, string codigoEmr, int id_usuario, int opcion)
+        {
+            try
+            {
+                Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
+                return Objeto_Dato.Capa_Negocio_download_grandesClientes_All_download(estado, fecha_inicial, fecha_final, codigoEmr, id_usuario, opcion);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public object Capa_Negocio_download_grandesClientes_All_download_v2(int estado, string fecha_inicial, string codigoEmr, int id_usuario, int opcion)
+        {
+            try
+            {
+                Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
+                return Objeto_Dato.Capa_Dato_download_grandesClientes_All_download_v2(estado, fecha_inicial, codigoEmr, id_usuario, opcion);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
         public object Capa_Negocio_getGrandesClientes_detalle(int Id_GrandeCliente)
         {
             try
@@ -376,12 +403,13 @@ namespace DSIGE.Negocio
 
         }
 
-        public List<Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio> Capa_Negocio_Get_ListaLecturaEnviarCliente(int empresa, int id_local, int id_tipo_servicio, int estado, string suministro, string medidor, int tecnico, string fechaAsignacion, string tipoCliente, int id_supervisor, int id_operario_supervisor)
+        public List<Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio> Capa_Negocio_Get_ListaLecturaEnviarCliente(int empresa, int id_local, int id_tipo_servicio, int estado, string suministro, string medidor, int tecnico, 
+                                                                                                            string fechaAsignacion, string tipoCliente, int id_supervisor, int id_operario_supervisor, int SuministrosMasivos, int iduser)
         {
             try
             {
                 Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
-                return Objeto_Dato.Capa_Dato_Get_ListaLecturaEnviarCliente(empresa, id_local, id_tipo_servicio, estado, suministro, medidor, tecnico, fechaAsignacion, tipoCliente, id_supervisor, id_operario_supervisor);
+                return Objeto_Dato.Capa_Dato_Get_ListaLecturaEnviarCliente(empresa, id_local, id_tipo_servicio, estado, suministro, medidor, tecnico, fechaAsignacion, tipoCliente, id_supervisor, id_operario_supervisor, SuministrosMasivos, iduser);
             }
             catch (Exception e)
             {
@@ -732,7 +760,19 @@ namespace DSIGE.Negocio
             {
                 throw e;
             }
+        }
 
+        public object Capa_Negocio_cambiarfoto_Lectura(int id_usuario, int idfotoLectura, string nombrefotoLectura)
+        {
+            try
+            {
+                Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
+                return Objeto_Dato.Capa_Dato_cambiarfoto_Lectura(id_usuario, idfotoLectura, nombrefotoLectura);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
 

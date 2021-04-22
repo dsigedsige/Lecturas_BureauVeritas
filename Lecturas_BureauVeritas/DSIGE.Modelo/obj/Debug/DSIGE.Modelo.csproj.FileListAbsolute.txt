@@ -154,8 +154,16 @@ D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\b
 D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\bin\Debug\DSIGE.Modelo.pdb
 D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\bin\Debug\Newtonsoft.Json.dll
 D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\bin\Debug\Newtonsoft.Json.xml
-D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Debug\DSIGE.Modelo.csprojAssemblyReference.cache
 D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Debug\DSIGE.Modelo.csproj.CoreCompileInputs.cache
 D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Debug\DSIGE.Modelo.csproj.CopyComplete
 D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Debug\DSIGE.Modelo.dll
 D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Debug\DSIGE.Modelo.pdb
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\bin\Debug\DSIGE.Modelo.dll
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\bin\Debug\DSIGE.Modelo.pdb
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\bin\Debug\Newtonsoft.Json.dll
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\bin\Debug\Newtonsoft.Json.xml
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Debug\DSIGE.Modelo.csprojAssemblyReference.cache
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Debug\DSIGE.Modelo.csproj.CoreCompileInputs.cache
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Debug\DSIGE.Modelo.csproj.CopyComplete
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Debug\DSIGE.Modelo.dll
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Modelo\obj\Debug\DSIGE.Modelo.pdb

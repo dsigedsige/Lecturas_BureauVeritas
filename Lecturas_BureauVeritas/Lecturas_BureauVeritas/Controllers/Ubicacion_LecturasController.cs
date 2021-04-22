@@ -81,6 +81,23 @@ namespace DSIGE.Web.Controllers
             {
                 return _Serialize(ex.Message, true);
             }
+        }
+
+
+        [HttpPost]
+        public string ListandoServicios_new()
+        {
+            object loDatos;
+            try
+            {
+                NUbicacion_Lecturas obj_negocio = new NUbicacion_Lecturas();
+                loDatos = obj_negocio.Capa_Negocio_Get_ListaServicios_new();
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
 
         }
 

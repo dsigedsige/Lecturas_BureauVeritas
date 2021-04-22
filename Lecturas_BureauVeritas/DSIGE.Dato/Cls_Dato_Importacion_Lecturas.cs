@@ -1068,7 +1068,7 @@ namespace DSIGE.Dato
                 using (SqlConnection cn = new SqlConnection(cadenaCnx))
                 {
                     cn.Open();
-                    using (SqlCommand cmd = new SqlCommand("SP_S_IMPORTAR_EXCEL_GRANDES_CLIENTES_AGRUPADO", cn))
+                    using (SqlCommand cmd = new SqlCommand("SP_S_IMPORTAR_EXCEL_GRANDES_CLIENTES_AGRUPADO_NEW", cn))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -1129,6 +1129,44 @@ namespace DSIGE.Dato
             return res;
         }
 
+  
+        public object Capa_Dato_Agrupado_lectura_Relectura(string fechaAsignacion, int cod_usuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            resul res = new resul();
+            object resul = null;
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_IMPORTAR_ARCHIVO_EXCEL_AGRUPADO_RELECTURA", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = cod_usuario;
+                        cmd.Parameters.Add("@fecha_asignar", SqlDbType.VarChar).Value = fechaAsignacion;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                            resul = dt_detalle;
+                        }
+                    }
+                }
+                res.ok = true;
+                res.data = resul;
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
+        }
+
+
+
         public object Capa_Dato_Agrupado_reclamos(string fechaAsignacion, int cod_usuario)
         {
             DataTable dt_detalle = new DataTable();
@@ -1140,6 +1178,42 @@ namespace DSIGE.Dato
                 {
                     cn.Open();
                     using (SqlCommand cmd = new SqlCommand("SP_S_IMPORTAR_ARCHIVO_EXCEL_RECLAMO_AGRUPADO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = cod_usuario;
+                        cmd.Parameters.Add("@fecha_asignar", SqlDbType.VarChar).Value = fechaAsignacion;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                            resul = dt_detalle;
+                        }
+                    }
+                }
+                res.ok = true;
+                res.data = resul;
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
+        }
+
+
+        public object Capa_Dato_Agrupado_relectura(string fechaAsignacion, int cod_usuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            resul res = new resul();
+            object resul = null;
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_IMPORTAR_ARCHIVO_EXCEL_RELECTURA_AGRUPADO", cn))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -1487,7 +1561,7 @@ namespace DSIGE.Dato
                 using (SqlConnection con = new SqlConnection(cadenaCnx))
                 {
                     con.Open();
-                    using (SqlCommand cmd = new SqlCommand("SP_I_IMPORTAR_EXCEL_GRANDES_CLIENTES_MOVIL", con))
+                    using (SqlCommand cmd = new SqlCommand("SP_I_IMPORTAR_EXCEL_GRANDES_CLIENTES_MOVIL_NEW", con))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -1505,8 +1579,7 @@ namespace DSIGE.Dato
             }
             return Resultado;
         }
-
-
+                                   
         public string Capa_Dato_save_Lecturas_Reclamos(string fechaAsignacion, string fechaMovil, int id_user)
         {
             var Resultado = "";
@@ -1535,6 +1608,35 @@ namespace DSIGE.Dato
             }
             return Resultado;
         }
+
+
+        public string Capa_Dato_save_Lecturas_Relectura(string fechaAsignacion, string fechaMovil, int id_user)
+        {
+            var Resultado = "";       
+            try
+            {
+                using (SqlConnection con = new SqlConnection(cadenaCnx))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_I_IMPORTAR_EXCEL_ACTUALZAR_RELECTURA_ENVIAR_MOVIL", con))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@FechaAsigna", SqlDbType.VarChar).Value = fechaAsignacion;
+                        cmd.Parameters.Add("@FechaMovil", SqlDbType.VarChar).Value = fechaMovil;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_user;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                Resultado = "1|Ok";
+            }
+            catch (Exception e)
+            {
+                Resultado = "0|" + e.Message;
+            }
+            return Resultado;
+        }
+
 
 
         public object Capa_Dato_get_generarReparto_Pdf(string fecha_Asigna, int tipo)
@@ -1634,6 +1736,37 @@ namespace DSIGE.Dato
             }
             return Resultado;
         }
+
+
+        public string Capa_Dato_save_Relectura(string fechaAsignacion, string fechaMovil, int id_user)
+        {
+            var Resultado = "";
+
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(cadenaCnx))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_I_IMPORTAR_EXCEL_CARGAR_RELECTURA_ENVIAR_MOVIL", con))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@FechaAsigna", SqlDbType.VarChar).Value = fechaAsignacion;
+                        cmd.Parameters.Add("@FechaMovil", SqlDbType.VarChar).Value = fechaMovil;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_user;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                Resultado = "1|Ok";
+            }
+            catch (Exception e)
+            {
+                Resultado = "0|" + e.Message;
+            }
+            return Resultado;
+        }
+
 
 
         public string Capa_Dato_ValidacionLectura(string fechaAsignacion)
@@ -1796,7 +1929,7 @@ namespace DSIGE.Dato
                     con.Open();
 
                     //eliminando registros del usuario
-                    using (SqlCommand cmd = new SqlCommand("SP_D_TEMP_GRANDES_CLIENTES", con))
+                    using (SqlCommand cmd = new SqlCommand("SP_D_TEMP_GRANDES_CLIENTES_NEW", con))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -1810,12 +1943,12 @@ namespace DSIGE.Dato
 
                         bulkCopy.BatchSize = 500;
                         bulkCopy.NotifyAfter = 1000;
-                        bulkCopy.DestinationTableName = "TEMP_GRANDES_CLIENTES";
+                        bulkCopy.DestinationTableName = "TEMP_GRANDES_CLIENTES_NEW";
                         bulkCopy.WriteToServer(dt);
 
                         //Actualizando campos 
 
-                        string Sql = "UPDATE TEMP_GRANDES_CLIENTES SET nombreArchivo='" + nombreArchivo + "',   loc_id ='" + idlocal + "' , idUsuarioExport='" + usuario + "', fechaAsignacion= '" + idfechaAsignacion + "'   WHERE idUsuarioExport IS NULL    ";
+                        string Sql = "UPDATE TEMP_GRANDES_CLIENTES_NEW SET nombreArchivo='" + nombreArchivo + "',   loc_id ='" + idlocal + "' , idUsuarioExport='" + usuario + "', fechaAsignacion= '" + idfechaAsignacion + "'   WHERE idUsuarioExport IS NULL    ";
 
                         using (SqlCommand cmd = new SqlCommand(Sql, con))
                         {
@@ -1977,6 +2110,76 @@ namespace DSIGE.Dato
             }
             return res;
         }
+                
+
+        public object Capa_Dato_save_temporalLectura_Relectura(string fileLocation, int usuario, int idlocal, int idservicio, string idfechaAsignacion, string nombreArchivo)
+        {
+            object resul = null;
+            resul res = new resul();
+
+            DataTable dt = new DataTable();
+
+            try
+            {
+                string sql = "SELECT * FROM [Importar$]";
+
+                OleDbDataAdapter da = new OleDbDataAdapter(sql, ConectarExcel(fileLocation));
+                da.SelectCommand.CommandType = CommandType.Text;
+                da.Fill(dt);
+                cn.Close();
+
+                using (SqlConnection con = new SqlConnection(cadenaCnx))
+                {
+                    con.Open();
+
+                    //eliminando registros del usuario
+                    using (SqlCommand cmd = new SqlCommand("SP_D_TEMP_LECTURA_RELECTURA", con))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = usuario;
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    //guardando al informacion de la importacion
+                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(con))
+                    {
+
+                        bulkCopy.BatchSize = 500;
+                        bulkCopy.NotifyAfter = 1000;
+                        bulkCopy.DestinationTableName = "TEMP_LECTURA_RELECTURA";
+                        bulkCopy.WriteToServer(dt);
+
+                        //Actualizando campos 
+
+                        string Sql = "UPDATE TEMP_LECTURA_RELECTURA SET nombreArchivo='" + nombreArchivo + "',   loc_id ='" + idlocal + "' , idUsuarioExport='" + usuario + "', fechaAsignacion=getdate()   WHERE idUsuarioExport IS NULL    ";
+
+                        using (SqlCommand cmd = new SqlCommand(Sql, con))
+                        {
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.Text;
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    resul = "OK";
+                }
+
+                res.ok = true;
+                res.data = resul;
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return res;
+        }
+
+
 
 
         public object Capa_Dato_save_temporalReclamos(string fileLocation, int usuario, int idlocal, int idservicio, string idfechaAsignacion, string nombreArchivo)
@@ -2046,7 +2249,73 @@ namespace DSIGE.Dato
             return res;
         }
 
-        
+        public object Capa_Dato_save_temporalRelectura(string fileLocation, int usuario, int idlocal, int idservicio, string idfechaAsignacion, string nombreArchivo)
+        {
+            object resul = null;
+            resul res = new resul();
+
+            DataTable dt = new DataTable();
+
+            try
+            {
+                string sql = "SELECT * FROM [Importar$]";
+
+                OleDbDataAdapter da = new OleDbDataAdapter(sql, ConectarExcel(fileLocation));
+                da.SelectCommand.CommandType = CommandType.Text;
+                da.Fill(dt);
+                cn.Close();
+
+                using (SqlConnection con = new SqlConnection(cadenaCnx))
+                {
+                    con.Open();
+
+                    //eliminando registros del usuario
+                    using (SqlCommand cmd = new SqlCommand("SP_D_TEMP_RELECTURA", con))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = usuario;
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    //guardando al informacion de la importacion
+                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(con))
+                    {
+
+                        bulkCopy.BatchSize = 500;
+                        bulkCopy.NotifyAfter = 1000;
+                        bulkCopy.DestinationTableName = "TEMP_RELECTURA";
+                        bulkCopy.WriteToServer(dt);
+
+                        //Actualizando campos 
+
+                        string Sql = "UPDATE TEMP_RELECTURA SET nombreArchivo='" + nombreArchivo + "',   loc_id ='" + idlocal + "' , idUsuarioExport='" + usuario + "', fechaAsignacion=getdate()   WHERE idUsuarioExport IS NULL    ";
+
+                        using (SqlCommand cmd = new SqlCommand(Sql, con))
+                        {
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.Text;
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    resul = "OK";
+                }
+
+                res.ok = true;
+                res.data = resul;
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return res;
+        }
+
 
 
         public List<Cls_Entidad_Lecturas_Relecturas> Capa_Dato_Registros_IncorrectosLectura(string fechaAsignacion, int usuario, int id_servicio)
@@ -2168,8 +2437,7 @@ namespace DSIGE.Dato
             }
             return dt_detalle;
         }
-
-
+        
         public string SendEmail(string correo, string rutaFile, string nombreFile, int servicio)
         {
             string path;
@@ -2192,7 +2460,7 @@ namespace DSIGE.Dato
                 {
                     message.To.Add(new MailAddress(curr_address));
                 }
-                message.From = new MailAddress("lecturas.bureauveritas@gmail.com");
+                message.From = new MailAddress("lectura.bureauveritas@gmail.com");
                 message.Subject = "Suministros de Trabajo " + DateTime.Today.ToString("dd-MM-yyyy");
                 message.Body = body;
                 message.IsBodyHtml = true;
@@ -2213,8 +2481,8 @@ namespace DSIGE.Dato
                 {
                     var credential = new NetworkCredential
                     {
-                        UserName = "lecturas.bureauveritas@gmail.com",
-                        Password = "Lecturas2019"
+                        UserName = "lectura.bureauveritas@gmail.com",
+                        Password = "Lectura.2020"
                     };
                     smtp.Credentials = credential;
                     smtp.Host = "smtp.gmail.com";
@@ -2281,22 +2549,23 @@ namespace DSIGE.Dato
                         Excel.ExcelWorksheet oWs = oEx.Workbook.Worksheets.Add("DatosSuministros");
                         oWs.Cells.Style.Font.SetFromFont(new Font("Tahoma", 9));
 
-                        for (int j = 1; j <= 10; j++)
+                        for (int j = 1; j <= 11; j++)
                         {
                             oWs.Cells[1, j].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                         }
 
                         oWs.Cells[1, 1].Value = "#";
-                        oWs.Cells[1, 2].Value = "Cuenta Contrato";
-                        oWs.Cells[1, 3].Value = "Nombre Interlocutor";
-                        oWs.Cells[1, 4].Value = "Clase Cuenta";
+                        oWs.Cells[1, 2].Value = "Aviso";
+                        oWs.Cells[1, 3].Value = "Cuenta Contrato";
+                        oWs.Cells[1, 4].Value = "Nombre Interlocutor";
+                        oWs.Cells[1, 5].Value = "Clase Cuenta";
 
-                        oWs.Cells[1, 5].Value = "Instalación";
-                        oWs.Cells[1, 6].Value = "Medidor";
-                        oWs.Cells[1, 7].Value = "Dirección de Instalación";
-                        oWs.Cells[1, 8].Value = "Distrito de Instalación";
-                        oWs.Cells[1, 9].Value = "Unidad de Lectura";
-                        oWs.Cells[1, 10].Value = "Técnico";
+                        oWs.Cells[1, 6].Value = "Instalación";
+                        oWs.Cells[1, 7].Value = "Medidor";
+                        oWs.Cells[1, 8].Value = "Dirección de Instalación";
+                        oWs.Cells[1, 9].Value = "Distrito de Instalación";
+                        oWs.Cells[1, 10].Value = "Unidad de Lectura";
+                        oWs.Cells[1, 11].Value = "Técnico";
 
                         int ac = 0;
                          _fila = 2;
@@ -2313,17 +2582,19 @@ namespace DSIGE.Dato
                                 oWs.Cells[_fila, 1].Value = ac;
 
                                 correo = oBj["email_operario"].ToString();
-                                oWs.Cells[_fila, 2].Value = oBj["suministro_corte"].ToString();
-                                oWs.Cells[_fila, 3].Value = oBj["nombreInterlocutor_corte"].ToString();
-                                oWs.Cells[_fila, 4].Value = oBj["claseAviso_corte"].ToString();
 
-                                oWs.Cells[_fila, 5].Value = oBj["nroInstalacion_corte"].ToString();
-                                oWs.Cells[_fila, 6].Value = oBj["medidor_corte"].ToString();
+                                oWs.Cells[_fila, 2].Value = oBj["aviso_corte"].ToString();
+                                oWs.Cells[_fila, 3].Value = oBj["suministro_corte"].ToString();
+                                oWs.Cells[_fila, 4].Value = oBj["nombreInterlocutor_corte"].ToString();
+                                oWs.Cells[_fila, 5].Value = oBj["claseAviso_corte"].ToString();
 
-                                oWs.Cells[_fila, 7].Value = oBj["direccion_corte"].ToString();
-                                oWs.Cells[_fila, 8].Value = oBj["distrito_corte"].ToString();
-                                oWs.Cells[_fila, 9].Value = oBj["unidad_corte"].ToString();
-                                oWs.Cells[_fila, 10].Value = oBj["id_Operario_corte"].ToString();
+                                oWs.Cells[_fila, 6].Value = oBj["nroInstalacion_corte"].ToString();
+                                oWs.Cells[_fila, 7].Value = oBj["medidor_corte"].ToString();
+
+                                oWs.Cells[_fila, 8].Value = oBj["direccion_corte"].ToString();
+                                oWs.Cells[_fila, 9].Value = oBj["distrito_corte"].ToString();
+                                oWs.Cells[_fila, 10].Value = oBj["unidad_corte"].ToString();
+                                oWs.Cells[_fila, 11].Value = oBj["id_Operario_corte"].ToString();
 
                                 if (id_operario != Convert.ToInt32(oBj["id_Operario_corte"].ToString()))
                                 {
@@ -2342,7 +2613,7 @@ namespace DSIGE.Dato
                         oWs.Row(1).Style.VerticalAlignment = Style.ExcelVerticalAlignment.Center;
                         oWs.Column(1).Style.Font.Bold = true;
 
-                        for (int k = 1; k <= 9; k++)
+                        for (int k = 1; k <= 11; k++)
                         {
                             oWs.Column(k).AutoFit();
                         }
@@ -2376,5 +2647,251 @@ namespace DSIGE.Dato
             }
             return Res;
         }
+        
+        public object Capa_Dato_save_temporalSuministroMasivo(string fileLocation, int usuario, int idservicio)
+        {
+            object resul = null;
+            resul res = new resul();
+
+            DataTable dt = new DataTable();
+
+            try
+            {
+                string sql = "SELECT * FROM [Importar$]";
+
+                OleDbDataAdapter da = new OleDbDataAdapter(sql, ConectarExcel(fileLocation));
+                da.SelectCommand.CommandType = CommandType.Text;
+                da.Fill(dt);
+                cn.Close();
+
+                using (SqlConnection con = new SqlConnection(cadenaCnx))
+                {
+                    con.Open();
+
+                    //eliminando registros del usuario
+                    using (SqlCommand cmd = new SqlCommand("SP_D_EMP_SUMINISTRO_MASIVO", con))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = usuario;
+                        cmd.Parameters.Add("@id_servicio", SqlDbType.Int).Value = idservicio;
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    //guardando al informacion de la importacion
+                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(con))
+                    {
+
+                        bulkCopy.BatchSize = 500;
+                        bulkCopy.NotifyAfter = 1000;
+                        bulkCopy.DestinationTableName = "TEMP_SUMINISTRO_MASIVO";
+                        bulkCopy.WriteToServer(dt);
+
+                        //Actualizando campos 
+
+                        string Sql = "UPDATE TEMP_SUMINISTRO_MASIVO SET  id_servicio ='" + idservicio + "' , idUsuarioImport='" + usuario + "'  WHERE idUsuarioImport IS NULL    ";
+
+                        using (SqlCommand cmd = new SqlCommand(Sql, con))
+                        {
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.Text;
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    resul = "OK";
+                }
+
+                res.ok = true;
+                res.data = resul;
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            finally
+            {
+                cn.Close();
+            }
+            return res;
+        }
+        
+        public object Capa_Dato_Agrupado_suministroMasivo(int idServicio, int cod_usuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            resul res = new resul();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_SUMINISTRO_MASIVO_EXCEL_AGRUPADO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_servicio", SqlDbType.Int).Value = idServicio;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = cod_usuario;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                res.ok = true;
+                res.data = dt_detalle;
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
+        }
+
+
+        //public string Capa_Dato_set_EnviarCorreo_grandesClientes(int servicio, string fecha_Asigna, int usuario)
+        //{
+        //    string mensaje = "";
+        //    try
+        //    {
+        //        cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+        //        List<DistribuirLecturas_E> ListData = new List<DistribuirLecturas_E>();
+
+        //        using (SqlConnection cn = new SqlConnection(cadenaCnx))
+        //        {
+        //            cn.Open();
+        //            /// generando los archivos excel
+        //            using (SqlCommand cmd = new SqlCommand("PROC_S_ENVIAR_CORREO_CORTES", cn))
+        //            {
+        //                cmd.CommandTimeout = 0;
+        //                cmd.CommandType = CommandType.StoredProcedure;
+        //                cmd.Parameters.Add("@id_servicio", SqlDbType.Int).Value = servicio;
+        //                cmd.Parameters.Add("@fecha_asignacion", SqlDbType.VarChar).Value = fecha_Asigna;
+
+
+        //                DataTable dt_detalle = new DataTable();
+        //                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+        //                {
+        //                    da.Fill(dt_detalle);
+        //                    if (dt_detalle.Rows.Count <= 0)
+        //                    {
+        //                        mensaje = "0|No hay informacion disponible";
+        //                    }
+        //                    else
+        //                    {
+        //                        Archivo_E obj_entidad = new Archivo_E();
+        //                        mensaje = GenerarArchivoExcel(dt_detalle, servicio, fecha_Asigna, usuario);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        mensaje = ex.Message;
+        //    }
+        //    return mensaje;
+        //}
+
+
+
+        public DataTable get_datosEnviosCorreo_grandesClientes(int id_servicio, string fecha_asignacion)
+        {
+            DataTable dt_detalle = new DataTable();
+            cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_IMPORTAR_ARCHIVO_EXCEL_EMAIL_GRANDES_CLIENTES", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_servicio", SqlDbType.Int).Value = id_servicio;
+                        cmd.Parameters.Add("@fecha_asignacion", SqlDbType.VarChar).Value = fecha_asignacion;
+
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public string Capa_Dato_set_EnviarCorreo_grandesClientes(int servicio, string fecha_Asigna, int usuario)
+        {
+            DataTable dt_detalleMail = new DataTable();
+            string mensaje = "OK";
+            try
+            {
+                ///---obtenere la informacion para el llenado del correo ---
+                dt_detalleMail = get_datosEnviosCorreo_grandesClientes(servicio, fecha_Asigna);
+
+                if (dt_detalleMail.Rows.Count > 0)
+                {
+
+                    for (int i = 0; i < dt_detalleMail.Rows.Count; i++)
+                    {
+                        if (dt_detalleMail.Rows[i]["destinatario"].ToString().Length > 0)
+                        {
+                            var message = new MailMessage();
+                            message.From = new MailAddress(dt_detalleMail.Rows[i]["remitente"].ToString());
+                            message.To.Add(new MailAddress(dt_detalleMail.Rows[i]["destinatario"].ToString()));
+                            message.Subject = dt_detalleMail.Rows[i]["asunto"].ToString();
+                            message.Body = dt_detalleMail.Rows[i]["cuerpoMensaje"].ToString();
+                            message.IsBodyHtml = true;
+                            message.Priority = MailPriority.Normal;
+
+                            //---agregando la copia del correo 
+                            if (dt_detalleMail.Rows[i]["copiaDestinatario"].ToString().Length > 0)
+                            {
+                                message.CC.Add(new MailAddress(dt_detalleMail.Rows[i]["copiaDestinatario"].ToString()));
+                            }
+                            using (var smtp = new SmtpClient())
+                            {
+                                smtp.EnableSsl = true;
+                                smtp.UseDefaultCredentials = false;
+
+                                var credential = new NetworkCredential(dt_detalleMail.Rows[i]["remitente"].ToString(), dt_detalleMail.Rows[i]["remitentePass"].ToString());
+                                smtp.Credentials = credential;
+                                smtp.Host = "smtp.gmail.com";
+                                smtp.Port = 587;
+
+                                try
+                                {
+                                    smtp.Send(message);
+                                }
+                                catch (Exception ex)
+                                {
+
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    mensaje = "Error al envio de correo no hay informacion para enviar";
+                }
+            }
+            catch (Exception e)
+            {
+                mensaje = e.Message;
+            }
+            return mensaje;
+        }
+
+
+
+
     }
 }

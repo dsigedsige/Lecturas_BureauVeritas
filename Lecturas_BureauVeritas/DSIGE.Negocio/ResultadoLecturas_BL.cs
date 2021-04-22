@@ -144,7 +144,23 @@ namespace DSIGE.Negocio
             {
                 throw e;
             }
+        }       
+
+
+
+        public List<ResultadoLecturas_E> Capa_Negocio_listando_detalleGrandesClientes(string fechaAsignacion, int idServicio, int operario)
+        {
+            try
+            {
+                Cls_Dato_ResultadoLecturas Objeto_Dato = new Cls_Dato_ResultadoLecturas();
+                return Objeto_Dato.Capa_Dato_listando_detalleGrandesClientes(fechaAsignacion, idServicio, operario);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
+
 
 
         public string Capa_Negocio_Guardar_NotasOperario(string fechaAsignacion, int idServicio, int operario, string observacion, int usuario)

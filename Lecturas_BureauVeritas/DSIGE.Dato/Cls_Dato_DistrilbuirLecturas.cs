@@ -1129,7 +1129,7 @@ namespace DSIGE.Dato
             return Resultado;
         }
 
-        public string Capa_Dato_DetalleLecturas_Correo(List<string> ListaTrabajos, int id_usuario, int id_local, string FechaAsigna, int servicio)
+       public string Capa_Dato_DetalleLecturas_Correo(List<string> ListaTrabajos, int id_usuario, int id_local, string FechaAsigna, int servicio)
        {
            string mensaje = "";
            string Res = "";
@@ -1138,13 +1138,17 @@ namespace DSIGE.Dato
                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
                List<DistribuirLecturas_E> ListData = new List<DistribuirLecturas_E>();
 
-               using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                List<string> ListaOperarios = new List<string>();
+                ListaOperarios = ListaTrabajos.Distinct().ToList();
+
+
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
                {
                    cn.Open();
                    List<Archivo_E> listArchivos = new List<Archivo_E>();
    
                    /// generando los archivos excel
-                   for (int i = 0; i < ListaTrabajos.Count(); i++)
+                   for (int i = 0; i < ListaOperarios.Count(); i++)
                    {          
                        using (SqlCommand cmd = new SqlCommand("SP_S_DISTRIBUCION_RELECTURA_CORREO", cn))
                        {
@@ -1153,7 +1157,7 @@ namespace DSIGE.Dato
                            cmd.Parameters.Add("@id_local", SqlDbType.Int).Value = id_local;
                            cmd.Parameters.Add("@fechaAsigna", SqlDbType.VarChar).Value = FechaAsigna;
                            cmd.Parameters.Add("@id_servicio", SqlDbType.Int).Value = servicio;
-                           cmd.Parameters.Add("@id_operario", SqlDbType.Int).Value =  ListaTrabajos[i];  
+                           cmd.Parameters.Add("@id_operario", SqlDbType.Int).Value = ListaOperarios[i];  
 
                            DataTable dt_detalle = new DataTable();
                            using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -1166,8 +1170,8 @@ namespace DSIGE.Dato
                                else
                                {
                                    Archivo_E obj_entidad = new Archivo_E();
-                                   Res = GenerarArchivoExcel(dt_detalle, ListaTrabajos[i], servicio);
-
+                                   Res = GenerarArchivoExcel(dt_detalle, ListaOperarios[i], servicio);
+                                    
                                    string[] ArchivosExcel = Res.Split('|');                                   
                                    obj_entidad.email = ArchivosExcel[0];
                                    obj_entidad.ruta = ArchivosExcel[1];
@@ -1197,8 +1201,7 @@ namespace DSIGE.Dato
            }
            return mensaje;
        }
-
-
+        
        public string SendEmail(string correo, string rutaFile, string nombreFile)
        {
            string path;
@@ -1217,7 +1220,7 @@ namespace DSIGE.Dato
                //{
                //    message.To.Add(new MailAddress(cc));
                //}
-               message.From = new MailAddress("lecturas.bureauveritas@gmail.com");
+               message.From = new MailAddress("lectura.bureauveritas@gmail.com");
                message.Subject = "Suministros de Trabajo " + DateTime.Today.ToString("dd-MM-yyyy"); 
                message.Body = body;
                message.IsBodyHtml = true;
@@ -1236,8 +1239,8 @@ namespace DSIGE.Dato
                {
                    var credential = new NetworkCredential
                    {
-                       UserName = "lecturas.bureauveritas@gmail.com",
-                       Password = "Lecturas2019"
+                       UserName = "lectura.bureauveritas@gmail.com",
+                       Password = "Lectura.2020"
                    };
                     smtp.Host = "smtp.gmail.com";
                     smtp.UseDefaultCredentials = false;
@@ -1356,9 +1359,7 @@ namespace DSIGE.Dato
             }
             return Res;       
        }
-
-
-
+               
         public string GenerarArchivoExcel(DataTable dt_detalles, string id_operario, int idServices)
         {
             string nombreServicio = "";
@@ -1465,10 +1466,7 @@ namespace DSIGE.Dato
             }
             return Res;
         }
-
-
- 
-
+               
         public string Capa_Dato_GuardarArchivo(HttpPostedFileBase file, int idlocal, string fechaAsignacion, int idServicio, int idusuario , string fecha_lectura)
         {
            DataTable dt = new DataTable();
@@ -1586,7 +1584,141 @@ namespace DSIGE.Dato
 
            return mensaje;
        }
-        
+
+        public string Capa_Dato_DetalleLecturas_Correo_planos(List<string> ListaTrabajos, int id_usuario, int id_local, string FechaAsigna, int servicio)
+        {
+            string mensaje = "Lo sentimos sucedio un problema";
+            string rutaOrig = "";
+            string emailDestinatario = "";
+            string unidadLecturasConcat = "";
+ 
+            MailMessage message = null;
+            Attachment obj_adjuntarFile = null;
+
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+                List<DistribuirLecturas_E> ListData = new List<DistribuirLecturas_E>();
+
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();           
+
+                    string listOperarios = string.Join(",", ListaTrabajos.Distinct());
+
+                    DataTable dt_detalle = new DataTable();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_DISTRIBUCION_RELECTURA_CORREO_PLANOS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_local", SqlDbType.Int).Value = id_local;
+                        cmd.Parameters.Add("@fechaAsigna", SqlDbType.VarChar).Value = FechaAsigna;
+                        cmd.Parameters.Add("@id_servicio", SqlDbType.Int).Value = servicio;
+                        cmd.Parameters.Add("@id_operario", SqlDbType.VarChar).Value = listOperarios;
+ 
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+
+                    if (dt_detalle.Rows.Count <= 0)
+                    {
+                        mensaje = "0|No hay informacion disponible";
+                    }
+                    else
+                    {
+                        List<string> ListaOperarios = new List<string>();
+                        ListaOperarios = ListaTrabajos.Distinct().ToList();
+
+                        /// generando los archivos excel
+                        for (int i = 0; i < ListaTrabajos.Count(); i++)
+                        {
+                            DataView dvOperarioFiltrado = new DataView(dt_detalle);
+                            dvOperarioFiltrado.RowFilter = "id_Operario_Lectura =" + Convert.ToInt32(ListaTrabajos[i]);
+                            emailDestinatario = "";
+                            unidadLecturasConcat = "";
+                            rutaOrig = "";
+
+                            //-----enviando el correo---
+                            message = new MailMessage();
+
+                            foreach (DataRowView oBp in dvOperarioFiltrado)
+                            {
+                                emailDestinatario = oBp["email_operario"].ToString();
+
+                                try
+                                {
+                                    rutaOrig = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_UnidadLectura/" + oBp["Unidad_Lecturas"].ToString() + ".xlsx");
+
+                                    if (System.IO.File.Exists(rutaOrig))
+                                    {
+                                        unidadLecturasConcat += oBp["Unidad_Lecturas"].ToString() + " ";
+                                        obj_adjuntarFile = new Attachment(rutaOrig, MediaTypeNames.Application.Octet);
+                                        message.Attachments.Add(obj_adjuntarFile);
+                                    }
+                                    else {
+                                        rutaOrig = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_UnidadLectura/" + oBp["Unidad_Lecturas"].ToString() + ".xls");
+
+                                        if (System.IO.File.Exists(rutaOrig))
+                                        {
+                                            unidadLecturasConcat += oBp["Unidad_Lecturas"].ToString() + " ";
+                                            obj_adjuntarFile = new Attachment(rutaOrig, MediaTypeNames.Application.Octet);
+                                            message.Attachments.Add(obj_adjuntarFile);
+                                        }
+
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                    emailDestinatario = "";
+                                    unidadLecturasConcat = "";
+                                }
+                            }
+
+                            if (emailDestinatario.Length > 0)
+                            {
+                                message.From = new MailAddress("lectura.bureauveritas@gmail.com");
+                                message.To.Add(emailDestinatario);
+                                message.Subject = "Plano " + unidadLecturasConcat;
+                                message.IsBodyHtml = false;
+                                message.Priority = MailPriority.Normal;
+
+                                using (var smtp = new SmtpClient())
+                                {
+                                    smtp.EnableSsl = true;
+                                    smtp.UseDefaultCredentials = false;
+
+                                    var credential = new NetworkCredential("lectura.bureauveritas@gmail.com", "Lectura.2020");
+                                    smtp.Credentials = credential;
+                                    smtp.Host = "smtp.gmail.com";
+                                    smtp.Port = 587;
+                                    try
+                                    {
+                                        smtp.Send(message);
+                                        smtp.Dispose();
+                                        mensaje = "OK";
+
+                                        Thread.Sleep(1000);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        smtp.Dispose();
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                mensaje = ex.Message;
+            }
+            return mensaje;
+        }
+
 
     }
 }

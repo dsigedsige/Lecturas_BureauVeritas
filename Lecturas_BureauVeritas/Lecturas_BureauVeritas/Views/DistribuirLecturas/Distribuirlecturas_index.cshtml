@@ -1852,6 +1852,120 @@
             });
 
         }
+                
+        $scope.EnviarPlanos = function () {
+
+            if (ProcesoElegido_Global == '') {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor presione el boton de Distribucion o de Reasignacion para Continuar.',
+                    type: 'error'
+                });
+                return;
+            }
+
+            if (ProcesoElegido_Global == 'D') {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor presione el boton de ( Reasignar - Email ) para poder Enviar el Correo.',
+                    type: 'error'
+                });
+                return;
+            }
+
+            (new PNotify({
+                title: 'Sistemas Confirmación ',
+                text: 'Esta seguro de Enviar el Correo,Si es asi, primero configure el correos del Técnico ?',
+                icon: 'glyphicon glyphicon-question-sign',
+                hide: false,
+                confirm: {
+                    confirm: true
+                },
+                buttons: {
+                    closer: false,
+                    sticker: false
+                },
+                history: {
+                    history: false
+                }
+            })).get().on('pnotify.confirm', function () {
+
+                var id_local = document.getElementById('id_local').value;
+                var _fecha = document.getElementById('id_fecha_asignacion').value;
+                var id_servicio = document.getElementById('id_servicio').value;
+                var flag_marco = false;
+
+                flag_marco = MarcoCheck();
+
+                if (flag_marco == false) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccione al menos un registro.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                $scope.List_codigo = ListaMarcoCheck_Correo();
+                
+                if (_fecha == '') {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor ingrese o seleccione una Fecha de Asignación.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                if (id_servicio == '0' || id_servicio == 0 || id_servicio == undefined || id_servicio == null) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor ingrese o seleccione un Servicio.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                $('.sige-load').show();
+
+                var variables = {
+                    method: 'POST',
+                    url: '../DistribuirLecturas/Generando_Enviar_Correo_planos',
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        ListaOrdenes: $scope.List_codigo,
+                        id_local: 1,
+                        FechaAsigna: id_fecha_asignacion.value,
+                        servicio: id_servicio,
+                        opcion: ProcesoElegido_Global
+                    }
+                }
+                $http(variables)
+                    .success(function (data) {
+                        $('.sige-load').hide();
+                        if (data == 'OK' || data == '"OK"') {
+                            new PNotify({
+                                title: 'Sistemas',
+                                text: 'Envio de Correo, realizado Correctamente.',
+                                type: 'success'
+                            });
+                        } else {
+                            alert(data)
+                        }
+                    })
+                    .error(function () {
+                        alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                    });
+
+
+            }).on('pnotify.cancel', function () {
+
+            });
+
+        }
+
 
         $scope.enterFocus = function (keyEvent, name) {
             if (keyEvent.which === 13) {
@@ -2198,7 +2312,7 @@
                                             <button class="btn btn-block" style="background-color: yellow; color: red;" id="btn_procesarConsumos" ng-click="ProcesarConsumos_New();"><span class="glyphicon glyphicon-refresh"></span> Procesar Consumos</button>
                                             <button class="btn btn-primary btn-block" ng-click="ActualizarInformacion();"><span class="glyphicon glyphicon-plus"></span> Mostrar para Distribuir </button>
                                             <button class="btn btn-success btn-block" ng_click="ActualizarInformacion_Reasignacion()"><span class="glyphicon glyphicon-random"></span> Mostrar Reasignar - Email </button>
-                                            <button class="btn btn-info btn-block" ng-click="AbrirModal_relectura()"><span class="glyphicon glyphicon-align-justify"></span> Generar Relectura</button>
+                                            @*<button class="btn btn-info btn-block" ng-click="AbrirModal_relectura()"><span class="glyphicon glyphicon-align-justify"></span> Generar Relectura</button>*@
                                         </li>
                                     </ul>
                                 </div>
@@ -2265,6 +2379,7 @@
                 <div class="form-group" style="text-align:center">
                     <button class="btn btn-primary" ng-click="AbrirModalEnvioMovil();"><span class="glyphicon glyphicon-phone"></span> Enviar al Móvil</button>
                     <button class="btn btn-success" ng-click="EnviarCorreo();"><span class="glyphicon glyphicon-envelope"></span> Enviar - Email</button>
+                    <button class="btn btn-warning" ng-click="EnviarPlanos();"><span class="glyphicon glyphicon-envelope"></span> Enviar - Email - Planos</button>
                 </div>
             </div>
         </div>

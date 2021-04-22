@@ -147,6 +147,10 @@
         /*display: inline-table;*/
         width: 200px !important;
     }
+    .Julio table, th {
+        background-color: #333 !important;
+        color: white !important;
+    }
 
 </style>
 
@@ -560,6 +564,7 @@
             var _local = document.getElementById('id_local').value;
             var _fecha = document.getElementById('id_fecha_asignacion').value;
             var _servicio = document.getElementById('id_servicio').value;
+            var _cbo_tipoCliente = document.getElementById('cbo_tipoCliente').value;
 
             var cbo_supervisor = document.getElementById('cbo_supervisor').value;
                        
@@ -587,6 +592,15 @@
                 new PNotify({
                     title: 'Sistemas',
                     text: 'Por favor seleccione un Servicio',
+                    type: 'error'
+                });
+                return;
+            }
+
+            if (_cbo_tipoCliente == '' || _cbo_tipoCliente == 0 || _cbo_tipoCliente == null) {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor seleccione un Tipo de Cliente',
                     type: 'error'
                 });
                 return;
@@ -622,7 +636,8 @@
                     servicio: _servicio,
                     opcion: ProcesoElegido_Global,
                     id_supervisor: cbo_supervisor,
-                    id_operario_supervisor: 0
+                    id_operario_supervisor: 0,
+                    tipoCliente: _cbo_tipoCliente
                 }
             }
             $http(variables)
@@ -642,8 +657,8 @@
             var _local = document.getElementById('id_local').value;
             var _fecha = document.getElementById('id_fecha_asignacion').value;
             var _servicio = document.getElementById('id_servicio').value;
-
             var cbo_supervisor = document.getElementById('cbo_supervisor').value;
+            var _cbo_tipoCliente = document.getElementById('cbo_tipoCliente').value;
 
             $("#checkboxAll").removeAttr("disabled");
 
@@ -703,7 +718,8 @@
                     servicio: _servicio,
                     opcion: ProcesoElegido_Global,
                     id_supervisor: cbo_supervisor,
-                    id_operario_supervisor: 0
+                    id_operario_supervisor: 0,
+                    tipoCliente: _cbo_tipoCliente
                 }
             }
             $http(variables)
@@ -1181,7 +1197,7 @@
 
             $scope.paramsSelect.selectInit = '0';
             $scope.paramsSelect.codOperario = '',
-                $scope.paramsSelect.cantInit = '';
+            $scope.paramsSelect.cantInit = '';
 
             objectSelect = [];
             objectSelectSend = [];
@@ -1836,6 +1852,120 @@
             });
 
         }
+                
+        $scope.EnviarPlanos = function () {
+
+            if (ProcesoElegido_Global == '') {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor presione el boton de Distribucion o de Reasignacion para Continuar.',
+                    type: 'error'
+                });
+                return;
+            }
+
+            if (ProcesoElegido_Global == 'D') {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor presione el boton de ( Reasignar - Email ) para poder Enviar el Correo.',
+                    type: 'error'
+                });
+                return;
+            }
+
+            (new PNotify({
+                title: 'Sistemas Confirmación ',
+                text: 'Esta seguro de Enviar el Correo,Si es asi, primero configure el correos del Técnico ?',
+                icon: 'glyphicon glyphicon-question-sign',
+                hide: false,
+                confirm: {
+                    confirm: true
+                },
+                buttons: {
+                    closer: false,
+                    sticker: false
+                },
+                history: {
+                    history: false
+                }
+            })).get().on('pnotify.confirm', function () {
+
+                var id_local = document.getElementById('id_local').value;
+                var _fecha = document.getElementById('id_fecha_asignacion').value;
+                var id_servicio = document.getElementById('id_servicio').value;
+                var flag_marco = false;
+
+                flag_marco = MarcoCheck();
+
+                if (flag_marco == false) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccione al menos un registro.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                $scope.List_codigo = ListaMarcoCheck_Correo();
+                
+                if (_fecha == '') {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor ingrese o seleccione una Fecha de Asignación.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                if (id_servicio == '0' || id_servicio == 0 || id_servicio == undefined || id_servicio == null) {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor ingrese o seleccione un Servicio.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                $('.sige-load').show();
+
+                var variables = {
+                    method: 'POST',
+                    url: '../DistribuirLecturas/Generando_Enviar_Correo_planos',
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        ListaOrdenes: $scope.List_codigo,
+                        id_local: 1,
+                        FechaAsigna: id_fecha_asignacion.value,
+                        servicio: id_servicio,
+                        opcion: ProcesoElegido_Global
+                    }
+                }
+                $http(variables)
+                    .success(function (data) {
+                        $('.sige-load').hide();
+                        if (data == 'OK' || data == '"OK"') {
+                            new PNotify({
+                                title: 'Sistemas',
+                                text: 'Envio de Correo, realizado Correctamente.',
+                                type: 'success'
+                            });
+                        } else {
+                            alert(data)
+                        }
+                    })
+                    .error(function () {
+                        alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                    });
+
+
+            }).on('pnotify.cancel', function () {
+
+            });
+
+        }
+
 
         $scope.enterFocus = function (keyEvent, name) {
             if (keyEvent.which === 13) {
@@ -2136,18 +2266,27 @@
                                 </select>
                             </div>
 
-                            <div class="col-xs-6 col-sm-6 col-md-6  col-lg-6">
+                            <div class="col-xs-6 col-sm-4 col-md-4  col-lg-4">
                                 <label for="id_fecha_asignacion" style="font-size:11px">Fecha de Asignación:</label>
-                                <input class="form-control" id="id_fecha_asignacion" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                <input class="form-control julio" id="id_fecha_asignacion" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
                             </div>
 
-                            <div class="col-xs-6 col-sm-6 col-md-6  col-lg-6 ">
+
+                            <div class="col-xs-6 col-sm-4 col-md-4  col-lg-4">
                                 <label for="id_servicio" style="font-size:11px">Servicio:</label>
                                 <select id="id_servicio" class="form-control" ng-model="id_tipoServicio">
-
                                     <option ng-repeat="item in Obj_List_Servicios" value="{{item.id_TipoServicio}}">
                                         {{item.nombre_tiposervicio}}
                                     </option>
+                                </select>
+                            </div>
+
+
+                            <div class="col-xs-6 col-sm-4 col-md-4  col-lg-4">
+                                <label for="cbo_tipoCliente" style="font-size:11px">Tipo Cliente:</label>
+                                <select id="cbo_tipoCliente" class="form-control"  >
+                                    <option value='Residencial'> RESIDENCIAL </option>
+                                    <option value='Comercial'> COMERCIAL </option>
                                 </select>
                             </div>
 
@@ -2173,7 +2312,7 @@
                                             <button class="btn btn-block" style="background-color: yellow; color: red;" id="btn_procesarConsumos" ng-click="ProcesarConsumos_New();"><span class="glyphicon glyphicon-refresh"></span> Procesar Consumos</button>
                                             <button class="btn btn-primary btn-block" ng-click="ActualizarInformacion();"><span class="glyphicon glyphicon-plus"></span> Mostrar para Distribuir </button>
                                             <button class="btn btn-success btn-block" ng_click="ActualizarInformacion_Reasignacion()"><span class="glyphicon glyphicon-random"></span> Mostrar Reasignar - Email </button>
-                                            <button class="btn btn-info btn-block" ng-click="AbrirModal_relectura()"><span class="glyphicon glyphicon-align-justify"></span> Generar Relectura</button>
+                                            @*<button class="btn btn-info btn-block" ng-click="AbrirModal_relectura()"><span class="glyphicon glyphicon-align-justify"></span> Generar Relectura</button>*@
                                         </li>
                                     </ul>
                                 </div>
@@ -2181,16 +2320,6 @@
                         </div>
                     </div>
                     <br />
-                    @*<div class="row" style="text-align:center;    margin-bottom: -15px;">
-                        <div class="col-xs-12 col-sm-12 col-md-12  col-lg-12 ">
-                            <button class="btn btn-danger" style="margin-left: 10px;margin-top: 3px;" id="btn_procesarConsumos" ng-click="ProcesarConsumos();"><span class="glyphicon glyphicon-refresh"></span> Procesar Consumos</button>
-                            <button class="btn" style="margin-left: 10px;margin-top: 3px;    background-color: yellow; color: red;" id="btn_procesarConsumos" ng-click="ProcesarConsumos_New();"><span class="glyphicon glyphicon-refresh"></span> Procesar Consumos</button>
-                            <button class="btn btn-primary" style="margin-left: 10px;margin-top: 3px;" ng-click="ActualizarInformacion();"><span class="glyphicon glyphicon-plus"></span> Mostrar para Distribuir </button>
-                            <button class="btn btn-success" style="margin-left: 10px;margin-top: 3px;" ng_click="ActualizarInformacion_Reasignacion()"><span class="glyphicon glyphicon-random"></span> Mostrar Reasignar - Email </button>
-                            <button class="btn btn-info" ng-click="AbrirModal_relectura()"><span class="glyphicon glyphicon-align-justify"></span> Generar Relectura</button>
-                        </div>
-                    </div>*@
-
                 </div>
 
                 <div class="row">
@@ -2250,6 +2379,7 @@
                 <div class="form-group" style="text-align:center">
                     <button class="btn btn-primary" ng-click="AbrirModalEnvioMovil();"><span class="glyphicon glyphicon-phone"></span> Enviar al Móvil</button>
                     <button class="btn btn-success" ng-click="EnviarCorreo();"><span class="glyphicon glyphicon-envelope"></span> Enviar - Email</button>
+                    <button class="btn btn-warning" ng-click="EnviarPlanos();"><span class="glyphicon glyphicon-envelope"></span> Enviar - Email - Planos</button>
                 </div>
             </div>
         </div>
@@ -2297,26 +2427,66 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <form class="form-inline" role="form">
+                    @*<form class="form-inline" role="form">
+                <div class="form-group">
+
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" id="id_filainicio" ng-keypress="enterFocus($event,'id_filafin');" style="width: 100px;" onkeypress="return soloNumeros(event)" placeholder="Inicio Fila" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="id_filafin" ng-keypress="enterFocus($event,'id_codOperarioRango')" style="width: 100px;" onkeypress="return soloNumeros(event)" placeholder="Fin Fila" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="id_codOperarioRango" ng-keypress="validarLecturista($event);" style="width: 200px;" onkeypress="return soloNumeros(event)" placeholder="Codigo de Operario" />
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success" id="btn_agregarRangos" ng-click="AgregarRangos();"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
+                </div>
+            </form>
+
+            <h5 class="modal-title">Detalle {{countSelectF()}} Marcados</h5>*@
+
+
+                    <form class="form-inline" autocomplete="off" role="form">
                         <div class="form-group">
                             <button class="btn btn-primary" ng-click="reiniviarChecks();"><span class="glyphicon glyphicon-list"></span> Reiniciar</button>
                         </div>
 
                         <div class="form-group">
-                            <input class="form-control" id="id_filainicio" ng-keypress="enterFocus($event,'id_filafin');" style="width: 100px;" onkeypress="return soloNumeros(event)" placeholder="Inicio Fila" />
+                            <input class="form-control" id="id_filainicio" ng-keypress="enterFocus($event,'id_filafin');" style="width: 100px; border: 1px solid red;" onkeypress="return soloNumeros(event)" placeholder="Inicio Fila" />
                         </div>
                         <div class="form-group">
-                            <input class="form-control" id="id_filafin" ng-keypress="enterFocus($event,'id_codOperarioRango')" style="width: 100px;" onkeypress="return soloNumeros(event)" placeholder="Fin Fila" />
+                            <input class="form-control" id="id_filafin" ng-keypress="enterFocus($event,'id_codOperarioRango')" style="width: 100px; border: 1px solid red;" onkeypress="return soloNumeros(event)" placeholder="Fin Fila" />
                         </div>
                         <div class="form-group">
-                            <input class="form-control" id="id_codOperarioRango" ng-keypress="validarLecturista($event);" style="width: 200px;" onkeypress="return soloNumeros(event)" placeholder="Codigo de Operario" />
+                            <input class="form-control" id="id_codOperarioRango" ng-keypress="validarLecturista($event);" style="width: 200px; border: 1px solid green;" onkeypress="return soloNumeros(event)" placeholder="Codigo de Operario" />
                         </div>
                         <div class="form-group">
                             <button class="btn btn-success" id="btn_agregarRangos" ng-click="AgregarRangos();"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
                         </div>
                     </form>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="modal-title" style="padding: 5px">Detalle {{countSelectF()}} Marcados</p>
+                        </div>
+                        <div class="col-md-8" style="text-align:right">
+                            <form class="form-inline" role="form">
+                                <div class="form-group">
+                                    <label for="_usuario" class="control-label">Fecha Móvil</label>
+                                    <input class="form-control" id="_fechaMovilDetalle" autocomplete="off" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary" ng-click="GenerarEnvioMovil_Detallado();"><span class="glyphicon glyphicon-phone"></span> Enviar al Móvil</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
-                    <h5 class="modal-title">Detalle {{countSelectF()}} Marcados</h5>
+
+
+
                 </div>
                 <div class="modal-body">
 
@@ -2352,21 +2522,29 @@
                     </div>
 
                 </div>
+                @*<div class="modal-footer">
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <label for="_usuario" class="col-sm-4 control-label">Fecha Móvil</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" id="_fechaMovilDetalle" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary" ng-click="GenerarEnvioMovil_Detallado();"><span class="glyphicon glyphicon-phone"></span> Enviar al Móvil</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+
+        </div>*@
+
                 <div class="modal-footer">
                     <form class="form-inline" role="form">
                         <div class="form-group">
-                            <label for="_usuario" class="col-sm-4 control-label">Fecha Móvil</label>
-                            <div class="col-sm-8">
-                                <input class="form-control" id="_fechaMovilDetalle" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <button class="btn btn-primary" ng-click="GenerarEnvioMovil_Detallado();"><span class="glyphicon glyphicon-phone"></span> Enviar al Móvil</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </form>
-
                 </div>
             </div>
 

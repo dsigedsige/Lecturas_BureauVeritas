@@ -116,6 +116,9 @@
          background-color: #333 !important;
          color: white !important;
      }
+
+ 
+
 </style>
 
 <script type="text/javascript">
@@ -125,13 +128,16 @@
         return (key >= 48 && key <= 57)
     }
 
-    var app = angular.module('myApp', []).directive('onFinishRender', function ($timeout) {
+
+
+    var app = angular.module('myApp', [])
+    app.directive('onFinishRender', function ($timeout) {
         return {
             restrict: 'A',
             link: function (scope, element, attr) {
                 if (scope.$last === true) {
                     $timeout(function () {
-                        scope.$emit('ngRepeatFinished');
+                        scope.$emit(attr.onFinishRender);
                     });
                 }
             }
@@ -168,7 +174,7 @@
         $scope.Listado_Servicios = function () {
             var variables = {
                 method: 'POST',
-                url: '../Ubicacion_Lecturas/ListandoServicios',
+                url: '../Ubicacion_Lecturas/ListandoServicios_new',
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
                 }
@@ -177,17 +183,14 @@
             .success(function (data) {
                 $scope.Obj_List_Servicios = [];
                 $scope.Obj_List_Servicios = data;
-
             })
             .error(function () {
                 alert('Ocurrio un problema con la conexion, vuelva a intentar.')
-
             });
         }
 
 
         var oTable = null;
-
         $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
             oTable = $('#tblListaDetalle').DataTable(
                  {
@@ -195,6 +198,27 @@
                      paging: false
                  });
         });
+
+
+        var oTable_cabecera = null;
+        $scope.$on('ngRepeatFinished_cabecera', function (ngRepeatFinishedEvent) {
+            oTable_cabecera = $('#tblLista_Operario').DataTable(
+                {
+                    scrollY: "400px",
+                    paging: false,
+                });
+        });
+
+        var oTable_GrandesClientes = null;
+        $scope.$on('ngRepeatFinished_GrandesClientes', function (ngRepeatFinishedEvent) {
+            oTable_GrandesClientes = $('#tblDetalle_grandesClientes').DataTable(
+                {
+                    scrollY: "400px",
+                    paging: false,
+                });
+        });
+
+
         
         $scope.InicializandoVariables = function () {
             $scope.id_tipoServicio = '0';
@@ -368,7 +392,6 @@
             }
 
             if (TipoServicio == 6 || TipoServicio == '6') {
-
                 if (cbo_ciclo == '0' || cbo_ciclo == null || cbo_ciclo == undefined) {
                     new PNotify({
                         title: 'Sistemas',
@@ -417,10 +440,7 @@
                 $http(variables)
                 .success(function (data) {
                     $scope.ListaResumen_Observacion = [];
-
-                    console.log(data)
-
-                    $('.sige-load').hide();
+                     $('.sige-load').hide();
                     if (oTable == null) {
                         $scope.ListaResumen_Observacion = data;
                     } else {
@@ -429,8 +449,6 @@
                         oTable = null;
                         $scope.ListaResumen_Observacion = data;
                     }
-
-
                 })
                 .error(function () {
                     $('.sige-load').hide();
@@ -988,13 +1006,24 @@
 
 
         $scope.AbrirModal_Operario_Observaciones = function (objOperario, nombreOperario) {
+
+            var TipoServicio = document.getElementById('idservicios').value;
+
+
+            console.log(objOperario)
+            console.log(nombreOperario)
+
             operario_Global = 0;
             operario_Global = objOperario;
 
             $scope.OperarioConsulta = '';
             $scope.OperarioConsulta = nombreOperario;
 
-            $scope.MostrarDetalles_Operario_Observacion(objOperario);
+            if (TipoServicio == 7) { // grandes clientes Detallado
+                $scope.MostrarDetalles_GrandesClientes(objOperario);
+            } else {
+                $scope.MostrarDetalles_Operario_Observacion(objOperario);
+            }
         }
 
  
@@ -1040,19 +1069,118 @@
             $('.sige-load').show();
             $http(variables)
                 .success(function (data) {
-                    $scope.ListaOperario_Observacion = [];
-                    $scope.ListaOperario_Observacion = data;
+                    //$scope.ListaOperario_Observacion = [];
+                    //$scope.ListaOperario_Observacion = data;
 
+                    //setTimeout(function () {
+                    //    $('.sige-load').hide();
+                    //    $('#modalObservaciones').modal();
+                    //}, 500);
+
+                    $scope.ListaOperario_Observacion = [];
+                    $('#modalObservaciones').modal();
+
+                    if (oTable_cabecera == null) {
+                        $scope.ListaOperario_Observacion = data;
+                    } else {
+                        oTable_cabecera.clear();
+                        oTable_cabecera.destroy();
+                        oTable_cabecera = null;
+                        $scope.ListaOperario_Observacion = data;
+                    }
                     setTimeout(function () {
                         $('.sige-load').hide();
-                        $('#modalObservaciones').modal();
-                    }, 500);
+                        if (oTable_cabecera == null) { 
+                        } else {
+                            oTable_cabecera.draw();
+                        }
+                     }, 500);
                 })
                 .error(function () {
                     $('.sige-load').hide();
                     alert('Ocurrio un problema con la conexion, vuelva a intentar.')
                 });
         }
+
+
+
+        $scope.ListaOperario_detalleGrandesCli = [];
+        $scope.MostrarDetalles_GrandesClientes = function (objOperario) {
+            var fechaAsigna = document.getElementById('_fechaAsigna').value;
+            var TipoServicio = document.getElementById('idservicios').value;
+
+
+            if (fechaAsigna == '0' || fechaAsigna == null || fechaAsigna == undefined) {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor seleccione la Fecha de Asignacion',
+                    type: 'error'
+                });
+                return;
+            }
+            if (TipoServicio == '0' || TipoServicio == null || TipoServicio == undefined) {
+                new PNotify({
+                    title: 'Sistemas',
+                    text: 'Por favor seleccione un Tipo de Servicio',
+                    type: 'error'
+                });
+                return;
+            }
+
+            var variables = {
+                method: 'POST',
+                url: '../ResultadosLectura/listando_detalleGrandesClientes',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                data: {
+                    fechaAsignacion: fechaAsigna,
+                    idServicio: TipoServicio,
+                    operario: objOperario,
+                }
+            }
+
+            $('.sige-load').show();
+            $http(variables)
+                .success(function (data) {
+
+                    //setTimeout(function () {
+                    //    $('.sige-load').hide();
+                    //    $('#modalDetalle_grandesClientes').modal();
+                    //}, 100);
+
+                    //$scope.ListaOperario_detalleGrandesCli = [];
+                    //$scope.ListaOperario_detalleGrandesCli = data;
+                          
+
+                    $scope.ListaOperario_detalleGrandesCli = [];
+                    $('#modalDetalle_grandesClientes').modal();
+
+                    if (oTable_GrandesClientes == null) {
+                        $scope.ListaOperario_detalleGrandesCli = data;
+                    } else {
+                        oTable_GrandesClientes.clear();
+                        oTable_GrandesClientes.destroy();
+                        oTable_GrandesClientes = null;
+                        $scope.ListaOperario_detalleGrandesCli = data;
+                    }
+                    setTimeout(function () {
+                        $('.sige-load').hide();
+                        if (oTable_GrandesClientes == null) {
+                        } else {
+                            oTable_GrandesClientes.draw();
+                        }
+                    }, 500);
+
+
+                })
+                .error(function () {
+                    $('.sige-load').hide();
+                    alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                });
+        }
+
+
 
         $scope.change_servicioOperarios = function (id_servicio) {
             var formOperario = document.getElementById('formOperario');
@@ -1076,7 +1204,7 @@
         <h6><i class="fa fa-table fa-lg"></i> RESULTADO DE LECTURAS </h6>
     </div>
     <div class="panel-body">
- 
+
         <div class="row">
             <div class="col-md-6">
                 <div class="well" style="background: #314b75; color: white;margin-bottom: 2px;margin-top: -6px;">
@@ -1098,7 +1226,7 @@
                         </div>
                     </div>
 
-                    <div class="row" id="formOperario"  >
+                    <div class="row" id="formOperario">
                         <div class="col-sm-6 col-md-6 col-lg-6">
                             <label for="_supervisor" class="control-label">Supervisor</label>
                             <select id="cbo_supervisor" class="form-control" ng-model="id_supervisor" ng-change="Change_listando_Usuario_Operarios(id_supervisor); ">
@@ -1123,28 +1251,15 @@
                     <div class="row" id="formCiclo" style="display:none">
                         <div class="col-md-6">
                             <label for="cbo_ciclo" class="control-label">Ciclo Facturacion :</label>
-                            @*<select class="form-control" id="cbo_ciclo">
-                                <option value="0" selected="selected"> [ SELECCIONE ] </option>
-                                <option value="1"> 1 </option>
-                                <option value="2"> 2 </option>
-                                <option value="3"> 3 </option>
-                                <option value="4"> 4 </option>
-                                <option value="5"> 5 </option>
-                                <option value="6"> 6 </option>
-                                <option value="7"> 7 </option>
-                                <option value="8"> 8 </option>
-                                <option value="9"> 9 </option>
-                                <option value="10"> 10 </option>
-                            </select>*@
                             <input input type="text" id="cbo_ciclo" class="form-control" />
                         </div>
                     </div>
-                                      
+
                     <div class="row" style="    margin-bottom: -20px;">
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <label for="_supervisor" class="control-label"></label>
                             <div class="form-group" style="text-align:center">
-                                <button class="btn btn-sm  btn-danger" ng-click="RecepcionTrabajos();" ><span class="glyphicon glyphicon-ok"></span> Recepcion</button>
+                                <button class="btn btn-sm  btn-danger" ng-click="RecepcionTrabajos();"><span class="glyphicon glyphicon-ok"></span> Recepcion</button>
                                 <button class="btn btn-sm  btn-success" style=" font-size: 14px;" ng-click="MostrarInformacion();"><span class="glyphicon glyphicon-refresh"></span> Mostrar</button>
                             </div>
                         </div>
@@ -1153,76 +1268,35 @@
             </div>
 
             <div class="col-md-6">
-                    <div class=" col-sm-2 col-lg-2">
+                <div class=" col-sm-2 col-lg-2">
 
-                    </div>
-                    <div class=" col-sm-8 col-lg-8">
-                        <center><h5>RESUMEN DE LECTURA</h5> </center>
-                        <ul class="list-group" ng-repeat="obj in ListaResumen" style="margin-bottom: 10px;">
-                            <li class="list-group-item list-group-item-warning">
-                                <div class="progress" style="margin-bottom: -3px;">
-                                    <div class="progress-bar" ng-style="{'width': obj.porc_ejecutado + '%' }">
-                                        <span>{{obj.total_ejecutado}}</span>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="list-group-item list-group-item-warning">
-                                <h5 style="margin-bottom: 10px;"> <strong> Total {{nombreServicio}} :</strong>  <span class="label label-default" sstyle="font-size:14px;">        {{obj.total_lectura}}</span></h5>
-                                <h5 style="margin-bottom: 10px;"><strong> Total Ejecutados :</strong>  <span class="label label-default" style="background-color: yellow; color: black; font-size:14px;">{{obj.total_ejecutado}}</span> <strong>         {{obj.porc_ejecutado}} %</strong></h5>
-                                <h5 style="margin-bottom: 10px;"><strong> Total Pendientes :</strong>   <span class="label label-default" style="background-color: red; color: white; font-size:14px;">          {{obj.total_pendiente}}</span></h5>
-                                <h5><strong> Total Fotos :</strong>  <span class="label label-default" style="background-color: aquamarine; color: white; font-size:14px;">{{obj.total_fotos}}</span> <strong>          {{obj.porc_fotos}} %</strong></h5>
-                            </li>
-                        </ul>
-
-                    </div>
-
-                    <div class=" col-sm-2 col-lg-2">
-
-                    </div>
                 </div>
-        </div>
-
-
-
-
-
-
-
-
-
-        @*<div class="row">
-            <div class=" col-sm-4 col-lg-4">
-
-            </div>
-            <div class=" col-sm-4 col-lg-4">
-                <center><h6>RESUMEN DE LECTURA</h6> </center>
-                <ul class="list-group"  ng-repeat="obj in ListaResumen">
-                    <li class="list-group-item list-group-item-warning">
-                        <div class="progress" style="margin-bottom: -3px;">
-                            <div class="progress-bar" ng-style="{'width': obj.porc_ejecutado + '%' }">
-                                <span>{{obj.total_ejecutado}}</span>
+                <div class=" col-sm-8 col-lg-8">
+                    <center><h5>RESUMEN DE LECTURA</h5> </center>
+                    <ul class="list-group" ng-repeat="obj in ListaResumen" style="margin-bottom: 10px;">
+                        <li class="list-group-item list-group-item-warning">
+                            <div class="progress" style="margin-bottom: -3px;">
+                                <div class="progress-bar" ng-style="{'width': obj.porc_ejecutado + '%' }">
+                                    <span>{{obj.total_ejecutado}}</span>
+                                </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
 
-                    <li class="list-group-item list-group-item-warning">
-                        <h5 style="margin-bottom: 10px;"> <strong> Total Lecturas :</strong>  <span class="label label-default" sstyle="font-size:14px;">        {{obj.total_lectura}}</span></h5>
-                        <h5 style="margin-bottom: 10px;"><strong> Total Ejecutados :</strong>  <span class="label label-default" style="background-color: yellow; color: black; font-size:14px;">{{obj.total_ejecutado}}</span> <strong>         {{obj.porc_ejecutado}} %</strong></h5>
-                        <h5 style="margin-bottom: 10px;"><strong> Total Pendientes :</strong>   <span class="label label-default" style="background-color: red; color: white; font-size:14px;">          {{obj.total_pendiente}}</span></h5>
-                        <h5><strong> Total Fotos :</strong>  <span class="label label-default" style="background-color: aquamarine; color: white; font-size:14px;">{{obj.total_fotos}}</span> <strong>          {{obj.porc_fotos}} %</strong></h5>
-                    </li>
-                </ul>
+                        <li class="list-group-item list-group-item-warning">
+                            <h5 style="margin-bottom: 10px;"> <strong> Total {{nombreServicio}} :</strong>  <span class="label label-default" sstyle="font-size:14px;">        {{obj.total_lectura}}</span></h5>
+                            <h5 style="margin-bottom: 10px;"><strong> Total Ejecutados :</strong>  <span class="label label-default" style="background-color: yellow; color: black; font-size:14px;">{{obj.total_ejecutado}}</span> <strong>         {{obj.porc_ejecutado}} %</strong></h5>
+                            <h5 style="margin-bottom: 10px;"><strong> Total Pendientes :</strong>   <span class="label label-default" style="background-color: red; color: white; font-size:14px;">          {{obj.total_pendiente}}</span></h5>
+                            <h5><strong> Total Fotos :</strong>  <span class="label label-default" style="background-color: aquamarine; color: white; font-size:14px;">{{obj.total_fotos}}</span> <strong>          {{obj.porc_fotos}} %</strong></h5>
+                        </li>
+                    </ul>
 
+                </div>
+
+                <div class=" col-sm-2 col-lg-2">
+
+                </div>
             </div>
-            <div class=" col-sm-4 col-lg-4">
-
-            </div>
-        </div>*@
-
-
-
-
+        </div>
 
         <div class="row">
             <div class="col-lg-12">
@@ -1295,6 +1369,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+ 
                         </div>
                     </div>
                 </div>
@@ -1404,43 +1479,96 @@
 
 
     <div id="modalObservaciones" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" style="width: 45% !important;">
+        <div class="modal-dialog" style="width: 800px !important;">
             <div class="panel panel-oscuro">
                 <div class="panel-heading">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> OBSERVACIONES - {{OperarioConsulta}}</h6>
                 </div>
                 <div class="panel-body">
+                    <br />
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12"> 
+                                <table id="tblLista_Operario" class="table table-condensed table-bordered table-responsive" border="0" cellspacing="0" cellpadding="0" style="font-size:11px">
+                                    <thead style="background: #F0F3F5;">
+                                        <tr style="height:30px">
+                                            <th>#</th>
+                                            <th>                                              
+                                              Codigo                                     
+                                            </th>
+                                            <th>                          
+                                              Observacion                         
+                                            </th>
+                                            <th>Total</th>
+                                            <th>Con Foto</th>
+                                            <th>Sin Foto</th>
+                                            <th>Barra Progreso</th>
+                                            <th style="text-align:right">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="lista in ListaOperario_Observacion" on-finish-render="ngRepeatFinished_cabecera">
+                                            <td>{{$index + 1}}</td>
+                                            <td>{{lista.codigo}}</td>
+                                            <td>{{lista.observacion}}</td>
+                                            <td style="text-align:right">{{lista.total}}</td>
+                                            <td style="text-align:right">{{lista.conFoto}}</td>
+                                            <td style="text-align:right">{{lista.sinFoto}}</td>
+                                            <td>
+                                                <div class="progress" style="margin-bottom: 2px;">
+                                                    <div class="progress progress-bar" ng-style="{'width': lista.porcentaje + '%' }">
+                                                        <span>%</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td style="text-align:right">{{lista.porcentaje}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+     
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                <button role="button" id="btnCancelar" class="btn btn-default" style="background-color: #fff;" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalDetalle_grandesClientes" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 45% !important;">
+            <div class="panel panel-oscuro">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h6 class="modal-title"><i class="fa fa-cogs fa-lg"></i> DETALLES - {{OperarioConsulta}}</h6>
+                </div>
+                <div class="panel-body">
                     <div class="table table-responsive form-group" style="height:300px">
-                        <table id="tblLista_Operario" class="table table-condensed table-bordered table-responsive" border="0" cellspacing="0" cellpadding="0" style="font-size:11px">
+                        <table id="tblDetalle_grandesClientes" class="table table-condensed table-bordered table-responsive" border="0" cellspacing="0" cellpadding="0" style="font-size:11px">
                             <thead style="background: #F0F3F5;">
                                 <tr>
                                     <th>#</th>
-                                    <th>Codigo</th>
-                                    <th>Observacion</th>
-                                    <th>Total</th>
-                                    <th>Con Foto</th>
-                                    <th>Sin Foto</th>
-                                    <th>Barra Progreso</th>
-                                    <th style="text-align:right">%</th>
+                                    <th>Codigo EMR</th>
+                                    <th>Operario</th>
+                                    <th>Cliente</th>
+                                    <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="lista in ListaOperario_Observacion">
+                                <tr ng-repeat="lista in ListaOperario_detalleGrandesCli" on-finish-render="ngRepeatFinished_GrandesClientes">
                                     <td>{{$index + 1}}</td>
-                                    <td>{{lista.codigo}}</td>
-                                    <td>{{lista.observacion}}</td>
-                                    <td style="text-align:right">{{lista.total}}</td>
-                                    <td style="text-align:right">{{lista.conFoto}}</td>
-                                    <td style="text-align:right">{{lista.sinFoto}}</td>
-                                    <td>
-                                        <div class="progress" style="margin-bottom: 2px;">
-                                            <div class="progress progress-bar" ng-style="{'width': lista.porcentaje + '%' }">
-                                                <span>%</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td style="text-align:right">{{lista.porcentaje}}</td>
+                                    <td>{{lista.CodigoEMR}}</td>
+                                    <td>{{lista.operario}}</td>
+                                    <td>{{lista.nombreCliente_lectura}}</td>
+                                    <td>{{lista.estados}}</td>
                                 </tr>
                             </tbody>
                         </table>

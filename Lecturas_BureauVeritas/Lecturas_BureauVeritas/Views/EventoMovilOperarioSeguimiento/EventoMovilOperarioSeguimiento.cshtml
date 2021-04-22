@@ -66,6 +66,11 @@
             right: 50%;
             outline: none;
         }
+
+        .Julio table, th {
+            background-color: #333 !important;
+            color: white !important;
+        }
     </style>
 }
 
@@ -295,7 +300,7 @@
             }
             $http(req).then(function (result) {
                 for (value of result.data) {
-                    if (value.id_TipoServicio == 1 || value.id_TipoServicio == 2 || value.id_TipoServicio == 3 || value.id_TipoServicio == 4) {
+                    if (value.id_TipoServicio == 1 || value.id_TipoServicio == 2 || value.id_TipoServicio == 3 || value.id_TipoServicio == 4 || value.id_TipoServicio == 6) {
                         $scope.listacomboServicios.push(value);
                     }
                 }
@@ -347,7 +352,7 @@
                             <label for="f_inicial" class="control-label">Fecha Inicial</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input style="width:100px;" class="form-control" id="f_inicial" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                <input style="width:100px;" class="form-control julio" id="f_inicial" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
                             </div>
                         </div>
 
@@ -355,7 +360,7 @@
                             <label for="f_final" class="control-label">Fecha Final</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input style="width:100px;" class="form-control" id="f_final" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                <input style="width:100px;" class="form-control julio" id="f_final" placeholder="dia/mes/año" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
                             </div>
                         </div>
 
@@ -386,7 +391,7 @@
                                     <th>OPERARIO</th>
                                     <th>FECH. INICIO RECORRIDO</th>
                                     <th>FECH. FIN RECORRIDO</th>
-                                    <th>CANT. PARADAS</th>
+                                    @*<th>CANT. PARADAS</th>*@
                                     @*<th>VER RECORRIDO</th>*@
                                 </tr>
                             </thead>
@@ -397,7 +402,7 @@
                                     <td>{{lista.Nombre_Operario}}</td>
                                     <td>{{lista.fecha_inicio_recorrido}}</td>
                                     <td>{{lista.fecha_fin_recorrido}}</td>
-                                    <td>{{lista.cantidad_paradas}}</td>
+                                    @*<td>{{lista.cantidad_paradas}}</td>*@
                                     @*<td align="center">
                                         <button type="button" class="btn btn-default btn-xs" ng-click="Fn_MostrarMapa(lista)">
                                             <span class="glyphicon glyphicon-list"></span> Ver
