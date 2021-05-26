@@ -703,6 +703,8 @@
     <Content Include="Files_GrandesClientes\Descargas\hector.xlsx" />
     <Content Include="Files_GrandesClientes\Descargas\INGRESAR_VERI.xlsx" />
     <Content Include="Files_GrandesClientes\Descargas\poner_foto.xlsx" />
+    <Content Include="Files_GrandesClientes\SCTR CALIDDA %28Abril%29 PENSION.pdf" />
+    <Content Include="Files_GrandesClientes\SCTR CALIDDA %28Abril%29 SALUD.pdf" />
     <None Include="Properties\PublishProfiles\lectura.pubxml" />
     <None Include="Properties\PublishProfiles\roberto.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
@@ -836,6 +838,7 @@
     <Content Include="Views\Importar\importar_index.cshtml" />
     <Content Include="Views\Actualizar_GrandesClientes\grandesClientes_Index.cshtml" />
     <Content Include="Views\Lectura_grandesClientes\list_grandesClientes_index.cshtml" />
+    <Content Include="Views\LecturaEnviarCliente\visualizarFotos_index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

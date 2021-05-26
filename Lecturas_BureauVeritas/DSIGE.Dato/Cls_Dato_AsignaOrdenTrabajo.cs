@@ -4943,7 +4943,102 @@ namespace DSIGE.Dato
         }
 
 
+        public object Capa_Dato_Proceso_actualizarLecturasMasivas(int id_servicio, string id_fecha, int id_usuario)
+        {
+            cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+            object Resultado;
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_ENVIAR_TRABAJO_CLIENTE_ACTUALIZAR_LECTURAS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_servicio", SqlDbType.Int).Value = id_servicio;
+                        cmd.Parameters.Add("@fecha", SqlDbType.VarChar).Value = id_fecha;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+                        cmd.ExecuteNonQuery();
 
+                        Resultado = new
+                        {
+                            ok = true,  mensaje = "OK"
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Resultado = new { ok = false, mensaje = ex.Message };
+            }
+            return Resultado;
+        }
+
+        public List<Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio> Capa_Dato_Listando_fotosCortesReconexiones(int servicio, int estado, string fechaAsignacion, string suministro, string medidor, int tecnico, int iduser)
+        {
+            try
+            {
+                cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+
+                List<Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio> ListTecnico = new List<Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio>();
+                string ruta = ConfigurationManager.AppSettings["servidor-foto-lectura"];
+
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SP_S_REPORTE_FOTOS_CORTE_RECONEXIONES", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@idTipoServicio", SqlDbType.Int).Value = servicio;
+                        cmd.Parameters.Add("@estadoAsignacion", SqlDbType.Int).Value = estado;
+                        cmd.Parameters.Add("@fechaAsignacion", SqlDbType.VarChar).Value = fechaAsignacion;
+
+                        cmd.Parameters.Add("@suministro", SqlDbType.VarChar).Value = suministro;
+                        cmd.Parameters.Add("@medidor", SqlDbType.VarChar).Value = medidor;
+                        cmd.Parameters.Add("@tecnicoAsignado", SqlDbType.Int).Value = tecnico;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = iduser;
+
+                        using (SqlDataReader Fila = cmd.ExecuteReader())
+                        {
+                            while (Fila.Read())
+                            {
+                                Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio obj_entidad = new Cls_Entidad_AsignaOrdenTrabajo.LecturaEnvio();
+ 
+                                obj_entidad.checkeado = false;
+                                obj_entidad.id_Lectura = Convert.ToInt32(Fila["id_Lectura"]);
+                                obj_entidad.orden = Fila["orden"].ToString();
+                                obj_entidad.foto = Fila["foto"].ToString();
+                                obj_entidad.fecha_corte = Fila["fecha_corte"].ToString();
+                                obj_entidad.suministro_corte = Fila["suministro_corte"].ToString();
+                                obj_entidad.cuenta_contrato = Fila["cuenta_contrato"].ToString();
+                                obj_entidad.medidor_corte = Fila["medidor_corte"].ToString();
+                                obj_entidad.cliente = Fila["cliente"].ToString();
+                                obj_entidad.lectura = Fila["lectura"].ToString();
+                                obj_entidad.observacion = Fila["observacion"].ToString();
+                                obj_entidad.ope_nombre = Fila["ope_nombre"].ToString();
+                                obj_entidad.direccion = Fila["direccion"].ToString();
+                                obj_entidad.distrito = Fila["distrito"].ToString();
+                                obj_entidad.fotourl = ruta + Convert.ToString(Fila["fotourl"]);
+                                obj_entidad.id_observacionResultado_corte = Fila["id_observacionResultado_corte"].ToString();
+                                obj_entidad.id_Observacion_corte = Fila["id_Observacion_corte"].ToString();
+                                obj_entidad.id_resultadoObsCorte = Fila["id_resultadoObsCorte"].ToString();
+                                obj_entidad.ubicacion_Medidor = Fila["ubicacion_Medidor"].ToString();                 
+                                ListTecnico.Add(obj_entidad);
+
+                            }
+                        }
+                    }
+                }
+                return ListTecnico;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
 

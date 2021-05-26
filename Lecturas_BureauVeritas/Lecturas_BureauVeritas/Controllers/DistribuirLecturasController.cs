@@ -350,6 +350,22 @@ namespace DSIGE.Web.Controllers
         }
 
 
+        [HttpPost]
+        public string Inserta_Excel_LecturasActualizacion(HttpPostedFileBase file , string fechaAsignacion, int servicio)
+        {
+            try
+            {
+                object loDatos = null;
+                DistribuirLecturas_BL obj_negocio = new DistribuirLecturas_BL();
+                loDatos = obj_negocio.Capa_Negocio_Inserta_Excel_LecturasActualizacion(file, fechaAsignacion, servicio, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
 
 
 

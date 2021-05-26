@@ -13,22 +13,22 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>02/18/2019 12:06:38</publishTime>
     </File>
     <File Include="bin/DSIGE.Dato.dll">
-      <publishTime>04/14/2021 14:38:15</publishTime>
+      <publishTime>05/21/2021 14:43:45</publishTime>
     </File>
     <File Include="bin/DSIGE.Dato.pdb">
-      <publishTime>04/14/2021 14:38:15</publishTime>
+      <publishTime>05/21/2021 14:43:45</publishTime>
     </File>
     <File Include="bin/DSIGE.Modelo.dll">
-      <publishTime>04/14/2021 14:38:14</publishTime>
+      <publishTime>05/21/2021 14:43:44</publishTime>
     </File>
     <File Include="bin/DSIGE.Modelo.pdb">
-      <publishTime>04/14/2021 14:38:14</publishTime>
+      <publishTime>05/21/2021 14:43:44</publishTime>
     </File>
     <File Include="bin/DSIGE.Negocio.dll">
-      <publishTime>04/14/2021 14:38:15</publishTime>
+      <publishTime>05/21/2021 14:43:45</publishTime>
     </File>
     <File Include="bin/DSIGE.Negocio.pdb">
-      <publishTime>04/14/2021 14:38:15</publishTime>
+      <publishTime>05/21/2021 14:43:45</publishTime>
     </File>
     <File Include="bin/DSIGE.Web.dll">
       <publishTime>08/05/2019 18:13:06</publishTime>
@@ -82,10 +82,10 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>02/18/2019 12:06:38</publishTime>
     </File>
     <File Include="bin/Lecturas_BureauVeritas.dll">
-      <publishTime>04/14/2021 14:40:52</publishTime>
+      <publishTime>05/21/2021 14:43:45</publishTime>
     </File>
     <File Include="bin/Lecturas_BureauVeritas.pdb">
-      <publishTime>04/14/2021 14:40:52</publishTime>
+      <publishTime>05/21/2021 14:43:45</publishTime>
     </File>
     <File Include="bin/Microsoft.Practices.EnterpriseLibrary.Common.dll">
       <publishTime>02/18/2019 12:06:37</publishTime>
@@ -2215,7 +2215,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>08/14/2019 12:40:50</publishTime>
     </File>
     <File Include="Content/iconos/fonts/style.css">
-      <publishTime>08/16/2019 12:15:39</publishTime>
+      <publishTime>04/29/2021 09:41:41</publishTime>
     </File>
     <File Include="Content/iconos/icomoon333.zip">
       <publishTime>08/14/2019 12:41:01</publishTime>
@@ -2970,6 +2970,12 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     <File Include="Files_GrandesClientes/readMe.txt">
       <publishTime>09/23/2019 11:05:10</publishTime>
     </File>
+    <File Include="Files_GrandesClientes/SCTR CALIDDA %28Abril%29 PENSION.pdf">
+      <publishTime>04/28/2021 16:10:36</publishTime>
+    </File>
+    <File Include="Files_GrandesClientes/SCTR CALIDDA %28Abril%29 SALUD.pdf">
+      <publishTime>04/28/2021 16:10:33</publishTime>
+    </File>
     <File Include="fonts/glyphicons-halflings-regular.eot">
       <publishTime>03/15/2019 12:10:46</publishTime>
     </File>
@@ -3022,7 +3028,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>08/20/2019 15:47:46</publishTime>
     </File>
     <File Include="formatos/FORMATO_GRANDES_CLIENTES.xlsx">
-      <publishTime>09/27/2019 11:24:57</publishTime>
+      <publishTime>04/22/2021 10:00:36</publishTime>
     </File>
     <File Include="formatos/FORMATO_IMPRESION_REPARTO.xlsx">
       <publishTime>08/22/2019 11:51:15</publishTime>
@@ -3244,16 +3250,19 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>09/03/2019 10:41:18</publishTime>
     </File>
     <File Include="Views/Importar_Excel/Inicio.cshtml">
-      <publishTime>04/12/2021 17:02:31</publishTime>
+      <publishTime>04/29/2021 16:43:41</publishTime>
     </File>
     <File Include="Views/LecturaEnviarCliente/Enviar_trabajos.cshtml">
       <publishTime>11/14/2019 16:34:30</publishTime>
     </File>
     <File Include="Views/LecturaEnviarCliente/Inicio.cshtml">
-      <publishTime>07/29/2020 08:56:18</publishTime>
+      <publishTime>05/21/2021 11:27:23</publishTime>
     </File>
     <File Include="Views/LecturaEnviarCliente/ValidacionLectura_inicio.cshtml">
       <publishTime>07/27/2020 09:23:53</publishTime>
+    </File>
+    <File Include="Views/LecturaEnviarCliente/visualizarFotos_index.cshtml">
+      <publishTime>05/21/2021 10:17:25</publishTime>
     </File>
     <File Include="Views/Lectura_grandesClientes/list_grandesClientes_index.cshtml">
       <publishTime>04/12/2021 15:20:05</publishTime>
@@ -3316,7 +3325,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>02/18/2019 12:06:36</publishTime>
     </File>
     <File Include="Views/ResultadosLectura/index_ResultadosLecturas_II.cshtml">
-      <publishTime>04/12/2021 14:44:06</publishTime>
+      <publishTime>04/19/2021 18:10:25</publishTime>
     </File>
     <File Include="Views/Resumen_Lecturas/Inicio.cshtml">
       <publishTime>07/02/2019 10:56:28</publishTime>

@@ -325,6 +325,11 @@ D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_Burea
 D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\obj\Debug\Lecturas_BureauVeritas.csproj.CopyComplete
 D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\obj\Debug\Lecturas_BureauVeritas.dll
 D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\obj\Debug\Lecturas_BureauVeritas.pdb
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\NPOI.OpenXmlFormats.dll
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\NPOI.xml
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\obj\Debug\Lecturas_BureauVeritas.csproj.CopyComplete
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\obj\Debug\Lecturas_BureauVeritas.csprojAssemblyReference.cache
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\obj\Debug\Lecturas_BureauVeritas.csproj.CoreCompileInputs.cache
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\Lecturas_BureauVeritas.dll.config
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\Lecturas_BureauVeritas.dll
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\Lecturas_BureauVeritas.pdb
@@ -339,7 +344,6 @@ E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\NPOI.dll
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\NPOI.OOXML.dll
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\NPOI.OpenXml4Net.dll
-E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\NPOI.OpenXmlFormats.dll
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\System.Net.Http.Formatting.dll
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\System.Web.Http.dll
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\System.Web.Http.WebHost.dll
@@ -359,7 +363,6 @@ E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\DSIGE.Modelo.pdb
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\DSIGE.Negocio.pdb
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\EPPlus.xml
-E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\NPOI.xml
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\NPOI.OOXML.xml
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\NPOI.OpenXml4Net.xml
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\EntityFramework.xml
@@ -388,8 +391,5 @@ E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\es\System.Web.WebPages.Deployment.resources.dll
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\es\System.Web.WebPages.Razor.resources.dll
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\bin\Select.Html.dep
-E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\obj\Debug\Lecturas_BureauVeritas.csprojAssemblyReference.cache
-E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\obj\Debug\Lecturas_BureauVeritas.csproj.CoreCompileInputs.cache
-E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\obj\Debug\Lecturas_BureauVeritas.csproj.CopyComplete
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\obj\Debug\Lecturas_BureauVeritas.dll
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\obj\Debug\Lecturas_BureauVeritas.pdb

@@ -209,6 +209,14 @@
                 });
         });
 
+        var oTable_GrandesClientes = null;
+        $scope.$on('ngRepeatFinished_GrandesClientes', function (ngRepeatFinishedEvent) {
+            oTable_GrandesClientes = $('#tblDetalle_grandesClientes').DataTable(
+                {
+                    scrollY: "400px",
+                    paging: false,
+                });
+        });
 
 
         
@@ -1136,13 +1144,34 @@
             $http(variables)
                 .success(function (data) {
 
-                    setTimeout(function () {
-                        $('.sige-load').hide();
-                        $('#modalDetalle_grandesClientes').modal();
-                    }, 100);
+                    //setTimeout(function () {
+                    //    $('.sige-load').hide();
+                    //    $('#modalDetalle_grandesClientes').modal();
+                    //}, 100);
+
+                    //$scope.ListaOperario_detalleGrandesCli = [];
+                    //$scope.ListaOperario_detalleGrandesCli = data;
+                          
 
                     $scope.ListaOperario_detalleGrandesCli = [];
-                    $scope.ListaOperario_detalleGrandesCli = data;
+                    $('#modalDetalle_grandesClientes').modal();
+
+                    if (oTable_GrandesClientes == null) {
+                        $scope.ListaOperario_detalleGrandesCli = data;
+                    } else {
+                        oTable_GrandesClientes.clear();
+                        oTable_GrandesClientes.destroy();
+                        oTable_GrandesClientes = null;
+                        $scope.ListaOperario_detalleGrandesCli = data;
+                    }
+                    setTimeout(function () {
+                        $('.sige-load').hide();
+                        if (oTable_GrandesClientes == null) {
+                        } else {
+                            oTable_GrandesClientes.draw();
+                        }
+                    }, 500);
+
 
                 })
                 .error(function () {
@@ -1534,7 +1563,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="lista in ListaOperario_detalleGrandesCli">
+                                <tr ng-repeat="lista in ListaOperario_detalleGrandesCli" on-finish-render="ngRepeatFinished_GrandesClientes">
                                     <td>{{$index + 1}}</td>
                                     <td>{{lista.CodigoEMR}}</td>
                                     <td>{{lista.operario}}</td>

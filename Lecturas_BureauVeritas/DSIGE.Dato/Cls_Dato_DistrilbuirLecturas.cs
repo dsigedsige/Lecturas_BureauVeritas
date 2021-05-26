@@ -27,6 +27,7 @@ using System.Net.Mail;
 using System.Net.Mime;
 using System.Data.OleDb;
 using System.Threading;
+using static DSIGE.Dato.Cls_Dato_Importacion_Lecturas;
 
 namespace DSIGE.Dato
 {
@@ -1717,6 +1718,85 @@ namespace DSIGE.Dato
                 mensaje = ex.Message;
             }
             return mensaje;
+        }
+
+
+        public object Capa_Dato_Inserta_Excel_LecturasActualizacion(HttpPostedFileBase file,  string fechaAsignacion, int idServicio, int idusuario)
+        {
+            DataTable dt = new DataTable();
+            DataTable dtRegistros = new DataTable();
+            resul res = new resul();
+
+            try
+            {
+                string fechaActual = String.Format("{0:ddMMyyyy_hhmmss}", DateTime.Now);
+                string nomExcel = idusuario + "_LC_" + fechaActual + "_" + file.FileName;
+                string fileLocation = System.Web.Hosting.HostingEnvironment.MapPath("~/Upload") + "\\" + nomExcel;
+                file.SaveAs(fileLocation);
+
+                string sql = "SELECT * FROM [Importar$]";
+
+                OleDbDataAdapter da = new OleDbDataAdapter(sql, ConectarExcel(fileLocation));
+                da.SelectCommand.CommandType = CommandType.Text;
+                da.Fill(dt);
+                cn.Close();
+
+                using (SqlConnection con = new SqlConnection(cadenaCnx))
+                {
+                    con.Open();
+                    //eliminando registros del usuario
+                    using (SqlCommand cmd = new SqlCommand("SP_D_TEMPORAL_CORRECION_LECTURA", con))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = idusuario;
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    //guardando al informacion de la importacion
+                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(con))
+                    {
+                        bulkCopy.BatchSize = 500;
+                        bulkCopy.NotifyAfter = 1000;
+                        bulkCopy.DestinationTableName = "TEMPORAL_CORRECION_LECTURA";
+                        bulkCopy.WriteToServer(dt);
+
+                        //Actualizando campos 
+                        string Sql = "UPDATE TEMPORAL_CORRECION_LECTURA SET id_servicio='" + idServicio + "' , fecha_asignacion='" + fechaAsignacion + "',  nombre_archivo='" + file.FileName + "', id_usuario_importa='" + idusuario + "'   WHERE id_usuario_importa IS NULL    ";
+
+                        using (SqlCommand cmd = new SqlCommand(Sql, con))
+                        {
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.Text;
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand("SP_S_TEMPORAL_CORRECION_LECTURA", con))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = idusuario;
+                        using (SqlDataAdapter daRegistro = new SqlDataAdapter(cmd))
+                        {
+                            daRegistro.Fill(dtRegistros);       
+                        }
+                    }
+
+
+                    res.ok = true;
+                    res.data = dtRegistros;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                cn.Close();
+                res.ok = false;
+                res.data = ex.Message;
+            }
+
+            return res;
         }
 
 

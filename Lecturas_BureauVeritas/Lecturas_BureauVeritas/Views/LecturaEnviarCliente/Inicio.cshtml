@@ -13,6 +13,7 @@
     @Scripts.Render("~/Content/bootstrap-table/bootstrap-table.js")
 
     @Scripts.Render("~/Content/bootstrap-table/locale/bootstrap-table-es-MX.js")
+    @Scripts.Render("~/Content/bootstrap-table/locale/bootstrap-table-es-MX.js")
     @Scripts.Render("~/Content/bootstrap/js/bootstrap-toggle.min.js")
     @Styles.Render("~/Content/bootstrap/css/bootstrap-toggle.min.css")
 
@@ -145,7 +146,18 @@
         [class^="icon-"], [class*=" icon-"] {
             font-size: 15px;
         }
- 
+        #form_actualizar {
+            margin-top: 10px;
+        }
+        .resaltado {
+            background-color: #d9534f;
+            color: white;
+            font-size: 11px;
+        }
+        .titulo-leyenda {
+            padding: 5px 0px;
+        }
+
     </style>
 }
 
@@ -270,7 +282,7 @@
 
 
             var oTablePendiente = null;
-            $scope.$on('ngRepeatFinishedPendiente', function (ngRepeatFinishedEvent) { 
+            $scope.$on('ngRepeatFinishedPendiente', function (ngRepeatFinishedEvent) {
                 oTablePendiente = $('#tbl_VisualizarPendientes').DataTable(
                     {
                         scrollY: "350px",
@@ -298,6 +310,17 @@
             });
 
 
+            var oTable_actualizar = null;
+            $scope.$on('ngRepeatFinished_actualizar', function (ngRepeatFinishedEvent) {
+                $('.sige-load').hide();
+                document.getElementById("form_actualizar").style.display = "";
+                oTable_actualizar = $('#tbl_actualizar').DataTable(
+                    {
+                        scrollY: "350px",
+                        paging: false,
+                    });
+            });
+
 
 
             var pictures = $scope.pictures = [];
@@ -309,7 +332,10 @@
                 $('.sige-load').show();
        
                 $scope.edicionFoto = false;
-                if (cbo_servicio == 3 || cbo_servicio == "3" || cbo_servicio == 4 || cbo_servicio == "4" ) {
+                if (cbo_servicio == 1 || cbo_servicio == "1" || cbo_servicio == 2 || cbo_servicio == "2" || cbo_servicio == 9 || cbo_servicio == "9"  ) {
+                    $scope.edicionFoto = true;
+                }
+                if (cbo_servicio == 3 || cbo_servicio == "3" || cbo_servicio == 4 || cbo_servicio == "4") {
                     $scope.edicionFoto = true;
                 }
 
@@ -1897,21 +1923,15 @@
 
 
             $scope.AbrirModal_CambiarFotos = function (objfoto) { 
-                var cbo_servicio = document.getElementById('cbo_servicio').value;
-                if (cbo_servicio == 3 || cbo_servicio == "3" || cbo_servicio == 4 || cbo_servicio == "4") {
+                var cbo_servicio = document.getElementById('cbo_servicio').value; 
+                objFotoLecturaG = objfoto;
 
-                    objFotoLecturaG = objfoto;
-                    $(":file").filestyle('clear');
-                    $scope.myFilefoto = null;
+                console.log('objFotoLecturaG')
+                console.log(objFotoLecturaG)
 
-                    $('#modal_cambiarFoto').modal('show');
-                } else {
-                    new PNotify({
-                        title: ' ',
-                        text: 'Solo disponible para el servicio de Cortes o Reconexiones',
-                        type: 'error'
-                    });
-                }                             
+                $(":file").filestyle('clear');
+                $scope.myFilefoto = null;
+                $('#modal_cambiarFoto').modal('show');               
             }
 
 
@@ -2134,6 +2154,9 @@
 
             $scope.Actualizar_foto = function () {   
 
+                var cbo_servicio = document.getElementById('cbo_servicio').value;
+
+
                 if ($scope.myFilefoto == null) {
                     new PNotify({
                         title: ' ',
@@ -2168,13 +2191,20 @@
                                 type: 'error'
                             });
                         } else {
+                            let urlBD = '';
+                            if (cbo_servicio == 3 || cbo_servicio == '3' || cbo_servicio == 4 || cbo_servicio == '4'  ) {
+                                urlBD = '../LecturaEnviarCliente/set_cambiarfoto'
+                            }
+                            if (cbo_servicio == 1 || cbo_servicio == '1' || cbo_servicio == 2 || cbo_servicio == '2' || cbo_servicio == 9 || cbo_servicio == '9'  ) {
+                                urlBD = '../LecturaEnviarCliente/set_cambiarfoto_Lecturas'
+                            }
 
                             $('.sige-load').show();
                             var fd = new FormData();
                             fd.append('file', $scope.myFilefoto);
                             fd.append('idfotoLectura', objFotoLecturaG.id_foto);
                             fd.append('nombrefotoLectura', objFotoLecturaG.nombreFoto);
-                            $http.post('../LecturaEnviarCliente/set_cambiarfoto', fd,
+                            $http.post(urlBD, fd,
                                 {
                                     transformRequest: angular.identity,
                                     headers: { 'Content-Type': undefined }
@@ -2392,11 +2422,10 @@
                             alert(res[1]);
                         }
                         else {
-                            let url = res[1].replace(/["]/gi, '');
+                             let url = res[1].replace(/["]/gi, '');
                             //window.open(url);
                             id_link.href = res[1].replace(/["]/gi, '');
                             id_link.click();
-
                         }
                     } else {
                         if (res[0].replace(/["]/gi, '') == "0" || res[0].replace(/["]/gi, '') == 0){
@@ -2412,11 +2441,7 @@
                             var url = res[1].replace(/["]/gi, '');
                             window.open(url);
                         }
-
                     }
-
-
-
                     $('.sige-load').hide();
                 })
                 .error(function () {
@@ -3093,6 +3118,253 @@
                 window.open('../formatos/FORMATO_SUMINISTRO.xlsx', '_blank')
             }
 
+            $scope.AbrirModal_actualizar = function () {
+
+                var servicios = document.getElementById('cbo_servicio').value;
+                var fechaAsignacion = document.getElementById('dtp_fechaAsigna').value;
+
+                if (servicios == "0") {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor seleccione un Servicio. Muchas gracias.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                if (fechaAsignacion == "" || fechaAsignacion == null || fechaAsignacion == undefined ) {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor ingrese o seleccione una Fecha de Asignacion. Muchas gracias.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                if (servicios == '1' || servicios == '2' || servicios == '9') {
+
+                    if (fechaAsignacion == '') {
+                        new PNotify({
+                            title: ' ',
+                            text: 'Por favor seleccione o ingrese una Fecha de Asignación. Muchas gracias.',
+                            type: 'error'
+                        });
+                        return;
+                    }
+                    (new PNotify({
+                        title: 'Sistemas Confirmación ',
+                        text: 'La fecha de Asignacion es la correcta..?',
+                        icon: 'glyphicon glyphicon-question-sign',
+                        hide: false,
+                        confirm: {
+                            confirm: true
+                        },
+                        buttons: {
+                            closer: false,
+                            sticker: false
+                        },
+                        history: {
+                            history: false
+                        }
+                    })).get().on('pnotify.confirm', function () {
+                        $('#modal_actualizacion').modal({ show: 'false' });
+                        $scope.nuevo_actualizar();
+                    }).on('pnotify.cancel', function () {
+
+                    });
+
+                } else {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Solo para el Servicio de Lecturas Relecturas y Reclamos..',
+                        type: 'error'
+                    });   
+                }
+            }
+            
+            $scope.nuevo_actualizar = function () {
+                $("#id_FileActualizar").filestyle('clear');
+                $scope.myFile_actualizar = null;
+                
+                $('#btn_verActualizar').attr('disabled', false);
+                $('#btn_guardarActualizar').attr('disabled', true);
+
+                if (oTable_actualizar == null) {
+                    $scope.Lista_lecturas_Actualizar = [];
+                } else {
+                    oTable_actualizar.clear().destroy();
+                    oTable_actualizar = null;
+                    $scope.Lista_lecturas_Actualizar = [];
+                }
+            }
+            
+            $scope.myFile_actualizar;
+            $scope.uploadFile_actualizar = function () {
+
+                const idfechaAsignacion = document.getElementById('dtp_fechaAsigna').value;
+                const idServicio = document.getElementById('cbo_servicio').value;
+                const file = $scope.myFile_actualizar;
+
+                
+                if (file == null) {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Por favor seleccione el archivo a cargar',
+                        type: 'error'
+                    });
+                }
+                else {
+
+                    let mostrar_alertas = () => {
+                        $scope.ListaAlertas = [];
+
+                        document.getElementById("form_cabecera").style.display = "none";
+                        $('.sige-load').show();
+                        var variables = {
+                            method: 'post',
+                            url: '../LecturaEnviarCliente/get_alertas_lecturas',
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: {
+                                fecha_asignacion: idfechaAsignacion
+                            },
+                        }
+                        $http(variables)
+                            .success(function (data) {
+
+                                if (data.length == 0) {
+                                    $('.sige-load').hide();
+                                    document.getElementById("form_cabecera").style.display = "";
+                                }
+
+                                if (oTable_alerta == null) {
+                                    $scope.ListaAlertas = data;
+                                } else {
+                                    oTable_alerta.clear();
+                                    oTable_alerta.destroy();
+                                    oTable_alerta = null;
+                                    $scope.ListaAlertas = data;
+                                }
+                            })
+                            .error(function () {
+                                alert('Lo sentimos, Ocurrio un problema, vuelva a intentar.')
+                            });
+                    }
+
+                    //---- desabilitando ----
+
+                     $('.sige-load').show();
+ 
+                    var fd = new FormData();
+                    fd.append('file', file);
+                    fd.append('fechaAsignacion', idfechaAsignacion);
+                    fd.append('servicio', idServicio);
+ 
+                    $http.post('../DistribuirLecturas/Inserta_Excel_LecturasActualizacion', fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: { 'Content-Type': undefined }
+                    }).success(function (res) {
+                        $('.sige-load').hide();
+ 
+                        if (res.ok == true) {
+                            $('.sige-load').hide();
+                            document.getElementById("form_actualizar").style.display = "";
+                            
+                            if (oTable_actualizar == null) {
+                                $scope.Lista_lecturas_Actualizar = res.data;
+                            } else {
+                                oTable_actualizar.clear().destroy();
+                                oTable_actualizar = null;
+                                $scope.Lista_lecturas_Actualizar = res.data;
+                            }
+
+                            const listLecturas = $scope.Lista_lecturas_Actualizar.filter((lectura) => lectura.valor_mensaje == '0');
+
+                            if (listLecturas.length > 0) {
+                                $('#btn_guardarActualizar').attr('disabled', true); 
+                                $('#btn_verActualizar').attr('disabled', false);
+                            } else {
+                                $('#btn_verActualizar').attr('disabled', true);
+                                $('#btn_guardarActualizar').attr('disabled', false);  
+                            }
+                        } else {
+                            alert(JSON.stringify(res.data))
+                        }
+
+             
+                    })
+                    .error(function (err) {
+                        //---- desabilitando ----
+                        $('#btn_verActualizar').attr('disabled', true);
+                        alert(JSON.stringify(err))
+                        $('.sige-load').hide();
+                    });
+                }
+            };
+
+            $scope.Actualizar_DatosLecturas = function () {
+
+                var servicios = document.getElementById('cbo_servicio').value;
+                var fechaAsignacion = document.getElementById('dtp_fechaAsigna').value;
+
+                if (servicios == "0") {
+                    new PNotify({ title: ' ', text: 'Por favor seleccione un Servicio. Muchas gracias.',type: 'error'  });
+                    return;
+                }
+
+                if (fechaAsignacion == "" || fechaAsignacion == null || fechaAsignacion == undefined) {
+                    new PNotify({ title: ' ', text: 'Por favor ingrese o seleccione una Fecha de Asignacion. Muchas gracias.', type: 'error' });
+                    return;
+                }
+                
+                if ($scope.myFile_actualizar == null) {
+                    new PNotify({
+                        title: ' ',
+                        text: 'Ningun Archivo Seleccionado..',
+                        type: 'error'
+                    });
+                }
+                else {
+                    var variablesG = {
+                        method: 'post',
+                        url: '../LecturaEnviarCliente/Proceso_Actualizar_lecturasMasivas',
+                        headers: {
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        data: {
+                            id_servicio: servicios,
+                            id_fecha: fechaAsignacion
+                        }
+                    }
+                    $http(variablesG)
+                        .success(function (res) {
+
+                            if (res.ok == true) {
+                                new PNotify({
+                                    title: 'Sistemas',
+                                    text: 'Guardado realizado Correctamente.',
+                                    type: 'success',                                    
+                                });
+
+                                $('#modal_actualizacion').modal('hide');
+                            } else {
+                                alert(JSON.stringify(res.data));
+                            }
+
+                        })
+                        .error(function () {
+                            alert('Lo sentimos, Ocurrio un problema, vuelva a intentar.')
+                        });
+
+                }
+            };
+
+
+            $scope.formato_actualizar = () => {
+                window.open('../formatos/FORMATO_CORRECCION_LECTURAS.xlsx', '_blank')
+            }
 
         })
 
@@ -3133,7 +3405,6 @@
                 <h6><i class="fa fa-table fa-lg"></i> ENVIAR TRABAJOS AL CLIENTE</h6>
             </div>
             <div class="panel-body">
-
 
                 <div class="well" style="background: #314b75; color: white;    margin-bottom: 1px;">
                     <div class="row" style="    margin-top: -15px">
@@ -3234,49 +3505,48 @@
                                     <input type="checkbox" id="chk_masivo" style="margin-top: 2px; margin-left: 2px;" value="1" ng-model="checkSuministros" ng-click="AbrirModal_suministroMasivo()">
                                     <label style="color:red" for="chk_masivo">Masivo</label>
                                 </div>
- 
-                                <div class="form-group" >
+
+                                <div class="form-group">
                                     <input id="txt_suministro" class="form-control" type="text" placeholder="Ingresar Suministro">
-                                    @*<textarea id="txt_suministro" style="z-index:100" class="form-control" rows="2"></textarea>*@
                                 </div>
                             </div>
-                                <div class="col-xs-6 col-sm-6 col-md-3  col-lg-3 ">
-                                    <div class="form-group">
-                                        <label class="control-label">
-                                            Medidor
-                                        </label>
-                                        <br />
-                                        <input id="txt_medidor" class="form-control" type="text" placeholder="Ingresar medidor" maxlength="30">
-                                    </div>
-                                </div>
-                                <div class="col-xs-6 col-sm-6 col-md-3  col-lg-3 ">
-                                    <div class="form-group">
-                                        <label class="control-label">
-                                            Técnico Asignado
-                                        </label>
-                                        <br />
-                                        <select id="cbo_tecnico" class="form-control">
-                                            <option value=0>--[Todos ]-- </option>
-                                            <option ng-repeat="item in ListaTecnico" value="{{item.ope_id}}">
-                                                {{item.ope_nombre}}
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-xs-6 col-sm-6 col-md-3  col-lg-3 ">
-                                    <div class="form-group">
-                                        <label class="control-label">
-                                            Tipo Cliente
-                                        </label>
-                                        <br />
-                                        <select id="cbo_TipoCliente" class="form-control">
-                                            <option ng-repeat="item in List_TipoCliente" value="{{item.id}}">
-                                                {{item.desc}}
-                                            </option>
-                                        </select>
-                                    </div>
+                            <div class="col-xs-6 col-sm-6 col-md-3  col-lg-3 ">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Medidor
+                                    </label>
+                                    <br />
+                                    <input id="txt_medidor" class="form-control" type="text" placeholder="Ingresar medidor" maxlength="30">
                                 </div>
                             </div>
+                            <div class="col-xs-6 col-sm-6 col-md-3  col-lg-3 ">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Técnico Asignado
+                                    </label>
+                                    <br />
+                                    <select id="cbo_tecnico" class="form-control">
+                                        <option value=0>--[Todos ]-- </option>
+                                        <option ng-repeat="item in ListaTecnico" value="{{item.ope_id}}">
+                                            {{item.ope_nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-3  col-lg-3 ">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Tipo Cliente
+                                    </label>
+                                    <br />
+                                    <select id="cbo_TipoCliente" class="form-control">
+                                        <option ng-repeat="item in List_TipoCliente" value="{{item.id}}">
+                                            {{item.desc}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-sm-3 col-md-3">
                             <br />
                             <div class="form-group">
@@ -3547,7 +3817,9 @@
                     <div class="panel-body" style="height: 40px;">
                         <div class="col-sm-12" style="text-align:center;">
                             <div class="form-group form-group-sm">
-                                <button class="btn btn-danger btn-sm" ng-click="AbrirModal_Importacion();"><span class="glyphicon glyphicon-list-alt"></span> Importar Archivos Lectura Manual</button>
+
+                                <button class="btn btn-default btn-sm" ng-click="AbrirModal_actualizar();" title="Solo para Lectura, Relecturas y Reclamos"><span class="glyphicon glyphicon-list-alt"></span> Actualizar Lecturas </button>
+                                <button class="btn btn-danger btn-sm" ng-click="AbrirModal_Importacion();"><span class="glyphicon glyphicon-list-alt"></span>  Importar Lectura Manual  </button>
                                 @*<button class="btn btn-default" ng-click="EnviarVerificacion_porcentaje()"><span class="glyphicon glyphicon-minus-sign"></span> Enviar Lecturas Observadas</button>*@
                                 <button role="button" class="btn btn-warning btn-sm" ng-click="DescargarArchivos();" title="Descargar Todas Fotos"><i class="fa fa-camera fa-lg"></i> Descargar Fotos</button>
                                 <button role="button" class="btn btn-primary btn-sm" ng-click="DescargarArchivos_sinObservacion();" title="Descargar Fotos sin Observacion (Solo para Lecturas)"><span class="glyphicon glyphicon-save"></span> Fotos SinObservación</button>
@@ -4139,9 +4411,7 @@
                 </div>
             </div>
         </div>
-
-
-
+        
         <div id="modal_importacion" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog  modal_dsige " style="width:98%;">
                 <div class="panel panel-oscuro">
@@ -4247,8 +4517,7 @@
                 </div>
             </div>
         </div>
-
-
+        
         <div id="modal_cambiarFoto" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document" style="width:600px">
                 <div class="modal-content">
@@ -4272,8 +4541,6 @@
                 </div>
             </div>
         </div>
-
-
 
         <div id="modalCorteReconexion" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog" style="width:  300px !important;">
@@ -4313,8 +4580,7 @@
                 </div>
             </div>
         </div>
-
-
+ 
         <div id="modal_suministro" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog  modal_dsige " style="width:500px;">
                 <div class="panel panel-oscuro">
@@ -4364,7 +4630,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
-                                    <button id="btn_cancel" role="button" class="btn btn-default"  ng-click="cerrarModalSuministros()" ><i class="fa fa-close fa-lg"></i> Cerrar</button>
+                                    <button id="btn_cancel" role="button" class="btn btn-default" ng-click="cerrarModalSuministros()"><i class="fa fa-close fa-lg"></i> Cerrar</button>
                                 </div>
                             </div>
                         </div>
@@ -4373,6 +4639,81 @@
             </div>
         </div>
 
+        <div id="modal_actualizacion" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog  modal_dsige " style="width:60%;">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h6 class="modal-title"><i class="fa fa-calendar fa-lg"></i> Actualizar Datos Lecturas</h6>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-8  col-lg-8 ">
+                                <input id="id_FileActualizar" type="file" class="filestyle" file-model="myFile_actualizar" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" data-placeholder="Ningun Archivo Seleccionado" data-buttonname="btn-primary" data-size="sm" data-buttonbefore="true" data-buttontext="  Seleccionar Archivo..">
+                            </div>
+                            <div class="col-xs-8 col-sm-12 col-md-4  col-lg-4 " style="text-align:center">
+                                <button id="btn_verActualizar" type="button" class="btn btn-primary btn-sm" ng-click="uploadFile_actualizar()"><i class="fa fa-upload"></i> Ver</button>
+                                <button id="btn_nuevoActualizar" type="button" class="btn btn-warning btn-sm" ng-click="nuevo_actualizar();"><i class="fa fa-file-excel-o"></i> Nuevo</button>
+                                <button type="button" class="btn btn-info btn-sm" ng-click="formato_actualizar();"><i class="fa fa-file-excel-o"></i> Formato </button>
+                            </div>
+                        </div>
+
+                        <div class="titulo-leyenda" ng-if="Lista_lecturas_Actualizar.length > 0" > 
+                            <span class="label label-danger"> Registro con Errores</span>
+                        </div>
+             
+
+                        <div class="row" id="form_actualizar" style="display:none">
+                            <div class="col-md-12 col-sm-12 col-lg-12">
+                                <div class="form-group">
+                                    <table id="tbl_actualizar" class="table table-condensed table-bordered table-responsive" cellspacing="0" style="font-family: tahoma;margin-bottom: 0px; font-size: 10px;">
+                                        <thead style="background:#F0F3F5;">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>CUENTA CONTRATO</th>
+                                                <th>LECTURA </th>
+                                                <th>NOTA LECTURA </th>
+                                                <th>COMENTARIO </th>
+                                                <th>MENSAJE </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-family: tahoma; font-size: 9px;">
+                                            <tr ng-repeat="lista in Lista_lecturas_Actualizar" on-finish-render="ngRepeatFinished_actualizar" ng-class="{'resaltado': lista.valor_mensaje == 0}">
+                                                <td>{{$index + 1}}</td>
+                                                <td>{{lista.cuenta_contrato}}</td>
+                                                <td>{{lista.lectura}}</td>
+                                                <td>{{lista.nota_lectura}}</td>
+                                                <td>{{lista.observacion_lectura}}</td>
+                                                <td>{{lista.mensaje}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr style="margin-top: -1px;margin-bottom: 7px;" />
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12" style="text-align:center">
+                                <button id="btn_guardarActualizar" type="button" class="btn btn-primary btn-sm" ng-click="Actualizar_DatosLecturas()"><span class="glyphicon glyphicon-floppy-disk"></span> Actualizar</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                    <button id="btn_cancel" role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 

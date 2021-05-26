@@ -2850,11 +2850,31 @@ namespace DSIGE.Dato
                             message.Body = dt_detalleMail.Rows[i]["cuerpoMensaje"].ToString();
                             message.IsBodyHtml = true;
                             message.Priority = MailPriority.Normal;
+                            
+                            string rutaFile1= System.Web.Hosting.HostingEnvironment.MapPath("~/Files_GrandesClientes/SCTR CALIDDA PENSION.pdf");
+                            string rutaFile2 = System.Web.Hosting.HostingEnvironment.MapPath("~/Files_GrandesClientes/SCTR CALIDDA SALUD.pdf");
+                            
+                            if (System.IO.File.Exists(rutaFile1))
+                            {
+                                Attachment data = new Attachment(rutaFile1, MediaTypeNames.Application.Octet);
+                                message.Attachments.Add(data);
+                            }
+                            if (System.IO.File.Exists(rutaFile2))
+                            {
+                                Attachment data2 = new Attachment(rutaFile2, MediaTypeNames.Application.Octet);
+                                message.Attachments.Add(data2);
+                            }
 
                             //---agregando la copia del correo 
                             if (dt_detalleMail.Rows[i]["copiaDestinatario"].ToString().Length > 0)
                             {
-                                message.CC.Add(new MailAddress(dt_detalleMail.Rows[i]["copiaDestinatario"].ToString()));
+                                string[] Emailcopias = dt_detalleMail.Rows[i]["copiaDestinatario"].ToString().Split(';');
+                                string corr = "";
+                                foreach (var email in Emailcopias)
+                                {
+                                    corr = email.Replace(" ", String.Empty);
+                                    message.CC.Add(new MailAddress(corr));
+                                }               
                             }
                             using (var smtp = new SmtpClient())
                             {

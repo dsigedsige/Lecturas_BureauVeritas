@@ -79,8 +79,9 @@
             color: white !important;
         }
 
- 
-
+        /*.input-group .form-control, .input-group-addon, .input-group-btn {
+            height: 40px !important;
+        }*/
  
     </style>
 }
@@ -1220,7 +1221,67 @@
                 var idServicio = document.getElementById('id_servicio').value;
                 var Fecha_asignacion = document.getElementById('id_fecha_asignacion').value;                
 
-                if (idServicio == '0') {
+                $('.sige-load').show();
+                (new PNotify({
+                    title: 'Sistemas Confirmación',
+                    text: 'Esta seguro de Enviar los Correos?, verifique la FECHA una vez enviado no hay marcha atras..',
+                    icon: 'glyphicon glyphicon-question-sign',
+                    hide: false,
+                    confirm: {
+                        confirm: true
+                    },
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    },
+                    history: {
+                        history: false
+                    }
+                })).get().on('pnotify.confirm', function () {
+
+                    var variables = {
+                        method: 'POST',
+                        url: '../Importar_Excel/set_EnviarCorreo_grandesClientes',
+                        headers: {
+                            'Content-Type': 'application/json; charset=utf-8'
+                        },
+                        data: {
+                            servicio: idServicio,
+                            fecha_Asigna: Fecha_asignacion
+                        }
+                    }
+                    $http(variables)
+                        .success(function (data) {
+                            $('.sige-load').hide();
+                            if (data == 'OK' || data == '"OK"') {
+                                new PNotify({
+                                    title: 'Sistemas',
+                                    text: 'Proceso de Envio de correo masivo, Realizado Correctamente.',
+                                    type: 'success'
+                                });
+
+                                $("#modal_envioCorreo").modal('hide');
+                            } else {
+                                $('.sige-load').hide();
+                                alert(data)
+                            }
+                        })
+                        .error(function () {
+                            $('.sige-load').hide();
+                            alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                        });
+                }).on('pnotify.cancel', function () {
+                    $('.sige-load').hide();
+                });
+      
+            }
+
+            $scope.abrirModal_envioCorreo = function () {
+
+                var idServicio = document.getElementById('id_servicio').value;
+                var Fecha_asignacion = document.getElementById('id_fecha_asignacion').value;
+
+                if (idServicio == '0' || idServicio == 0) {
                     new PNotify({
                         title: 'Sistemas',
                         text: 'Por favor seleccione el Servicio Grandes Clientes. Muchas gracias.',
@@ -1229,66 +1290,143 @@
                     return;
                 }
 
-                if (idServicio == 7 || idServicio == '7' ) {
-                    if (Fecha_asignacion == '') {
+                if (Fecha_asignacion == '' || Fecha_asignacion == '') {
+                    new PNotify({
+                        title: 'Sistemas',
+                        text: 'Por favor seleccion la Fecha Asignacion. Muchas gracias.',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                if (idServicio == 7 || idServicio == '7') {
+                    $('#modal_envioCorreo').modal('show');
+                    $scope.cargar_nuevo_Archivo(1);
+                    $scope.cargar_nuevo_Archivo(2);
+
+                    $("#panelEmail").removeClass("collapse in");
+                    $("#panelEmail").addClass("collapse on");
+                }
+
+
+            }
+
+
+            $scope.myFile1;
+            $scope.myFile2;
+
+            $scope.cargarArchivo = function (tipo) {
+
+                if (tipo == 1 ) { /// archivo 1 
+     
+                    const file1 = $scope.myFile1;
+                    const btn_cargar1 = document.getElementById('btn_cargar1');
+                    const btn_cargar2 = document.getElementById('btn_cargar2');
+     
+                    if (file1 == null) {
                         new PNotify({
-                            title: 'Sistemas',
-                            text: 'Por favor seleccione o ingrese la Fecha.',
+                            title: ' ',
+                            text: 'Por favor seleccione el Archivo 1',
                             type: 'error'
                         });
                         return;
                     }
-
                     $('.sige-load').show();
-                    (new PNotify({
-                        title: 'Sistemas Confirmación',
-                        text: 'Esta seguro de Enviar los Correos?, una vez enviado no hay marcha atras..',
-                        icon: 'glyphicon glyphicon-question-sign',
-                        hide: false,
-                        confirm: {
-                            confirm: true
-                        },
-                        buttons: {
-                            closer: false,
-                            sticker: false
-                        },
-                        history: {
-                            history: false
-                        }
-                    })).get().on('pnotify.confirm', function () {
 
-                        var variables = {
-                            method: 'POST',
-                            url: '../Importar_Excel/set_EnviarCorreo_grandesClientes',
-                            headers: {
-                                'Content-Type': 'application/json; charset=utf-8'
-                            },
-                            data: {
-                                servicio: idServicio,
-                                fecha_Asigna: Fecha_asignacion
-                            }
-                        }
-                        $http(variables)
-                            .success(function (data) {
-                                $('.sige-load').hide();
-                                if (data == 'OK' || data == '"OK"') {
-                                    new PNotify({
-                                        title: 'Sistemas',
-                                        text: 'Proceso de Envio de correo masivo, Realizado Correctamente.',
-                                        type: 'success'
-                                    });
-                                } else {
-                                    $('.sige-load').hide();
-                                    alert(data)
-                                }
-                            })
-                            .error(function () {
-                                $('.sige-load').hide();
-                                alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                    var uploadUrl = '@Url.Action("Insertar_archivo")';
+
+                    var fd = new FormData();
+                    fd.append('file', file1);
+                    fd.append('opcion', 1);
+                    $http.post(uploadUrl, fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: { 'Content-Type': undefined }
+                    }).success(function (res) {
+                        $('.sige-load').hide(); 
+                        if (res.ok == true) {
+                            btn_cargar1.disabled = true;
+                            btn_cargar2.disabled = false;
+
+                            new PNotify({
+                                title: 'Sistemas',
+                                text: 'Se cargo el Primer archivo, correctamente.',
+                                type: 'success'
                             });
-                    }).on('pnotify.cancel', function () {
+
+                        } else {
+                            btn_cargar1.disabled = false;
+                            btn_cargar2.disabled = true;
+                            alert(res.data);
+                        }               
+                        $('.sige-load').hide();
+                    })
+                    .error(function () {
+                        alert('Ocurrio un problema con la conexion, vuelva a intentar.')
                         $('.sige-load').hide();
                     });
+                }
+                if (tipo == 2) { /// archivo 2
+
+                    const file2 = $scope.myFile2;
+                    const btn_cargar2 = document.getElementById('btn_cargar2');
+     
+                    if (file2 == null) {
+                        new PNotify({
+                            title: ' ',
+                            text: 'Por favor seleccione el Archivo 2',
+                            type: 'error'
+                        });
+                        return;
+                    }
+                    $('.sige-load').show();
+
+                    var uploadUrl = '@Url.Action("Insertar_archivo")';
+
+                    var fd = new FormData();
+                    fd.append('file', file2);
+                    fd.append('opcion', 2);
+                    $http.post(uploadUrl, fd,
+                    {
+                        transformRequest: angular.identity,
+                        headers: { 'Content-Type': undefined }
+                    }).success(function (res) {
+                        $('.sige-load').hide(); 
+                        if (res.ok == true) {
+                            btn_cargar2.disabled = true;
+
+                            new PNotify({
+                                title: 'Sistemas',
+                                text: 'Se cargo el Segundo archivo, correctamente.',
+                                type: 'success'
+                            });
+
+                        } else {
+                            btn_cargar2.disabled = true;
+                            alert(res.data);
+                        }               
+                        $('.sige-load').hide();
+                    })
+                    .error(function () {
+                        alert('Ocurrio un problema con la conexion, vuelva a intentar.')
+                        $('.sige-load').hide();
+                    });
+                }
+    
+            }
+
+            $scope.cargar_nuevo_Archivo = function (tipo) {
+                if (tipo == 1) { /// archivo 1
+                    const btn_cargar1 = document.getElementById('btn_cargar1');
+                    $("#file1").filestyle('clear');
+                    $scope.myFile1 = null;
+                    btn_cargar1.disabled = false;
+                }
+                if (tipo == 2) { /// archivo 2
+                    const btn_cargar2 = document.getElementById('btn_cargar2');
+                    $("#file2").filestyle('clear');
+                    $scope.myFile2 = null;
+                    btn_cargar2.disabled = false;
                 }
             }
 
@@ -1358,7 +1496,7 @@
 
                     <div class="col-sm-8 col-md-6">
                         <button button id="btn_ver" class="btn btn-primary btn-sm" ng-click="uploadFile()"><span class="glyphicon glyphicon-search"></span> ver</button>
-                        <button id="btn_nueva" type="button" class="btn btn-success btn-sm" onclick="window.location.reload(true)"><span class="glyphicon glyphicon-plus"></span> Nuevo</button>
+                        <button id="btn_nueva" type="button" class="btn btn-success " onclick="window.location.reload(true)"><span class="glyphicon glyphicon-plus"></span> Nuevo</button>
                         <button class="btn btn-default btn-sm" ng-click="Descargar_formato();"><span class="glyphicon glyphicon-save"></span> Formato</button>
                         @*<button class="btn btn-default btn-sm" ng-click="abrirModal_Asignacion();"><span class="glyphicon glyphicon-save"></span> modal</button>*@
                     </div>
@@ -1454,13 +1592,13 @@
                 </div>
                 <hr />
                 <div class="form-group">
-                    <div class="col-sm-12 col-md-offset-5" style=" padding-top: 20px; ">
+                    <div class="col-sm-12 text-center" style=" padding-top: 20px; ">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento">
                             <button id="btn_guardar" disabled="disabled" role="button" style="margin-left: 2px" class="btn btn-primary" ng-click="abrirModal_Asignacion();"><i class="fa fa-save fa-lg"></i> Guardar</button>
                             <button class="btn btn-success" ng-click="enviarCorreo();" style="margin-left: 2px" title="Valido para Cortes-Reconexiones"><span class="glyphicon glyphicon-envelope"></span> Enviar Correo</button>
 
                             <button class="btn btn-info" ng-click="generarRepartoPdf();" style="margin-left: 3px" title="Valido para Cortes-Reconexiones"><span class="glyphicon glyphicon-list-alt"></span> Generar Impresion Reparto</button>
-                            <button class="btn btn-success" ng-click="enviarCorreo_grandesClientes();" style="margin-left: 2px" title="Valido para Grandes Clientes"><span class="glyphicon glyphicon-envelope"></span> Enviar Email - Grandes Clientes</button>
+                            <button class="btn btn-success" ng-click="abrirModal_envioCorreo();" style="margin-left: 2px" title="Valido para Grandes Clientes"><span class="glyphicon glyphicon-envelope"></span> Enviar Email - Grandes Clientes</button>
                         </div>
                     </div>
                 </div>
@@ -1540,7 +1678,6 @@
             </div>
         </div>
 
-
         <div id="modal-asignacion" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog" style="width: 300px !important">
                 <div class="panel panel-oscuro">
@@ -1619,12 +1756,6 @@
             </div>
         </div>
 
-
-
-
-
-
-
         <div id="modal-envioAppMovil" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog">
                 <div class="panel panel-oscuro">
@@ -1696,6 +1827,71 @@
                 </div>
             </div>
         </div>
+
+
+        <div id="modal_envioCorreo" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" style="width: 80% !important">
+                <div class="panel panel-oscuro">
+                    <div class="panel-heading">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h5 class="modal-title" style="font-weight: 700;font-size: 15px;">  ENVIO DE CORREO GRANDES CLIENTES</h5>
+                    </div>
+                    <div class="panel-body">
+
+                        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#panelEmail"> Desea adjuntar Archivos ? </button>
+                        <div id="panelEmail" class="collapse on">
+                            <fieldset class="fieldset-border">
+                                <legend style="color: #337ab7">Adjunte los Archivos que desea enviar en el correo</legend>
+                                <div class="row">
+                                    <div class="col-sm-8 col-md-9">
+                                        <label class="control-label" style="color: #337ab7"> SCTR CALIDDA PENSION </label>
+                                        <input id="file1" type="file"  accept="application/pdf" class="filestyle" style="height: 38px !important;" file-model="myFile1" data-placeholder="Ningun Archivo Seleccionado" data-buttonname="btn-primary" data-size="sm" data-buttonbefore="true" data-buttontext="  Seleccionar Archivo..">
+                                    </div>
+                                    <div class="col-sm-4  col-md-3  text-center ">
+                                        <div style="margin-top: 17px;">
+                                            <button role="button" id="btn_cargar1" class="btn btn-sm btn-success" ng-click="cargarArchivo(1)"><i class="fa fa-save fa-lg"></i> Archivo </button>
+                                            <button role="button" class="btn btn-sm btn-warning" ng-click="cargar_nuevo_Archivo(1)"><i class="fa fa-plus fa-lg"></i> Nuevo</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-sm-8  col-md-9">
+                                        <label class="control-label" style="color: #337ab7"> SCTR CALIDDA SALUD </label>
+                                        <input id="file2" type="file" accept="application/pdf" class="filestyle" style="height: 38px !important;" file-model="myFile2" data-placeholder="Ningun Archivo Seleccionado" data-buttonname="btn-primary" data-size="sm" data-buttonbefore="true" data-buttontext="  Seleccionar Archivo..">
+                                    </div>
+                                    <div class="col-sm-4  col-md-3 text-center">
+                                        <div style="margin-top: 17px;">
+                                            <button role="button" id="btn_cargar2" class="btn btn-sm btn-success" ng-click="cargarArchivo(2)"><i class="fa fa-save fa-lg"></i> Archivo</button>
+                                            <button role="button" class="btn btn-sm btn-warning" ng-click="cargar_nuevo_Archivo(2)"><i class="fa fa-plus fa-lg"></i> Nuevo</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button role="button" class="btn btn-primary" ng-click="enviarCorreo_grandesClientes()"><i class="fa fa-envelope"></i> Enviar Email</button>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Mantenimiento" style="float: right;">
+                                        <button id="btn_cancel" role="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i> Cancelar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </body>
 </html>

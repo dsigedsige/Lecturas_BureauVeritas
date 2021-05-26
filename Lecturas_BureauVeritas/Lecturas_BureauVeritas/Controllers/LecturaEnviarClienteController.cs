@@ -26,14 +26,16 @@ namespace DSIGE.Web.Controllers
         {
             return View();
         }
-
-
-
+               
         public ActionResult Enviar_trabajos()
         {
             return View();
         }
 
+        public ActionResult visualizarFotos_index()
+        {
+            return View();
+        }     
 
         public static string _Serialize(object value, bool ignore = false)
         {
@@ -1991,9 +1993,7 @@ namespace DSIGE.Web.Controllers
                 return _Serialize(ex.Message, true);
             }
         }
-
-
-
+               
         [HttpPost]
         public string set_cambiarfoto(HttpPostedFileBase file, int idfotoLectura, string nombrefotoLectura)
         {
@@ -2039,9 +2039,7 @@ namespace DSIGE.Web.Controllers
                 return _Serialize(loDatos, true);
             }
         }
-
-
-
+               
         [HttpPost]
         public string set_cambiarfoto_Lecturas(HttpPostedFileBase file, int idfotoLectura, string nombrefotoLectura)
         {
@@ -2088,11 +2086,7 @@ namespace DSIGE.Web.Controllers
                 return _Serialize(loDatos, true);
             }
         }
-
-
-
-
-
+                          
         [HttpPost]
         public string Proceso_Almacenar_lecturas_vacias()
         {
@@ -2108,8 +2102,7 @@ namespace DSIGE.Web.Controllers
                 return _Serialize(ex.Message, true);
             }
         }
-
-
+        
         [HttpPost]
         public string set_generando_relectura(int id_servicio, string fecha_Asignacion)
         {
@@ -2125,8 +2118,7 @@ namespace DSIGE.Web.Controllers
                 return _Serialize(ex.Message, true);
             }
         }
-
-
+        
         [HttpPost]
         public string DescargarArchivoTexto_EnvioCliente_relectura(int id_local, int id_tipo_servicio, int estado, string suministro, string medidor, int tecnico, string fechaAsignacion, int id_supervisor, int id_operario_supervisor)
         {
@@ -2141,6 +2133,40 @@ namespace DSIGE.Web.Controllers
             {
                 return _Serialize(ex.Message, true);
             }
+        }
+        
+        [HttpPost]
+        public string Proceso_Actualizar_lecturasMasivas( int id_servicio , string id_fecha)
+        {
+            object loDatos;
+            try
+            {
+                Cls_Negocio_AsignarOrdenTrabajo obj_negocio = new Cls_Negocio_AsignarOrdenTrabajo();
+                loDatos = obj_negocio.Capa_Negocio_Proceso_actualizarLecturasMasivas(id_servicio, id_fecha, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
+
+
+        [HttpPost]
+        public string Listando_fotosCortesReconexiones(int servicio, int estado, string fechaAsignacion , string suministro, string medidor, int tecnico)
+        {
+            object loDatos;
+            try
+            {
+                Cls_Negocio_AsignarOrdenTrabajo obj_negocio = new Cls_Negocio_AsignarOrdenTrabajo();
+                loDatos = obj_negocio.Capa_Negocio_Listando_fotosCortesReconexiones(  servicio, estado, fechaAsignacion, suministro, medidor, tecnico,((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
+                return _Serialize(loDatos, true);
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+
         }
 
 

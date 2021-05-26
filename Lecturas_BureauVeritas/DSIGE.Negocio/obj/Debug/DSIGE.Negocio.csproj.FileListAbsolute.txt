@@ -458,6 +458,8 @@ D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\
 D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\obj\Debug\DSIGE.Negocio.csproj.CopyComplete
 D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\obj\Debug\DSIGE.Negocio.dll
 D:\FUENTES_LECTURAS\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\obj\Debug\DSIGE.Negocio.pdb
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\obj\Debug\DSIGE.Negocio.csprojAssemblyReference.cache
+E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\obj\Debug\DSIGE.Negocio.csproj.CoreCompileInputs.cache
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\bin\Debug\DSIGE.Negocio.dll
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\bin\Debug\DSIGE.Negocio.pdb
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\bin\Debug\DSIGE.Dato.dll
@@ -476,8 +478,6 @@ E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\bin\Debug\Newtonsoft.Json.xml
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.xml
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\bin\Debug\Select.Html.dep
-E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\obj\Debug\DSIGE.Negocio.csprojAssemblyReference.cache
-E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\obj\Debug\DSIGE.Negocio.csproj.CoreCompileInputs.cache
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\obj\Debug\DSIGE.Negocio.csproj.CopyComplete
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\obj\Debug\DSIGE.Negocio.dll
 E:\Julio\Trabajo\fuentes_lecturas\Lecturas_BureauVeritas\Lecturas_BureauVeritas\DSIGE.Negocio\obj\Debug\DSIGE.Negocio.pdb

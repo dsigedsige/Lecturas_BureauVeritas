@@ -288,6 +288,11 @@ namespace DSIGE.Modelo
            return Objeto_Dato.Capa_Dato_GuardarArchivo(file, idlocal, idfechaAsignacion, idServicio, idusuario , fecha_lectura);
        }
 
+        public object Capa_Negocio_Inserta_Excel_LecturasActualizacion(HttpPostedFileBase file, string fechaAsignacion, int idServicio, int idusuario)
+        {
+            Cls_Dato_DistrilbuirLecturas Objeto_Dato = new Cls_Dato_DistrilbuirLecturas();
+            return Objeto_Dato.Capa_Dato_Inserta_Excel_LecturasActualizacion(file, fechaAsignacion, idServicio, idusuario);
+        }
 
     }
 }

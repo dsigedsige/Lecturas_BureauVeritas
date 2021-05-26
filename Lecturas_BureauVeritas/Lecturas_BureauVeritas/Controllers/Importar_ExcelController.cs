@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using DSIGE.Modelo;
@@ -769,6 +770,49 @@ namespace DSIGE.Web.Controllers
                 loDatos = Objeto_Negocio.Capa_Negocio_set_EnviarCorreo_grandesClientes(servicio, fecha_Asigna, ((Sesion)Session["Session_Usuario_Acceso"]).usuario.usu_id);
 
                 return _Serialize(loDatos, true);
+
+            }
+            catch (Exception ex)
+            {
+                return _Serialize(ex.Message, true);
+            }
+        }
+
+
+        [HttpPost]
+        public string Insertar_archivo(HttpPostedFileBase file, int opcion)
+        {
+            List<CorteTemporalCorte> oCortes = new List<CorteTemporalCorte>();
+            DateTime _fecha_actual = DateTime.Now;
+
+            try
+            {
+                object loDatos = null;
+                string nameFile = "";
+                string extension = System.IO.Path.GetExtension(file.FileName);
+
+                if (opcion == 1)
+                {
+                    nameFile = "SCTR CALIDDA PENSION.pdf";
+                }
+                else if (opcion == 2)
+                {
+                    nameFile = "SCTR CALIDDA SALUD.pdf";
+                }
+                string fileLocation = Server.MapPath("~/Files_GrandesClientes") + "\\" + nameFile;
+                
+                if (System.IO.File.Exists(fileLocation))
+                {
+                    System.IO.File.Delete(fileLocation);
+                }
+                Thread.Sleep(5000);
+                //almacenando el archivo
+                file.SaveAs(fileLocation); 
+                return _Serialize(new
+                {
+                    ok = true,
+                    data = "correcto"
+                }, true);
 
             }
             catch (Exception ex)
