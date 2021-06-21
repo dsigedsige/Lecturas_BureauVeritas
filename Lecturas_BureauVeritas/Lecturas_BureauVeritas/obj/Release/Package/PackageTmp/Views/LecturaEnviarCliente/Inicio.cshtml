@@ -332,7 +332,10 @@
                 $('.sige-load').show();
        
                 $scope.edicionFoto = false;
-                if (cbo_servicio == 3 || cbo_servicio == "3" || cbo_servicio == 4 || cbo_servicio == "4" ) {
+                if (cbo_servicio == 1 || cbo_servicio == "1" || cbo_servicio == 2 || cbo_servicio == "2" || cbo_servicio == 9 || cbo_servicio == "9"  ) {
+                    $scope.edicionFoto = true;
+                }
+                if (cbo_servicio == 3 || cbo_servicio == "3" || cbo_servicio == 4 || cbo_servicio == "4") {
                     $scope.edicionFoto = true;
                 }
 
@@ -1920,21 +1923,15 @@
 
 
             $scope.AbrirModal_CambiarFotos = function (objfoto) { 
-                var cbo_servicio = document.getElementById('cbo_servicio').value;
-                if (cbo_servicio == 3 || cbo_servicio == "3" || cbo_servicio == 4 || cbo_servicio == "4") {
+                var cbo_servicio = document.getElementById('cbo_servicio').value; 
+                objFotoLecturaG = objfoto;
 
-                    objFotoLecturaG = objfoto;
-                    $(":file").filestyle('clear');
-                    $scope.myFilefoto = null;
+                console.log('objFotoLecturaG')
+                console.log(objFotoLecturaG)
 
-                    $('#modal_cambiarFoto').modal('show');
-                } else {
-                    new PNotify({
-                        title: ' ',
-                        text: 'Solo disponible para el servicio de Cortes o Reconexiones',
-                        type: 'error'
-                    });
-                }                             
+                $(":file").filestyle('clear');
+                $scope.myFilefoto = null;
+                $('#modal_cambiarFoto').modal('show');               
             }
 
 
@@ -2157,6 +2154,9 @@
 
             $scope.Actualizar_foto = function () {   
 
+                var cbo_servicio = document.getElementById('cbo_servicio').value;
+
+
                 if ($scope.myFilefoto == null) {
                     new PNotify({
                         title: ' ',
@@ -2191,13 +2191,20 @@
                                 type: 'error'
                             });
                         } else {
+                            let urlBD = '';
+                            if (cbo_servicio == 3 || cbo_servicio == '3' || cbo_servicio == 4 || cbo_servicio == '4'  ) {
+                                urlBD = '../LecturaEnviarCliente/set_cambiarfoto'
+                            }
+                            if (cbo_servicio == 1 || cbo_servicio == '1' || cbo_servicio == 2 || cbo_servicio == '2' || cbo_servicio == 9 || cbo_servicio == '9'  ) {
+                                urlBD = '../LecturaEnviarCliente/set_cambiarfoto_Lecturas_II'
+                            }
 
                             $('.sige-load').show();
                             var fd = new FormData();
                             fd.append('file', $scope.myFilefoto);
                             fd.append('idfotoLectura', objFotoLecturaG.id_foto);
                             fd.append('nombrefotoLectura', objFotoLecturaG.nombreFoto);
-                            $http.post('../LecturaEnviarCliente/set_cambiarfoto', fd,
+                            $http.post(urlBD, fd,
                                 {
                                     transformRequest: angular.identity,
                                     headers: { 'Content-Type': undefined }

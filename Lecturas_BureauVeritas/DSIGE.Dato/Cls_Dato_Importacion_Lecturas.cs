@@ -2831,21 +2831,22 @@ namespace DSIGE.Dato
         {
             DataTable dt_detalleMail = new DataTable();
             string mensaje = "OK";
+            int cursor = 0;
             try
             {
                 ///---obtenere la informacion para el llenado del correo ---
                 dt_detalleMail = get_datosEnviosCorreo_grandesClientes(servicio, fecha_Asigna);
 
                 if (dt_detalleMail.Rows.Count > 0)
-                {
-
+                {        
                     for (int i = 0; i < dt_detalleMail.Rows.Count; i++)
                     {
+                        //cursor += 1; 
                         if (dt_detalleMail.Rows[i]["destinatario"].ToString().Length > 0)
                         {
-                            var message = new MailMessage();
-                            message.From = new MailAddress(dt_detalleMail.Rows[i]["remitente"].ToString());
-                            message.To.Add(new MailAddress(dt_detalleMail.Rows[i]["destinatario"].ToString()));
+                           var message = new MailMessage();
+                            message.From = new MailAddress(dt_detalleMail.Rows[i]["remitente"].ToString().Trim());
+                            message.To.Add(new MailAddress(dt_detalleMail.Rows[i]["destinatario"].ToString().Trim()));
                             message.Subject = dt_detalleMail.Rows[i]["asunto"].ToString();
                             message.Body = dt_detalleMail.Rows[i]["cuerpoMensaje"].ToString();
                             message.IsBodyHtml = true;
@@ -2888,7 +2889,7 @@ namespace DSIGE.Dato
 
                                 try
                                 {
-                                    smtp.Send(message);
+                                   smtp.Send(message);
                                 }
                                 catch (Exception ex)
                                 {
@@ -2904,7 +2905,8 @@ namespace DSIGE.Dato
                 }
             }
             catch (Exception e)
-            {
+            {                 
+                //int aa = cursor;
                 mensaje = e.Message;
             }
             return mensaje;

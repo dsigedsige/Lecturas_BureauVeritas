@@ -1084,6 +1084,18 @@ namespace DSIGE.Negocio
             return Objeto_Dato.Capa_dato_DescargarArchivoTexto_EnvioCliente_Relectura(local, servicio, estado, fechaAsigna, id_supervisor, id_operario_supervisor);
         }
 
+        public object Capa_Negocio_cambiarfoto_Lectura_II(int id_usuario, int idfotoLectura, string nombrefotoLectura)
+        {
+            try
+            {
+                Cls_Dato_AsignaOrdenTrabajo Objeto_Dato = new Cls_Dato_AsignaOrdenTrabajo();
+                return Objeto_Dato.Capa_Dato_cambiarfoto_Lectura_II(id_usuario, idfotoLectura, nombrefotoLectura);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
     }
 }

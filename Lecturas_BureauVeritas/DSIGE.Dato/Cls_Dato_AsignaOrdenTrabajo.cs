@@ -5040,6 +5040,46 @@ namespace DSIGE.Dato
             }
         }
 
+        public object Capa_Dato_cambiarfoto_Lectura_II(int id_usuario, int idfotoLectura, string nombrefotoLectura)
+        {
+            cadenaCnx = System.Configuration.ConfigurationManager.ConnectionStrings["dataSige"].ConnectionString;
+            string ruta = ConfigurationManager.AppSettings["servidor-foto-lectura"];
+
+            object Resultado;
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(cadenaCnx))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("PROC_U_CAMBIAR_FOTO_LECTURA_II", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.Int).Value = id_usuario;
+                        cmd.Parameters.Add("@idfotoLectura", SqlDbType.Int).Value = idfotoLectura;
+                        cmd.Parameters.Add("@nombrefoto", SqlDbType.VarChar).Value = nombrefotoLectura;
+
+                        cmd.ExecuteNonQuery();
+
+                        Resultado = new
+                        {
+                            ok = true,
+                            mensaje = ruta + nombrefotoLectura
+                        };
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Resultado = new
+                {
+                    ok = false,
+                    mensaje = ex.Message
+                };
+            }
+            return Resultado;
+        }
 
 
 
